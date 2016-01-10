@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+
+        <!--android:android.support.v4.widget.NestedScrollView-->
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_marginLeft="@dimen/full_margin"
+            android:layout_marginRight="@dimen/full_margin"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/search_text_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/search_advanced_text_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/full_margin"
+                        android:hint="@string/text_view_name_title"
+                        android:inputType="text" />
+                </android.support.design.widget.TextInputLayout>
+
+                <Spinner
+                    android:id="@+id/search_recipe_type_spinner"
+                    style="@style/Spinnerappblue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+
+                <Spinner
+                    android:id="@+id/search_style_spinner"
+                    style="@style/Spinnerappblue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="ABV >=( " />
+
+                        <TextView
+                            android:id="@+id/search_abv_value_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="%)" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/search_abv_seekbar"
+                        style="@style/SeekBarApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:max="15" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/half_margin"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:minWidth="65dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="IBUs >=(" />
+
+                        <TextView
+                            android:id="@+id/search_ibu_value_text_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="0" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text=")" />
+                    </LinearLayout>
+
+                    <SeekBar
+                        android:id="@+id/search_ibu_seekbar"
+                        style="@style/SeekBarApp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:max="120" />
+                </LinearLayout>
+
+                <Spinner
+                    android:id="@+id/search_grain_spinner"
+                    style="@style/Spinnerappblue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+
+                <Spinner
+                    android:id="@+id/search_hops_spinner"
+                    style="@style/Spinnerappblue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+
+                <Spinner
+                    android:id="@+id/search_yeast_spinner"
+                    style="@style/Spinnerappblue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:spinnerMode="dialog" />
+
+                <TextView
+                    android:id="@+id/search_expected_results_text_view"
+                    style="@style/appSmallFont"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/half_margin"
+                    android:gravity="center_horizontal|center_vertical" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/search_advanced_submit_button"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/half_margin"
+                    android:padding="12dp"
+                    android:layout_gravity="center"
+                    android:elevation="10dp"
+                    style="@style/buttonText"
+                    android:text="@string/text_view_results" />
+            </LinearLayout>
+            <!--<com.google.android.gms.ads.AdView-->
+            <!--xmlns:ads="http://schemas.android.com/apk/res-auto"-->
+            <!--android:id="@+id/adView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:background="@color/black"-->
+            <!--ads:adSize="SMART_BANNER" />-->
+        </RelativeLayout>
+    </FrameLayout>
+</android.support.v4.widget.NestedScrollView>

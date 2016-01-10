@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/headerTitleBody"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/quarter_margin"
+    android:layout_marginTop="@dimen/quarter_margin"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/full_margin"
+        android:layout_marginRight="@dimen/full_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/recipe_title_text_view"
+            style="@style/appMediumFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get into the holiday spirit with "
+            android:transitionName="@string/transition_title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|start|center_vertical"
+                android:layout_weight="1.5"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal">
+
+                <com.google.android.gms.plus.PlusOneButton xmlns:plus="http://schemas.android.com/apk/lib/com.google.android.gms.plus"
+                    android:id="@+id/plus_one_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:transitionName="@string/transition_googlePlus"
+                    plus:annotation="inline"
+                    plus:size="standard" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:layout_weight="1"
+                android:gravity="end|center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/recipe_author_text_view"
+                    style="@style/appSmallFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="author"
+                    android:transitionName="@string/transition_username" />
+
+                <TextView
+                    android:id="@+id/recipe_date_posted"
+                    style="@style/appSmallFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12/12/2015"
+                    android:transitionName="@string/transition_userdate" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/recipe_header_user_image_view"
+                android:layout_width="@dimen/image_small_circle"
+                android:layout_height="@dimen/image_small_circle"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_person_black_24dp"
+                android:transitionName="@string/transition_bitmapuser" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C0C0C0" />
+</LinearLayout>

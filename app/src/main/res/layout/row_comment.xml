@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:drawSelectorOnTop="true"
+    android:focusable="false"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/full_margin"
+        android:layout_marginRight="@dimen/full_margin"
+        android:drawSelectorOnTop="true"
+        android:focusable="false"
+        android:orientation="horizontal"
+        android:textIsSelectable="true">
+
+        <ImageView
+            android:id="@+id/comment_user_image"
+            android:layout_width="@dimen/image_meduim_circle"
+            android:layout_height="@dimen/image_meduim_circle"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:contentDescription="@string/desc_list_item_icon"
+            android:focusable="false"
+            android:src="@mipmap/ic_person_black_48dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/comment_item_author"
+                style="@style/appMediumFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textIsSelectable="false" />
+
+            <TextView
+                android:id="@+id/comment_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:textIsSelectable="false" />
+
+            <TextView
+                android:id="@+id/comment_item_timestamp"
+                style="@style/appXsmallFont"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:focusable="false"
+                android:textIsSelectable="false" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources tools:ignore="TypographyDashes" xmlns:tools="http://schemas.android.com/apk/res-auto">
+    <string name="app_name">BREWhaha</string>
+    <string name="action_settings">Settings</string>
+    <!--<string name="authority">brightseer.com.brewhaha.MySuggestionProvider</string>-->
+
+    <string name="activty_search">Search</string>
+    <string name="activity_favorites">Favorites</string>
+    <string name="fragment_myrecipes">My Recipes</string>
+    <string name="fragment_admin">Admin</string>
+    <string name="action_search">Search</string>
+    <string name="title_ingredients">Ingredients</string>
+    <string name="title_overview">Overview</string>
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="string_app_name_text">BrewHaha</string>
+    <string name="description_star">Favorite</string>
+    <string name="ingredients_text">Ingredients</string>
+    <string name="steps_text">Directions</string>
+    <string name="header_comments_text_view">Comments</string>
+    <string name="descr_image">Image</string>
+    <string name="ac_name_image_grid">Image Grid</string>
+    <string name="ac_name_image_pager">Image Pager</string>
+    <string name="shared_prefs_name">AppSharedPrefs</string>
+    <string name="search_hint">Title</string>
+    <string name="variation_count_text_view"> pic(s)</string>
+    <string name="recipe_count_text_view"> Comments</string>
+    <string name="summary_header_text_view">Overview</string>
+    <string name="delete_text_view"><u>Delete</u></string>
+    <string name="edit_text_view"><u>Edit</u></string>
+
+    <string name="deviceIdMike">0EAE1783B2E5267B4158C79F2CFF383E</string>
+    <string name="deviceIdMikeTablet">A7CE23A03219A085891EE9573938F198</string>
+    <string name="deviceIds4">63E39E3163FCAEC6B4A1B4EEA69705F3</string>
+    <string name="deviceElyseS3">09FA4796A495BED3A045CE307AEADC79</string>
+
+
+    <!---->
+    <string name="banner_standard_id">ca-app-pub-6262365309243348/7532368117</string>
+    <!--<string name="banner_standard_id">TEST</string>-->
+    <string name="InterstitialAd_id">ca-app-pub-6262365309243348/7811569715</string>
+    <string name="text_close">Close</string>
+
+
+    <string name="alert_full_name">Full Name</string>
+    <string name="alert_screen_name">Screen Name</string>
+    <string name="alert_email_address">Email Address</string>
+    <string name="alert_password">Password</string>
+
+    <string name="alert_missing_required_field">Missing Required Field</string>
+    <string name="alert_what_did_you_forget">What did you forget?</string>
+    <string name="alert_missing"> Missing</string>
+    <string name="alert_taken"> Taken</string>
+    <string name="alert_no_spaces_allowed"> No Spaces Allowed</string>
+    <string name="alert_invalid_login">Invalid Login</string>
+    <string name="alert_try_again">Try Again</string>
+
+    <string name="alert_error">Error</string>
+    <!--getResources().getString(-->
+
+    <string name="button_load_more">Load More Comments</string>
+    <string name="text_post_a_comment">Post a New Comment</string>
+    <string name="text_view_name_title">Name or Title</string>
+    <string name="text_button_search">Search</string>
+    <string name="text_view_results">View Results</string>
+    <string name="text_expected_results">Expected Results:</string>
+    <string name="text_like_this"> like this!</string>
+    <string name="text_no_recipe_found">No Recipes Found</string>
+
+    <string name="text_signup_login">Sign Up and become a member of something awesome. Home brewers sharing recipes, stories of motivation, inspiration and down right hilarious stuff.</string>
+    <string name="text_sign_up_text_two">Best part, it\'s free! Create your account to store private recipes, contribute to discussions and recipes and create, form, manage and become members of groups and brewers guilds.</string>
+    <string name="text_login_to_brewhaha">Login To My BREWhaha</string>
+
+    <string name="text_signup_header_text"> Tell us a little about yourself, we won\'t share it with anyone, promise. Creating an account will allow you to check out the really awesome feeds and also create, save and comment on your favorite recipes for free!</string>
+    <string name="text_log_out">Log Out</string>
+    <string name="text_login_page">Login to view your saved recipes, add recipes and more!</string>
+    <string name="text_sign_in">Sign In</string>
+    <string name="text_sign_up">Sign Up</string>
+
+    <string name="text_submit">Submit</string>
+    <string name="text_login_to_use_adv_search">You must be logged in to use advanced search.</string>
+    <string name="text_login_to_comment">You must be logged in to post a comment.</string>
+    <string name="text_login_to_favorite">You must be signed in to favorite a recipe.</string>
+    <string name="text_login_to_view_favorite">You must be signed in to view your favorites.</string>
+    <string name="text_login_to_add_recipe">You must be signed in to Add a recipe.</string>
+
+    <string name="application_error">Application error: %1$s</string>
+    <string name="dont_allow">Don\'t allow the user access</string>
+    <string name="allow">Allow the user access</string>
+
+
+    <string name="text_batch_size_spinner_default">BatchSize</string>
+    <string name="text_style_spinner_default">Type (i.e. IPA, DIPA, Lager, Pilsner)</string>
+    <string name="text_hops_spinner_default">Type</string>
+    <string name="text_recipe_type_spinner_default">Type (i.e. All Grain, Extract)</string>
+    <string name="text_amount_type_spinner_default">Type</string>
+
+    <string name="text_grain">Grain</string>
+    <string name="text_hops">Hops</string>
+    <string name="text_yeast">Yeast</string>
+    <string name="text_button_update_recipe">Update</string>
+    <string name="text_button_reset_recipe">Reset</string>
+
+    <string name="text_grain_add">Add Grain from List</string>
+
+    <string name="deleted">DELETE</string>
+    <string name="undo">UNDO</string>
+    <string name="upload_progress_text_view">Upload Progess</string>
+    <string name="string_approve">Approve</string>
+    <string name="text_button_sign_up">Sign Up</string>
+    <string name="text_button_cancel">Cancel</string>
+    <string name="text_button_add_grain">Add Grain</string>
+    <string name="text_button_add_hop">Add Hop</string>
+    <string name="text_button_add">Add</string>
+    <string name="text_button_add_yeast">Add Yeast</string>
+    <string name="text_button_decline">Decline</string>
+    <string name="text_button_accept">Accept</string>
+    <string name="string_home">Home</string>
+    <string name="string_search">Search</string>
+    <string name="string_favorites">Favorites</string>
+    <string name="string_add_recipe">My Recipes</string>
+    <string name="string_admin">Admin</string>
+    <string name="text_button_publish">Publish</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_duration">Duration</string>
+
+    <string name="transition_title">Title</string>
+    <string name="transition_username">UserName</string>
+    <string name="transition_userdate">UserDate</string>
+    <string name="transition_googlePlus">UserDate</string>
+
+    <string name="transition_bitmapmain">BitmapMain</string>
+    <string name="transition_bitmapuser">BitmapUser</string>
+    <string name="title_comments">Comments</string>
+</resources>

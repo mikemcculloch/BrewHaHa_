@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/navigation_item_1"
+            android:checked="true"
+            android:icon="@mipmap/ic_home_black_48dp"
+            android:title="@string/string_home" />
+        <item
+            android:id="@+id/navigation_item_2"
+            android:icon="@mipmap/ic_search_black_48dp"
+            android:title="@string/string_search" />
+        <item
+            android:id="@+id/navigation_item_3"
+            android:icon="@mipmap/ic_bookmark_border_black_48dp"
+            android:title="@string/string_favorites" />
+        <item
+            android:id="@+id/navigation_item_4"
+            android:icon="@mipmap/ic_note_add_black_48dp"
+            android:title="@string/string_add_recipe" />
+        <item
+            android:id="@+id/navigation_item_5"
+            android:icon="@mipmap/ic_verified_user_black_48dp"
+            android:visible="false"
+            android:title="@string/string_admin" />
+
+        <!--<item-->
+            <!--android:id="@+id/navigation_item_6"-->
+            <!--android:icon="@mipmap/ic_verified_user_black_48dp"-->
+            <!--android:visible="true"-->
+            <!--android:title="test page" />-->
+    </group>
+    <!--<item-->
+    <!--android:id="@+id/navigation_subheader"-->
+    <!--android:title="@string/navigation_subheader">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/navigation_sub_item_1"-->
+    <!--android:icon="@android:drawable/ic_menu_add"-->
+    <!--android:title="@string/navigation_sub_item_1"/>-->
+    <!--<item-->
+    <!--android:id="@+id/navigation_sub_item_2"-->
+    <!--android:icon="@android:drawable/ic_menu_info_details"-->
+    <!--android:title="@string/navigation_sub_item_2"/>-->
+    <!--</menu>-->
+    <!--</item>-->
+</menu>

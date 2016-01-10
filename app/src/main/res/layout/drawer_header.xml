@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    android:background="@drawable/profile_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/drawer_userimage_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/circle">
+
+        <ImageView
+            android:id="@+id/drawer_userImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxHeight="65dp"
+            android:maxWidth="65dp"
+
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:src="@mipmap/ic_person_white_48dp" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/drawer_displayName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/drawer_useremail"
+        android:layout_alignLeft="@+id/drawer_userimage_layout"
+        android:layout_alignStart="@+id/drawer_userimage_layout"
+        android:gravity="left"
+        android:paddingBottom="4dp"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/drawer_useremail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/drawer_displayName"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/drawer_displayName"
+        android:layout_marginBottom="8dp"
+        android:gravity="left"
+        android:text=""
+        android:textColor="#000"
+        android:textSize="14sp" />
+
+</RelativeLayout>

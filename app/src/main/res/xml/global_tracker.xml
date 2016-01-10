@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="ga_sessionTimeout">300</integer>
+
+    <!-- Enable automatic Activity measurement -->
+    <bool name="ga_autoActivityTracking">true</bool>
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+
+    <!-- The screen names that will appear in reports -->
+    <screenName name="brightseer.com.brewhaha.MainActivity">
+        BrewApplication MainActivityScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.FavoriteTabActivity">
+        BrewApplication FavoriteTabScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.FullScreenViewActivity">
+        BrewApplication FullScreenViewScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.GridViewActivity">
+        BrewApplication GridViewScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.InterstitialActivity">
+        BrewApplication InterstitialScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.LoginActivity">
+        BrewApplication LoginScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.RecipeActivity">
+        BrewApplication RecipeActivityScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.SearchResultsActivity">
+        BrewApplication SearchResultsActivityScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.SettingsMain">
+        BrewApplication SettingsMainScreen
+    </screenName>
+    <screenName name=" brightseer.com.brewhaha.SignUpActivity">
+        BrewApplication SignUpActivityScreen
+    </screenName>
+    <!--  The following value should be replaced with correct property id. -->
+    <string name="ga_trackingId">UA-57905649-1</string>
+
+
+</resources>

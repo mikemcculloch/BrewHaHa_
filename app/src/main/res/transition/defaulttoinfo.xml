@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+    <changeBounds android:duration="250">
+        <targets>
+            <target android:targetId="@id/detail_instruction" />
+        </targets>
+    </changeBounds>
+    <fade
+        android:duration="250"
+        android:startDelay="300">
+        <targets>
+            <target android:targetId="@id/overview_detail" />
+        </targets>
+    </fade>
+
+
+</transitionSet>

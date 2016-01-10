@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/my_recipe_add_update_grain_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/headerBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                    <TextView
+                        style="@style/headerTitleFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="Add Grain" />
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/my_grain_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            style="@style/headerBody"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+
+                                <TextView
+                                    style="@style/headerTitleFont"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Grain Type" />
+                        </LinearLayout>
+
+                        <Spinner
+                            android:id="@+id/my_grain_master_spinner"
+                            style="@style/Spinnerappblue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dialog" />
+
+                        <EditText
+                            android:id="@+id/my_grain_name_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:hint="Grain Name"
+                            android:inputType="textAutoComplete"
+                            android:maxLength="20"
+                            android:singleLine="true"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            style="@style/headerBody"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/headerTitleFont"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="How Much" />
+                        </LinearLayout>
+
+
+                        <EditText
+                            android:id="@+id/my_grain_amount_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:hint="ex. 6.6"
+                            android:inputType="numberDecimal"
+                            android:maxLength="10"
+                            android:singleLine="true" />
+
+                        <Spinner
+                            android:id="@+id/my_grain_measurement_size_spinner"
+                            style="@style/Spinnerappblue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dropdown" />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_width="match_parent"-->
+            <!--style="@style/headerBody">-->
+
+            <!--<LinearLayout-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:gravity="center_vertical|center_horizontal">-->
+
+            <!--<TextView-->
+            <!--style="@style/headerFont.layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:text="How Much" />-->
+            <!--</LinearLayout>-->
+            <!--</LinearLayout>-->
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/headerBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+
+                    <TextView
+                        style="@style/headerTitleFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="Details" />
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/my_grain_country_spinner"
+                            style="@style/Spinnerappblue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:spinnerMode="dropdown" />
+
+                        <Spinner
+                            android:id="@+id/my_grain_use_spinner"
+                            style="@style/Spinnerappblue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:spinnerMode="dropdown" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="50dp"
+                        android:orientation="horizontal">
+
+                        <SeekBar
+                            android:id="@+id/my_grain_color_seekbar"
+                            style="@style/SeekBarApp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:max="40" />
+
+                        <LinearLayout
+                            android:id="@+id/srm_color_linear_layout"
+                            style="@style/bodyPaddingAll"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="4"
+                            android:background="@color/srm_default"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:gravity="center_vertical"
+                            android:minHeight="50dp"
+                            android:minWidth="50dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/my_recipe_color_value_text_view"
+                                style="@style/summaryAbv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:focusableInTouchMode="true"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="0"
+                                android:textIsSelectable="true" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/full_margin"
+            android:gravity="top|center_horizontal"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/full_margin"
+            android:paddingBottom="@dimen/half_margin">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/my_grain_cancel_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/half_margin"
+                android:padding="12dp"
+                android:layout_gravity="bottom|start|left"
+                android:elevation="10dp"
+                style="@style/buttonText"
+                android:text="@string/text_button_cancel" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/my_grain_submit_button"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/half_margin"
+                android:padding="12dp"
+                android:layout_gravity="bottom|end|right"
+                android:elevation="10dp"
+                style="@style/buttonText"
+                android:text="@string/text_button_add_grain" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

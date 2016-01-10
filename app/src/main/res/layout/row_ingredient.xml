@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:id="@+id/ingredient_type_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/instructionsTitle"
+        android:focusableInTouchMode="true"
+        android:textIsSelectable="true" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true">
+
+        <CheckBox
+            android:id="@+id/ingredient_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/CheckBoxappBlue"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical" />
+
+        <ImageView
+            android:id="@+id/ingredient_color_image_view"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@color/app_orange"
+            android:focusableInTouchMode="true" />
+
+        <TextView
+            android:id="@+id/ingredient_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            style="@style/appSmallFont"
+            android:textIsSelectable="true"
+            android:focusableInTouchMode="true" />
+
+    </LinearLayout>
+</LinearLayout>

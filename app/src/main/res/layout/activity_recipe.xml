@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/include_standard_toolbar"
+        layout="@layout/toolbar" />
+
+    <com.emilsjolander.components.StickyScrollViewItems.StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/sticky_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/include_standard_toolbar"
+        android:fillViewport="true"
+        android:isScrollContainer="false">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/recipe_parent_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <include layout="@layout/sticky_header_recipe" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/recipe_image_pager"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:minHeight="400dp"
+                android:visibility="gone" />
+
+            <com.viewpagerindicator.LinePageIndicator
+                android:id="@+id/titlepageindicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C0C0C0" />
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/recipe_total_comments_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".50"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/recipe_count_text_view" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@color/app_gray" />
+
+                <TextView
+                    android:id="@+id/recipe_total_images_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+                    android:layout_weight=".50"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="@string/variation_count_text_view" />
+            </LinearLayout>
+
+            <include layout="@layout/sticky_header_summary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quarter_margin"
+                android:layout_marginLeft="@dimen/full_margin"
+                android:layout_marginRight="@dimen/full_margin"
+                android:layout_marginTop="@dimen/quarter_margin"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/quarter_margin"
+                        android:stretchColumns="3">
+
+                        <TableRow>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/summary_og_text_view"
+                                    style="@style/appMediumFont"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:focusableInTouchMode="true"
+                                    android:text="OG"
+                                    android:textIsSelectable="true" />
+
+                                <TextView
+                                    android:id="@+id/summary_fg_text_view"
+                                    style="@style/appMediumFont"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:focusableInTouchMode="true"
+                                    android:text="FG"
+                                    android:textIsSelectable="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="1"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/summary_srm_text_view"
+                                    style="@style/appMediumFont"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:focusableInTouchMode="true"
+                                    android:text="SRM"
+                                    android:textIsSelectable="true" />
+
+                                <TextView
+                                    android:id="@+id/summary_ibu_text_view"
+                                    style="@style/appMediumFont"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:focusableInTouchMode="true"
+                                    android:text="IBU"
+                                    android:textIsSelectable="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:focusable="true"
+                                android:focusableInTouchMode="true"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:layout_gravity="right|end|center_vertical"
+                                    android:background="@color/app_yellow"
+                                    android:focusable="true"
+                                    android:focusableInTouchMode="true"
+                                    android:gravity="right|end|center_vertical"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/summary_abv_text_view"
+                                        style="@style/summaryAbv"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:focusableInTouchMode="true"
+                                        android:gravity="center_vertical|center_horizontal"
+                                        android:textIsSelectable="true" />
+
+                                    <TextView
+                                        style="@style/appSmallFont"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:focusableInTouchMode="true"
+                                        android:gravity="center_vertical|center_horizontal"
+                                        android:text="ABV"
+                                        android:textIsSelectable="true" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </TableRow>
+                    </TableLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#C0C0C0" />
+
+                    <TextView
+                        android:id="@+id/overview_text_view"
+                        style="@style/appSmallFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/quarter_margin"
+                        android:layout_marginTop="@dimen/quarter_margin"
+
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:textIsSelectable="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <include layout="@layout/sticky_header_ingredients" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/full_margin"
+                android:layout_marginRight="@dimen/full_margin"
+                android:focusable="true"
+                android:focusableInTouchMode="true">
+
+                <ListView
+                    android:id="@+id/ingredient_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:dividerHeight="0dp"
+                    android:drawSelectorOnTop="true" />
+            </LinearLayout>
+
+            <include layout="@layout/sticky_header_steps" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/full_margin"
+                android:layout_marginRight="@dimen/full_margin"
+                android:focusable="true"
+                android:baselineAligned="false"
+                android:focusableInTouchMode="true">
+
+                <ListView
+                    android:id="@+id/instructions_list_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:dividerHeight="0dp"
+                    android:drawSelectorOnTop="true" />
+            </LinearLayout>
+
+            <include layout="@layout/sticky_header_comments" />
+
+            <LinearLayout
+                android:id="@+id/recipe_comment_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/half_margin"
+                android:layout_marginTop="@dimen/half_margin"
+                android:focusable="true"
+                android:baselineAligned="false"
+                android:focusableInTouchMode="true">
+
+                <ListView
+                    android:id="@+id/comments_list_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawSelectorOnTop="true" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/recipe_comments_load_more"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@color/app_blue"
+                android:text="@string/button_load_more" />
+        </LinearLayout>
+    </com.emilsjolander.components.StickyScrollViewItems.StickyScrollView>
+
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="4">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/FabFavoriteStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|right"
+            app:fabSize="normal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#C0C0C0" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="40dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/recipe_comment_add_edit_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/full_margin"
+                android:layout_marginRight="@dimen/half_margin"
+                android:layout_weight="1"
+                android:background="@drawable/edit_text_border"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/text_post_a_comment"
+                android:inputType="text|textMultiLine"
+                android:maxLines="10"
+                android:minHeight="50dp"
+                android:singleLine="false" />
+
+            <ImageView
+                android:id="@+id/recipe_comment_add_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center_vertical"
+                android:layout_weight="5"
+                android:focusable="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_action_send" />
+        </LinearLayout>
+
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/black"
+            ads:adSize="SMART_BANNER"
+            ads:adUnitId="@string/banner_standard_id" />
+    </LinearLayout>
+</RelativeLayout>
+
+
+
+
+

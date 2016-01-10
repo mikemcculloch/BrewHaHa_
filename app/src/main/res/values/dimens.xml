@@ -1,0 +1,53 @@
+<resources>
+    <bool name="isTablet">false</bool>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!--<dimen name="activity_horizontal_margin">16dp</dimen>-->
+    <!--<dimen name="activity_vertical_margin">16dp</dimen>-->
+    <!--<dimen name="paddingTop">0dp</dimen>-->
+
+    <dimen name="size15dp">15dp</dimen>
+
+    <!--Drawer -->
+    <dimen name="drawerWidth">320dp</dimen>
+    <dimen name="drawerHeight">48dp</dimen>
+    <dimen name="drawerHeightUser">70dp</dimen>
+
+    <!--Settings page-->
+    <dimen name="userImage">175dp</dimen>
+    <dimen name="layoutTop">200dp</dimen>
+    <dimen name="icCameraPaddingTop">135dp</dimen>
+    <dimen name="userImageMarginTop">-40dp</dimen>
+
+    <!--Delete/Undo toggle-->
+    <dimen name="list_item_padding_sides">16dp</dimen>
+    <dimen name="list_item_height">80dp</dimen>
+
+    <dimen name="TextDimTop">5dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="full_margin">16dp</dimen>
+    <dimen name="half_margin">8dp</dimen>
+    <dimen name="quarter_margin">4dp</dimen>
+
+    <dimen name="key_line">72dp</dimen>
+    <dimen name="key_line_minus">56dp</dimen>
+
+    <dimen name="image_small_circle">32dp</dimen>
+    <dimen name="image_meduim_circle">48dp</dimen>
+
+    <dimen name="spacing_xsmall">2dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_xlarge">32dp</dimen>
+
+    <dimen name="elevation_low">9dp</dimen>
+    <dimen name="elevation_high">12dp</dimen>
+    <dimen name="status_bar_height">25dp</dimen>
+    <dimen name="fab_compat_margin">0dp</dimen>
+    <dimen name="toolbar_elevation">0dp</dimen>
+
+    <dimen name="paralax_image_height">250dp</dimen>
+    <dimen name="paralax_image_height_large">350dp</dimen>
+</resources>

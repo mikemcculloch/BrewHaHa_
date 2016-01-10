@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <LinearLayout
+            android:id="@+id/my_hop_add_update_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/headerBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:baselineAligned="false"
+
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/full_margin"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/headerTitleFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="Add Hop" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_auto_add"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/half_margin"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/appSmallFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="Auto Add Direction" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/checkbox_add_instruction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/half_margin" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                android:layout_margin="5dp"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="4dp"
+                android:id="@+id/my_hop_dialog_card_view">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            style="@style/headerBody">
+
+
+                                <TextView
+                                    style="@style/headerTitleFont"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Type" />
+                        </LinearLayout>
+
+
+                        <Spinner
+                            android:id="@+id/my_hops_master_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+
+                            android:spinnerMode="dialog"
+                            style="@style/Spinnerappblue" />
+
+
+                        <EditText
+                            android:id="@+id/my_hops_name_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:gravity="center_vertical"
+                            android:inputType="textAutoComplete"
+                            android:singleLine="true"
+                            android:maxLength="20"
+                            android:hint="Hop Name"
+                            android:text=""
+                            android:layout_weight="2" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            style="@style/headerBody">
+
+
+                                <TextView
+                                    style="@style/headerTitleFont"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="How Much" />
+                            </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/my_hop_amount_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            android:hint="ex. 6.6" />
+
+                        <Spinner
+                            android:id="@+id/my_hops_measurement_size_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dropdown"
+                            style="@style/Spinnerappblue" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+
+                        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:orientation="horizontal"
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            style="@style/headerBody">
+
+
+                                <TextView
+                                    style="@style/headerTitleFont"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:text="Cook Time" />
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/my_hop_time_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true"
+                            android:maxLength="10"
+                            android:hint="How Long? ex. 60 Min" />
+
+                        <Spinner
+                            android:id="@+id/my_hops_time_unit_size_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dropdown"
+                            style="@style/Spinnerappblue" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                style="@style/headerBody">
+
+
+                    <TextView
+                        style="@style/headerTitleFont"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:text="Details" />
+                </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                android:layout_margin="5dp"
+                android:focusableInTouchMode="true"
+                android:focusable="true"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_weight="1">
+
+                        <Spinner
+                            android:id="@+id/my_hop_form_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dropdown"
+                            style="@style/Spinnerappblue"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/my_hop_use_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:spinnerMode="dropdown"
+                            style="@style/Spinnerappblue"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/alph_acid_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:paddingLeft="10dp"
+                            android:gravity="center_vertical"
+                            android:layout_weight="4"
+                            android:text="Apha Acid 0%" />
+
+                        <SeekBar
+                            android:id="@+id/my_hop_alpha_acid_seekbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            style="@style/SeekBarApp"
+                            android:layout_weight="2"
+                            android:max="200" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/full_margin"
+                android:gravity="top|center_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/full_margin">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/my_hop_cancel_button"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/half_margin"
+                    android:padding="12dp"
+                    android:elevation="10dp"
+                    style="@style/buttonText"
+                    android:text="@string/text_button_cancel" />
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/my_hop_submit_button"
+                    android:layout_width="125dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/half_margin"
+                    android:padding="12dp"
+                    android:elevation="10dp"
+                    style="@style/buttonText"
+                    android:text="@string/text_button_add_hop" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+</ScrollView>
