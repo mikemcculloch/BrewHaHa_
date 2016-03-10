@@ -220,4 +220,14 @@ public class RecyclerObjects {
             vimage = (ImageView) v.findViewById(R.id.gridImage);
         }
     }
+
+
+    public static class RecipeImageViewHolder extends RecyclerView.ViewHolder {
+        public ImageView recipeImage;
+
+        public RecipeImageViewHolder(View itemView) {
+            super(itemView);
+            recipeImage = (ImageView) itemView.findViewById(R.id.single_image_view);
+        }
+    }
 }

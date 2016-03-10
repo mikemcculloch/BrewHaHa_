@@ -32,6 +32,7 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
+import brightseer.com.brewhaha.RecipeCardsActivity;
 import brightseer.com.brewhaha.adapter.HomeItemAdapter;
 import brightseer.com.brewhaha.objects.HomeItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
@@ -198,7 +199,7 @@ public class HomeFragment extends BaseFragment {
             HomeItem homeItem = homeItemList.get(position);
             Intent newIntent = new Intent();
             if (homeItem.getItemTypePk() == 1) {
-                newIntent = new Intent(_fContext, RecipeActivity.class);
+                newIntent = new Intent(_fContext, RecipeCardsActivity.class);
             }
             if (homeItem.getItemTypePk() == 2) {
                 newIntent = new Intent(_fContext, GridViewActivity.class);

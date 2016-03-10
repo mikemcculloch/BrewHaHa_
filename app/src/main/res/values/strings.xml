@@ -131,4 +131,7 @@
     <string name="transition_bitmapmain">BitmapMain</string>
     <string name="transition_bitmapuser">BitmapUser</string>
     <string name="title_comments">Comments</string>
+    <string name="string_ingredients">Ingredients</string>
+    <string name="string_overview">Overview</string>
+    <string name="text_Direction">Direction</string>
 </resources>

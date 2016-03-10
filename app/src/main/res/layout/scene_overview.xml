@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/overview_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_yellow"
-    android:id="@+id/overview_detail"
+    android:background="@color/app_orange"
     android:orientation="vertical">
-        <TextView
-            style="@style/appLargeFont"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/title_overview" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/full_margin"
+            android:layout_marginRight="@dimen/full_margin"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/button_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:text="BACK TEST"
-
-            android:theme="@style/AppTheme.Button" />
-
-
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/card_overview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clipChildren="false"
+                    android:theme="@style/buttonOrange"
+                    android:drawableTop="@drawable/ic_details_black_24px"
+                    android:elevation="10dp"
+                    android:text="@string/string_overview"
+                    android:textSize="12sp" />
+        </LinearLayout>
 </LinearLayout>

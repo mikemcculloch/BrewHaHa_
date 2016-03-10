@@ -53,7 +53,6 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/bodyPaddingAll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -105,7 +104,6 @@
 
                 <LinearLayout
                     android:id="@+id/my_recipe_setAvb_layout"
-                    style="@style/bodyPadding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
@@ -232,7 +230,6 @@
                     </TableLayout>
 
                     <LinearLayout
-                        style="@style/bodyPaddingAll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="2"

@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/bodyPadding">
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/instruction_order"
+        style="@style/appSmallFont"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical|center_horizontal"
         android:minWidth="20dp"
-        style="@style/appSmallFont"
         android:text="1" />
 
     <CheckBox
         android:id="@+id/instruction_checkbox"
+        style="@style/CheckBoxappBlue"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        style="@style/CheckBoxappBlue"
         android:gravity="center_vertical" />
 
     <TextView
         android:id="@+id/instruction_instruction_text"
+        style="@style/appSmallFont"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
-        style="@style/appSmallFont"
         android:text="Bottle or Keg your beer bro.  Bottle or Keg your beer bro. Bottle or Keg your beer bro." />
 
 </LinearLayout>

@@ -260,7 +260,6 @@
 
                     <LinearLayout
                         android:id="@+id/srm_color_linear_layout"
-                        style="@style/bodyPaddingAll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"

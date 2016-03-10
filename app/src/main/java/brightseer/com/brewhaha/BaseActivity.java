@@ -26,6 +26,7 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,7 @@ import brightseer.com.brewhaha.adapter.CommentAdapter;
 import brightseer.com.brewhaha.helper.ToastAdListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.objects.Image;
 import brightseer.com.brewhaha.objects.UserProfile;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -759,6 +761,39 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 Log.e(Constants.LOG, e.getMessage());
             }
         }
+    }
+
+    public void showImage(Image image) {
+//        final Dialog builder = new Dialog(this);
+        final Dialog builder = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        builder.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                //nothing;
+            }
+        });
+        LayoutInflater factory = LayoutInflater.from(this);
+        View dialogImage = factory.inflate(
+                R.layout.dialog_image, null);
+
+        builder.setContentView(dialogImage);
+
+        ImageView dialog_image = (ImageView) dialogImage.findViewById(R.id.dialog_image);
+        dialog_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                builder.dismiss();
+            }
+        });
+        Ion.with(dialog_image)
+                .placeholder(R.mipmap.ic_beercap)
+                .load(image.getImageUrl()
+                );
+        builder.show();
     }
 }
 

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/BrewHaHa.iml" filepath="$PROJECT_DIR$/BrewHaHa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BrewHaHa_.iml" filepath="$PROJECT_DIR$/BrewHaHa_.iml" />
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator/ViewPagerIndicator.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator/ViewPagerIndicator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/play_licensing/play_licensing.iml" filepath="$PROJECT_DIR$/play_licensing/play_licensing.iml" />

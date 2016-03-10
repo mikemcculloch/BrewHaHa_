@@ -27,8 +27,8 @@
     <color name="yellow">#FFBB33</color>
 
     <!--1565C0-->
-    <color name="ColorPrimary">#1D4988</color>
-    <color name="ColorPrimaryDark">#2B3747</color>
+    <color name="colorPrimary">#1D4988</color>
+    <color name="colorPrimaryDark">#2B3747</color>
     <color name="colorAccent">#1d4987</color>
     <!--FAB COLOR-->
     <!--#0D47A1-->
