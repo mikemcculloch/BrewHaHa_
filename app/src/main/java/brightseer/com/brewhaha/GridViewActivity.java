@@ -77,7 +77,7 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
                 ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
                 layoutParams.height = layoutParams.height + getStatusBarHeight();
             }
-            toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -187,9 +187,9 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
     public void addFabListener() {
         try {
             if (toggleStar) {
-                fab.setImageResource(R.mipmap.ic_star_white_24dp);
+                fab.setImageResource(R.drawable.ic_star_white_24dp);
             } else {
-                fab.setImageResource(R.mipmap.ic_star_border_white_24dp);
+                fab.setImageResource(R.drawable.ic_star_border_white_24dp);
             }
 
             fab.setOnClickListener(new View.OnClickListener() {
@@ -199,10 +199,10 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
                         AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
                     } else {
                         if (toggleStar) {
-                            fab.setImageResource(R.mipmap.ic_star_border_white_24dp);
+                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
                             toggleStar = false;
                         } else {
-                            fab.setImageResource(R.mipmap.ic_star_white_24dp);
+                            fab.setImageResource(R.drawable.ic_star_white_24dp);
                             toggleStar = true;
                         }
 

@@ -77,7 +77,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
                 ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
                 layoutParams.height = layoutParams.height + getStatusBarHeight();
             }
-            toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -264,14 +264,14 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
                     animFadein.setAnimationListener(animationListenerFadeIn);
                     pager_caption_layout.startAnimation(animFadein);
 
-                    pager_expand_collapse_image.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_expand));
+                    pager_expand_collapse_image.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
                 } else {
                     animFadeout = AnimationUtils.loadAnimation(getApplicationContext(),
                             R.anim.fade_out);
                     animFadeout.setAnimationListener(animationListenerFadeOut);
                     pager_caption_layout.startAnimation(animFadeout);
 
-                    pager_expand_collapse_image.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_collapse));
+                    pager_expand_collapse_image.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
                 }
 
                 break;

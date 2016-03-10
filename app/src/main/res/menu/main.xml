@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/action_menu_options"
-        android:icon="@mipmap/ic_more_vert_white_24dp"
+        android:icon="@drawable/ic_more_vert_white_24dp"
         android:title="@string/action_settings"
         android:visible="false"
         app:showAsAction="collapseActionView|always">

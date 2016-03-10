@@ -629,11 +629,11 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
 
         if (my_recipe_seekbar_layout.getVisibility() == View.GONE) {
             my_recipe_seekbar_layout.setVisibility(View.VISIBLE);
-            my_recipe_expand_coll_imageview.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_collapse));
+            my_recipe_expand_coll_imageview.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_less_black_24dp));
 
         } else {
             my_recipe_seekbar_layout.setVisibility(View.GONE);
-            my_recipe_expand_coll_imageview.setImageDrawable(getResources().getDrawable(R.mipmap.ic_action_expand));
+            my_recipe_expand_coll_imageview.setImageDrawable(getResources().getDrawable(R.drawable.ic_expand_more_black_24dp));
         }
     }
 

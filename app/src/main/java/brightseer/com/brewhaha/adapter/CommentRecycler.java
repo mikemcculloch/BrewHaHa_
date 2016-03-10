@@ -76,8 +76,8 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
         Comment getItem = objects.get(position);
 
         Ion.with(holder.comment_user_image)
-                .placeholder(R.mipmap.ic_person_black_24dp)
-                .error(R.mipmap.ic_person_black_24dp)
+                .placeholder(R.drawable.ic_person_black_24dp)
+                .error(R.drawable.ic_person_black_24dp)
                 .centerCrop()
                 .transform(trans)
                 .load(getItem.getImageUrl());

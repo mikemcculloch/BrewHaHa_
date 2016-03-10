@@ -604,7 +604,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
             drawer_userImage.setMinimumWidth(dpConversion);
             drawer_userImage.setMinimumHeight(dpConversion);
         } else {
-            drawer_userImage.setImageResource(R.mipmap.ic_person_white_48dp);
+            drawer_userImage.setImageResource(R.drawable.ic_person_white_48dp);
             drawer_userImage.setMinimumWidth(0);
             drawer_userImage.setMinimumHeight(0);
         }

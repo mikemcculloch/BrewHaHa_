@@ -428,7 +428,7 @@
                             android:id="@+id/my_recipe_expand_coll_imageview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/ic_action_expand" />
+                            android:src="@drawable/ic_expand_more_black_24dp" />
 
                     </FrameLayout>
 

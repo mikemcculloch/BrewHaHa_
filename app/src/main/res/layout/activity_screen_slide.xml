@@ -62,7 +62,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="left|center_horizontal"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_back" />
+                android:src="@drawable/ic_arrow_back_black_24dp" />
 
             <LinearLayout
                 android:id="@+id/pager_caption_collapse_layout"
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:src="@mipmap/ic_action_collapse" />
+                    android:src="@drawable/ic_expand_less_black_24dp" />
 
                 <TextView
                     style="@style/appSmallFont"
@@ -92,7 +92,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_download" />
+                android:src="@drawable/ic_get_app_black_24dp" />
 
             <ImageView
                 android:id="@+id/pager_action_forward_image"
@@ -100,7 +100,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_horizontal"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_forward" />
+                android:src="@drawable/ic_arrow_forward_black_24dp" />
         </LinearLayout>
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"

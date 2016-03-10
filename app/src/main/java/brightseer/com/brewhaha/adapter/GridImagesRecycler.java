@@ -96,7 +96,7 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
 //            homeItemViewHolder.vimage.setMinimumWidth(dpConversion);
 //            homeItemViewHolder.vimage.setMinimumHeight(dpConversion);
             Ion.with(homeItemViewHolder.vimage)
-                    .placeholder(R.mipmap.ic_image_black_48dp)
+                    .placeholder(R.drawable.ic_crop_original_black_24dp)
                     .centerCrop()
                     .load(homeItem.getImageUrl());
 

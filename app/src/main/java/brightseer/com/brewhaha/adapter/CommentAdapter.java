@@ -69,8 +69,8 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             ViewHolder ViewHolder = new ViewHolder();
             ViewHolder.comment_user_image = (ImageView) theView.findViewById(R.id.comment_user_image);
             Ion.with(ViewHolder.comment_user_image)
-                    .placeholder(R.mipmap.ic_person_black_24dp)
-                    .error(R.mipmap.ic_person_black_24dp)
+                    .placeholder(R.drawable.ic_person_black_24dp)
+                    .error(R.drawable.ic_person_black_24dp)
                     .transform(trans)
                     .load(comment.getImageUrl());
 

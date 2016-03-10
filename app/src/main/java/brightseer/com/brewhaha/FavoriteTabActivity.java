@@ -38,7 +38,7 @@ public class FavoriteTabActivity extends BaseActivity {
                 layoutParams.height = layoutParams.height + getStatusBarHeight();
             }
             toolbar.setTitle(getResources().getString(R.string.activity_favorites));
-            toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

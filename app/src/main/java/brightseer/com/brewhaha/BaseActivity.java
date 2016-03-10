@@ -326,7 +326,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         recipe_comment_add_edit_text_view.requestFocus();
 
         ImageView recipe_comment_add_image_view = (ImageView) _Activity.findViewById(R.id.recipe_comment_add_image_view);
-        recipe_comment_add_image_view.setImageResource(R.mipmap.ic_action_edit);
+        recipe_comment_add_image_view.setImageResource(R.drawable.ic_mode_edit_black_24dp);
         commentEditPk = comment.getCommentPk();
     }
 

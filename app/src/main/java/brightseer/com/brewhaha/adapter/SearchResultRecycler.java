@@ -82,8 +82,8 @@ public class SearchResultRecycler extends RecyclerView.Adapter<RecyclerObjects.H
                     .load(homeItem.getImageUrl());
 
             Ion.with(homeItemViewHolder.vuser_image_view)
-                    .placeholder(R.mipmap.ic_person_black_24dp)
-                    .error(R.mipmap.ic_person_black_24dp)
+                    .placeholder(R.drawable.ic_person_black_24dp)
+                    .error(R.drawable.ic_person_black_24dp)
                     .centerCrop()
                     .transform(trans)
                     .load(homeItem.getUserImageUrl());

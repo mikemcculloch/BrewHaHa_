@@ -4,23 +4,23 @@
         <item
             android:id="@+id/navigation_item_1"
             android:checked="true"
-            android:icon="@mipmap/ic_home_black_48dp"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="@string/string_home" />
         <item
             android:id="@+id/navigation_item_2"
-            android:icon="@mipmap/ic_search_black_48dp"
+            android:icon="@drawable/ic_search_black_24dp"
             android:title="@string/string_search" />
         <item
             android:id="@+id/navigation_item_3"
-            android:icon="@mipmap/ic_bookmark_border_black_48dp"
+            android:icon="@drawable/ic_bookmark_border_black_24dp"
             android:title="@string/string_favorites" />
         <item
             android:id="@+id/navigation_item_4"
-            android:icon="@mipmap/ic_note_add_black_48dp"
+            android:icon="@drawable/ic_note_add_black_24dp"
             android:title="@string/string_add_recipe" />
         <item
             android:id="@+id/navigation_item_5"
-            android:icon="@mipmap/ic_verified_user_black_48dp"
+            android:icon="@drawable/ic_verified_user_black_24dp"
             android:visible="false"
             android:title="@string/string_admin" />
 

@@ -45,7 +45,7 @@ public class AddUpdateRecipe extends BaseActivity {
             toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
             ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
             layoutParams.height = layoutParams.height + getStatusBarHeight();
-            toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -356,7 +356,7 @@
                 android:layout_weight="5"
                 android:focusable="true"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/ic_action_send" />
+                android:src="@drawable/ic_send_black_24dp" />
         </LinearLayout>
 
         <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"

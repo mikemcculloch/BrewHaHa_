@@ -24,7 +24,7 @@
             android:maxWidth="65dp"
 
             android:layout_gravity="center_vertical|center_horizontal"
-            android:src="@mipmap/ic_person_white_48dp" />
+            android:src="@drawable/ic_person_white_48dp" />
     </FrameLayout>
 
 

@@ -80,7 +80,7 @@
                 android:layout_height="@dimen/image_small_circle"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/ic_person_black_24dp"
+                android:src="@drawable/ic_person_black_24dp"
                 android:transitionName="@string/transition_bitmapuser" />
         </LinearLayout>
 

@@ -122,7 +122,7 @@
                         android:background="@android:color/transparent"
                         android:scaleType="fitCenter"
                         android:transitionName="@string/transition_bitmapuser"
-                        android:src="@mipmap/ic_person_black_24dp" />
+                        android:src="@drawable/ic_person_black_24dp" />
 
                 </LinearLayout>
             </LinearLayout>

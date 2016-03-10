@@ -134,7 +134,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                     layoutParams.height = layoutParams.height + getStatusBarHeight();
                 }
 
-                toolbar.setNavigationIcon(R.mipmap.ic_arrow_back_white_24dp);
+                toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -206,8 +206,8 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 
                                              if (TextUtils.isEmpty(authorImageUrl)) {
                                                  Ion.with(recipe_header_user_image_view)
-                                                         .placeholder(R.mipmap.ic_person_black_24dp)
-                                                         .error(R.mipmap.ic_person_black_24dp)
+                                                         .placeholder(R.drawable.ic_person_black_24dp)
+                                                         .error(R.drawable.ic_person_black_24dp)
                                                          .transform(trans)
                                                          .load(recipeContent.getUserImageUrl());
                                              }
@@ -451,7 +451,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
     public void ClearCommentInput() {
         commentEditPk = 0;
         recipe_comment_add_edit_text_view.setText("");
-        recipe_comment_add_image_view.setImageResource(R.mipmap.ic_action_send);
+        recipe_comment_add_image_view.setImageResource(R.drawable.ic_send_black_24dp);
     }
 
     private void initializeTextViews() {
@@ -593,9 +593,9 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         try {
 
             if (toggleStar) {
-                fab.setImageResource(R.mipmap.ic_star_white_24dp);
+                fab.setImageResource(R.drawable.ic_star_white_24dp);
             } else {
-                fab.setImageResource(R.mipmap.ic_star_border_white_24dp);
+                fab.setImageResource(R.drawable.ic_star_border_white_24dp);
             }
 
             fab.setOnClickListener(new View.OnClickListener() {
@@ -605,10 +605,10 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                         AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
                     } else {
                         if (toggleStar) {
-                            fab.setImageResource(R.mipmap.ic_star_border_white_24dp);
+                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
                             toggleStar = false;
                         } else {
-                            fab.setImageResource(R.mipmap.ic_star_white_24dp);
+                            fab.setImageResource(R.drawable.ic_star_white_24dp);
                             toggleStar = true;
                         }
                         String url = Constants.wcfAddUpdateFavorite + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
