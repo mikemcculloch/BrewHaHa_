@@ -58,7 +58,6 @@ public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.Re
         Image displayImage = imageList.get(position);
         Ion.with(viewHolder.recipeImage)
                 .placeholder(R.drawable.ic_crop_original_black_24dp)
-                .centerCrop()
                 .load(displayImage.getImageUrl());
     }
 

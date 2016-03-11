@@ -3,15 +3,15 @@
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
+    android:animateLayoutChanges="false"
     android:clipChildren="false"
-    android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
         android:orientation="vertical">
 
         <include
@@ -19,36 +19,20 @@
             layout="@layout/toolbar" />
 
         <include
-            android:id="@+id/scenecards"
+            android:id="@+id/recipeheader"
             layout="@layout/sticky_header_recipe" />
 
         <include
             android:id="@+id/scenecards"
             layout="@layout/scene_cards" />
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedscrollview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <LinearLayout
-                android:id="@+id/scene_target"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipChildren="false"
-                android:orientation="vertical">
-
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabEdit"
         style="@style/FabEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/full_margin"
         app:fabSize="normal"
         app:layout_anchor="@id/layout_parent"
         app:layout_anchorGravity="bottom|right|end" />

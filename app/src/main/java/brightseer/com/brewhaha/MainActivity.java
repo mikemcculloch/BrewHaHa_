@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -140,6 +141,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                 }
             }
         });
+
+//        ViewGroup paralax = (ViewGroup) findViewById(R.id.includeLayout);
         ImageView image = (ImageView) findViewById(R.id.image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,9 +154,10 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
         Ion.with(image)
                 .load("http://www.brewhaha.beer/Content/images/banner.jpg");
 
-        drawer_displayName = (TextView) findViewById(R.id.drawer_displayName);
-        drawer_useremail = (TextView) findViewById(R.id.drawer_useremail);
-        drawer_userImage = (ImageView) findViewById(R.id.drawer_userImage);
+        View header = navigationView.getHeaderView(0);
+        drawer_displayName = (TextView) header.findViewById(R.id.drawer_displayName);
+        drawer_useremail = (TextView) header.findViewById(R.id.drawer_useremail);
+        drawer_userImage = (ImageView) header.findViewById(R.id.drawer_userImage);
         drawer_userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -261,22 +265,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
         });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, app_name, app_name) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
-                super.onDrawerOpened(drawerView);
-            }
-        };
-        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
     }
 

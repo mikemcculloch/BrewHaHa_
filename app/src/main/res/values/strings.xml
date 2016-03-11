@@ -87,6 +87,9 @@
     <string name="dont_allow">Don\'t allow the user access</string>
     <string name="allow">Allow the user access</string>
 
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+
 
     <string name="text_batch_size_spinner_default">BatchSize</string>
     <string name="text_style_spinner_default">Type (i.e. IPA, DIPA, Lager, Pilsner)</string>
@@ -101,6 +104,7 @@
     <string name="text_button_reset_recipe">Reset</string>
 
     <string name="text_grain_add">Add Grain from List</string>
+
 
     <string name="deleted">DELETE</string>
     <string name="undo">UNDO</string>

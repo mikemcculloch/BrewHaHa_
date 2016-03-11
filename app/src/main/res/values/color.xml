@@ -1,48 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="list_item_title">#fff</color>
-    <color name="list_background">#303030</color>
-    <color name="list_background_pressed">#992416</color>
-    <color name="list_divider">#272727</color>
-    <color name="counter_text_bg">#626262</color>
-    <color name="counter_text_color">#c5c4c4</color>
-
-    <!--<color name="white">#fff</color>-->
-    <!--<color name="black">#000</color>-->
-    <color name="blackTransparent">#80000000</color>
-    <color name="appGrayTransparent">#B3D8D8D8</color>
-
-    <color name="blue">#221BE8</color>
-    <color name="red">#f00</color>
-
-    <color name="blue_light">#1353E6</color>
+    <color name="colorPrimary">#1D4988</color>
+    <color name="colorPrimaryDark">#2B3747</color>
+    <color name="colorAccent">#1d4987</color>
 
     <color name="app_blue">#1d4987</color>
     <color name="app_orange">#c48526</color>
     <color name="app_yellow">#F9E29C</color>
     <color name="app_gray">#D8D8D8</color>
 
+    <color name="appGrayTransparent">#B3D8D8D8</color>
+    <color name="red">#f00</color>
+    <color name="blue_light">#1353E6</color>
     <color name="srm_default">#FEE799</color>
     <color name="gray_background">#757575</color>
     <color name="yellow">#FFBB33</color>
-
-    <!--1565C0-->
-    <color name="colorPrimary">#1D4988</color>
-    <color name="colorPrimaryDark">#2B3747</color>
-    <color name="colorAccent">#1d4987</color>
-    <!--FAB COLOR-->
-    <!--#0D47A1-->
-
-
     <color name="tabsScrollColor">#c48526</color>
-
-
-    <color name="primary">#2196F3</color>
-    <color name="primary_dark">#1976D2</color>
     <color name="accent">#FF5252</color>
     <color name="off_white">#fffafafa</color>
     <color name="black">#000000</color>
-    <color name="grey_600">#757575</color>
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="bg_item_dragging_state">#ffffdddd</color>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

@@ -43,7 +43,6 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.BeerMyRecipeRecycler;
 import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.helper.SlideScaleInOutRightItemAnimator;
 import brightseer.com.brewhaha.objects.Image;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -126,7 +125,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
         adapter = new BeerMyRecipeRecycler(placeHolder, AddImagesFragment.this, 5);
 
         my_images_recycle_view.setAdapter(adapter);
-        my_images_recycle_view.setItemAnimator(new SlideScaleInOutRightItemAnimator(my_images_recycle_view));
+//        my_images_recycle_view.setItemAnimator(new SlideScaleInOutRightItemAnimator(my_images_recycle_view));
 
         my_images_recycle_view.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity().getBaseContext(), my_images_recycle_view, new RecyclerItemClickListener.OnItemClickListener() {

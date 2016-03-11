@@ -3,7 +3,6 @@ package brightseer.com.brewhaha;
 import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
@@ -11,7 +10,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Pair;
@@ -30,9 +28,7 @@ import com.koushikdutta.ion.bitmap.BitmapInfo;
 import java.util.List;
 import java.util.Vector;
 
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
 import brightseer.com.brewhaha.adapter.SearchResultRecycler;
-import brightseer.com.brewhaha.helper.SlideScaleInOutRightItemAnimator;
 import brightseer.com.brewhaha.objects.HomeItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -105,7 +101,7 @@ public class SearchResultsActivity extends BaseActivity {
         try {
             int screenOrientation = getResources().getConfiguration().orientation;
             search_results_recycler_view = (RecyclerView) findViewById(R.id.search_results_recycler_view);
-            search_results_recycler_view.setItemAnimator(new SlideScaleInOutRightItemAnimator(search_results_recycler_view));
+//            search_results_recycler_view.setItemAnimator(new SlideScaleInOutRightItemAnimator(search_results_recycler_view));
             search_results_recycler_view.setHasFixedSize(false);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 search_results_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getTheme()), true));

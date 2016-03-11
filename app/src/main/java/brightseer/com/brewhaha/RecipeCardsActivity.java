@@ -137,11 +137,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             toolbar = (Toolbar) findViewById(R.id.standard_toolbar);
             setSupportActionBar(toolbar);
             if (toolbar != null) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                toolbar.setPadding(0, getStatusBarHeight(), 0, 0);
-//                ViewGroup.LayoutParams layoutParams = toolbar.getLayoutParams();
-//                layoutParams.height = layoutParams.height + getStatusBarHeight();
-                }
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
                 toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                     @Override
@@ -537,7 +532,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                     RecipeCardsActivity.this, buttonLocation,
                                     new PathEvaluator(), path.getPoints().toArray());
                             anim.setInterpolator(new AccelerateDecelerateInterpolator());
-                            anim.setDuration(2000);
+                            anim.setDuration(500);
                             if (animateEnd)
                                 anim.addListener(animatorSceneEnter);
                             anim.start();

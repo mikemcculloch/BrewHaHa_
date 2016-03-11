@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/overview_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_yellow"
+    android:clipChildren="false"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="@dimen/full_margin"
         android:layout_marginRight="@dimen/full_margin"
+        android:clipChildren="false"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatButton
@@ -19,10 +20,9 @@
             android:clipChildren="false"
             android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
             android:elevation="10dp"
-            android:theme="@style/buttonYellow"
-            android:onClick="goToSceneComments"
             android:text="@string/title_comments"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:theme="@style/buttonYellow" />
 
     </LinearLayout>
 </LinearLayout>
