@@ -19,7 +19,6 @@ import android.transition.Scene;
 import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -30,10 +29,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
-import android.widget.Toast;
 
-//import com.flipboard.bottomsheet.BottomSheetLayout;
-//import com.flipboard.bottomsheet.commons.MenuSheetView;
 import com.google.android.gms.plus.PlusOneButton;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
@@ -48,6 +44,9 @@ import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Image;
+
+//import com.flipboard.bottomsheet.BottomSheetLayout;
+//import com.flipboard.bottomsheet.commons.MenuSheetView;
 
 /**
  * Created by wooan on 10/24/2015.
@@ -71,7 +70,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private boolean exitActivity = true, toggleSceneButtons = true, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
-//    BottomSheetLayout bottomSheetLayout;
+    //    BottomSheetLayout bottomSheetLayout;
     AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
 
 
@@ -113,8 +112,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     goToSceneDirections(v);
                 break;
             case R.id.card_comments:
-                if (toggleSceneButtons)
+                if (toggleSceneButtons) {
+                    sceneId = R.layout.scene_comments;
                     goToSceneComments(v);
+                }
                 break;
 
             case R.id.fabEdit:
@@ -480,7 +481,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     /**
      * Toggles button location on click between top-left and bottom-right
      */
-    private void moveButton(final View view) {
+    private void moveButton(View view) {
         try {
             toggleSceneButtons = false;
             setLayoutParam(view);
@@ -510,27 +511,23 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                             AnimatorPath path = new AnimatorPath();
                             path.moveTo(-deltaX, -deltaY);
 
-
                             float one = -(deltaX / 2);
                             float two = -deltaY;
                             float three = 0;
                             float four = -deltaY / 2;
 
 //                            if (curveDir) {
-                                path.curveTo(-(deltaX / 2), -deltaY, 0, -deltaY / 2, 0, 0);
+//                              path.curveTo(-(deltaX / 2), -deltaY, 0, -deltaY / 2, 0, 0);
+                            path.curveTo(-(deltaX / 2), -deltaY, 0, -deltaY / 2, 0, 0);
 //                            } else {
-//                                one = (deltaX / 2);
-//                                two = deltaY;
-//                                // path.curveTo(0, deltaY, 0, deltaY / 2, 0, 0);
-////                            path.curveTo(0, deltaY /2, 0, deltaY, 0, 0);
-//                                path.curveTo(one, two, three, four, 0, 0);
 //                            }
-                            curveDir = !curveDir;
+//                            curveDir = !curveDir;
 
                             // Set up the animation
-                            final ObjectAnimator anim = ObjectAnimator.ofObject(
+                            ObjectAnimator anim = ObjectAnimator.ofObject(
                                     RecipeCardsActivity.this, buttonLocation,
                                     new PathEvaluator(), path.getPoints().toArray());
+
                             anim.setInterpolator(new AccelerateDecelerateInterpolator());
                             anim.setDuration(500);
                             if (animateEnd)
@@ -554,16 +551,16 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     public void setButtonLoc(PathPoint newLoc) {
         View view = null;
         if (sceneId == R.layout.scene_overview) {
-            view = card_overview;
+            view = findViewById(R.id.card_overview);
         }
         if (sceneId == R.layout.scene_ingredients) {
-            view = card_ingredients;
+            view = findViewById(R.id.card_ingredients);
         }
         if (sceneId == R.layout.scene_directions) {
-            view = card_directions;
+            view = findViewById(R.id.card_directions);
         }
         if (sceneId == R.layout.scene_comments) {
-            view = card_comments;
+            view = findViewById(R.id.card_comments);
         }
 
         view.setTranslationX(newLoc.mX);
@@ -667,7 +664,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                     TransitionManager.go(sceneComments, ts);
                 }
-                view.setVisibility(View.GONE);
+                view.setVisibility(View.INVISIBLE);
 
                 toggleSceneButtons = true;
             }
@@ -825,7 +822,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
             card_ingredients.setLayoutParams(mainLayoutParam);
             card_ingredients.setVisibility(View.VISIBLE);
-//            curveMotion(card_ingredients, false);
         }
 
         if (sceneIdLast == R.layout.scene_directions) {
@@ -841,7 +837,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
             card_directions.setLayoutParams(mainLayoutParam);
             card_directions.setVisibility(View.VISIBLE);
-//            curveMotion(card_directions, false);
         }
 
         if (sceneIdLast == R.layout.scene_comments) {
@@ -857,7 +852,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
             card_comments.setLayoutParams(mainLayoutParam);
             card_comments.setVisibility(View.VISIBLE);
-//            curveMotion(card_comments, false);
         }
     }
 }
