@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -79,8 +80,15 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private List<Image> imageList = new Vector<>();
 
     @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+//        goToSceneOverView(card_overview);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupTransistionSlide();
+//        setupTransistionSlide();
+        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_recipe_cards);
@@ -90,6 +98,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             initRecyclerView();
             initViews();
             loadData();
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -529,7 +538,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                     new PathEvaluator(), path.getPoints().toArray());
 
                             anim.setInterpolator(new AccelerateDecelerateInterpolator());
-                            anim.setDuration(500);
+                            anim.setDuration(300);
                             if (animateEnd)
                                 anim.addListener(animatorSceneEnter);
                             anim.start();
@@ -624,7 +633,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 Transition ts = new android.transition.ChangeBounds();
                 ts.setInterpolator(new AccelerateDecelerateInterpolator());
-                ts.setDuration(10000);
                 View view = null;
                 if (sceneId == R.layout.scene_overview) {
                     view = card_overview;

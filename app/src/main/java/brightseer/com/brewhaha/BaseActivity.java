@@ -635,17 +635,12 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                     AnimationUtils.loadInterpolator(this,
                             android.R.interpolator.linear_out_slow_in));
             slide.setDuration(500);
+
             getWindow().setEnterTransition(slide);
             getWindow().setExitTransition(slide);
-
-
-
-
-
             getWindow().setSharedElementsUseOverlay(false);
             getWindow().setAllowEnterTransitionOverlap(true);
             getWindow().setAllowReturnTransitionOverlap(true);
-
         }
     }
 

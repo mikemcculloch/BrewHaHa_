@@ -77,7 +77,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupTransistionSlide();
+//        setupTransistionSlide();
+        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_main);

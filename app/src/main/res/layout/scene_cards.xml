@@ -92,7 +92,6 @@
         android:layout_below="@+id/card_overviewHolder"
         android:clipChildren="false" />
 
-
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
@@ -105,6 +104,7 @@
             android:id="@+id/scene_target"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/quarter_margin"
             android:clipChildren="false">
 
         </RelativeLayout>
