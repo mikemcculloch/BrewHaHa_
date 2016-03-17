@@ -10,20 +10,18 @@ public class BeerSummary {
     private String ColorSrm;
     private String FinalGravity;
     private String OriginalGravity;
-    private String Timestamp;
     private int YieldByGallon;
 
     public BeerSummary() {
     }
 
-    public BeerSummary(String alcoholByVol, int beerSummaryPk, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String timestamp, int yieldByGallon) {
+    public BeerSummary(String alcoholByVol, int beerSummaryPk, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity,  int yieldByGallon) {
         AlcoholByVol = alcoholByVol;
         BeerSummaryPk = beerSummaryPk;
         BitternessIbu = bitternessIbu;
         ColorSrm = colorSrm;
         FinalGravity = finalGravity;
         OriginalGravity = originalGravity;
-        Timestamp = timestamp;
         YieldByGallon = yieldByGallon;
     }
 
@@ -73,14 +71,6 @@ public class BeerSummary {
 
     public void setOriginalGravity(String originalGravity) {
         OriginalGravity = originalGravity;
-    }
-
-    public String getTimestamp() {
-        return Timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        Timestamp = timestamp;
     }
 
     public int getYieldByGallon() {
