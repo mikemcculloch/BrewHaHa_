@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.adapter.GridImagesRecycler;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -41,7 +41,7 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
     private GridImagesRecycler adapter;
     private RecyclerView grid;
     private ArrayList<String> imageUrlList = new ArrayList<>();
-    List<Image> imageList = new Vector<>();
+    List<RecipeImage> recipeImageList = new Vector<>();
 
     private String responseContentItemPk, recipeTitle;
     private android.support.design.widget.FloatingActionButton fab;
@@ -118,16 +118,16 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
                                 setShareIntent();
 
                                 toggleStar = recipeContent.isFavorite();
-                                imageList = recipeContent.getImagesMList();
+                                recipeImageList = recipeContent.getImagesMList();
 //                                imageUrlList = new ArrayList<String>();
-                                for (Image item : imageList) {
+                                for (RecipeImage item : recipeImageList) {
 //                                    imageUrlList.add(item.getImageUrl());
                                     adapter.add(item);
                                 }
 
                                 boolean addRecipe = false;
                                 if (recipeContent.getNextContentItemId() > 0) {
-                                    Image placeHolder = new Image();
+                                    RecipeImage placeHolder = new RecipeImage();
                                     placeHolder.setImageUrl(Constants.urlRecipePlaceHolder);
 
                                     adapter.add(placeHolder);
@@ -172,7 +172,7 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
             layoutManager.scrollToPosition(0);
             grid.setLayoutManager(layoutManager);
 
-            List<Image> placeHolder = new Vector<>();
+            List<RecipeImage> placeHolder = new Vector<>();
             adapter = new GridImagesRecycler(placeHolder, this);
             grid.setAdapter(adapter);
 
@@ -233,7 +233,7 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
     protected void onDestroy() {
         super.onDestroy();
         adapter = null;
-        imageList = null;
+        recipeImageList = null;
     }
 
     @Override
@@ -291,10 +291,10 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
 
     public void openImageDetail(View view, int position) {
         try {
-            Image imageItem = adapter.GetItemAt(position);
+            RecipeImage recipeImageItem = adapter.GetItemAt(position);
             Intent i = new Intent(this, FullScreenViewActivity.class);
             i.putExtra("position", position);
-            i.putExtra(Constants.exContentItemPk, String.valueOf(imageItem.getContentItemPk()));
+            i.putExtra(Constants.exContentItemPk, String.valueOf(recipeImageItem.getRecipeContentId()));
             i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             startActivity(i);
@@ -309,7 +309,7 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
 
     public void openRecipeDetail(View view, int position) {
         try {
-//            Image imageItem = adapter.GetItemAt(position);
+//            RecipeImage imageItem = adapter.GetItemAt(position);
 
             Intent intent = new Intent(this, RecipeActivity.class);
 

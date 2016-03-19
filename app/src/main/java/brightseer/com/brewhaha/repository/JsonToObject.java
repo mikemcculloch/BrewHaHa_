@@ -22,15 +22,15 @@ import brightseer.com.brewhaha.objects.HomeItem;
 import brightseer.com.brewhaha.objects.Hops;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
-import brightseer.com.brewhaha.objects.Image;
-import brightseer.com.brewhaha.objects.IngredientGrain;
-import brightseer.com.brewhaha.objects.IngredientHop;
-import brightseer.com.brewhaha.objects.IngredientYeast;
+import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.objects.RecipeGrain;
+import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.Instruction;
 import brightseer.com.brewhaha.objects.KeyValuepair;
 import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.objects.RecipeType;
+import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.objects.SrmColorKey;
 import brightseer.com.brewhaha.objects.Style;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
@@ -233,14 +233,14 @@ public class JsonToObject {
         return gig;
     }
 
-    public static List<IngredientGrain> JsonToRecipeGrainList(JsonArray result) {
-        List<IngredientGrain> gig = new Vector<>();
+    public static List<RecipeGrain> JsonToRecipeGrainList(JsonArray result) {
+        List<RecipeGrain> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s aa").create();
 
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), IngredientGrain.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), RecipeGrain.class));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
@@ -384,14 +384,14 @@ public class JsonToObject {
         return gig;
     }
 
-    public static List<IngredientHop> JsonToIngredientHopList(JsonArray result) {
-        List<IngredientHop> gig = new Vector<>();
+    public static List<RecipeHop> JsonToIngredientHopList(JsonArray result) {
+        List<RecipeHop> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s aa").create();
 
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), IngredientHop.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), RecipeHop.class));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
@@ -401,14 +401,14 @@ public class JsonToObject {
         return gig;
     }
 
-    public static List<IngredientYeast> JsonToIngredientYeastList(JsonArray result) {
-        List<IngredientYeast> gig = new Vector<>();
+    public static List<RecipeYeast> JsonToIngredientYeastList(JsonArray result) {
+        List<RecipeYeast> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s aa").create();
 
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), IngredientYeast.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), RecipeYeast.class));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
@@ -436,14 +436,14 @@ public class JsonToObject {
     }
 
 
-    public static List<Image> JsonToImageList(JsonArray result) {
-        List<Image> gig = new Vector<>();
+    public static List<RecipeImage> JsonToImageList(JsonArray result) {
+        List<RecipeImage> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s aa").create();
 
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), Image.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), RecipeImage.class));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {

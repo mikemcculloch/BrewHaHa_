@@ -57,7 +57,7 @@ import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.BatchSize;
 import brightseer.com.brewhaha.objects.BeerSummary;
 import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
 import brightseer.com.brewhaha.objects.Instruction;
 import brightseer.com.brewhaha.objects.RecipeContent;
@@ -377,9 +377,9 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public void addImages(List<Image> images) {
+    public void addImages(List<RecipeImage> recipeImages) {
         try {
-            imageCount = images.size();
+            imageCount = recipeImages.size();
             viewPager = (ViewPager) findViewById(R.id.recipe_image_pager);
             viewPager.setVisibility(View.VISIBLE);
             viewPager.setOnPageChangeListener(pageChangeListener);
@@ -421,7 +421,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
             });
 
             ArrayList<String> imageUrlList = new ArrayList<String>();
-            for (Image item : images) {
+            for (RecipeImage item : recipeImages) {
                 imageUrlList.add(item.getImageUrl());
             }
             SimpleViewPagerAdapter imagePagerAdapter = new SimpleViewPagerAdapter(RecipeActivity.this, imageUrlList);

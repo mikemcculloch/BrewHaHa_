@@ -12,7 +12,7 @@ public class RecipeContent {
     private String Description;
     private String DifficultyDescription;
     private int DifficultyPk;
-    private List<Image> ImagesMList;
+    private List<RecipeImage> imagesMList;
     private List<Ingredient> IngredientMList;
     private int ItemTypePk;
     private String LastUpdatedTimestamp;
@@ -35,7 +35,7 @@ public class RecipeContent {
     public RecipeContent() {
     }
 
-    public RecipeContent(int contentItemPk, String author, int batchSizePk, BeerSummary beerSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<Image> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<Instruction> instructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
+    public RecipeContent(int contentItemPk, String author, int batchSizePk, BeerSummary beerSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<RecipeImage> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<Instruction> instructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
         ContentItemPk = contentItemPk;
         Author = author;
         BatchSizePk = batchSizePk;
@@ -45,7 +45,7 @@ public class RecipeContent {
         Description = description;
         DifficultyDescription = difficultyDescription;
         DifficultyPk = difficultyPk;
-        ImagesMList = imagesMList;
+        this.imagesMList = imagesMList;
         IngredientMList = ingredientMList;
         ItemTypePk = itemTypePk;
         LastUpdatedTimestamp = lastUpdatedTimestamp;
@@ -138,12 +138,12 @@ public class RecipeContent {
         DifficultyPk = difficultyPk;
     }
 
-    public List<Image> getImagesMList() {
-        return ImagesMList;
+    public List<RecipeImage> getImagesMList() {
+        return imagesMList;
     }
 
-    public void setImagesMList(List<Image> imagesMList) {
-        ImagesMList = imagesMList;
+    public void setImagesMList(List<RecipeImage> imagesMList) {
+        this.imagesMList = imagesMList;
     }
 
     public List<Ingredient> getIngredientMList() {

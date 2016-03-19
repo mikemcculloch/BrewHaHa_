@@ -62,7 +62,7 @@ import brightseer.com.brewhaha.adapter.CommentAdapter;
 import brightseer.com.brewhaha.helper.ToastAdListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.UserProfile;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -758,7 +758,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    public void showImage(Image image) {
+    public void showImage(RecipeImage recipeImage) {
 //        final Dialog builder = new Dialog(this);
         final Dialog builder = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
@@ -786,7 +786,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         });
         Ion.with(dialog_image)
                 .placeholder(R.mipmap.ic_beercap)
-                .load(image.getImageUrl()
+                .load(recipeImage.getImageUrl()
                 );
         builder.show();
     }

@@ -57,7 +57,7 @@ public class InstructionAdapter extends ArrayAdapter<Instruction> implements Com
             viewHolder.instruction_checkbox = (CheckBox) theView.findViewById(R.id.instruction_checkbox);
             if (BrewSharedPrefs.getIsUserLoggedIn()) {
                 for (InstructionSelected appDataItem : _appDataList) {
-                    if (appDataItem.getInstructionsId() == item.getInstructionPk() && _ContentPk == appDataItem.getContentItemPk()) {
+                    if (appDataItem.getInstructionsId() == item.getInstructionId() && _ContentPk == appDataItem.getRecipeContentId()) {
                         viewHolder.instruction_checkbox.setChecked(true);
                     }
                 }
@@ -86,11 +86,11 @@ public class InstructionAdapter extends ArrayAdapter<Instruction> implements Com
                 if (isChecked) {
                     InstructionSelected newItem = new InstructionSelected();
                     newItem.setUserToken(BrewSharedPrefs.getUserToken());
-                    newItem.setContentItemPk(instructionItem.getContentItemPk());
-                    newItem.setInstructionsId(instructionItem.getInstructionPk());
+                    newItem.setRecipeContentId(instructionItem.getRecipeContentId());
+                    newItem.setInstructionsId(instructionItem.getInstructionId());
                     repoSelected.insertInstructionSelected(newItem);
                 } else {
-                    repoSelected.deleteInstructionSelectedRecord(instructionItem.getContentItemPk(), instructionItem.getInstructionPk());
+                    repoSelected.deleteInstructionSelectedRecord(instructionItem.getRecipeContentId(), instructionItem.getInstructionId());
                 }
             }
         } catch (Exception e) {

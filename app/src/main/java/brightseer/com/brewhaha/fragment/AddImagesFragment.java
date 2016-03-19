@@ -43,7 +43,7 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.BeerMyRecipeRecycler;
 import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
@@ -54,7 +54,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
     private android.support.design.widget.FloatingActionButton image_fab;
     private BeerMyRecipeRecycler adapter;
     private RecyclerView my_images_recycle_view;
-    private List<Image> imageList = new Vector<>();
+    private List<RecipeImage> recipeImageList = new Vector<>();
     public final int CAMERA_CAPTURE = 1;
     public final int RESULT_LOAD_IMAGE = 1;
     final int PIC_CROP = 2;
@@ -121,7 +121,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
         layoutManager.scrollToPosition(0);
         my_images_recycle_view.setLayoutManager(layoutManager);
 
-        List<Image> placeHolder = new Vector<>();
+        List<RecipeImage> placeHolder = new Vector<>();
         adapter = new BeerMyRecipeRecycler(placeHolder, AddImagesFragment.this, 5);
 
         my_images_recycle_view.setAdapter(adapter);
@@ -132,7 +132,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            showImage(imageList.get(position));
+                            showImage(recipeImageList.get(position));
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -142,7 +142,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
 
                     @Override
                     public void onItemLongClick(View view, int position) {
-                        selectedImagePk = imageList.get(position).getImagePk();
+                        selectedImagePk = recipeImageList.get(position).getImagePk();
                         deletePosition = position;
                         menuType = 2;
                         registerForContextMenu(view);
@@ -164,10 +164,10 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<Image> images = JsonToObject.JsonToImageList(result);
-                                         for (Image item : images) {
-                                             imageList.add(item);
-                                             adapter.add(item, imageList.size() - 1);
+                                         List<RecipeImage> recipeImages = JsonToObject.JsonToImageList(result);
+                                         for (RecipeImage item : recipeImages) {
+                                             recipeImageList.add(item);
+                                             adapter.add(item, recipeImageList.size() - 1);
                                          }
                                          addFabListener();
 //                                         dialogProgress.dismiss();
@@ -303,7 +303,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.menu_image_button_delete:
 
-                if (imageList.size() > 1) {
+                if (recipeImageList.size() > 1) {
                     DeleteImage();
                 } else {
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -366,10 +366,10 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                         public void onCompleted(Exception e, JsonArray result) {
                             try {
                                 if (result != null) {
-                                    List<Image> images = JsonToObject.JsonToImageList(result);
-                                    for (Image item : images) {
-                                        imageList.add(item);
-                                        adapter.add(item, imageList.size() - 1);
+                                    List<RecipeImage> recipeImages = JsonToObject.JsonToImageList(result);
+                                    for (RecipeImage item : recipeImages) {
+                                        recipeImageList.add(item);
+                                        adapter.add(item, recipeImageList.size() - 1);
                                     }
                                     progessDialog.dismiss();
                                     EnableDisableFab();
@@ -389,14 +389,14 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void EnableDisableFab() {
-        if (imageList.size() >= 4) {
+        if (recipeImageList.size() >= 4) {
             image_fab.setVisibility(View.GONE);
         } else {
             image_fab.setVisibility(View.VISIBLE);
         }
     }
 
-    public void showImage(Image image) {
+    public void showImage(RecipeImage recipeImage) {
         final Dialog builder = new Dialog(_fContext);
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
         builder.getWindow().setBackgroundDrawable(
@@ -417,7 +417,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
         });
         Ion.with(displayImageView)
                 .placeholder(R.mipmap.ic_beercap)
-                .load(image.getImageUrl());
+                .load(recipeImage.getImageUrl());
 
 
         builder.addContentView(displayImageView, new RelativeLayout.LayoutParams(
@@ -437,7 +437,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onCompleted(Exception e, String s) {
                         adapter.remove(deletePosition);
-                        imageList.remove(deletePosition);
+                        recipeImageList.remove(deletePosition);
 //                        dialogProgress.dismiss();
                         resetDialogValues();
                         EnableDisableFab();

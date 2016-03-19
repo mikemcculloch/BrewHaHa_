@@ -47,7 +47,7 @@ import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
 import brightseer.com.brewhaha.objects.Hops;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
-import brightseer.com.brewhaha.objects.IngredientHop;
+import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 import brightseer.com.brewhaha.repository.DBHelper_HopUse;
 import brightseer.com.brewhaha.repository.DBHelper_Hops;
@@ -148,7 +148,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<IngredientHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
                                          adapter.addItemsToAdapter(ingredient);
                                          addFabListener();
                                      } catch (Exception ex) {
@@ -228,7 +228,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
             layoutManager.scrollToPosition(0);
             my_hops_recycle_view.setLayoutManager(layoutManager);
         }
-        List<IngredientHop> placeHolder = new Vector<>();
+        List<RecipeHop> placeHolder = new Vector<>();
         adapter = new HopMyRecipeRecycler(placeHolder, AddHopsFragment.this);
 
         my_hops_recycle_view.setAdapter(adapter);
@@ -239,9 +239,9 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            IngredientHop ingredientHop = adapter.getItemAt(position);
-                            mHeader = ingredientHop.getAmount() + " " + lookupUnitOfMeasure(ingredientHop.getUnitOfMeasurePk(), 1).getDescription() + ", " + ingredientHop.getName();
-                            ingredientHopPk = ingredientHop.getIngredientHopsPk();
+                            RecipeHop recipeHop = adapter.getItemAt(position);
+                            mHeader = recipeHop.getAmount() + " " + lookupUnitOfMeasure(recipeHop.getUnitOfMeasureId(), 1).getDescription() + ", " + recipeHop.getName();
+                            ingredientHopPk = recipeHop.getIngredientHopsId();
                             listPosition = position;
 
                             registerForContextMenu(view);
@@ -256,7 +256,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
 
                     @Override
                     public void onItemLongClick(View view, int position) {
-//                        ingredientHopPk = ingredientList.get(position).getIngredientHopsPk();
+//                        ingredientHopPk = ingredientList.get(position).getIngredientHopsId();
 //                        listPosition = position;
 //                        registerForContextMenu(view);
 //                        getActivity().openContextMenu(view);
@@ -526,15 +526,15 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    public void setDialogValues(IngredientHop selected) {
+    public void setDialogValues(RecipeHop selected) {
         if (selected != null) {
             my_hops_master_spinner.setEnabled(false);
-            selectedHopPk = selected.getHopsPk();
-            selectedMeasurement = selected.getUnitOfMeasurePk();
-            selectedHopsUsePk = selected.getHopsUsePk();
+            selectedHopPk = selected.getHopsId();
+            selectedMeasurement = selected.getUnitOfMeasureId();
+            selectedHopsUsePk = selected.getHopsUseId();
             selectedTimeUnit = selected.getTimeUnitOfMeasureId();
-            selectedHopFormPk = selected.getHopsFormPk();
-            ingredientHopPk = selected.getIngredientHopsPk();
+            selectedHopFormPk = selected.getHopsFormId();
+            ingredientHopPk = selected.getIngredientHopsId();
 
             my_hops_name_edit_text.setText(String.valueOf(selected.getName()));
             my_hop_amount_edit_text.setText(String.valueOf(selected.getAmount()));
@@ -544,10 +544,10 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
             acidProgress = Float.parseFloat(String.valueOf(selected.getAlphaAcidPercentage())) * 10;
             my_hop_alpha_acid_seekbar.setProgress((int) acidProgress);
 
-            my_hops_measurement_size_spinner.setSelection(unitOfWeight.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasurePk(), 1)) - 1);
-            my_hop_use_spinner.setSelection(hopUseList.indexOf(lookupHopUse(selected.getHopsUsePk())) - 1);
+            my_hops_measurement_size_spinner.setSelection(unitOfWeight.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasureId(), 1)) - 1);
+            my_hop_use_spinner.setSelection(hopUseList.indexOf(lookupHopUse(selected.getHopsUseId())) - 1);
             my_hops_time_unit_size_spinner.setSelection(unitOfTime.indexOf(lookupUnitOfMeasure(selected.getTimeUnitOfMeasureId(), 2)) - 1);
-            my_hop_form_spinner.setSelection(hopsFormList.indexOf(lookupHopForm(selected.getHopsFormPk())) - 1);
+            my_hop_form_spinner.setSelection(hopsFormList.indexOf(lookupHopForm(selected.getHopsFormId())) - 1);
         }
     }
 
@@ -628,13 +628,13 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
                                          addHopDialog.dismiss();
-                                         List<IngredientHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
 
-                                         IngredientHop item = ingredient.get(0);
+                                         RecipeHop item = ingredient.get(0);
                                          int pos = 0;
 
                                          if (ingredientHopPk != 0) {
-                                             pos = adapter.getPostionByPk(item.getIngredientHopsPk());
+                                             pos = adapter.getPostionByPk(item.getIngredientHopsId());
                                              adapter.remove(pos);
                                          } else {
                                              pos = adapter.getItemCount();
@@ -747,8 +747,8 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<IngredientHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
-                                         for (IngredientHop item : ingredient) {
+                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+                                         for (RecipeHop item : ingredient) {
                                              adapter.add(item);
                                          }
                                      } catch (Exception ex) {

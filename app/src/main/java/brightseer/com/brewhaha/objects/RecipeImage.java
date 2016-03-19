@@ -3,19 +3,19 @@ package brightseer.com.brewhaha.objects;
 /**
  * Created by mccul_000 on 10/26/2014.
  */
-public class Image {
-    private int ContentItemPk;
+public class RecipeImage {
+    private int RecipeContentId;
     private String ImageName;
     private int ImagePk;
     private String ImageUrl;
     //    private Date Timestamp;
     private String Caption;
 
-    public Image() {
+    public RecipeImage() {
     }
 
-    public Image(int contentItemPk, String imageName, int imagePk, String imageUrl, String caption) {
-        ContentItemPk = contentItemPk;
+    public RecipeImage(int recipeContentId, String imageName, int imagePk, String imageUrl, String caption) {
+        RecipeContentId = recipeContentId;
         ImageName = imageName;
         ImagePk = imagePk;
         ImageUrl = imageUrl;
@@ -23,12 +23,12 @@ public class Image {
         Caption = caption;
     }
 
-    public int getContentItemPk() {
-        return ContentItemPk;
+    public int getRecipeContentId() {
+        return RecipeContentId;
     }
 
-    public void setContentItemPk(int contentItemPk) {
-        ContentItemPk = contentItemPk;
+    public void setRecipeContentId(int recipeContentId) {
+        RecipeContentId = recipeContentId;
     }
 
     public String getImageName() {
@@ -55,11 +55,11 @@ public class Image {
         ImageUrl = imageUrl;
     }
 
-//    public Date getTimestamp() {
+//    public Date getDateCreated() {
 //        return Timestamp;
 //    }
 //
-//    public void setTimestamp(Date timestamp) {
+//    public void setDateCreated(Date timestamp) {
 //        Timestamp = timestamp;
 //    }
 

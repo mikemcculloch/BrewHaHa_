@@ -133,7 +133,7 @@ public class AddInstructionsFragment extends BaseFragment {
                 }
 
                 mHeader = modelObject.getDescription().substring(0, getLength);
-                selectedInstructionPk = modelObject.getInstructionPk();
+                selectedInstructionPk = modelObject.getInstructionId();
 
                 registerForContextMenu(view);
                 getActivity().openContextMenu(view);
@@ -289,7 +289,7 @@ public class AddInstructionsFragment extends BaseFragment {
 
     public void setDialogValues(Instruction selected) {
         if (selected != null) {
-            selectedInstructionPk = selected.getInstructionPk();
+            selectedInstructionPk = selected.getInstructionId();
             my_instruction_name_edit_text.setText(selected.getDescription());
             my_instruction_submit_button.setText("Update");
             selectedPosition = selected.getOrder();

@@ -44,7 +44,7 @@ import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 
 //import com.flipboard.bottomsheet.BottomSheetLayout;
 //import com.flipboard.bottomsheet.commons.MenuSheetView;
@@ -77,7 +77,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     RecyclerView recycler_view_recipe_images;
     RecipeImageRecycler recipeImageRecycler;
-    private List<Image> imageList = new Vector<>();
+    private List<RecipeImage> recipeImageList = new Vector<>();
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -228,21 +228,21 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private void loadData() {
 
-        Image test = new Image();
+        RecipeImage test = new RecipeImage();
         test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
-        imageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
+        recipeImageList.add(test);
 
-        for (Image item : imageList) {
-            recipeImageRecycler.add(item, imageList.size() - 1);
+        for (RecipeImage item : recipeImageList) {
+            recipeImageRecycler.add(item, recipeImageList.size() - 1);
         }
     }
 
@@ -256,7 +256,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
         recycler_view_recipe_images.setLayoutManager(layoutManager);
 
-        List<Image> placeHolder = new Vector<>();
+        List<RecipeImage> placeHolder = new Vector<>();
         recipeImageRecycler = new RecipeImageRecycler(placeHolder, RecipeCardsActivity.this);
 
         recycler_view_recipe_images.setAdapter(recipeImageRecycler);
@@ -266,7 +266,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            showImage(imageList.get(position));
+                            showImage(recipeImageList.get(position));
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -276,7 +276,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onItemLongClick(View view, int position) {
-//                        selectedImagePk = imageList.get(position).getImagePk();
+//                        selectedImagePk = recipeImageList.get(position).getImagePk();
 //                        deletePosition = position;
 //                        menuType = 2;
 //                        registerForContextMenu(view);

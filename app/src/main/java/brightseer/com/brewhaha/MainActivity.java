@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,8 +45,6 @@ import brightseer.com.brewhaha.fragment.AdminFragment;
 import brightseer.com.brewhaha.fragment.AdvancedSearchFragment;
 import brightseer.com.brewhaha.fragment.HomeFragment;
 import brightseer.com.brewhaha.fragment.MyRecipeListFragment;
-
-import static brightseer.com.brewhaha.R.string.app_name;
 
 public class MainActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -264,7 +261,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                 return true;
             }
         });
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -287,8 +283,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-//        if (actionBarDrawerToggle != null)
-        actionBarDrawerToggle.syncState();
+        if (actionBarDrawerToggle != null)
+            actionBarDrawerToggle.syncState();
     }
 
     @Override

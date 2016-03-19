@@ -12,28 +12,28 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeCardsActivity;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
  * Created by wooan_000 on 12/16/2014.
  */
 public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.RecipeImageViewHolder> {
-    private List<Image> imageList = new Vector<>();
+    private List<RecipeImage> recipeImageList = new Vector<>();
     private RecipeCardsActivity _activity;
 
-    public RecipeImageRecycler(List<Image> jsonObject, RecipeCardsActivity activity) {
-        this.imageList = imageList;
+    public RecipeImageRecycler(List<RecipeImage> jsonObject, RecipeCardsActivity activity) {
+        this.recipeImageList = recipeImageList;
         _activity = activity;
     }
 
-    public void add(Image item, int position) {
-        imageList.add(item);
+    public void add(RecipeImage item, int position) {
+        recipeImageList.add(item);
         notifyItemInserted(position);
     }
 
-    public void add(Image item) {
-        imageList.add(item);
+    public void add(RecipeImage item) {
+        recipeImageList.add(item);
     }
 
     public void sendUpdate(int position) {
@@ -41,7 +41,7 @@ public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.Re
     }
 
     public void clear() {
-        imageList.clear();
+        recipeImageList.clear();
         notifyDataSetChanged();
     }
 
@@ -55,19 +55,19 @@ public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.Re
 
     @Override
     public void onBindViewHolder(RecyclerObjects.RecipeImageViewHolder viewHolder, int position) {
-        Image displayImage = imageList.get(position);
+        RecipeImage displayRecipeImage = recipeImageList.get(position);
         Ion.with(viewHolder.recipeImage)
                 .placeholder(R.drawable.ic_crop_original_black_24dp)
-                .load(displayImage.getImageUrl());
+                .load(displayRecipeImage.getImageUrl());
     }
 
     @Override
     public int getItemCount() {
-        return imageList.size();
+        return recipeImageList.size();
     }
 
-    public Image GetItemAt(int position) {
-        return imageList.get(position);
+    public RecipeImage GetItemAt(int position) {
+        return recipeImageList.get(position);
     }
 
 

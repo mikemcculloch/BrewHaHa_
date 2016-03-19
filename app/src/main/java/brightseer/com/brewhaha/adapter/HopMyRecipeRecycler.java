@@ -13,7 +13,7 @@ import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddHopsFragment;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
-import brightseer.com.brewhaha.objects.IngredientHop;
+import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 
@@ -21,15 +21,15 @@ import brightseer.com.brewhaha.objects.UnitOfMeasure;
  * Created by Michael McCulloch on 3/2/2015.
  */
 public class HopMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.HopMyRecipeViewHolder> {
-    private List<IngredientHop> jsonObjects = new Vector<>();
+    private List<RecipeHop> jsonObjects = new Vector<>();
     private Fragment _fragment;
 
-    public HopMyRecipeRecycler(List<IngredientHop> jsonObject, Fragment fragment) {
+    public HopMyRecipeRecycler(List<RecipeHop> jsonObject, Fragment fragment) {
         this.jsonObjects = jsonObject;
         _fragment = fragment;
     }
 
-    public void add(IngredientHop item, int position) {
+    public void add(RecipeHop item, int position) {
         jsonObjects.add(position, item);
         notifyItemInserted(position);
     }
@@ -40,7 +40,7 @@ public class HopMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.Ho
         notifyDataSetChanged();
     }
 
-    public void add(IngredientHop item) {
+    public void add(RecipeHop item) {
         jsonObjects.add(item);
         notifyDataSetChanged();
     }
@@ -55,15 +55,15 @@ public class HopMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.Ho
 
     @Override
     public void onBindViewHolder(RecyclerObjects.HopMyRecipeViewHolder itemViewHolder, int i) {
-        IngredientHop item = jsonObjects.get(i);
+        RecipeHop item = jsonObjects.get(i);
         itemViewHolder.my_hop_amount_text_view.setText(String.valueOf(item.getAmount()));
         itemViewHolder.my_hop_time_text_view.setText(String.valueOf(item.getCookTime()) + " " + lookupUnitOfMeasure(item.getTimeUnitOfMeasureId(), 2) + ",");
         itemViewHolder.my_hop_type_text_view.setText(item.getName() + ",");
 
-        itemViewHolder.my_hop_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasurePk(), 1) + ",");
+        itemViewHolder.my_hop_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId(), 1) + ",");
 
-        itemViewHolder.my_hop_use_text_view.setText(lookupHopUse(item.getHopsUsePk()) + ",");
-        itemViewHolder.my_hop_form_text_view.setText(lookupHopForm(item.getHopsFormPk()) + ",");
+        itemViewHolder.my_hop_use_text_view.setText(lookupHopUse(item.getHopsUseId()) + ",");
+        itemViewHolder.my_hop_form_text_view.setText(lookupHopForm(item.getHopsFormId()) + ",");
         itemViewHolder.row_hop_alpha_text_view.setText(String.valueOf(item.getAlphaAcidPercentage()) + "%");
     }
 
@@ -87,18 +87,18 @@ public class HopMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.Ho
         return unit.getDescription();
     }
 
-    public void addItemsToAdapter(List<IngredientHop> modelsToAdd) {
+    public void addItemsToAdapter(List<RecipeHop> modelsToAdd) {
         jsonObjects.addAll(modelsToAdd);
         notifyDataSetChanged();
     }
 
-    public IngredientHop getItemAt(int postion) {
+    public RecipeHop getItemAt(int postion) {
         return jsonObjects.get(postion);
     }
 
     public int getPostionByPk(int itemPk) {
-        for (IngredientHop item : jsonObjects) {
-            if (itemPk == item.getIngredientHopsPk()) {
+        for (RecipeHop item : jsonObjects) {
+            if (itemPk == item.getIngredientHopsId()) {
                 return jsonObjects.indexOf(item);
             }
         }

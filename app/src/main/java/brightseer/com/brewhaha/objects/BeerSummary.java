@@ -5,7 +5,7 @@ package brightseer.com.brewhaha.objects;
  */
 public class BeerSummary {
     private String AlcoholByVol;
-    private int BeerSummaryPk;
+    private int BeerSummaryId;
     private String BitternessIbu;
     private String ColorSrm;
     private String FinalGravity;
@@ -15,9 +15,9 @@ public class BeerSummary {
     public BeerSummary() {
     }
 
-    public BeerSummary(String alcoholByVol, int beerSummaryPk, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity,  int yieldByGallon) {
+    public BeerSummary(String alcoholByVol, int beerSummaryId, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, int yieldByGallon) {
         AlcoholByVol = alcoholByVol;
-        BeerSummaryPk = beerSummaryPk;
+        BeerSummaryId = beerSummaryId;
         BitternessIbu = bitternessIbu;
         ColorSrm = colorSrm;
         FinalGravity = finalGravity;
@@ -33,12 +33,12 @@ public class BeerSummary {
         AlcoholByVol = alcoholByVol;
     }
 
-    public int getBeerSummaryPk() {
-        return BeerSummaryPk;
+    public int getBeerSummaryId() {
+        return BeerSummaryId;
     }
 
-    public void setBeerSummaryPk(int beerSummaryPk) {
-        BeerSummaryPk = beerSummaryPk;
+    public void setBeerSummaryId(int beerSummaryId) {
+        BeerSummaryId = beerSummaryId;
     }
 
     public String getBitternessIbu() {

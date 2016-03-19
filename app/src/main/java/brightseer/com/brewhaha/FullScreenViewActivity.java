@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
@@ -23,7 +22,6 @@ import android.widget.TextView;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +30,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.adapter.FullScreenImageAdapter;
 import brightseer.com.brewhaha.helper.TouchImageView;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -40,7 +38,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
     private ArrayList<String> imageUrlList = new ArrayList<String>();
-    List<Image> imageList = new Vector<>();
+    List<RecipeImage> recipeImageList = new Vector<>();
     int position;
     private int imageCount = 0;
     private int mSelectedPageIndex;
@@ -105,12 +103,12 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
                                 NextContentItemId = recipeContent.getNextContentItemId();
                                 recipeTitle = recipeContent.getTitle();
                                 BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
-                                imageList = recipeContent.getImagesMList();
+                                recipeImageList = recipeContent.getImagesMList();
                                 imageUrlList = new ArrayList<String>();
-                                for (Image item : imageList) {
+                                for (RecipeImage item : recipeImageList) {
                                     imageUrlList.add(item.getImageUrl());
                                 }
-                                imageCount = imageList.size();
+                                imageCount = recipeImageList.size();
                                 adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, imageUrlList);
 
                                 viewPager.setAdapter(adapter);
@@ -179,7 +177,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
             getSupportActionBar().setSubtitle(String.valueOf(position + 1) + " of " + String.valueOf(imageCount));
 //            toolbar.setSubtitle(String.valueOf(position + 1) + " of " + String.valueOf(imageCount));
             mSelectedPageIndex = position;
-            String text = imageList.get(position).getCaption();
+            String text = recipeImageList.get(position).getCaption();
             pager_caption_text_view.setText(text);
 
             pager_expand_collapse_image.setVisibility(View.VISIBLE);

@@ -38,8 +38,8 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
 import brightseer.com.brewhaha.adapter.YeastMyRecipeRecycler;
-import brightseer.com.brewhaha.objects.IngredientYeast;
 import brightseer.com.brewhaha.objects.Laboratory;
+import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.objects.Yeast;
 import brightseer.com.brewhaha.repository.DBHelper_Laboratory;
 import brightseer.com.brewhaha.repository.DBHelper_Yeast;
@@ -121,7 +121,7 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<IngredientYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
 
                                          adapter.addItemsToAdapter(ingredient);
                                          addFabListener();
@@ -169,7 +169,7 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
             my_yeast_recycle_view.setLayoutManager(layoutManager);
         }
 
-        List<IngredientYeast> placeHolder = new Vector<>();
+        List<RecipeYeast> placeHolder = new Vector<>();
         adapter = new YeastMyRecipeRecycler(placeHolder, AddYeastFragment.this);
 
         my_yeast_recycle_view.setAdapter(adapter);
@@ -181,10 +181,10 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            IngredientYeast ingredientYeast = adapter.getItemAt(position);
-                            mHeader = ingredientYeast.getName() + ", " + lookupLaboratory(ingredientYeast.getLaboratoryPk()).getName();
+                            RecipeYeast recipeComment = adapter.getItemAt(position);
+                            mHeader = recipeComment.getName() + ", " + lookupLaboratory(recipeComment.getLaboratoryId()).getName();
 
-                            ingredientYeastPk = ingredientYeast.getIngredientYeastPk();
+                            ingredientYeastPk = recipeComment.getIngredientYeastId();
                             listPosition = position;
                             registerForContextMenu(view);
                             getActivity().openContextMenu(view);
@@ -351,15 +351,15 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
         my_yeast_name_edit_text.setHintTextColor(getResources().getColor(R.color.app_gray));
     }
 
-    public void setDialogValues(IngredientYeast selected) {
+    public void setDialogValues(RecipeYeast selected) {
         my_yeast_master_spinner.setEnabled(false);
-        ingredientYeastPk = selected.getIngredientYeastPk();
-        selectedLabPk = selected.getLaboratoryPk();
-        selectedYeastPk = selected.getYeastPk();
+        ingredientYeastPk = selected.getIngredientYeastId();
+        selectedLabPk = selected.getLaboratoryId();
+        selectedYeastPk = selected.getYeastId();
         my_yeast_name_edit_text.setText(String.valueOf(selected.getName()));
         my_yeast_submit_button.setText("Update");
-        my_yeast_master_spinner.setSelection(yeastMasterList.indexOf(lookupYeast(selected.getYeastPk())) + 1);
-        my_yeast_laboratory_spinner.setSelection(laboratoryList.indexOf(lookupLaboratory(selected.getLaboratoryPk())));
+        my_yeast_master_spinner.setSelection(yeastMasterList.indexOf(lookupYeast(selected.getYeastId())) + 1);
+        my_yeast_laboratory_spinner.setSelection(laboratoryList.indexOf(lookupLaboratory(selected.getLaboratoryId())));
     }
 
     private Yeast lookupYeast(int itemPk) {
@@ -396,14 +396,14 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
                                          addYeastDialog.dismiss();
-                                         List<IngredientYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
 
 
-                                         IngredientYeast item = ingredient.get(0);
+                                         RecipeYeast item = ingredient.get(0);
                                          int pos = 0;
 
                                          if (ingredientYeastPk != 0) {
-                                             pos = adapter.getPostionByPk(item.getIngredientYeastPk());
+                                             pos = adapter.getPostionByPk(item.getIngredientYeastId());
                                              adapter.remove(pos);
                                          } else {
                                              pos = adapter.getItemCount();
@@ -485,8 +485,8 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<IngredientYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
-                                         IngredientYeast item = ingredient.get(0);
+                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+                                         RecipeYeast item = ingredient.get(0);
                                          adapter.add(item);
                                      } catch (Exception ex) {
                                          if (BuildConfig.DEBUG) {

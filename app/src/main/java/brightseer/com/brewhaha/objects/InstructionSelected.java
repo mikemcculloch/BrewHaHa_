@@ -10,16 +10,16 @@ public class InstructionSelected {
     @DatabaseField
     private String UserToken;
     @DatabaseField
-    private int ContentItemPk;
+    private int RecipeContentId;
     @DatabaseField
     private int InstructionsId;
 
     public InstructionSelected() {
     }
 
-    public InstructionSelected(String userToken, int contentItemPk, int instructionsId) {
+    public InstructionSelected(String userToken, int recipeContentId, int instructionsId) {
         UserToken = userToken;
-        ContentItemPk = contentItemPk;
+        RecipeContentId = recipeContentId;
         InstructionsId = instructionsId;
     }
 
@@ -31,12 +31,12 @@ public class InstructionSelected {
         UserToken = userToken;
     }
 
-    public int getContentItemPk() {
-        return ContentItemPk;
+    public int getRecipeContentId() {
+        return RecipeContentId;
     }
 
-    public void setContentItemPk(int contentItemPk) {
-        ContentItemPk = contentItemPk;
+    public void setRecipeContentId(int recipeContentId) {
+        RecipeContentId = recipeContentId;
     }
 
     public int getInstructionsId() {

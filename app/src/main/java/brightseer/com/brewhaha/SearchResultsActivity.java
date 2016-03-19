@@ -156,13 +156,13 @@ public class SearchResultsActivity extends BaseActivity {
 //                            try {
 //                                HomeItem homeItem = homeItemList.get(position);
 //                                Intent getNameScreenIntent = null;
-//                                if (homeItem.getItemTypePk() == 1) {
+//                                if (homeItem.getItemTypeId() == 1) {
 //                                    getNameScreenIntent = new Intent(_mContext, RecipeActivity.class);
 //                                }
-//                                if (homeItem.getItemTypePk() == 2) {
+//                                if (homeItem.getItemTypeId() == 2) {
 //                                    getNameScreenIntent = new Intent(_mContext, GridViewActivity.class);
 //                                }
-//                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+//                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getRecipeContentId()));
 //                                getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //
 //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

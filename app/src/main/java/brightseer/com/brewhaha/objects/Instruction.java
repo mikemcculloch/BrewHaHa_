@@ -5,9 +5,9 @@ package brightseer.com.brewhaha.objects;
  */
 public class Instruction {
 
-    private int InstructionPk;
-    private int ContentItemPk;
-    private int UserProfilePk;
+    private int InstructionId;
+    private int RecipeContentId;
+    private int UserProfileId;
     private String Description;
     private int Order;
     private boolean Active;
@@ -16,37 +16,37 @@ public class Instruction {
     }
 
 
-    public Instruction(int instructionPk, int contentItemPk, int userProfilePk, String description, int order, boolean active) {
-        InstructionPk = instructionPk;
-        ContentItemPk = contentItemPk;
-        UserProfilePk = userProfilePk;
+    public Instruction(int instructionId, int recipeContentId, int userProfileId, String description, int order, boolean active) {
+        InstructionId = instructionId;
+        RecipeContentId = recipeContentId;
+        UserProfileId = userProfileId;
         Description = description;
         Order = order;
         Active = active;
     }
 
-    public int getInstructionPk() {
-        return InstructionPk;
+    public int getInstructionId() {
+        return InstructionId;
     }
 
-    public void setInstructionPk(int instructionPk) {
-        InstructionPk = instructionPk;
+    public void setInstructionId(int instructionId) {
+        InstructionId = instructionId;
     }
 
-    public int getContentItemPk() {
-        return ContentItemPk;
+    public int getRecipeContentId() {
+        return RecipeContentId;
     }
 
-    public void setContentItemPk(int contentItemPk) {
-        ContentItemPk = contentItemPk;
+    public void setRecipeContentId(int recipeContentId) {
+        RecipeContentId = recipeContentId;
     }
 
-    public int getUserProfilePk() {
-        return UserProfilePk;
+    public int getUserProfileId() {
+        return UserProfileId;
     }
 
-    public void setUserProfilePk(int userProfilePk) {
-        UserProfilePk = userProfilePk;
+    public void setUserProfileId(int userProfileId) {
+        UserProfileId = userProfileId;
     }
 
     public String getDescription() {
@@ -84,11 +84,11 @@ public class Instruction {
 
         Instruction that = (Instruction) o;
 
-        return !(InstructionPk != 0 ? !String.valueOf(InstructionPk).equals(that.InstructionPk) : that.InstructionPk != 0);
+        return !(InstructionId != 0 ? !String.valueOf(InstructionId).equals(that.InstructionId) : that.InstructionId != 0);
     }
 
     @Override
     public int hashCode() {
-        return InstructionPk != 0 ? InstructionPk : 0;
+        return InstructionId != 0 ? InstructionId : 0;
     }
 }

@@ -15,7 +15,7 @@ import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddGrainsFragment;
 import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.GrainUse;
-import brightseer.com.brewhaha.objects.IngredientGrain;
+import brightseer.com.brewhaha.objects.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 
@@ -23,20 +23,20 @@ import brightseer.com.brewhaha.objects.UnitOfMeasure;
  * Created by Michael McCulloch on 3/2/2015.
  */
 public class GrainMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyRecipeViewHolder> {
-    private List<IngredientGrain> jsonObjects = new Vector<>();
+    private List<RecipeGrain> jsonObjects = new Vector<>();
     private Fragment _fragment;
 
-    public GrainMyRecipeRecycler(List<IngredientGrain> jsonObject, Fragment fragment) {
+    public GrainMyRecipeRecycler(List<RecipeGrain> jsonObject, Fragment fragment) {
         this.jsonObjects = jsonObject;
         _fragment = fragment;
     }
 
-    public void add(IngredientGrain item, int position) {
+    public void add(RecipeGrain item, int position) {
         jsonObjects.add(position, item);
         notifyItemInserted(position);
     }
 
-    public void add(IngredientGrain item) {
+    public void add(RecipeGrain item) {
         jsonObjects.add(item);
         notifyDataSetChanged();
     }
@@ -56,17 +56,17 @@ public class GrainMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
 
     @Override
     public void onBindViewHolder(RecyclerObjects.GrainMyRecipeViewHolder itemViewHolder, int i) {
-        IngredientGrain item = jsonObjects.get(i);
+        RecipeGrain item = jsonObjects.get(i);
         itemViewHolder.my_grain_amount_text_view.setText(String.valueOf(item.getAmount()));
         itemViewHolder.my_grain_description_text_view.setText(item.getName() + ",");
-        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasurePk()) + ",");
+        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId()) + ",");
         if (TextUtils.isEmpty(item.getHexColor())) {
             item.setHexColor("#fee799");
         }
         itemViewHolder.my_grain_color_image_view.setBackgroundColor(Color.parseColor(item.getHexColor()));
 
-        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUsePk()));
-        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryPk()));
+        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
+        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));
     }
 
     @Override
@@ -89,18 +89,18 @@ public class GrainMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
         return unit.getAbbreviation();
     }
 
-    public void addItemsToAdapter(List<IngredientGrain> modelsToAdd) {
+    public void addItemsToAdapter(List<RecipeGrain> modelsToAdd) {
         jsonObjects.addAll(modelsToAdd);
         notifyDataSetChanged();
     }
 
-    public IngredientGrain getItemAt(int postion) {
+    public RecipeGrain getItemAt(int postion) {
         return jsonObjects.get(postion);
     }
 
     public int getPostionByPk(int itemPk) {
-        for (IngredientGrain item : jsonObjects) {
-            if (itemPk == item.getIngredientGrainPk()) {
+        for (RecipeGrain item : jsonObjects) {
+            if (itemPk == item.getIngredientGrainId()) {
                 return jsonObjects.indexOf(item);
             }
         }

@@ -1,9 +1,7 @@
 package brightseer.com.brewhaha.adapter;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +16,14 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.objects.Image;
+import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
  * Created by wooan_000 on 12/16/2014.
  */
 public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.GridImageItemViewHolder> {
-    private List<Image> jsonObjects = new Vector<>();
+    private List<RecipeImage> jsonObjects = new Vector<>();
     private GridViewActivity _activity;
     private boolean _addRecipe;
 
@@ -49,12 +47,12 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
         }
     };
 
-    public GridImagesRecycler(List<Image> jsonObject, GridViewActivity activity) {
+    public GridImagesRecycler(List<RecipeImage> jsonObject, GridViewActivity activity) {
         this.jsonObjects = jsonObject;
         _activity = activity;
     }
 
-    public void add(Image item, int position) {
+    public void add(RecipeImage item, int position) {
         jsonObjects.add(item);
         notifyItemInserted(position);
     }
@@ -64,7 +62,7 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
     }
 
 
-    public void add(Image item) {
+    public void add(RecipeImage item) {
         jsonObjects.add(item);
     }
 
@@ -88,7 +86,7 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
     @Override
     public void onBindViewHolder(RecyclerObjects.GridImageItemViewHolder homeItemViewHolder, int position) {
 //        _fragment.load();
-        Image homeItem = jsonObjects.get(position);
+        RecipeImage homeItem = jsonObjects.get(position);
         final int currentPos = position;
         if (homeItem != null) {
 
@@ -123,7 +121,7 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
         return jsonObjects.size();
     }
 
-    public Image GetItemAt(int position) {
+    public RecipeImage GetItemAt(int position) {
         return jsonObjects.get(position);
     }
 }
