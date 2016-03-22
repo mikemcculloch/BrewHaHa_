@@ -4,17 +4,20 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.transition.ChangeBounds;
 import android.transition.Scene;
 import android.transition.Transition;
@@ -32,6 +35,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.google.android.gms.plus.PlusOneButton;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 
@@ -45,9 +50,12 @@ import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.RecipeImage;
-
-//import com.flipboard.bottomsheet.BottomSheetLayout;
-//import com.flipboard.bottomsheet.commons.MenuSheetView;
+import brightseer.com.brewhaha.objects.RecipeItem;
+import brightseer.com.brewhaha.recipe_fragments.CommentFragment;
+import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
+import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
+import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
+import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
  * Created by wooan on 10/24/2015.
@@ -71,6 +79,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private boolean exitActivity = true, toggleSceneButtons = true, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
+    TextView textview_abv_overview;
+
     //    BottomSheetLayout bottomSheetLayout;
     AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
 
@@ -78,6 +88,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     RecyclerView recycler_view_recipe_images;
     RecipeImageRecycler recipeImageRecycler;
     private List<RecipeImage> recipeImageList = new Vector<>();
+
+    String userToken;
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -88,17 +100,17 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        setupTransistionSlide();
-        setupTransistion();
+//        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_recipe_cards);
 
-            _mContext = this;
+            _mContext = RecipeCardsActivity.this;
             initExtras();
             initRecyclerView();
             initViews();
+            initPrefs();
             loadData();
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,11 +147,15 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-//        if (exitActivity) {
         super.onBackPressed();
-//        } else {
-////            goToSceneCardView(nestedscrollview);
-//        }
+        setResult(adapterPosition);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            finishAfterTransition();
+        } else {
+            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+            finish();
+        }
+
     }
 
     private void initViews() {
@@ -191,30 +207,14 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_comments = (AppCompatButton) findViewById(R.id.card_comments);
             card_comments.setOnClickListener(this);
 
+
+            textview_abv_overview = (TextView) findViewById(R.id.textview_abv_overview);
+            textview_abv_overview.setText("69");
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-//    private void sceneEnter() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            sceneCards = Scene.getSceneForLayout(scene_target,
-//                    R.layout.scene_cards, this);
-//
-//            sceneOverView = Scene.getSceneForLayout(scene_target,
-//                    R.layout.scene_overview, this);
-//
-//            sceneIngredients = Scene.getSceneForLayout(scene_target,
-//                    R.layout.scene_ingredients, this);
-//
-//            sceneDirections = Scene.getSceneForLayout(scene_target,
-//                    R.layout.scene_directions, this);
-//
-//            sceneComments = Scene.getSceneForLayout(scene_target,
-//                    R.layout.scene_comments, this);
-//
-//            sceneCards.enter();
-//        }
-//    }
 
     private void initExtras() {
         Intent activityThatCalled = getIntent();
@@ -226,7 +226,48 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
     }
 
+    private void initPrefs() {
+        userToken = BrewSharedPrefs.getUserToken();
+        if (TextUtils.isEmpty(userToken)) {
+            userToken = "na";
+        }
+    }
+
     private void loadData() {
+        //8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E
+        String contentUrl = Constants.GetRecipeItemUrl + "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E" + "/" + userToken;
+        Ion.with(_mContext)
+                .load(contentUrl)
+                .setHeader("Cache-Control", "No-Cache")
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+
+                                 @Override
+                                 public void onCompleted(Exception e, JsonObject result) {
+                                     try {
+                                         if (result != null) {
+                                             RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
+
+
+//                                             final String test = recipeContent.getRecipeSummary().getAlcoholByVol().toString();
+
+//                                             textview_abv_overview.setText(test);
+
+                                             loadTestImageData();
+                                         }
+                                     } catch (Exception ex) {
+                                         if (BuildConfig.DEBUG) {
+                                             Log.e(Constants.LOG, e.getMessage());
+                                             Log.e(Constants.LOG, ex.getMessage());
+                                         }
+                                     }
+                                 }
+                             }
+
+                );
+    }
+
+    private void loadTestImageData() {
 
         RecipeImage test = new RecipeImage();
         test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
@@ -290,21 +331,11 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-//    public void goToSceneCardView(View view) {
-//        exitActivity = true;
-//        card_comments.setLayoutParams(card_comments.getLayoutParams());
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            sceneId = R.layout.scene_cards;
-//            runCircularReveal(scene_target);
-//        }
-//    }
-
     public void goToSceneOverView(View view) {
         exitActivity = false;
         sceneId = R.layout.scene_overview;
-//        openScene(view);
         moveButton(view);
+
     }
 
     public void goToSceneIngredients(View view) {
@@ -327,165 +358,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 //        openScene(view);
         moveButton(view);
     }
-
-//    private void openScene(final View view) {
-//
-//        DisplayMetrics dm = new DisplayMetrics();
-//        this.getWindowManager().getDefaultDisplay().getMetrics(dm);
-//        int statusBarOffset = dm.heightPixels - scene_target.getMeasuredHeight();
-//
-//        int destinationPos[] = new int[2];
-//
-//        card_overview.getLocationOnScreen(destinationPos);
-//
-//
-//        int originalPos[] = new int[2];
-//        view.getLocationOnScreen(originalPos);
-//
-//        int xDest = destinationPos[0]; //
-////        int xDest = dm.widthPixels / 2;
-////        xDest -= (view.getMeasuredWidth() / 2);
-////        int yDest = dm.heightPixels / 2 - (view.getMeasuredHeight() / 2) - statusBarOffset;
-//
-//        int yDest = statusBarOffset;
-//        final TranslateAnimation animMove = new TranslateAnimation(0, xDest - originalPos[0], 0, yDest - originalPos[1]);
-//        animMove.setDuration(5000);
-////        view.startAnimation(animMove);
-//
-//
-//        // Change layout parameters of button to move it
-//        moveButton();
-//
-//
-////        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-////            float x = view.getX();
-////            float y = view.getY();
-////            AnimatorPath path = new AnimatorPath();
-////            path.moveTo(0, 0);
-////            path.lineTo(xDest - originalPos[0], yDest - originalPos[1]);
-////            path.curveTo(0.17f, .67f, .83f, .67f, xDest - originalPos[0], yDest - originalPos[1]);
-////
-////            final ObjectAnimator objectAnimator = ObjectAnimator.ofObject(this, "card_comments",
-////                    new PathEvaluator(), path.getPoints().toArray());
-////            objectAnimator.setDuration(1000);
-////
-////            objectAnimator.start();
-////
-//////            float x = view.getX();
-//////            float y = view.getY();
-//////            Path path = new Path();
-//////
-//////            path.moveTo(x + 0, y + 0);
-//////            path.lineTo(x + 100, y + 150);
-//////            path.lineTo(x + 400, y + 150);
-//////            path.lineTo(x + 0, y + 0);
-//////            ObjectAnimator objectAnimator =
-//////                    null;
-//////
-//////            objectAnimator = ObjectAnimator.ofFloat(view, View.X,
-//////                    View.Y, path);
-//////            objectAnimator.setInterpolator(new PathInterpolator(0.17f, .67f, .83f, .67f));
-//////            objectAnimator.setDuration(3000);
-//////            objectAnimator.start();
-////        }
-//
-//
-////        final int defaultWidth = view.getWidth();
-//
-////        ResizeAnimation resizeAnimation = new ResizeAnimation(
-////                view,
-////                view.getHeight(),
-////                view.getHeight(),
-////                view.getWidth(),
-////                scene_target.getMeasuredWidth(),
-////                5000
-////        );
-////        resizeAnimation.setFillAfter(false);
-////        anim.setFillAfter(false);
-//
-////        AnimationSet animationSet = new AnimationSet(true);
-////        animationSet.addAnimation(anim);
-////        animationSet.addAnimation(resizeAnimation);
-////        resizeAnimation.setAnimationListener(new Animation.AnimationListener() {
-////            @Override
-////            public void onAnimationStart(Animation animation) {
-////
-////            }
-////
-////            @Override
-////            public void onAnimationEnd(Animation animation) {
-////                view.getLayoutParams().width = defaultWidth;
-////            }
-////
-////            @Override
-////            public void onAnimationRepeat(Animation animation) {
-////
-////            }
-////        });
-//
-////        view.startAnimation(anim);
-//
-////        view.startAnimation(anim);
-//
-////        anim.setAnimationListener(new Animation.AnimationListener() {
-////            @Override
-////            public void onAnimationStart(Animation animation) {
-////
-////            }
-////
-////            @Override
-////            public void onAnimationEnd(Animation animation) {
-////                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-////                    Transition ts = new android.transition.ChangeBounds();
-//////                    ts.setDuration(500);
-////                    ts.setInterpolator(new AccelerateDecelerateInterpolator());
-////
-////                    if (sceneId == R.layout.scene_overview) {
-////                        sceneOverView = Scene.getSceneForLayout(
-////                                (ViewGroup) findViewById(R.id.scene_target),
-////                                sceneId,
-////                                RecipeCardsActivity.this);
-////
-////                        TransitionManager.go(sceneOverView, ts);
-////                    }
-////                    if (sceneId == R.layout.scene_ingredients) {
-////                        sceneIngredients = Scene.getSceneForLayout(
-////                                (ViewGroup) findViewById(R.id.scene_target),
-////                                sceneId,
-////                                RecipeCardsActivity.this);
-////
-////                        TransitionManager.go(sceneIngredients, ts);
-////                    }
-////
-////                    if (sceneId == R.layout.scene_directions) {
-////                        sceneDirections = Scene.getSceneForLayout(
-////                                (ViewGroup) findViewById(R.id.scene_target),
-////                                sceneId,
-////                                RecipeCardsActivity.this);
-////
-////                        TransitionManager.go(sceneDirections, ts);
-////                    }
-////
-////                    if (sceneId == R.layout.scene_comments) {
-////                        sceneComments = Scene.getSceneForLayout(
-////                                (ViewGroup) findViewById(R.id.scene_target),
-////                                sceneId,
-////                                RecipeCardsActivity.this);
-////
-////                        TransitionManager.go(sceneComments, ts);
-////                    }
-////
-////                }
-////            }
-////
-////            @Override
-////            public void onAnimationRepeat(Animation animation) {
-////
-////            }
-////        });
-//
-//    }nk'l
-// ,;,;,;,;m/
 
     /**
      * Toggles button location on click between top-left and bottom-right
@@ -576,51 +448,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         view.setTranslationY(newLoc.mY);
     }
 
-    private void runCircularReveal(View v) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Rect bounds = new Rect();
-            v.getDrawingRect(bounds);
-            int centerX = bounds.centerX();
-            int centerY = bounds.centerY();
-            int finalRadius = Math.max(bounds.width(), bounds.height());
-
-            Animator anim = ViewAnimationUtils.createCircularReveal(scene_target, centerX, centerY, 0f, finalRadius);
-//            anim.setDuration(500);
-            anim.setInterpolator(new AccelerateInterpolator());
-            anim.addListener(animateIn);
-            anim.start();
-        }
-    }
-
-    private Animator.AnimatorListener animateIn = new Animator.AnimatorListener() {
-        @Override
-        public void onAnimationStart(Animator animation) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                TransitionManager.go(
-                        Scene.getSceneForLayout(
-                                (ViewGroup) findViewById(R.id.scene_target),
-                                sceneId,
-                                RecipeCardsActivity.this), new ChangeBounds());
-
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationCancel(Animator animation) {
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animator animation) {
-
-        }
-    };
-
     private Animator.AnimatorListener animatorSceneEnter = new Animator.AnimatorListener() {
 
         @Override
@@ -631,47 +458,30 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         @Override
         public void onAnimationEnd(Animator animation) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                Transition ts = new android.transition.ChangeBounds();
-                ts.setInterpolator(new AccelerateDecelerateInterpolator());
                 View view = null;
+                int randomColor = Color.argb(255, (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+                Fragment fragment = null;
                 if (sceneId == R.layout.scene_overview) {
                     view = card_overview;
-                    sceneOverView = Scene.getSceneForLayout(
-                            (ViewGroup) findViewById(R.id.scene_target),
-                            sceneId,
-                            RecipeCardsActivity.this);
-
-                    TransitionManager.go(sceneOverView, ts);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor);
                 }
+
                 if (sceneId == R.layout.scene_ingredients) {
                     view = card_ingredients;
-                    sceneIngredients = Scene.getSceneForLayout(
-                            (ViewGroup) findViewById(R.id.scene_target),
-                            sceneId,
-                            RecipeCardsActivity.this);
-
-                    TransitionManager.go(sceneIngredients, ts);
+                    fragment = IngredientFragment.newInstance(20, 20, randomColor);
                 }
 
                 if (sceneId == R.layout.scene_directions) {
                     view = card_directions;
-                    sceneDirections = Scene.getSceneForLayout(
-                            (ViewGroup) findViewById(R.id.scene_target),
-                            sceneId,
-                            RecipeCardsActivity.this);
-
-                    TransitionManager.go(sceneDirections, ts);
+                    fragment = DirectionFragment.newInstance(20, 20, randomColor);
                 }
 
                 if (sceneId == R.layout.scene_comments) {
                     view = card_comments;
-                    sceneComments = Scene.getSceneForLayout(
-                            (ViewGroup) findViewById(R.id.scene_target),
-                            sceneId,
-                            RecipeCardsActivity.this);
-
-                    TransitionManager.go(sceneComments, ts);
+                    fragment = CommentFragment.newInstance(20, 20, randomColor);
                 }
+
+                getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
                 view.setVisibility(View.INVISIBLE);
 
                 toggleSceneButtons = true;

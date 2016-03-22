@@ -29,6 +29,7 @@ import brightseer.com.brewhaha.objects.Instruction;
 import brightseer.com.brewhaha.objects.KeyValuepair;
 import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.objects.RecipeContent;
+import brightseer.com.brewhaha.objects.RecipeItem;
 import brightseer.com.brewhaha.objects.RecipeType;
 import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.objects.SrmColorKey;
@@ -38,6 +39,31 @@ import brightseer.com.brewhaha.objects.UserProfile;
 import brightseer.com.brewhaha.objects.Yeast;
 
 public class JsonToObject {
+    public static RecipeItem JsonToRecipeItem(JsonObject result) {
+        RecipeItem recipeItem = new RecipeItem();
+        try {
+            GsonBuilder gsonb = new GsonBuilder();
+            Gson gson = gsonb.setDateFormat("s").create();
+
+            recipeItem = gson.fromJson(result, RecipeItem.class);
+
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
+
+        return recipeItem;
+    }
+
+
+
+
+
+
+
+
+
     public static RecipeContent JsonToRecipeContent(JsonObject result) {
         RecipeContent recipeContent = new RecipeContent();
         try {

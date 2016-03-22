@@ -16,7 +16,9 @@ public class Constants {
     public static String urlBrewHahaContent = "http://www.brewhaha.beer/";
 
     public static String rest_url_base = "http://wcf.brewhaha.beer/brewhaha.svc/";
-    public static String rest_url_upload_base = "http://wcf.brewhaha.beer/Fileuploader.svc/";
+    public static String fileuploaderServices = "http://wcf.brewhaha.beer/Fileuploader.svc/";
+
+    public static String recipeServics = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
 
     public static String wcfGetHomeContentListByLastId = rest_url_base + "GetHomeContentListByLastId/";
     public static String wcfGetBatchSizeList = rest_url_base + "GetBatchSizeList"; //No Params
@@ -32,7 +34,7 @@ public class Constants {
     public static String wcfAddUpdateFavorite = rest_url_base + "AddUpdateFavorite/";
     public static String wcfGetHomeContentFromSearch = rest_url_base + "GetHomeContentFromSearch/";
     public static String wcfGetSearchResultsCount = rest_url_base + "GetSearchResultsCount/";
-    //    public static String wcfUploadImage = rest_url_upload_base + "Upload/";
+    //    public static String wcfUploadImage = fileuploaderServices + "Upload/";
     public static String wcfGetUserProfile = rest_url_base + "GetUserProfile/";
     public static String wcfAddUpdateComment = rest_url_base + "AddUpdateComment/";
     public static String wcfGetRefreshDate = rest_url_base + "GetRefreshDate"; //No Params
@@ -64,7 +66,7 @@ public class Constants {
     public static String wcfRemoveInstruction = rest_url_base + "RemoveInstruction/"; //RemoveInstruction/{instructionPk}/{contentItemPk}/{active}
 
     public static String wcfGetRecipeImages = rest_url_base + "GetRecipeImages/";
-    public static String wcfUploadContentImages = rest_url_upload_base + "UploadContentImages/";
+    public static String wcfUploadContentImages = fileuploaderServices + "UploadContentImages/";
     public static String wcfRemoveContentImage = rest_url_base + "RemoveContentImage/"; //{contentToken}/{imagePk}
 
     public static String wcfGetAllPendingApproval = rest_url_base + "GetAllPendingApproval/"; //GetAllPendingApproval/{userToken}
@@ -79,6 +81,20 @@ public class Constants {
     public static String wcfInstructionOrderUpdate = rest_url_base + "InstructionOrderUpdate/";
 
     public static String wcfPlusValidation = rest_url_base + "PlusValidation"; //(string googlePlusId, string fullName, string emailAddress, string userImageUrl, string plusProfile)
+
+
+
+    public static String GetRecipeItemUrl = recipeServics + "GetRecipeByGuid/";
+
+
+
+
+
+
+
+
+
+
 
     public static String DATABASE_NAME = "brewhaha.db";
     public static final String table_HomeItem = "HomeItem";

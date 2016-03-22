@@ -95,7 +95,7 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/recycler_view_recipe_images"
         android:clipChildren="false"
         android:fillViewport="true">
@@ -106,7 +106,6 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/quarter_margin"
             android:clipChildren="false">
-
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>
