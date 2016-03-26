@@ -117,11 +117,11 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
                                          selectedBatchSizePk = recipeContent.getBatchSizePk();
                                          activeRecipe = recipeContent.isApproved();
                                          submittedRecipe = recipeContent.isSubmitted();
-                                         abvProgress = Float.parseFloat(recipeContent.getBeerSummaryM().getAlcoholByVol());
-                                         ogProgress = Float.parseFloat(recipeContent.getBeerSummaryM().getOriginalGravity());
-                                         fgProgress = Float.parseFloat(recipeContent.getBeerSummaryM().getFinalGravity());
-                                         srmProgress = Float.parseFloat(recipeContent.getBeerSummaryM().getColorSrm());
-                                         ibuProgress = Float.parseFloat(recipeContent.getBeerSummaryM().getBitternessIbu());
+                                         abvProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getAlcoholByVol());
+                                         ogProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getOriginalGravity());
+                                         fgProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getFinalGravity());
+                                         srmProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getColorSrm());
+                                         ibuProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getBitternessIbu());
 
                                          my_recipe_og_value_text_view.setText(String.valueOf(ogProgress));
                                          my_recipe_srm_value_text_view.setText(String.valueOf(srmProgress));

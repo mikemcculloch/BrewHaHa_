@@ -1,9 +1,11 @@
 package brightseer.com.brewhaha.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by mccul_000 on 10/26/2014.
  */
-public class Comment {
+public class Comment  implements Serializable {
     private int CommentPk;
     private int ContentItemPk;
     private String AuthorName;

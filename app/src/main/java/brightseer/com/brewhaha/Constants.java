@@ -229,11 +229,19 @@ public class Constants {
     public static final String exYeastPk = "yeastPk";
     public static final int NUM_OF_COLUMNS = 3;
 
-    public static final int sceneCards = 0;
     public static final int sceneDirections = 1;
     public static final int sceneIngredients = 2;
     public static final int sceneOverview = 3;
     public static final int sceneComments = 4;
+
+    public static final String bundleRecipeGrains = "recipeGrains";
+    public static final String bundleRecipeHops = "recipeHops";
+    public static final String bundleRecipeYeasts = "recipeYeasts";
+    public static final String bundleRecipeSummary = "recipeSummary";
+    public static final String bundleRecipeComments = "recipeComents";
+    public static final String bundleRecipeInstructions = "recipeInstructions";
+    public static final String bundleRecipeImages = "recipeImages";
+
 
     public static final int ANIMATION_DELAY = 300;
 

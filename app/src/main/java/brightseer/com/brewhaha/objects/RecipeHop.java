@@ -1,9 +1,11 @@
 package brightseer.com.brewhaha.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Michael McCulloch on 3/2/2015.
  */
-public class RecipeHop {
+public class RecipeHop  implements Serializable {
     private int IngredientHopsId;
     private int RecipeContentId;
     private int HopsUseId;

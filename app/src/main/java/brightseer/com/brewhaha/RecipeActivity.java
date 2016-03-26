@@ -55,7 +55,7 @@ import brightseer.com.brewhaha.adapter.InstructionAdapter;
 import brightseer.com.brewhaha.adapter.SimpleViewPagerAdapter;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.BatchSize;
-import brightseer.com.brewhaha.objects.BeerSummary;
+import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
@@ -221,7 +221,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                                              }
                                              summary_header_batch_size_text_view.setText(batch_text);
 
-                                             addSummaryItems(recipeContent.getBeerSummaryM());
+                                             addSummaryItems(recipeContent.getRecipeSummaryM());
                                              addIngredientItems(recipeContent.getIngredientMList());
                                              addRecipeSteps(recipeContent.getInstructions());
                                              comments = recipeContent.getCommentMList();
@@ -288,16 +288,16 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         inflater.inflate(R.menu.menu_comment_buttons, menu);
     }
 
-    public void addSummaryItems(BeerSummary beerSummary) {
+    public void addSummaryItems(RecipeSummary recipeSummary) {
         try {
-            summary_srm_text_view.setText(beerSummary.getColorSrm() + " SRM");
-//            int ibu = Integer.parseInt(beerSummary.getBitternessIbu());
+            summary_srm_text_view.setText(recipeSummary.getColorSrm() + " SRM");
+//            int ibu = Integer.parseInt(recipeSummary.getBitternessIbu());
 //            String ibuog =
-////                    summary_ibuog_text_view.setText(beerSummary());
-            summary_abv_text_view.setText(beerSummary.getAlcoholByVol());
-            summary_ibu_text_view.setText(beerSummary.getBitternessIbu() + " IBU");
-            summary_fg_text_view.setText(beerSummary.getFinalGravity() + " FG");
-            summary_og_text_view.setText(beerSummary.getOriginalGravity() + " OG");
+////                    summary_ibuog_text_view.setText(recipeSummary());
+            summary_abv_text_view.setText(recipeSummary.getAlcoholByVol());
+            summary_ibu_text_view.setText(recipeSummary.getBitternessIbu() + " IBU");
+            summary_fg_text_view.setText(recipeSummary.getFinalGravity() + " FG");
+            summary_og_text_view.setText(recipeSummary.getOriginalGravity() + " OG");
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());

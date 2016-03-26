@@ -1,9 +1,12 @@
 package brightseer.com.brewhaha.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by Michael McCulloch on 10/26/2014.
  */
-public class BeerSummary {
+
+public class RecipeSummary implements Serializable {
     private String AlcoholByVol;
     private int BeerSummaryId;
     private String BitternessIbu;
@@ -12,10 +15,10 @@ public class BeerSummary {
     private String OriginalGravity;
     private int YieldByGallon;
 
-    public BeerSummary() {
+    public RecipeSummary() {
     }
 
-    public BeerSummary(String alcoholByVol, int beerSummaryId, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, int yieldByGallon) {
+    public RecipeSummary(String alcoholByVol, int beerSummaryId, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, int yieldByGallon) {
         AlcoholByVol = alcoholByVol;
         BeerSummaryId = beerSummaryId;
         BitternessIbu = bitternessIbu;

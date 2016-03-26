@@ -5,7 +5,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,17 +17,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.transition.ChangeBounds;
-import android.transition.Scene;
 import android.transition.Transition;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -40,6 +34,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
@@ -49,8 +44,14 @@ import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
+import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeGrain;
+import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeItem;
+import brightseer.com.brewhaha.objects.RecipeSummary;
+import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.recipe_fragments.CommentFragment;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -63,10 +64,6 @@ import brightseer.com.brewhaha.repository.JsonToObject;
 public class RecipeCardsActivity extends BaseActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private FloatingActionButton fabEdit;
-    private Scene sceneOverView;
-    private Scene sceneIngredients;
-    private Scene sceneDirections;
-    private Scene sceneComments;
     private int sceneId, sceneIdLast = 0;
 
     private int imageCount = 0, contentItemPk;
@@ -76,20 +73,29 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private NestedScrollView nestedscrollview;
     private ViewGroup scene_target;
-    private boolean exitActivity = true, toggleSceneButtons = true, curveDir = true;
+    private boolean exitActivity = true, toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
-    TextView textview_abv_overview;
+    private TextView textview_abv_overview;
 
     //    BottomSheetLayout bottomSheetLayout;
-    AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
+    private AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
 
 
-    RecyclerView recycler_view_recipe_images;
-    RecipeImageRecycler recipeImageRecycler;
+    private RecyclerView recycler_view_recipe_images;
+    private RecipeImageRecycler recipeImageRecycler;
     private List<RecipeImage> recipeImageList = new Vector<>();
 
-    String userToken;
+    private String userToken;
+
+    private RecipeSummary recipeSummary = new RecipeSummary();
+    private List<RecipeGrain> recipeGrains = new Vector<>();
+    private List<RecipeHop> recipeHops = new Vector<>();
+    private List<RecipeYeast> recipeYeasts = new Vector<>();
+    private List<Comment> recipeComents = new Vector<>();
+    private List<Instruction> recipeInstructions = new Vector<>();
+    private List<RecipeImage> recipeImages = new Vector<>();
+
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -134,7 +140,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.card_comments:
                 if (toggleSceneButtons) {
-                    sceneId = R.layout.scene_comments;
                     goToSceneComments(v);
                 }
                 break;
@@ -234,7 +239,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadData() {
-        //8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E
         String contentUrl = Constants.GetRecipeItemUrl + "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E" + "/" + userToken;
         Ion.with(_mContext)
                 .load(contentUrl)
@@ -248,12 +252,19 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                          if (result != null) {
                                              RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
 
+                                             recipeGrains = recipeContent.getRecipeGrains();
+                                             recipeHops = recipeContent.getRecipeHops();
+                                             recipeYeasts = recipeContent.getRecipeYeasts();
+                                             recipeSummary = recipeContent.getRecipeSummary();
+                                             recipeComents = recipeContent.getComments();
+                                             recipeInstructions = recipeContent.getInstructions();
+                                             recipeImages = recipeContent.getRecipeImage();
+                                             if (recipeImages == null)
+                                                 recipeImages = new Vector<>();
 
-//                                             final String test = recipeContent.getRecipeSummary().getAlcoholByVol().toString();
-
-//                                             textview_abv_overview.setText(test);
-
-                                             loadTestImageData();
+                                             loadRecipeImages();
+                                             goToSceneOverView(findViewById(R.id.card_overview));
+                                             toggleSceneButtons = true;
                                          }
                                      } catch (Exception ex) {
                                          if (BuildConfig.DEBUG) {
@@ -267,23 +278,22 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 );
     }
 
-    private void loadTestImageData() {
-
+    private void loadRecipeImages() {
         RecipeImage test = new RecipeImage();
         test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
-        recipeImageList.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
+        recipeImages.add(test);
 
-        for (RecipeImage item : recipeImageList) {
-            recipeImageRecycler.add(item, recipeImageList.size() - 1);
+        for (RecipeImage item : recipeImages) {
+            recipeImageRecycler.add(item, recipeImages.size() - 1);
         }
     }
 
@@ -327,35 +337,29 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     }
                 })
         );
-
-
     }
 
     public void goToSceneOverView(View view) {
         exitActivity = false;
-        sceneId = R.layout.scene_overview;
+        sceneId = Constants.sceneOverview;
         moveButton(view);
-
     }
 
     public void goToSceneIngredients(View view) {
         exitActivity = false;
-        sceneId = R.layout.scene_ingredients;
-//        openScene(view);
+        sceneId = Constants.sceneIngredients;
         moveButton(view);
     }
 
     public void goToSceneDirections(View view) {
         exitActivity = false;
-        sceneId = R.layout.scene_directions;
-//        openScene(view);
+        sceneId = Constants.sceneDirections;
         moveButton(view);
     }
 
     public void goToSceneComments(View view) {
         exitActivity = false;
-        sceneId = R.layout.scene_comments;
-//        openScene(view);
+        sceneId = Constants.sceneComments;
         moveButton(view);
     }
 
@@ -431,16 +435,16 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
      */
     public void setButtonLoc(PathPoint newLoc) {
         View view = null;
-        if (sceneId == R.layout.scene_overview) {
+        if (sceneId == Constants.sceneOverview) {
             view = findViewById(R.id.card_overview);
         }
-        if (sceneId == R.layout.scene_ingredients) {
+        if (sceneId == Constants.sceneIngredients) {
             view = findViewById(R.id.card_ingredients);
         }
-        if (sceneId == R.layout.scene_directions) {
+        if (sceneId == Constants.sceneDirections) {
             view = findViewById(R.id.card_directions);
         }
-        if (sceneId == R.layout.scene_comments) {
+        if (sceneId == Constants.sceneComments) {
             view = findViewById(R.id.card_comments);
         }
 
@@ -450,9 +454,34 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private Animator.AnimatorListener animatorSceneEnter = new Animator.AnimatorListener() {
 
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onAnimationStart(Animator animation) {
-
+//            View view = null;
+//            if (sceneId == R.layout.scene_comments) {
+//                view = card_comments;
+//
+////                view.setBackground(getDrawable(R.drawable.round_button));
+//
+////
+////                ChangeBounds changeBounds = new ChangeBounds();
+////                changeBounds.setResizeClip(true);
+////                changeBounds.setDuration(500);
+////                TransitionValues tv = new TransitionValues();
+////                changeBounds.createAnimator(view, tv, tv);
+////
+////view.startAnimation(changeBounds);
+////                ScaleAnimation scale = new ScaleAnimation((float) 1.0, (float) 1.5, (float) 1.0, (float) 1.5);
+////                scale.setFillAfter(false);
+////                scale.setDuration(1000);
+////                view.startAnimation(scale);
+//
+//
+////                RotateAnimation r = new RotateAnimation(0f, -90f,200,200); // HERE
+//////                r.setStartOffset(1000);
+////                r.setDuration(500);
+////                view.startAnimation(r);
+//            }
         }
 
         @Override
@@ -461,27 +490,28 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 View view = null;
                 int randomColor = Color.argb(255, (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
                 Fragment fragment = null;
-                if (sceneId == R.layout.scene_overview) {
+                if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary);
                 }
 
-                if (sceneId == R.layout.scene_ingredients) {
+                if (sceneId == Constants.sceneIngredients) {
                     view = card_ingredients;
-                    fragment = IngredientFragment.newInstance(20, 20, randomColor);
+                    fragment = IngredientFragment.newInstance(20, 20, randomColor, recipeGrains, recipeHops, recipeYeasts);
                 }
 
-                if (sceneId == R.layout.scene_directions) {
+                if (sceneId == Constants.sceneDirections) {
                     view = card_directions;
-                    fragment = DirectionFragment.newInstance(20, 20, randomColor);
+                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeInstructions);
                 }
 
-                if (sceneId == R.layout.scene_comments) {
+                if (sceneId == Constants.sceneComments) {
                     view = card_comments;
-                    fragment = CommentFragment.newInstance(20, 20, randomColor);
+                    fragment = CommentFragment.newInstance(20, 20, randomColor, recipeComents);
                 }
 
                 getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
+
                 view.setVisibility(View.INVISIBLE);
 
                 toggleSceneButtons = true;
@@ -593,17 +623,17 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.full_margin));
             resetLayouts();
 
-            if (sceneId == R.layout.scene_overview) {
+            if (sceneId == Constants.sceneOverview) {
             }
-            if (sceneId == R.layout.scene_ingredients) {
+            if (sceneId == Constants.sceneIngredients) {
                 mainLayoutParam.removeRule(RelativeLayout.END_OF);
                 mainLayoutParam.removeRule(RelativeLayout.RIGHT_OF);
             }
-            if (sceneId == R.layout.scene_directions) {
+            if (sceneId == Constants.sceneDirections) {
                 mainLayoutParam.removeRule(RelativeLayout.LEFT_OF);
                 mainLayoutParam.removeRule(RelativeLayout.START_OF);
             }
-            if (sceneId == R.layout.scene_comments) {
+            if (sceneId == Constants.sceneComments) {
                 mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_END);
                 mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             }
@@ -618,7 +648,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void resetLayouts() {
         LayoutParams mainLayoutParam;
-        if (sceneIdLast == R.layout.scene_overview) {
+        if (sceneIdLast == Constants.sceneOverview) {
             mainLayoutParam = (LayoutParams) card_overview.getLayoutParams();
             mainLayoutParam.removeRule(RelativeLayout.BELOW);
             mainLayoutParam.setMarginStart(0);
@@ -627,7 +657,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_overview.setVisibility(View.VISIBLE);
 //            curveMotion(card_overview, false);
         }
-        if (sceneIdLast == R.layout.scene_ingredients) {
+        if (sceneIdLast == Constants.sceneIngredients) {
             mainLayoutParam = (LayoutParams) card_ingredients.getLayoutParams();
 
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
@@ -642,7 +672,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_ingredients.setVisibility(View.VISIBLE);
         }
 
-        if (sceneIdLast == R.layout.scene_directions) {
+        if (sceneIdLast == Constants.sceneDirections) {
             mainLayoutParam = (LayoutParams) card_directions.getLayoutParams();
 
 
@@ -657,7 +687,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_directions.setVisibility(View.VISIBLE);
         }
 
-        if (sceneIdLast == R.layout.scene_comments) {
+        if (sceneIdLast == Constants.sceneComments) {
             card_comments.setVisibility(View.VISIBLE);
             mainLayoutParam = (LayoutParams) card_comments.getLayoutParams();
 

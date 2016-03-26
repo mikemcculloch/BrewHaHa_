@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_yellow"
     android:clipChildren="false"
     android:orientation="vertical">
 
@@ -13,76 +12,6 @@
         android:layout_marginRight="@dimen/full_margin"
         android:clipChildren="false"
         android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
-
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
 
         <android.support.v7.widget.AppCompatButton
             android:layout_width="wrap_content"

@@ -28,7 +28,7 @@ public class BaseRecipeFragment extends Fragment {
 
                 Animator reveal = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, radius);
                 reveal.setInterpolator(new DecelerateInterpolator(2f));
-                reveal.setDuration(1000);
+                reveal.setDuration(500);
                 reveal.start();
             }
         });

@@ -10,7 +10,7 @@ public class RecipeItem {
     private String UserImageUrl;
     private List<RecipeImage> recipeImage;
     private int UserProfileId;
-    private BeerSummary RecipeSummary;
+    private brightseer.com.brewhaha.objects.RecipeSummary RecipeSummary;
     private int BatchSizeId;
     private int StyleId;
     private String StyleDescription;
@@ -30,7 +30,7 @@ public class RecipeItem {
     public RecipeItem() {
     }
 
-    public RecipeItem(int recipeContentId, String title, String description, String author, String userImageUrl, List<RecipeImage> recipeImage, int userProfileId, BeerSummary recipeSummary, int batchSizeId, int styleId, String styleDescription, List<RecipeGrain> recipeGrains, List<RecipeHop> recipeHops, List<RecipeYeast> recipeYeasts, List<Comment> comments, List<Instruction> instructions, boolean favorite, String token, boolean approved, boolean submitted, int nextRecipeContentId, String dateModified, String dateCreated) {
+    public RecipeItem(int recipeContentId, String title, String description, String author, String userImageUrl, List<RecipeImage> recipeImage, int userProfileId, brightseer.com.brewhaha.objects.RecipeSummary recipeSummary, int batchSizeId, int styleId, String styleDescription, List<RecipeGrain> recipeGrains, List<RecipeHop> recipeHops, List<RecipeYeast> recipeYeasts, List<Comment> comments, List<Instruction> instructions, boolean favorite, String token, boolean approved, boolean submitted, int nextRecipeContentId, String dateModified, String dateCreated) {
         RecipeContentId = recipeContentId;
         Title = title;
         Description = description;
@@ -112,11 +112,11 @@ public class RecipeItem {
         UserProfileId = userProfileId;
     }
 
-    public BeerSummary getRecipeSummary() {
+    public brightseer.com.brewhaha.objects.RecipeSummary getRecipeSummary() {
         return RecipeSummary;
     }
 
-    public void setRecipeSummary(BeerSummary recipeSummary) {
+    public void setRecipeSummary(brightseer.com.brewhaha.objects.RecipeSummary recipeSummary) {
         RecipeSummary = recipeSummary;
     }
 

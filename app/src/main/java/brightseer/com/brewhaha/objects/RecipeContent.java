@@ -6,7 +6,7 @@ public class RecipeContent {
     private int ContentItemPk;
     private String Author;
     private int BatchSizePk;
-    private BeerSummary BeerSummaryM;
+    private RecipeSummary recipeSummaryM;
     private List<Comment> CommentMList;
     private int CommentCount;
     private String Description;
@@ -35,11 +35,11 @@ public class RecipeContent {
     public RecipeContent() {
     }
 
-    public RecipeContent(int contentItemPk, String author, int batchSizePk, BeerSummary beerSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<RecipeImage> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<Instruction> instructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
+    public RecipeContent(int contentItemPk, String author, int batchSizePk, RecipeSummary recipeSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<RecipeImage> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<Instruction> instructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
         ContentItemPk = contentItemPk;
         Author = author;
         BatchSizePk = batchSizePk;
-        BeerSummaryM = beerSummaryM;
+        this.recipeSummaryM = recipeSummaryM;
         CommentMList = commentMList;
         CommentCount = commentCount;
         Description = description;
@@ -90,12 +90,12 @@ public class RecipeContent {
         BatchSizePk = batchSizePk;
     }
 
-    public BeerSummary getBeerSummaryM() {
-        return BeerSummaryM;
+    public RecipeSummary getRecipeSummaryM() {
+        return recipeSummaryM;
     }
 
-    public void setBeerSummaryM(BeerSummary beerSummaryM) {
-        BeerSummaryM = beerSummaryM;
+    public void setRecipeSummaryM(RecipeSummary recipeSummaryM) {
+        this.recipeSummaryM = recipeSummaryM;
     }
 
     public List<Comment> getCommentMList() {
