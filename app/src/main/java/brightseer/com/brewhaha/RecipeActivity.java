@@ -51,7 +51,7 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.adapter.CommentAdapter;
 import brightseer.com.brewhaha.adapter.IngredientAdapter;
-import brightseer.com.brewhaha.adapter.InstructionAdapter;
+import brightseer.com.brewhaha.adapter.InstructionAdapter_Legacy;
 import brightseer.com.brewhaha.adapter.SimpleViewPagerAdapter;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.BatchSize;
@@ -336,8 +336,8 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 
     public void addRecipeSteps(List<Instruction> instructions) {
         try {
-            InstructionAdapter instructionAdapter = new InstructionAdapter(this, R.layout.row_instruction, instructions, RecipeActivity.this, Integer.parseInt(responseContentItemPk));
-            instructions_list_view.setAdapter(instructionAdapter);
+            InstructionAdapter_Legacy instructionAdapterLegacy = new InstructionAdapter_Legacy(this, R.layout.row_instruction, instructions, RecipeActivity.this, Integer.parseInt(responseContentItemPk));
+            instructions_list_view.setAdapter(instructionAdapterLegacy);
             setListViewHeightBasedOnChildren(instructions_list_view);
 
         } catch (Exception e) {

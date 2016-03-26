@@ -23,14 +23,14 @@ import brightseer.com.brewhaha.objects.Instruction;
 import brightseer.com.brewhaha.objects.InstructionSelected;
 import brightseer.com.brewhaha.repository.DBHelper_InstructionSelected;
 
-public class InstructionAdapter extends ArrayAdapter<Instruction> implements CompoundButton.OnCheckedChangeListener {
+public class InstructionAdapter_Legacy extends ArrayAdapter<Instruction> implements CompoundButton.OnCheckedChangeListener {
     private Context _context;
     Activity _Activity;
     private DBHelper_InstructionSelected repoSelected;
     private List<InstructionSelected> _appDataList = new Vector<>();
     private int _ContentPk;
 
-    public InstructionAdapter(Context context, int resourceId, List<Instruction> objects, RecipeActivity activity, int contentPk) {
+    public InstructionAdapter_Legacy(Context context, int resourceId, List<Instruction> objects, RecipeActivity activity, int contentPk) {
         super(context, resourceId, objects);
         _Activity = activity;
         _context = context;

@@ -15,10 +15,15 @@ public class Constants {
     public static String urlRecipePlaceHolder = "http://wcf.brewhaha.beer/images/img_recipe_placeholder.jpg";
     public static String urlBrewHahaContent = "http://www.brewhaha.beer/";
 
-    public static String rest_url_base = "http://wcf.brewhaha.beer/brewhaha.svc/";
-    public static String fileuploaderServices = "http://wcf.brewhaha.beer/Fileuploader.svc/";
+    public static String rest_url_base = "http://beerservices.brewhaha.beer/brewhaha.svc/";
+    public static String fileuploaderServices = "http://beerservices.brewhaha.beer/Fileuploader.svc/";
 
     public static String recipeServics = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
+
+
+
+
+
 
     public static String wcfGetHomeContentListByLastId = rest_url_base + "GetHomeContentListByLastId/";
     public static String wcfGetBatchSizeList = rest_url_base + "GetBatchSizeList"; //No Params

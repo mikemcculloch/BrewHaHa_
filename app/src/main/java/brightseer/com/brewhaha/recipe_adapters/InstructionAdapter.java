@@ -16,17 +16,15 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.AddInstructionsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Instruction;
-import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 
 /**
  * An adapter with drag and drop implementation for some Instructions
  */
-public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.InstructionMyRecipeViewHolder>
-        implements DraggableItemAdapter<RecyclerObjects.InstructionMyRecipeViewHolder> {
+public class InstructionAdapter extends RecyclerView.Adapter< InstructionViewHolder.Instruction>
+        implements DraggableItemAdapter<InstructionViewHolder.Instruction> {
 
     private static final String TAG = InstructionAdapter.class.getSimpleName();
     private static final int MODEL_OBJECT = 1;
@@ -57,12 +55,12 @@ public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.Ins
     }
 
     @Override
-    public RecyclerObjects.InstructionMyRecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public InstructionViewHolder.Instruction onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         try {
             View itemView = LayoutInflater.
                     from(viewGroup.getContext()).
                     inflate(R.layout.recipe_direction_row, viewGroup, false);
-            return new RecyclerObjects.InstructionMyRecipeViewHolder(itemView, viewType);
+            return new InstructionViewHolder.Instruction(itemView, viewType);
         } catch (Exception e) {
             String test = e.getMessage();
         }
@@ -70,17 +68,17 @@ public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.Ins
     }
 
     @Override
-    public void onBindViewHolder(RecyclerObjects.InstructionMyRecipeViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(InstructionViewHolder.Instruction viewHolder, final int position) {
         // set background resource (target view ID: container)
         int dragState = viewHolder.getDragStateFlags();
 
         final Instruction modelObject = instructionList.get(position);
         final View thisItemView = viewHolder.itemView;
 
-        viewHolder.my_instruction_text_text_view.setText(modelObject.getDescription());
-        viewHolder.positionTextView.setText("" + (modelObject.getOrder()));
+        viewHolder._my_instruction_text_text_view.setText(modelObject.getDescription());
+        viewHolder._position.setText("" + (modelObject.getOrder()));
 
-        viewHolder.viewHolderListener = new RecyclerObjects.InstructionMyRecipeViewHolder.ViewHolderListener() {
+        viewHolder._viewHolderListener = new InstructionViewHolder.Instruction.ViewHolderListener() {
             @Override
             public void onSelectionClicked() {
                 adapterListener.onModelObjectClicked(modelObject, position, thisItemView);
@@ -96,7 +94,7 @@ public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.Ins
             } else {
                 bgResId = R.drawable.bg_swipe_item_neutral;
             }
-            viewHolder.mContainer.setBackgroundResource(bgResId);
+            viewHolder._container.setBackgroundResource(bgResId);
         }
     }
 
@@ -152,13 +150,13 @@ public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.Ins
     }
 
     @Override
-    public boolean onCheckCanStartDrag(RecyclerObjects.InstructionMyRecipeViewHolder holder, int position, int x, int y) {
+    public boolean onCheckCanStartDrag(InstructionViewHolder.Instruction holder, int position, int x, int y) {
         if (holder.viewType != MODEL_OBJECT) {
             return false;
         }
         // x, y --- relative from the itemView's top-left
-        final View containerView = holder.mContainer;
-        final View dragHandleView = holder.mDragHandle;
+        final View containerView = holder._container;
+        final View dragHandleView = holder._drag_handle;
 
         final int offsetX = containerView.getLeft() + (int) (ViewCompat.getTranslationX(containerView) + 0.5f);
         final int offsetY = containerView.getTop() + (int) (ViewCompat.getTranslationY(containerView) + 0.5f);
@@ -167,7 +165,7 @@ public class InstructionAdapter extends RecyclerView.Adapter<RecyclerObjects.Ins
     }
 
     @Override
-    public ItemDraggableRange onGetItemDraggableRange(RecyclerObjects.InstructionMyRecipeViewHolder instructionMyRecipeViewHolder, int i) {
+    public ItemDraggableRange onGetItemDraggableRange(InstructionViewHolder.Instruction instructionMyRecipeViewHolder, int i) {
         return null;
     }
 
