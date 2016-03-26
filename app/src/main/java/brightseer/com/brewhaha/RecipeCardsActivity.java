@@ -86,7 +86,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private RecipeImageRecycler recipeImageRecycler;
     private List<RecipeImage> recipeImageList = new Vector<>();
 
-    private String userToken;
+    private String userToken, recipeToken;
 
     private RecipeSummary recipeSummary = new RecipeSummary();
     private List<RecipeGrain> recipeGrains = new Vector<>();
@@ -95,7 +95,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private List<Comment> recipeComents = new Vector<>();
     private List<Instruction> recipeInstructions = new Vector<>();
     private List<RecipeImage> recipeImages = new Vector<>();
-
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
@@ -110,7 +109,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_recipe_cards);
-
             _mContext = RecipeCardsActivity.this;
             initExtras();
             initRecyclerView();
@@ -223,6 +221,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private void initExtras() {
         Intent activityThatCalled = getIntent();
+
+        recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
+        recipeToken = "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E";
+
         contentItemPk = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
         adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
@@ -239,7 +241,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadData() {
-        String contentUrl = Constants.GetRecipeItemUrl + "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E" + "/" + userToken;
+        String contentUrl = Constants.GetRecipeItemUrl + recipeToken + "/" + userToken;
         Ion.with(_mContext)
                 .load(contentUrl)
                 .setHeader("Cache-Control", "No-Cache")
@@ -502,7 +504,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                 if (sceneId == Constants.sceneDirections) {
                     view = card_directions;
-                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeInstructions);
+                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeInstructions, recipeToken);
                 }
 
                 if (sceneId == Constants.sceneComments) {

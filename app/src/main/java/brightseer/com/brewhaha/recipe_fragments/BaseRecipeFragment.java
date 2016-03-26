@@ -34,4 +34,10 @@ public class BaseRecipeFragment extends Fragment {
         });
         return view;
     }
+
+
+
+    public boolean supportsViewElevation() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+    }
 }

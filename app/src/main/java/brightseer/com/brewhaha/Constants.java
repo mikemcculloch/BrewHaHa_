@@ -209,6 +209,9 @@ public class Constants {
     public static final String exDifficultyValue = "DifficultyValue";
     public static final String exSearchValue = "SearchValue";
     public static final String exContentItemPk = "ContentItemPk";
+
+    public static final String exRecipeToken = "recipeToken";
+
     public static final String exForceUpdate = "ForceUpdate";
     public static final String exImageUrlList = "ImageUrlList";
     public static final String exRecipePreview = "RecipePreview";
