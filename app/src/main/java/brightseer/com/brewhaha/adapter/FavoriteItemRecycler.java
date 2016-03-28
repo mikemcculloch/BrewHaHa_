@@ -18,14 +18,14 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.FavoriteItemsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
  * Created by wooan_000 on 12/18/2014.
  */
 public class FavoriteItemRecycler extends RecyclerView.Adapter<RecyclerObjects.HomeItemViewHolder> {
-    private List<HomeItem> jsonObjects = new Vector<>();
+    private List<MainFeedItem> jsonObjects = new Vector<>();
     private FavoriteItemsFragment _fragment;
 
     int cornerRadius = 200;
@@ -48,12 +48,12 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<RecyclerObjects.H
         }
     };
 
-    public FavoriteItemRecycler(List<HomeItem> jsonObject, FavoriteItemsFragment fragment) {
+    public FavoriteItemRecycler(List<MainFeedItem> jsonObject, FavoriteItemsFragment fragment) {
         this.jsonObjects = jsonObject;
         _fragment = fragment;
     }
 
-    public void add(HomeItem item, int position) {
+    public void add(MainFeedItem item, int position) {
         jsonObjects.add(item);
         notifyItemInserted(position);
     }
@@ -74,25 +74,25 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<RecyclerObjects.H
 
     @Override
     public void onBindViewHolder(RecyclerObjects.HomeItemViewHolder homeItemViewHolder, int i) {
-        HomeItem homeItem = jsonObjects.get(i);
-        if (homeItem != null) {
-            homeItemViewHolder.vTitle.setText(homeItem.getTitle());
-            homeItemViewHolder.vAuthor.setText(homeItem.getAuthor());
-            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(homeItem.getTimestamp()));
+        MainFeedItem mainFeedItem = jsonObjects.get(i);
+        if (mainFeedItem != null) {
+            homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());
+            homeItemViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
 //            }
             Ion.with(homeItemViewHolder.vimage)
                     .placeholder(R.mipmap.ic_beercap)
                     .centerCrop()
-                    .load(homeItem.getImageUrl());
+                    .load(mainFeedItem.getImageUrl());
 
             Ion.with(homeItemViewHolder.vuser_image_view)
                     .placeholder(R.drawable.ic_person_black_24dp)
                     .error(R.drawable.ic_person_black_24dp)
                     .centerCrop()
                     .transform(trans)
-                    .load(homeItem.getUserImageUrl());
+                    .load(mainFeedItem.getUserImageUrl());
 
-            String URL = Constants.urlBrewHahaContent + homeItem.getTitle().replace(" ", "-");
+            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
             homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
         }
         _fragment.load();

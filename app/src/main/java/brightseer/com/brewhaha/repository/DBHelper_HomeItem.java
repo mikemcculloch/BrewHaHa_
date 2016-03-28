@@ -14,13 +14,13 @@ import java.sql.SQLException;
 import java.util.List;
 
 import brightseer.com.brewhaha.Constants;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 
 public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
     private final String TAG = this.getClass().getName();
     private static DBHelper_HomeItem _helperInstance;
     private Context _context;
-    private Dao<HomeItem, Integer> homeItem = null;
+    private Dao<MainFeedItem, Integer> homeItem = null;
 
     public static DBHelper_HomeItem getInstance(Context context) {
         if (_helperInstance == null)
@@ -37,7 +37,7 @@ public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, HomeItem.class);
+            TableUtils.createTable(connectionSource, MainFeedItem.class);
         } catch (Exception e) {
             Log.e(TAG, "could not create table HomeItemM", e);
         }
@@ -46,7 +46,7 @@ public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i2) {
         try {
-            TableUtils.dropTable(connectionSource, HomeItem.class, false);
+            TableUtils.dropTable(connectionSource, MainFeedItem.class, false);
         } catch (SQLException e) {
             Log.e(TAG, "could not drop table HomeItemM onUpgrade", e);
         }
@@ -60,18 +60,18 @@ public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
     }
 
     ///INSERT
-    public void insertHomeItemM(List<HomeItem> homeItemList) throws SQLException {
+    public void insertHomeItemM(List<MainFeedItem> mainFeedItemList) throws SQLException {
         OrmLiteSqliteOpenHelper dbHelper = DBHelper_HomeItem.getInstance(_context);
-        Dao<HomeItem, Integer> daoHomeItem = dbHelper.getDao(HomeItem.class);
-        for (HomeItem item : homeItemList) {
+        Dao<MainFeedItem, Integer> daoHomeItem = dbHelper.getDao(MainFeedItem.class);
+        for (MainFeedItem item : mainFeedItemList) {
             daoHomeItem.create(item);
         }
         dbHelper.close();
     }
 
-    public List<HomeItem> getHomeItemList() {
+    public List<MainFeedItem> getHomeItemList() {
         try {
-            QueryBuilder<HomeItem, Integer> queryBuilder = getHomeItemDataDao().queryBuilder();
+            QueryBuilder<MainFeedItem, Integer> queryBuilder = getHomeItemDataDao().queryBuilder();
             queryBuilder.orderBy(Constants.field_ContentItemPk, false);
             return queryBuilder.query();
         } catch (SQLException e) {
@@ -80,16 +80,16 @@ public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Dao<HomeItem, Integer> getHomeItemDataDao() throws SQLException {
+    public Dao<MainFeedItem, Integer> getHomeItemDataDao() throws SQLException {
         if (homeItem == null) {
-            homeItem = getDao(HomeItem.class);
+            homeItem = getDao(MainFeedItem.class);
         }
         return homeItem;
     }
 
     public int getHomeItemCount() throws SQLException {
-        Dao<HomeItem, Integer> homeItem = getHomeItemDataDao();
-        List<HomeItem> list = homeItem.queryForAll();
+        Dao<MainFeedItem, Integer> homeItem = getHomeItemDataDao();
+        List<MainFeedItem> list = homeItem.queryForAll();
         return list.size();
     }
 

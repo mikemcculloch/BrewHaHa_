@@ -18,14 +18,14 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.HomeFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
  * Created by wooan_000 on 12/16/2014.
  */
-public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeItemViewHolder> {
-    private List<HomeItem> jsonObjects = new Vector<>();
+public class MainFeedAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeItemViewHolder> {
+    private List<MainFeedItem> mainFeedItems = new Vector<>();
     private HomeFragment _fragment;
 
     Transform trans = new Transform() {
@@ -48,13 +48,13 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
         }
     };
 
-    public HomeItemAdapter(List<HomeItem> jsonObject, HomeFragment fragment) {
-        this.jsonObjects = jsonObject;
+    public MainFeedAdapter(List<MainFeedItem> jsonObject, HomeFragment fragment) {
+        this.mainFeedItems = jsonObject;
         _fragment = fragment;
     }
 
-    public void add(HomeItem item, int position) {
-        jsonObjects.add(item);
+    public void add(MainFeedItem item, int position) {
+        mainFeedItems.add(item);
         notifyItemInserted(position);
     }
 
@@ -63,7 +63,7 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
     }
 
     public void clear() {
-        jsonObjects.clear();
+        mainFeedItems.clear();
         notifyDataSetChanged();
     }
 
@@ -78,26 +78,26 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
     @Override
     public void onBindViewHolder(RecyclerObjects.HomeItemViewHolder homeItemViewHolder, int position) {
 //        _fragment.load();
-        HomeItem homeItem = jsonObjects.get(position);
+        MainFeedItem mainFeedItem = mainFeedItems.get(position);
         final int currentPos = position;
-        if (homeItem != null) {
-            homeItemViewHolder.vTitle.setText(homeItem.getTitle());
-            homeItemViewHolder.vAuthor.setText(homeItem.getAuthor());
-            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(homeItem.getTimestamp()));
+        if (mainFeedItem != null) {
+            homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());
+            homeItemViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
 
             Ion.with(homeItemViewHolder.vimage)
                     .placeholder(R.mipmap.ic_beercap)
                     .centerCrop()
-                    .load(homeItem.getImageUrl());
+                    .load(mainFeedItem.getImageUrl());
 
             Ion.with(homeItemViewHolder.vuser_image_view)
                     .placeholder(R.drawable.ic_person_black_24dp)
                     .error(R.drawable.ic_person_black_24dp)
                     .centerCrop()
                     .transform(trans)
-                    .load(homeItem.getUserImageUrl());
+                    .load(mainFeedItem.getUserImageUrl());
 
-            String URL = Constants.urlBrewHahaContent + homeItem.getTitle().replace(" ", "-");
+            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
             homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
 
             homeItemViewHolder.vCardView.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +111,11 @@ public class HomeItemAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
 
     @Override
     public int getItemCount() {
-        return jsonObjects.size();
+        return mainFeedItems.size();
+    }
+
+    public MainFeedItem getItemAt(int position) {
+        return mainFeedItems.get(position);
     }
 
 

@@ -19,18 +19,18 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.InstructionSelected;
 import brightseer.com.brewhaha.repository.DBHelper_InstructionSelected;
 
-public class InstructionAdapter_Legacy extends ArrayAdapter<Instruction> implements CompoundButton.OnCheckedChangeListener {
+public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> implements CompoundButton.OnCheckedChangeListener {
     private Context _context;
     Activity _Activity;
     private DBHelper_InstructionSelected repoSelected;
     private List<InstructionSelected> _appDataList = new Vector<>();
     private int _ContentPk;
 
-    public InstructionAdapter_Legacy(Context context, int resourceId, List<Instruction> objects, RecipeActivity activity, int contentPk) {
+    public InstructionAdapter_Legacy(Context context, int resourceId, List<RecipeInstruction> objects, RecipeActivity activity, int contentPk) {
         super(context, resourceId, objects);
         _Activity = activity;
         _context = context;
@@ -49,7 +49,7 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<Instruction> impleme
         LayoutInflater theInflater = LayoutInflater.from(getContext());
         View theView = theInflater.inflate(R.layout.row_instruction, parent, false);
         try {
-            Instruction item = getItem(position);
+            RecipeInstruction item = getItem(position);
             ViewHolder viewHolder = new ViewHolder();
             viewHolder.comment_item_author = (TextView) theView.findViewById(R.id.instruction_order);
             viewHolder.comment_item_author.setText(String.valueOf(item.getOrder()));
@@ -81,16 +81,16 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<Instruction> impleme
         try {
             if (buttonView.isShown()) {
                 int position = Integer.parseInt(buttonView.getTag().toString());
-                Instruction instructionItem = getItem(position);
+                RecipeInstruction recipeInstructionItem = getItem(position);
 
                 if (isChecked) {
                     InstructionSelected newItem = new InstructionSelected();
                     newItem.setUserToken(BrewSharedPrefs.getUserToken());
-                    newItem.setRecipeContentId(instructionItem.getRecipeContentId());
-                    newItem.setInstructionsId(instructionItem.getInstructionId());
+                    newItem.setRecipeContentId(recipeInstructionItem.getRecipeContentId());
+                    newItem.setInstructionsId(recipeInstructionItem.getInstructionId());
                     repoSelected.insertInstructionSelected(newItem);
                 } else {
-                    repoSelected.deleteInstructionSelectedRecord(instructionItem.getRecipeContentId(), instructionItem.getInstructionId());
+                    repoSelected.deleteInstructionSelectedRecord(recipeInstructionItem.getRecipeContentId(), recipeInstructionItem.getInstructionId());
                 }
             }
         } catch (Exception e) {

@@ -18,10 +18,7 @@ public class Constants {
     public static String rest_url_base = "http://beerservices.brewhaha.beer/brewhaha.svc/";
     public static String fileuploaderServices = "http://beerservices.brewhaha.beer/Fileuploader.svc/";
 
-    public static String recipeServics = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
-
-
-
+    public static String recipeServices = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
 
 
 
@@ -83,18 +80,17 @@ public class Constants {
     public static String wcfCopyYeast = rest_url_base + "CopyYeast/";
     public static String wcfCopyInstruction = rest_url_base + "CopyInstruction/";
 
-    public static String wcfInstructionOrderUpdate = rest_url_base + "InstructionOrderUpdate/";
+//    public static String wcfInstructionOrderUpdate = rest_url_base + "InstructionOrderUpdate/";
 
     public static String wcfPlusValidation = rest_url_base + "PlusValidation"; //(string googlePlusId, string fullName, string emailAddress, string userImageUrl, string plusProfile)
 
 
 
-    public static String GetRecipeItemUrl = recipeServics + "GetRecipeByGuid/";
 
 
-
-
-
+    public static String GetRecipeItemUrl = recipeServices + "GetRecipeByGuid/";
+    public static String GetMainFeed = recipeServices + "GetMainFeed/";
+    public static String UpdateInstructions = recipeServices + "UpdateInstructions"; //POST
 
 
 
@@ -102,7 +98,7 @@ public class Constants {
 
 
     public static String DATABASE_NAME = "brewhaha.db";
-    public static final String table_HomeItem = "HomeItem";
+    public static final String table_HomeItem = "MainFeedItem";
     public static final String field_ContentItemPk = "ContentItemPk";
 
     public static String DATABASE_NAME_BatchSize = "brewhaha.db.batchsize";

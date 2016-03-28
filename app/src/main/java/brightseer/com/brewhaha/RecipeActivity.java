@@ -59,7 +59,7 @@ import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
 import brightseer.com.brewhaha.repository.JsonToObject;
@@ -223,7 +223,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 
                                              addSummaryItems(recipeContent.getRecipeSummaryM());
                                              addIngredientItems(recipeContent.getIngredientMList());
-                                             addRecipeSteps(recipeContent.getInstructions());
+                                             addRecipeSteps(recipeContent.getRecipeInstructions());
                                              comments = recipeContent.getCommentMList();
                                              addComments(comments);
                                              addImages(recipeContent.getImagesMList());
@@ -334,9 +334,9 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public void addRecipeSteps(List<Instruction> instructions) {
+    public void addRecipeSteps(List<RecipeInstruction> recipeInstructions) {
         try {
-            InstructionAdapter_Legacy instructionAdapterLegacy = new InstructionAdapter_Legacy(this, R.layout.row_instruction, instructions, RecipeActivity.this, Integer.parseInt(responseContentItemPk));
+            InstructionAdapter_Legacy instructionAdapterLegacy = new InstructionAdapter_Legacy(this, R.layout.row_instruction, recipeInstructions, RecipeActivity.this, Integer.parseInt(responseContentItemPk));
             instructions_list_view.setAdapter(instructionAdapterLegacy);
             setListViewHeightBasedOnChildren(instructions_list_view);
 

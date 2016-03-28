@@ -25,7 +25,7 @@ public class RecipeContent {
     private int UserProfilePk;
     private boolean Favorite;
     private String Token;
-    private List<Instruction> Instructions;
+    private List<RecipeInstruction> recipeInstructions;
     private String UserImageUrl;
     private int TotalLikes;
     private int NextContentItemId;
@@ -35,7 +35,7 @@ public class RecipeContent {
     public RecipeContent() {
     }
 
-    public RecipeContent(int contentItemPk, String author, int batchSizePk, RecipeSummary recipeSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<RecipeImage> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<Instruction> instructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
+    public RecipeContent(int contentItemPk, String author, int batchSizePk, RecipeSummary recipeSummaryM, List<Comment> commentMList, int commentCount, String description, String difficultyDescription, int difficultyPk, List<RecipeImage> imagesMList, List<Ingredient> ingredientMList, int itemTypePk, String lastUpdatedTimestamp, String recipeDescription, int recipeTypePk, String styleDescription, int stylePk, String timestamp, String title, int userProfilePk, boolean favorite, String token, List<RecipeInstruction> recipeInstructions, String userImageUrl, int totalLikes, int nextContentItemId, boolean approved, boolean submitted) {
         ContentItemPk = contentItemPk;
         Author = author;
         BatchSizePk = batchSizePk;
@@ -58,7 +58,7 @@ public class RecipeContent {
         UserProfilePk = userProfilePk;
         Favorite = favorite;
         Token = token;
-        Instructions = instructions;
+        this.recipeInstructions = recipeInstructions;
         UserImageUrl = userImageUrl;
         TotalLikes = totalLikes;
         NextContentItemId = nextContentItemId;
@@ -242,12 +242,12 @@ public class RecipeContent {
         Token = token;
     }
 
-    public List<Instruction> getInstructions() {
-        return Instructions;
+    public List<RecipeInstruction> getRecipeInstructions() {
+        return recipeInstructions;
     }
 
-    public void setInstructions(List<Instruction> instructions) {
-        Instructions = instructions;
+    public void setRecipeInstructions(List<RecipeInstruction> recipeInstructions) {
+        this.recipeInstructions = recipeInstructions;
     }
 
     public String getUserImageUrl() {

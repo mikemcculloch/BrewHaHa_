@@ -38,8 +38,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.InstructionDraggableRecyclerAdapter;
-import brightseer.com.brewhaha.helper.CustomRecyclerView;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 //import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -55,9 +54,9 @@ public class AddInstructionsFragment extends BaseFragment {
     private int selectedInstructionPk = 0, selectedPosition = 0;
     public Future<JsonArray> ionLoadInstruction, ionUpdateInstructions, ionCopyInstruction;
     public Future<String> ionDeleteInstruction, ionOrderUpdate;
-    private CustomRecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private String mHeader = "";
-    private Instruction selectedInstruction;
+    private RecipeInstruction selectedRecipeInstruction;
     private boolean isContextOpen = false;
 
     public AddInstructionsFragment() {
@@ -90,7 +89,7 @@ public class AddInstructionsFragment extends BaseFragment {
         recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recylerViewLayoutManager.scrollToPosition(0);
 
-        recyclerView = (CustomRecyclerView) rootView.findViewById(R.id.my_instruction_recycle_view);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.my_instruction_recycle_view);
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
         // Touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
@@ -104,7 +103,7 @@ public class AddInstructionsFragment extends BaseFragment {
 
 //        recyclerViewDragDropManager.setInitiateOnLongPress(true);
 
-        List<Instruction> placeHolder = new Vector<>();
+        List<RecipeInstruction> placeHolder = new Vector<>();
         instructionDraggableRecyclerAdapter = new InstructionDraggableRecyclerAdapter(placeHolder, AddInstructionsFragment.this);
 
         instructionDraggableRecyclerAdapter.setAdapterListener(new InstructionDraggableRecyclerAdapter.AdapterListener() {
@@ -119,13 +118,13 @@ public class AddInstructionsFragment extends BaseFragment {
             }
 
             @Override
-            public void onModelObjectSwiped(Instruction modelObject) {
+            public void onModelObjectSwiped(RecipeInstruction modelObject) {
             }
 
             @Override
-            public void onModelObjectClicked(Instruction modelObject, int position, View view) {
+            public void onModelObjectClicked(RecipeInstruction modelObject, int position, View view) {
                 resetDialogValues();
-                selectedInstruction = modelObject;
+                selectedRecipeInstruction = modelObject;
 
                 int getLength = modelObject.getDescription().length();
                 if (modelObject.getDescription().length() > 30) {
@@ -169,9 +168,9 @@ public class AddInstructionsFragment extends BaseFragment {
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
                                          instructionDraggableRecyclerAdapter.clear();
-                                         List<Instruction> instruction = JsonToObject.JsonToInstructionList(result);
+                                         List<RecipeInstruction> recipeInstruction = JsonToObject.JsonToInstructionList(result);
 
-                                         instructionDraggableRecyclerAdapter.addItemsToAdapter(instruction);
+                                         instructionDraggableRecyclerAdapter.addItemsToAdapter(recipeInstruction);
 
                                          addFabListener();
                                      } catch (Exception ex) {
@@ -199,7 +198,7 @@ public class AddInstructionsFragment extends BaseFragment {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        setDialogValues(selectedInstruction);
+        setDialogValues(selectedRecipeInstruction);
         switch (item.getItemId()) {
             case R.id.menu_instruction_button_delete:
                 if (instructionDraggableRecyclerAdapter.getItemCount() > 1) {
@@ -287,7 +286,7 @@ public class AddInstructionsFragment extends BaseFragment {
         selectedPosition = instructionDraggableRecyclerAdapter.getItemCount() + 1;
     }
 
-    public void setDialogValues(Instruction selected) {
+    public void setDialogValues(RecipeInstruction selected) {
         if (selected != null) {
             selectedInstructionPk = selected.getInstructionId();
             my_instruction_name_edit_text.setText(selected.getDescription());
@@ -309,12 +308,12 @@ public class AddInstructionsFragment extends BaseFragment {
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<Instruction> instructions = JsonToObject.JsonToInstructionList(result);
+                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
                                          if (selectedInstructionPk != 0) {
                                              instructionDraggableRecyclerAdapter.remove(selectedPosition - 1);
                                          }
 
-                                         Instruction item = instructions.get(0);
+                                         RecipeInstruction item = recipeInstructions.get(0);
                                          instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
                                          instructionDraggableRecyclerAdapter.RefreshOrder(false);
                                          addInstructionDialog.dismiss();
@@ -365,13 +364,13 @@ public class AddInstructionsFragment extends BaseFragment {
 
     }
 
-    public void UpdateOrder(List<Instruction> newOrderList) {
+    public void UpdateOrder(List<RecipeInstruction> newOrderList) {
         Gson test = new Gson();
         JsonElement element = test.toJsonTree(newOrderList);
         json = new JsonObject();
-        json.add("instructionMList", element);
+        json.add("recipeInstructions", element);
 
-        String url = Constants.wcfInstructionOrderUpdate + contentToken;
+        String url = Constants.UpdateInstructions;
         ionOrderUpdate = Ion.with(_fContext.getApplicationContext())
                 .load(url)
                 .addHeader("Content-Type", "application/json")
@@ -396,8 +395,8 @@ public class AddInstructionsFragment extends BaseFragment {
                                  @Override
                                  public void onCompleted(Exception e, JsonArray result) {
                                      try {
-                                         List<Instruction> instructions = JsonToObject.JsonToInstructionList(result);
-                                         Instruction item = instructions.get(0);
+                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
+                                         RecipeInstruction item = recipeInstructions.get(0);
                                          instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
                                          instructionDraggableRecyclerAdapter.RefreshOrder(true);
                                      } catch (Exception ex) {

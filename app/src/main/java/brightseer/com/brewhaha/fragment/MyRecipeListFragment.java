@@ -30,7 +30,7 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.AddRecipeRecycler;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 import brightseer.com.brewhaha.swipedismiss.OnItemClickListener;
 import brightseer.com.brewhaha.swipedismiss.SwipeToDismissTouchListener;
@@ -46,11 +46,11 @@ public class MyRecipeListFragment extends BaseFragment {
     //    private SwipeRefreshLayout mSwipeRefreshLayout;
     private SwipeToDismissTouchListener<RecyclerViewAdapter> swipeTouchListener;
     private RecyclerView recycle_add_recipe_view;
-    private List<HomeItem> homeItemList = new Vector<>();
+    private List<MainFeedItem> mainFeedItemList = new Vector<>();
     private AddRecipeRecycler adapter;
     private String userToken;
     //    private FloatingActionButton fab;
-    private HomeItem itemRemoveMe;
+    private MainFeedItem itemRemoveMe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class MyRecipeListFragment extends BaseFragment {
 //            @Override
 //            public void onRefresh() {
 //                recycle_add_recipe_view.setVisibility(View.VISIBLE);
-//                homeItemList = new Vector<HomeItem>();
+//                mainFeedItemList = new Vector<MainFeedItem>();
 //                adapter.clear();
 //                load();
 //            }
@@ -99,10 +99,10 @@ public class MyRecipeListFragment extends BaseFragment {
             return;
 
         String url = Constants.wcfGetUserContentByLastId + "0/" + userToken;
-        if (homeItemList != null) {
-            if (homeItemList.size() > 0) {
-                HomeItem homeItem = homeItemList.get(homeItemList.size() - 1);
-                url = Constants.wcfGetUserContentByLastId + String.valueOf(homeItem.getContentItemPk()) + "/" + userToken;
+        if (mainFeedItemList != null) {
+            if (mainFeedItemList.size() > 0) {
+                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
+                url = Constants.wcfGetUserContentByLastId + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + userToken;
             }
         }
         loading = Ion.with(_fContext)
@@ -116,10 +116,10 @@ public class MyRecipeListFragment extends BaseFragment {
 //                            mSwipeRefreshLayout.setRefreshing(false);
                             dialogProgress.dismiss();
                             if (jsonArray != null) {
-                                List<HomeItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
-                                for (HomeItem item : resultsList) {
-                                    homeItemList.add(item);
-                                    adapter.add(item, homeItemList.size() - 1);
+                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+                                for (MainFeedItem item : resultsList) {
+                                    mainFeedItemList.add(item);
+                                    adapter.add(item, mainFeedItemList.size() - 1);
                                 }
                             }
 //                            addFabListener();
@@ -174,9 +174,9 @@ public class MyRecipeListFragment extends BaseFragment {
 
     private void RemoveRecipe(final int position) {
         try {
-            itemRemoveMe = homeItemList.get(position);
+            itemRemoveMe = mainFeedItemList.get(position);
             adapter.remove(itemRemoveMe, position);
-            homeItemList.remove(position);
+            mainFeedItemList.remove(position);
             RemoveFromDB();
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -229,7 +229,7 @@ public class MyRecipeListFragment extends BaseFragment {
             layoutManager.scrollToPosition(0);
             recycle_add_recipe_view.setLayoutManager(layoutManager);
         }
-        List<HomeItem> placeHolder = new Vector<>();
+        List<MainFeedItem> placeHolder = new Vector<>();
         adapter = new AddRecipeRecycler(placeHolder, MyRecipeListFragment.this);
 
         recycle_add_recipe_view.setAdapter(adapter);
@@ -241,7 +241,7 @@ public class MyRecipeListFragment extends BaseFragment {
                         new SwipeToDismissTouchListener.DismissCallbacks() {
                             @Override
                             public boolean canDismiss(int position) {
-                                return !homeItemList.get(position).isApproved();
+                                return !mainFeedItemList.get(position).isApproved();
                             }
 
                             @Override
@@ -276,14 +276,14 @@ public class MyRecipeListFragment extends BaseFragment {
 
     private void openContent(int position) {
         try {
-            HomeItem homeItem = homeItemList.get(position);
-            if (homeItem.getItemTypePk() == 1) {
-                contentToken = homeItem.getToken();
-                StartAddUpdate(String.valueOf(homeItem.getContentItemPk()));
+            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
+            if (mainFeedItem.getItemTypeId() == 1) {
+                contentToken = mainFeedItem.getToken();
+                StartAddUpdate(String.valueOf(mainFeedItem.getContentItemPk()));
             }
-            if (homeItem.getItemTypePk() == 2) {
+            if (mainFeedItem.getItemTypeId() == 2) {
                 Intent getNameScreenIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
-                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
                 getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

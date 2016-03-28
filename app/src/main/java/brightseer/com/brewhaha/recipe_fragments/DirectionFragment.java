@@ -27,9 +27,8 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.adapter.InstructionDraggableRecyclerAdapter;
-import brightseer.com.brewhaha.helper.CustomRecyclerView;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.RecipeCardsActivity;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.recipe_adapters.InstructionAdapter;
 
 /**
@@ -37,24 +36,24 @@ import brightseer.com.brewhaha.recipe_adapters.InstructionAdapter;
  */
 public class DirectionFragment extends BaseRecipeFragment {
     private View rootView;
-    private List<Instruction> recipeInstructions = new Vector<>();
+    private List<RecipeInstruction> recipeRecipeInstructions = new Vector<>();
     private String contentToken;
 
     private InstructionAdapter instructionAdapter;
     private RecyclerView recyclerView;
-    private Instruction selectedInstruction;
+    private RecipeInstruction selectedRecipeInstruction;
     public Future<String> ionOrderUpdate;
 
 
     public DirectionFragment() {
     }
 
-    public static DirectionFragment newInstance(int centerX, int centerY, int color, List<Instruction> instructions, String _contentToken) {
+    public static DirectionFragment newInstance(int centerX, int centerY, int color, List<RecipeInstruction> recipeInstructions, String _contentToken) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
-        args.putSerializable(Constants.bundleRecipeInstructions, (Serializable) instructions);
+        args.putSerializable(Constants.bundleRecipeInstructions, (Serializable) recipeInstructions);
 
         args.putString(Constants.spContentToken, _contentToken);
 
@@ -84,7 +83,8 @@ public class DirectionFragment extends BaseRecipeFragment {
     }
 
     private void ReadBundle() {
-        recipeInstructions = (List<Instruction>) getArguments().getSerializable(Constants.bundleRecipeInstructions);
+        recipeRecipeInstructions = (List<RecipeInstruction>) getArguments().getSerializable(Constants.bundleRecipeInstructions);
+        contentToken = getArguments().getString(Constants.spContentToken);
     }
 
     private void initRecyclerView() {
@@ -104,7 +104,7 @@ public class DirectionFragment extends BaseRecipeFragment {
         recyclerViewDragDropManager.setDraggingItemShadowDrawable(
                 (NinePatchDrawable) getResources().getDrawable(R.drawable.material_shadow_z39));
 
-        instructionAdapter = new InstructionAdapter(recipeInstructions, DirectionFragment.this);
+        instructionAdapter = new InstructionAdapter(recipeRecipeInstructions, DirectionFragment.this);
         instructionAdapter.setAdapterListener(new InstructionAdapter.AdapterListener() {
 
             @Override
@@ -117,13 +117,13 @@ public class DirectionFragment extends BaseRecipeFragment {
             }
 
             @Override
-            public void onModelObjectSwiped(Instruction modelObject) {
+            public void onModelObjectSwiped(RecipeInstruction modelObject) {
             }
 
             @Override
-            public void onModelObjectClicked(Instruction modelObject, int position, View view) {
+            public void onModelObjectClicked(RecipeInstruction modelObject, int position, View view) {
 //                resetDialogValues();
-                selectedInstruction = modelObject;
+                selectedRecipeInstruction = modelObject;
 
                 int getLength = modelObject.getDescription().length();
                 if (modelObject.getDescription().length() > 30) {
@@ -156,13 +156,18 @@ public class DirectionFragment extends BaseRecipeFragment {
         recyclerViewDragDropManager.attachRecyclerView(recyclerView);
     }
 
-    public void UpdateOrder(List<Instruction> newOrderList) {
+    public void UpdateOrder(List<RecipeInstruction> newOrderList) {
         Gson test = new Gson();
         JsonElement element = test.toJsonTree(newOrderList);
         JsonObject json = new JsonObject();
-        json.add("instructionMList", element);
+        json.add("recipeInstructions", element);
 
-        String url = Constants.wcfInstructionOrderUpdate + contentToken;
+
+        ((RecipeCardsActivity) this.getActivity()).recipeRecipeInstructions = newOrderList;
+
+//        (RecipeCardsActivity.this).recipeRecipeInstructions = element;
+
+        String url = Constants.UpdateInstructions;
         ionOrderUpdate = Ion.with(getActivity().getApplicationContext())
                 .load(url)
                 .addHeader("Content-Type", "application/json")
@@ -171,7 +176,7 @@ public class DirectionFragment extends BaseRecipeFragment {
                 .setCallback(new FutureCallback<String>() {
                     @Override
                     public void onCompleted(Exception e, String s) {
-//                        String test = s;
+                       String test = s;
                     }
                 });
     }

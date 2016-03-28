@@ -18,7 +18,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddInstructionsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
@@ -29,18 +29,18 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
 
     private static final String TAG = InstructionDraggableRecyclerAdapter.class.getSimpleName();
     private static final int MODEL_OBJECT = 1;
-    private List<Instruction> modelObjects = new Vector<>();
+    private List<RecipeInstruction> modelObjects = new Vector<>();
     private AdapterListener adapterListener;
 
     private Fragment _fragment;
 
-    public InstructionDraggableRecyclerAdapter(List<Instruction> jsonObject, Fragment fragment) {
+    public InstructionDraggableRecyclerAdapter(List<RecipeInstruction> jsonObject, Fragment fragment) {
         this.modelObjects = jsonObject;
         _fragment = fragment;
         setHasStableIds(true);
     }
 
-    public void add(Instruction item, int position) {
+    public void add(RecipeInstruction item, int position) {
         modelObjects.add(position, item);
         notifyItemInserted(position);
     }
@@ -73,7 +73,7 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
         // set background resource (target view ID: container)
         int dragState = viewHolder.getDragStateFlags();
 
-        final Instruction modelObject = modelObjects.get(position);
+        final RecipeInstruction modelObject = modelObjects.get(position);
         final View thisItemView = viewHolder.itemView;
 
         viewHolder.my_instruction_text_text_view.setText(modelObject.getDescription());
@@ -122,7 +122,7 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
                 return; //NO CHANGE
             }
 
-            final Instruction item1 = modelObjects.remove(fromPosition);
+            final RecipeInstruction item1 = modelObjects.remove(fromPosition);
             modelObjects.add(toPosition, item1);
             notifyItemMoved(fromPosition, toPosition);
 
@@ -134,9 +134,9 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
     }
 
     public void RefreshOrder(boolean forceUpdate) {
-        List<Instruction> newOrder = new Vector<>();
+        List<RecipeInstruction> newOrder = new Vector<>();
         int rowNumber = 1;
-        for (Instruction item : modelObjects) {
+        for (RecipeInstruction item : modelObjects) {
             item.setOrder(rowNumber);
             newOrder.add(item);
             rowNumber += 1;
@@ -171,7 +171,7 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
     }
 
 
-    public void addItemsToAdapter(List<Instruction> modelsToAdd) {
+    public void addItemsToAdapter(List<RecipeInstruction> modelsToAdd) {
         modelObjects.addAll(modelsToAdd);
 
         for (int i = 0; i < modelObjects.size(); i++) {
@@ -190,9 +190,9 @@ public class InstructionDraggableRecyclerAdapter extends RecyclerView.Adapter<Re
 
         void onModelObjectMoved();
 
-        void onModelObjectSwiped(Instruction modelObject);
+        void onModelObjectSwiped(RecipeInstruction modelObject);
 
-        void onModelObjectClicked(Instruction modelObject, int position, View view);
+        void onModelObjectClicked(RecipeInstruction modelObject, int position, View view);
     }
 }
 

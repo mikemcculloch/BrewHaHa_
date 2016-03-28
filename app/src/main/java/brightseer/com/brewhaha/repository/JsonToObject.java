@@ -18,14 +18,15 @@ import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.Difficulty;
 import brightseer.com.brewhaha.objects.Grain;
 import brightseer.com.brewhaha.objects.GrainUse;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeed;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.objects.Hops;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecipeHop;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.KeyValuepair;
 import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.objects.RecipeContent;
@@ -57,6 +58,24 @@ public class JsonToObject {
     }
 
 
+    public static MainFeed JsonToMainFeed(JsonObject result) {
+        MainFeed mainFeed = new MainFeed();
+        try {
+            GsonBuilder gsonb = new GsonBuilder();
+            Gson gson = gsonb.setDateFormat("s").create();
+
+            mainFeed = gson.fromJson(result, MainFeed.class);
+
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
+
+        return mainFeed;
+    }
+
+
 
 
 
@@ -82,13 +101,13 @@ public class JsonToObject {
         return recipeContent;
     }
 
-    public static List<HomeItem> JsonToHomeItemList(JsonArray result) {
-        List<HomeItem> gig = new Vector<>();
+    public static List<MainFeedItem> JsonToHomeItemList(JsonArray result) {
+        List<MainFeedItem> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s").create();
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), HomeItem.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), MainFeedItem.class));
             }
 
 
@@ -444,14 +463,14 @@ public class JsonToObject {
         return gig;
     }
 
-    public static List<Instruction> JsonToInstructionList(JsonArray result) {
-        List<Instruction> gig = new Vector<>();
+    public static List<RecipeInstruction> JsonToInstructionList(JsonArray result) {
+        List<RecipeInstruction> gig = new Vector<>();
         try {
             GsonBuilder gsonb = new GsonBuilder();
             Gson gson = gsonb.setDateFormat("s aa").create();
 
             for (int i = 0; i < result.size(); i++) {
-                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), Instruction.class));
+                gig.add(gson.fromJson(result.get(i).getAsJsonObject(), RecipeInstruction.class));
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {

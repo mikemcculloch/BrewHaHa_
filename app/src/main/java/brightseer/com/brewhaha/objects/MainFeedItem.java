@@ -6,42 +6,52 @@ import com.j256.ormlite.table.DatabaseTable;
 import brightseer.com.brewhaha.Constants;
 
 @DatabaseTable(tableName = Constants.table_HomeItem)
-public class HomeItem {
-    @DatabaseField
-    private int ContentItemPk;
-    @DatabaseField
-    private String Title;
-    @DatabaseField
-    private String Author;
-    @DatabaseField
-    private String ImageUrl;
-    @DatabaseField
-    private String UserImageUrl;
-    @DatabaseField
-    private String Timestamp;
-    @DatabaseField
-    private int ItemTypePk;
-    @DatabaseField
-    private boolean Favorite;
+public class MainFeedItem {
     @DatabaseField
     private String Token;
+
+    @DatabaseField
+    private String Title;
+
+    @DatabaseField
+    private String Author;
+
+    @DatabaseField
+    private String ImageUrl;
+
+    @DatabaseField
+    private String UserImageUrl;
+
+    @DatabaseField
+    private int ItemTypeId;
+
+    @DatabaseField
+    private String DateCreated;
+
+    //DEPRICATED//
+    @DatabaseField
+    private int ContentItemPk;
+
+    @DatabaseField
+    private boolean Favorite;
+
     @DatabaseField
     private boolean Submitted;
     @DatabaseField
     private boolean Approved;
 
-    public HomeItem() {
+    public MainFeedItem() {
 
     }
 
-    public HomeItem(int contentItemPk, String title, String author, String imageUrl, String userImageUrl, String timestamp, int itemTypePk, boolean favorite, String token, boolean submitted, boolean approved) {
+    public MainFeedItem(int contentItemPk, String title, String author, String imageUrl, String userImageUrl, String dateCreated, int itemTypeId, boolean favorite, String token, boolean submitted, boolean approved) {
         ContentItemPk = contentItemPk;
         Title = title;
         Author = author;
         ImageUrl = imageUrl;
         UserImageUrl = userImageUrl;
-        Timestamp = timestamp;
-        ItemTypePk = itemTypePk;
+        DateCreated = dateCreated;
+        ItemTypeId = itemTypeId;
         Favorite = favorite;
         Token = token;
         Submitted = submitted;
@@ -88,20 +98,20 @@ public class HomeItem {
         UserImageUrl = userImageUrl;
     }
 
-    public String getTimestamp() {
-        return Timestamp;
+    public String getDateCreated() {
+        return DateCreated;
     }
 
-    public void setTimestamp(String timestamp) {
-        Timestamp = timestamp;
+    public void setDateCreated(String dateCreated) {
+        DateCreated = dateCreated;
     }
 
-    public int getItemTypePk() {
-        return ItemTypePk;
+    public int getItemTypeId() {
+        return ItemTypeId;
     }
 
-    public void setItemTypePk(int itemTypePk) {
-        ItemTypePk = itemTypePk;
+    public void setItemTypeId(int itemTypeId) {
+        ItemTypeId = itemTypeId;
     }
 
     public boolean isFavorite() {

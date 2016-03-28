@@ -17,8 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
+import com.koushikdutta.async.future.Future;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
@@ -31,15 +32,15 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.RecipeCardsActivity;
-import brightseer.com.brewhaha.adapter.HomeItemAdapter;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.adapter.MainFeedAdapter;
+import brightseer.com.brewhaha.objects.MainFeed;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 public class HomeFragment extends BaseFragment {
-    private List<HomeItem> homeItemList = new Vector<>();
-    private HomeItemAdapter adapter;
+    //    private List<MainFeedItem> mainFeedItemList = new Vector<>();
+    private MainFeedAdapter adapter;
     private String userToken = "na";
     private RecyclerView home_recycler_view;
     private View rootView;
@@ -49,7 +50,9 @@ public class HomeFragment extends BaseFragment {
     private int visibleThreshold = 4;
     private int firstVisibleItem, visibleItemCount, totalItemCount;
 
-//    SwipeRefreshLayout mSwipeRefreshLayout;
+    private Future<JsonObject> ionMainFeed;
+    private boolean overRide = false;
+    private int skipCount = 5;
 
     public HomeFragment() {
     }
@@ -62,27 +65,8 @@ public class HomeFragment extends BaseFragment {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         _fContext = getActivity();
         initGoogleAnalytics(this.getClass().getSimpleName());
-////        initAdMob(rootView);
-        initViews();
 
         return rootView;
-    }
-
-    private void initViews() {
-//        mPlusOneButton = (PlusOneButton) rootView.findViewById(R.id.plus_one_button);
-
-//        mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.activity_main_swipe_refresh_layout);
-//        mSwipeRefreshLayout.setColorSchemeResources(R.color.app_orange, R.color.app_yellow, R.color.app_blue);
-//        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                home_recycler_view.setVisibility(View.VISIBLE);
-//                homeItemList = new Vector<>();
-//                adapter.clear();
-////                LoadDialog(_fContext, false, false);
-//                load();
-//            }
-//        });
     }
 
     @Override
@@ -133,8 +117,8 @@ public class HomeFragment extends BaseFragment {
             });
 
 
-            List<HomeItem> placeHolder = new Vector<>();
-            adapter = new HomeItemAdapter(placeHolder, HomeFragment.this);
+            List<MainFeedItem> placeHolder = new Vector<>();
+            adapter = new MainFeedAdapter(placeHolder, HomeFragment.this);
             home_recycler_view.setAdapter(adapter);
             load();
         } catch (Exception e) {
@@ -148,41 +132,47 @@ public class HomeFragment extends BaseFragment {
         if (loading != null && !loading.isDone() && !loading.isCancelled())
             return;
 
-        String url = Constants.wcfGetHomeContentListByLastId + "0/" + userToken + "/" + "0/false";
-        if (homeItemList != null) {
-            if (homeItemList.size() > 0) {
-                HomeItem homeItem = homeItemList.get(homeItemList.size() - 1);
-                url = Constants.wcfGetHomeContentListByLastId + String.valueOf(homeItem.getContentItemPk()) + "/" + userToken + "/" + "0/false";
+        String url = Constants.GetMainFeed;
+        url += "5";
+
+        if (adapter != null) {
+            if (adapter.getItemCount() > 0 || overRide) {
+                url += "/" + skipCount;
+                skipCount += 5;
+                overRide = false;
+            } else {
+                url += "/" + 0;
             }
         }
-        LoadDialog(_fContext, false, true);
-        loading = Ion.with(getActivity().getApplicationContext())
+
+        ionMainFeed = Ion
+                .with(this)
                 .load(url)
                 .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
                                  @Override
-                                 public void onCompleted(Exception e, JsonArray jsonArray) {
+                                 public void onCompleted(Exception e, JsonObject result) {
                                      try {
-//                                         mSwipeRefreshLayout.setRefreshing(false);
-//                                         dialogProgress.dismiss();
-                                         if (jsonArray != null) {
-                                             List<HomeItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+                                         if (result != null) {
 
-                                             for (HomeItem item : resultsList) {
-                                                 homeItemList.add(item);
-                                                 adapter.add(item, homeItemList.size() - 1);
+                                             MainFeed mainFeed = JsonToObject.JsonToMainFeed(result);
+
+                                             for (MainFeedItem item : mainFeed.getMainFeedItems()) {
+                                                 adapter.add(item, mainFeed.getMainFeedItems().size() - 1);
                                              }
-                                         }
-                                         if (homeItemList.size() == 0) {
-                                             home_recycler_view.setVisibility(View.GONE);
+
+                                             adapter.notifyDataSetChanged();
                                          }
                                      } catch (Exception ex) {
                                          if (BuildConfig.DEBUG) {
                                              Log.e(Constants.LOG, ex.getMessage());
                                          }
                                      } finally {
-                                         dialogProgress.dismiss();
+                                         if (adapter.getItemCount() < 5) {
+                                             overRide = true;
+                                             load();
+                                         }
                                      }
                                  }
                              }
@@ -196,32 +186,37 @@ public class HomeFragment extends BaseFragment {
                 view.setElevation(10);
             }
 
-            HomeItem homeItem = homeItemList.get(position);
+            MainFeedItem feedItem = adapter.getItemAt(position);
+
             Intent newIntent = new Intent();
-            if (homeItem.getItemTypePk() == 1) {
+            if (feedItem.getItemTypeId() == 1) {
                 newIntent = new Intent(_fContext, RecipeCardsActivity.class);
             }
-            if (homeItem.getItemTypePk() == 2) {
+            if (feedItem.getItemTypeId() == 2) {
                 newIntent = new Intent(_fContext, GridViewActivity.class);
             }
 
-            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, homeItem.getTitle());
+            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, feedItem.getTitle());
 
-            newIntent.putExtra(Constants.exRecipeTitle, homeItem.getTitle());
-            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+            newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
+            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(feedItem.getContentItemPk()));
             newIntent.putExtra(Constants.exPosition, position);
 
-            newIntent.putExtra(Constants.exUsername, homeItem.getAuthor());
-            newIntent.putExtra(Constants.exUserdate, String.valueOf(homeItem.getTimestamp()));
+            newIntent.putExtra(Constants.exRecipeToken, feedItem.getToken());
 
-            newIntent.putExtra(Constants.exAuthorImage, homeItem.getUserImageUrl());
-            newIntent.putExtra(Constants.exRecipeImage, homeItem.getImageUrl());
+
+            newIntent.putExtra(Constants.exUsername, feedItem.getAuthor());
+            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
+
+            newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
+            newIntent.putExtra(Constants.exRecipeImage, feedItem.getImageUrl());
 
             BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
             newIntent.putExtra(Constants.exBitMapInfo, bi.key);
 
             BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.image)).getBitmapInfo();
-            newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
+            if (biMain != null)
+                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
 
             newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 

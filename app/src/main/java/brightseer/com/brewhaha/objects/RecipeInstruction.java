@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by mccul_000 on 11/23/2014.
  */
-public class Instruction  implements Serializable {
+public class RecipeInstruction implements Serializable {
 
     private int InstructionId;
     private int RecipeContentId;
@@ -14,11 +14,11 @@ public class Instruction  implements Serializable {
     private int Order;
     private boolean Active;
 
-    public Instruction() {
+    public RecipeInstruction() {
     }
 
 
-    public Instruction(int instructionId, int recipeContentId, int userProfileId, String description, int order, boolean active) {
+    public RecipeInstruction(int instructionId, int recipeContentId, int userProfileId, String description, int order, boolean active) {
         InstructionId = instructionId;
         RecipeContentId = recipeContentId;
         UserProfileId = userProfileId;
@@ -80,11 +80,11 @@ public class Instruction  implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Instruction)) {
+        if (!(o instanceof RecipeInstruction)) {
             return false;
         }
 
-        Instruction that = (Instruction) o;
+        RecipeInstruction that = (RecipeInstruction) o;
 
         return !(InstructionId != 0 ? !String.valueOf(InstructionId).equals(that.InstructionId) : that.InstructionId != 0);
     }

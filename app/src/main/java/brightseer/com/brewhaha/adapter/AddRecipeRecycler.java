@@ -18,14 +18,14 @@ import java.util.Vector;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.MyRecipeListFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
  * Created by Michael McCulloch on 2/25/2015.
  */
 public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRecipeItemViewHolder> {
-    private List<HomeItem> jsonObjects = new Vector<>();
+    private List<MainFeedItem> jsonObjects = new Vector<>();
     private MyRecipeListFragment _fragment;
 
     int cornerRadius = 200;
@@ -49,17 +49,17 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
         }
     };
 
-    public AddRecipeRecycler(List<HomeItem> jsonObject, MyRecipeListFragment fragment) {
+    public AddRecipeRecycler(List<MainFeedItem> jsonObject, MyRecipeListFragment fragment) {
         this.jsonObjects = jsonObject;
         _fragment = fragment;
     }
 
-    public void add(HomeItem item, int position) {
+    public void add(MainFeedItem item, int position) {
         jsonObjects.add(item);
         notifyItemInserted(position);
     }
 
-    public void remove(HomeItem item, int position) {
+    public void remove(MainFeedItem item, int position) {
         jsonObjects.remove(item);
         notifyItemRemoved(position);
     }
@@ -80,24 +80,24 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
     @Override
     public void onBindViewHolder(RecyclerObjects.MyRecipeItemViewHolder homeItemViewHolder, int i) {
         _fragment.load();
-        HomeItem homeItem = jsonObjects.get(i);
-        if (homeItem != null) {
-            if (TextUtils.isEmpty(homeItem.getTitle())) {
-                homeItem.setTitle("Untitled");
+        MainFeedItem mainFeedItem = jsonObjects.get(i);
+        if (mainFeedItem != null) {
+            if (TextUtils.isEmpty(mainFeedItem.getTitle())) {
+                mainFeedItem.setTitle("Untitled");
                 homeItemViewHolder.vTitle.setTextColor(_fragment.getResources().getColor(R.color.red));
             }
 
-            homeItemViewHolder.vTitle.setText(homeItem.getTitle());
-            homeItemViewHolder.vAuthor.setText(homeItem.getAuthor());
-            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(homeItem.getTimestamp()));
+            homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());
+            homeItemViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+            homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
 
             String published = "Unpublished";
             homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.red));
-            if (homeItem.isApproved()) {
+            if (mainFeedItem.isApproved()) {
                 published = "Published";
                 homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_blue));
             }
-            if (homeItem.isSubmitted() && !homeItem.isApproved()) {
+            if (mainFeedItem.isSubmitted() && !mainFeedItem.isApproved()) {
                 published = "Pending";
                 homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_orange));
             }
@@ -108,14 +108,14 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
                     .placeholder(R.mipmap.ic_beercap)
 
                     .centerCrop()
-                    .load(homeItem.getImageUrl());
+                    .load(mainFeedItem.getImageUrl());
 
             Ion.with(homeItemViewHolder.vuser_image_view)
                     .placeholder(R.drawable.ic_person_black_24dp)
                     .error(R.drawable.ic_person_black_24dp)
                     .centerCrop()
                     .transform(trans)
-                    .load(homeItem.getUserImageUrl());
+                    .load(mainFeedItem.getUserImageUrl());
         }
     }
 

@@ -29,13 +29,13 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.adapter.SearchResultRecycler;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 public class SearchResultsActivity extends BaseActivity {
     String query = "na";
     int selectedStyle = 0, selectedType = 0, abvValue = 0, ibuValue = 0, grainPk = 0, hopsPk = 0, yeastPk = 0;
-    private List<HomeItem> homeItemList = new Vector<>();
+    private List<MainFeedItem> mainFeedItemList = new Vector<>();
     private SearchResultRecycler adapter;
     private RecyclerView search_results_recycler_view;
 
@@ -146,7 +146,7 @@ public class SearchResultsActivity extends BaseActivity {
 
 
 
-            List<HomeItem> placeHolder = new Vector<>();
+            List<MainFeedItem> placeHolder = new Vector<>();
             adapter = new SearchResultRecycler(placeHolder, SearchResultsActivity.this);
             search_results_recycler_view.setAdapter(adapter);
 //            search_results_recycler_view.addOnItemTouchListener(
@@ -154,7 +154,7 @@ public class SearchResultsActivity extends BaseActivity {
 //                        @Override
 //                        public void onItemClick(View view, int position) {
 //                            try {
-//                                HomeItem homeItem = homeItemList.get(position);
+//                                MainFeedItem homeItem = mainFeedItemList.get(position);
 //                                Intent getNameScreenIntent = null;
 //                                if (homeItem.getItemTypeId() == 1) {
 //                                    getNameScreenIntent = new Intent(_mContext, RecipeActivity.class);
@@ -199,10 +199,10 @@ public class SearchResultsActivity extends BaseActivity {
             return;
 
         String url = Constants.wcfGetHomeContentFromSearch + "0/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
-        if (homeItemList != null) {
-            if (homeItemList.size() > 0) {
-                HomeItem homeItem = homeItemList.get(homeItemList.size() - 1);
-                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(homeItem.getContentItemPk()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
+        if (mainFeedItemList != null) {
+            if (mainFeedItemList.size() > 0) {
+                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
+                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
             }
         }
         JsonObject json = new JsonObject();
@@ -218,13 +218,13 @@ public class SearchResultsActivity extends BaseActivity {
                         try {
                             dialogProgress.dismiss();
                             if (result != null) {
-                                List<HomeItem> resultsList = JsonToObject.JsonToHomeItemList(result);
-                                for (HomeItem item : resultsList) {
-                                    homeItemList.add(item);
-                                    adapter.add(item, homeItemList.size() - 1);
+                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(result);
+                                for (MainFeedItem item : resultsList) {
+                                    mainFeedItemList.add(item);
+                                    adapter.add(item, mainFeedItemList.size() - 1);
                                 }
                             }
-                            if (homeItemList.size() == 0) {
+                            if (mainFeedItemList.size() == 0) {
                                 search_results_recycler_view.setVisibility(View.GONE);
                             }
                         } catch (Exception ex) {
@@ -257,26 +257,26 @@ public class SearchResultsActivity extends BaseActivity {
                 view.setElevation(10);
             }
 
-            HomeItem homeItem = homeItemList.get(position);
+            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
             Intent newIntent = new Intent();
-            if (homeItem.getItemTypePk() == 1) {
+            if (mainFeedItem.getItemTypeId() == 1) {
                 newIntent = new Intent(this, RecipeActivity.class);
             }
-            if (homeItem.getItemTypePk() == 2) {
+            if (mainFeedItem.getItemTypeId() == 2) {
                 newIntent = new Intent(this, GridViewActivity.class);
             }
 
-            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, homeItem.getTitle());
+            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, mainFeedItem.getTitle());
 
-            newIntent.putExtra(Constants.exRecipeTitle, homeItem.getTitle());
-            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+            newIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
+            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
             newIntent.putExtra(Constants.exPosition, position);
 
-            newIntent.putExtra(Constants.exUsername, homeItem.getAuthor());
-            newIntent.putExtra(Constants.exUserdate, String.valueOf(homeItem.getTimestamp()));
+            newIntent.putExtra(Constants.exUsername, mainFeedItem.getAuthor());
+            newIntent.putExtra(Constants.exUserdate, String.valueOf(mainFeedItem.getDateCreated()));
 
-            newIntent.putExtra(Constants.exAuthorImage, homeItem.getUserImageUrl());
-            newIntent.putExtra(Constants.exRecipeImage, homeItem.getImageUrl());
+            newIntent.putExtra(Constants.exAuthorImage, mainFeedItem.getUserImageUrl());
+            newIntent.putExtra(Constants.exRecipeImage, mainFeedItem.getImageUrl());
 
             BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
             newIntent.putExtra(Constants.exBitMapInfo, bi.key);

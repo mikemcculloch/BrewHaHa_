@@ -8,7 +8,7 @@ public class RecipeItem {
     private String Description;
     private String Author;
     private String UserImageUrl;
-    private List<RecipeImage> recipeImage;
+    private List<RecipeImage> RecipeImage;
     private int UserProfileId;
     private brightseer.com.brewhaha.objects.RecipeSummary RecipeSummary;
     private int BatchSizeId;
@@ -18,7 +18,7 @@ public class RecipeItem {
     private List<RecipeHop> RecipeHops;
     private List<RecipeYeast> RecipeYeasts;
     private List<Comment> Comments;
-    private List<Instruction> Instructions;
+    private List<RecipeInstruction> RecipeInstructions;
     private boolean Favorite;
     private String Token;
     private boolean Approved;
@@ -30,13 +30,13 @@ public class RecipeItem {
     public RecipeItem() {
     }
 
-    public RecipeItem(int recipeContentId, String title, String description, String author, String userImageUrl, List<RecipeImage> recipeImage, int userProfileId, brightseer.com.brewhaha.objects.RecipeSummary recipeSummary, int batchSizeId, int styleId, String styleDescription, List<RecipeGrain> recipeGrains, List<RecipeHop> recipeHops, List<RecipeYeast> recipeYeasts, List<Comment> comments, List<Instruction> instructions, boolean favorite, String token, boolean approved, boolean submitted, int nextRecipeContentId, String dateModified, String dateCreated) {
+    public RecipeItem(int recipeContentId, String title, String description, String author, String userImageUrl, List<RecipeImage> recipeImage, int userProfileId, brightseer.com.brewhaha.objects.RecipeSummary recipeSummary, int batchSizeId, int styleId, String styleDescription, List<RecipeGrain> recipeGrains, List<RecipeHop> recipeHops, List<RecipeYeast> recipeYeasts, List<Comment> comments, List<RecipeInstruction> recipeInstructions, boolean favorite, String token, boolean approved, boolean submitted, int nextRecipeContentId, String dateModified, String dateCreated) {
         RecipeContentId = recipeContentId;
         Title = title;
         Description = description;
         Author = author;
         UserImageUrl = userImageUrl;
-        this.recipeImage = recipeImage;
+        this.RecipeImage = recipeImage;
         UserProfileId = userProfileId;
         RecipeSummary = recipeSummary;
         BatchSizeId = batchSizeId;
@@ -46,7 +46,7 @@ public class RecipeItem {
         RecipeHops = recipeHops;
         RecipeYeasts = recipeYeasts;
         Comments = comments;
-        Instructions = instructions;
+        this.RecipeInstructions = recipeInstructions;
         Favorite = favorite;
         Token = token;
         Approved = approved;
@@ -97,11 +97,11 @@ public class RecipeItem {
     }
 
     public List<RecipeImage> getRecipeImage() {
-        return recipeImage;
+        return RecipeImage;
     }
 
     public void setRecipeImage(List<RecipeImage> recipeImage) {
-        this.recipeImage = recipeImage;
+        this.RecipeImage = recipeImage;
     }
 
     public int getUserProfileId() {
@@ -176,12 +176,12 @@ public class RecipeItem {
         Comments = comments;
     }
 
-    public List<Instruction> getInstructions() {
-        return Instructions;
+    public List<RecipeInstruction> getRecipeInstructions() {
+        return RecipeInstructions;
     }
 
-    public void setInstructions(List<Instruction> instructions) {
-        Instructions = instructions;
+    public void setRecipeInstructions(List<RecipeInstruction> recipeInstructions) {
+        this.RecipeInstructions = recipeInstructions;
     }
 
     public boolean isFavorite() {

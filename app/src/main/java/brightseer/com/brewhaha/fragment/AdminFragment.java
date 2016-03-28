@@ -31,7 +31,7 @@ import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.adapter.AdminRecipeRecycler;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 import brightseer.com.brewhaha.swipedismiss.OnItemClickListener;
 import brightseer.com.brewhaha.swipedismiss.SwipeToDismissTouchListener;
@@ -47,10 +47,10 @@ public class AdminFragment extends BaseFragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SwipeToDismissTouchListener<RecyclerViewAdapter> swipeTouchListener;
     private RecyclerView recyclerViewAdmin;
-    private List<HomeItem> homeItemList = new Vector<>();
+    private List<MainFeedItem> mainFeedItemList = new Vector<>();
     private AdminRecipeRecycler adapter;
     private String userToken;
-    private HomeItem itemApproveMe;
+    private MainFeedItem itemApproveMe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,7 +82,7 @@ public class AdminFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 recyclerViewAdmin.setVisibility(View.VISIBLE);
-                homeItemList = new Vector<>();
+                mainFeedItemList = new Vector<>();
                 adapter.clear();
                 load();
             }
@@ -105,10 +105,10 @@ public class AdminFragment extends BaseFragment {
                             mSwipeRefreshLayout.setRefreshing(false);
                             dialogProgress.dismiss();
                             if (jsonArray != null) {
-                                List<HomeItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
-                                for (HomeItem item : resultsList) {
-                                    homeItemList.add(item);
-                                    adapter.add(item, homeItemList.size() - 1);
+                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+                                for (MainFeedItem item : resultsList) {
+                                    mainFeedItemList.add(item);
+                                    adapter.add(item, mainFeedItemList.size() - 1);
                                 }
                             }
 //                            addFabListener();
@@ -123,9 +123,9 @@ public class AdminFragment extends BaseFragment {
 
     private void Approve(final int position) {
         try {
-            itemApproveMe = homeItemList.get(position);
+            itemApproveMe = mainFeedItemList.get(position);
             adapter.remove(itemApproveMe, position);
-            homeItemList.remove(position);
+            mainFeedItemList.remove(position);
             ApproveRecipe();
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -178,7 +178,7 @@ public class AdminFragment extends BaseFragment {
             layoutManager.scrollToPosition(0);
             recyclerViewAdmin.setLayoutManager(layoutManager);
         }
-        List<HomeItem> placeHolder = new Vector<>();
+        List<MainFeedItem> placeHolder = new Vector<>();
         adapter = new AdminRecipeRecycler(placeHolder, AdminFragment.this);
 
         recyclerViewAdmin.setAdapter(adapter);
@@ -190,7 +190,7 @@ public class AdminFragment extends BaseFragment {
                         new SwipeToDismissTouchListener.DismissCallbacks() {
                             @Override
                             public boolean canDismiss(int position) {
-//                                if (homeItemList.get(position).isApproved())
+//                                if (mainFeedItemList.get(position).isApproved())
 //                                {
 //                                return false;
 //                                }
@@ -229,17 +229,17 @@ public class AdminFragment extends BaseFragment {
 
     private void openContent(int position) {
         try {
-            HomeItem homeItem = homeItemList.get(position);
+            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
             Intent recipeIntent = null;
-            if (homeItem.getItemTypePk() == 1) {
+            if (mainFeedItem.getItemTypeId() == 1) {
                 recipeIntent = new Intent(getActivity().getApplicationContext(), RecipeActivity.class);
             }
-            if (homeItem.getItemTypePk() == 2) {
+            if (mainFeedItem.getItemTypeId() == 2) {
                 recipeIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
             }
 
             assert recipeIntent != null;
-            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
             recipeIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             recipeIntent.putExtra(Constants.exRecipePreview, true);
 

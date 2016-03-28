@@ -34,7 +34,6 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
@@ -45,7 +44,7 @@ import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.Instruction;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.RecipeImage;
@@ -93,7 +92,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private List<RecipeHop> recipeHops = new Vector<>();
     private List<RecipeYeast> recipeYeasts = new Vector<>();
     private List<Comment> recipeComents = new Vector<>();
-    private List<Instruction> recipeInstructions = new Vector<>();
+    public List<RecipeInstruction> recipeRecipeInstructions = new Vector<>();
     private List<RecipeImage> recipeImages = new Vector<>();
 
     @Override
@@ -223,7 +222,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         Intent activityThatCalled = getIntent();
 
         recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
-        recipeToken = "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E";
+//        recipeToken = "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E";
 
         contentItemPk = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
@@ -259,7 +258,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                              recipeYeasts = recipeContent.getRecipeYeasts();
                                              recipeSummary = recipeContent.getRecipeSummary();
                                              recipeComents = recipeContent.getComments();
-                                             recipeInstructions = recipeContent.getInstructions();
+                                             recipeRecipeInstructions = recipeContent.getRecipeInstructions();
                                              recipeImages = recipeContent.getRecipeImage();
                                              if (recipeImages == null)
                                                  recipeImages = new Vector<>();
@@ -504,7 +503,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                 if (sceneId == Constants.sceneDirections) {
                     view = card_directions;
-                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeInstructions, recipeToken);
+                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeRecipeInstructions, recipeToken);
                 }
 
                 if (sceneId == Constants.sceneComments) {

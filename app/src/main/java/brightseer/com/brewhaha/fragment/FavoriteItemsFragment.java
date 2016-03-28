@@ -34,14 +34,14 @@ import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.adapter.FavoriteItemRecycler;
 import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.objects.HomeItem;
+import brightseer.com.brewhaha.objects.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
  * Created by mccul_000 on 11/16/2014.
  */
 public class FavoriteItemsFragment extends BaseFragment {
-    private List<HomeItem> homeItemList = new Vector<>();
+    private List<MainFeedItem> mainFeedItemList = new Vector<>();
     private FavoriteItemRecycler adapter;
     private RecyclerView list_view_main;
 
@@ -82,7 +82,7 @@ public class FavoriteItemsFragment extends BaseFragment {
 //            public void onRefresh() {
 //                list_view_main.setVisibility(View.VISIBLE);
 //                home_error_message_text_view.setVisibility(View.GONE);
-//                homeItemList = new Vector<HomeItem>();
+//                mainFeedItemList = new Vector<MainFeedItem>();
 //                adapter.clear();
 //                LoadDialog(_fContext, false, false);
 //                load();
@@ -121,7 +121,7 @@ public class FavoriteItemsFragment extends BaseFragment {
                 layoutManager.scrollToPosition(0);
                 list_view_main.setLayoutManager(layoutManager);
             }
-            List<HomeItem> placeHolder = new Vector<>();
+            List<MainFeedItem> placeHolder = new Vector<>();
             adapter = new FavoriteItemRecycler(placeHolder, FavoriteItemsFragment.this);
 
             list_view_main.setAdapter(adapter);
@@ -132,17 +132,17 @@ public class FavoriteItemsFragment extends BaseFragment {
                         @Override
                         public void onItemClick(View view, int position) {
                             try {
-                                HomeItem homeItem = homeItemList.get(position);
+                                MainFeedItem mainFeedItem = mainFeedItemList.get(position);
                                 Intent getNameScreenIntent = null;
-                                if (homeItem.getItemTypePk() == 1) {
+                                if (mainFeedItem.getItemTypeId() == 1) {
                                     getNameScreenIntent = new Intent(getActivity().getApplicationContext(), RecipeActivity.class);
                                 }
-                                if (homeItem.getItemTypePk() == 2) {
+                                if (mainFeedItem.getItemTypeId() == 2) {
                                     getNameScreenIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
                                 }
 
-                                getNameScreenIntent.putExtra(Constants.exRecipeTitle, homeItem.getTitle());
-                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(homeItem.getContentItemPk()));
+                                getNameScreenIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
+                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
                                 getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -178,10 +178,10 @@ public class FavoriteItemsFragment extends BaseFragment {
             return;
 
         String url = Constants.wcfGetHomeContentListByLastId + "0/" + userToken + "/" + listType + "/true";
-        if (homeItemList != null) {
-            if (homeItemList.size() > 0) {
-                HomeItem homeItem = homeItemList.get(homeItemList.size() - 1);
-                url = Constants.wcfGetHomeContentListByLastId + String.valueOf(homeItem.getContentItemPk()) + "/" + userToken + "/" + listType + "/true";
+        if (mainFeedItemList != null) {
+            if (mainFeedItemList.size() > 0) {
+                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
+                url = Constants.wcfGetHomeContentListByLastId + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + userToken + "/" + listType + "/true";
             }
         }
         loading = Ion.with(_fContext)
@@ -195,13 +195,13 @@ public class FavoriteItemsFragment extends BaseFragment {
 //                            mSwipeRefreshLayout.setRefreshing(false);
                             dialogProgress.dismiss();
                             if (jsonArray != null) {
-                                List<HomeItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
-                                for (HomeItem item : resultsList) {
-                                    homeItemList.add(item);
-                                    adapter.add(item, homeItemList.size() - 1);
+                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+                                for (MainFeedItem item : resultsList) {
+                                    mainFeedItemList.add(item);
+                                    adapter.add(item, mainFeedItemList.size() - 1);
                                 }
                             }
-                            if (homeItemList.size() == 0) {
+                            if (mainFeedItemList.size() == 0) {
                                 list_view_main.setVisibility(View.GONE);
                                 home_error_message_text_view.setVisibility(View.VISIBLE);
                             }
