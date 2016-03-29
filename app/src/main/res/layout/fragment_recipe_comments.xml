@@ -2,26 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
+    android:layout_marginRight="@dimen/quarter_margin"
+    android:layout_marginLeft="@dimen/quarter_margin"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/full_margin"
-        android:layout_marginRight="@dimen/full_margin"
-        android:clipChildren="false"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
-            android:elevation="10dp"
-            android:text="@string/title_comments"
-            android:textSize="11sp"
-            android:theme="@style/buttonYellow" />
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <android.support.v7.widget.AppCompatButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:drawableLeft="@drawable/ic_chat_bubble_outline_black_24dp"
+                android:elevation="10dp"
+                android:text="@string/title_comments"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:theme="@style/buttonYellow" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/half_margin"
+                android:layout_marginRight="@dimen/half_margin"/>
+        </LinearLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

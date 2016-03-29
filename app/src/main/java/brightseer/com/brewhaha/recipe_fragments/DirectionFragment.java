@@ -67,7 +67,7 @@ public class DirectionFragment extends BaseRecipeFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = (ViewGroup) inflater.inflate(R.layout.fragment_recipe_direction, container, false);
         rootView = SetCircularReveal(rootView);
-        rootView.setBackgroundColor(getArguments().getInt("color"));
+//        rootView.setBackgroundColor(getArguments().getInt("color"));
 
 //        Context _fContext = getActivity();
         ReadBundle();

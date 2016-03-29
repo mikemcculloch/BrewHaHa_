@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/hop_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="@dimen/half_margin"
+        android:gravity="center_vertical" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/my_hop_amount_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="1.00" />
+
+            <TextView
+                android:id="@+id/my_hop_weight_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="oz," />
+
+            <TextView
+                android:id="@+id/my_hop_type_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="Centennial" />
+
+            <TextView
+                android:id="@+id/my_hop_use_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="Boil" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/my_hop_time_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="35dp"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="30.00 min" />
+
+            <TextView
+                android:id="@+id/my_hop_form_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:gravity="center_vertical"
+                android:text="Pellet" />
+
+            <TextView
+                android:id="@+id/row_hop_alpha_text_view"
+                style="@style/appSmallFont"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="20%" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

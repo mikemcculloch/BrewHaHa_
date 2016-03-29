@@ -46,7 +46,7 @@ public class CommentFragment extends BaseRecipeFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_comments, container, false);
         rootView = SetCircularReveal(rootView);
-        rootView.setBackgroundColor(getArguments().getInt("color"));
+//        rootView.setBackgroundColor(getArguments().getInt("color"));
 
         ReadBundle();
         return rootView;

@@ -14,6 +14,10 @@
     </style>
 
 
+
+
+
+
     <style name="CardViewStyle.Light" parent="CardView.Light">
         <item name="android:foreground">?android:attr/selectableItemBackground</item>
     </style>
@@ -110,6 +114,18 @@
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button">
         <item name="android:colorButtonNormal">@color/blue_light</item>
     </style>
+
+
+
+
+
+    <!--<style name="buttonHeadLine" parent="Base.Widget.AppCompat.Button">-->
+        <!--<item name="colorButtonNormal">@color/app_gray</item>-->
+        <!--<item name="android:fontFamily">sans-serif</item>-->
+        <!--<item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>-->
+    <!--</style>-->
+
+
 
     <style name="buttonOrange" parent="Base.Widget.AppCompat.Button">
         <item name="colorButtonNormal">@color/app_orange</item>

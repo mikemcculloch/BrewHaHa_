@@ -55,6 +55,9 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+
+
+
     <style name="summaryAbv" parent="TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/app_blue</item>
     </style>

@@ -71,15 +71,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private TextView recipe_author_text_view, recipe_title_text_view, recipe_date_posted;
 
     private NestedScrollView nestedscrollview;
-    private ViewGroup scene_target;
-    private boolean exitActivity = true, toggleSceneButtons = false, curveDir = true;
+    private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
-    private TextView textview_abv_overview;
-
-    //    BottomSheetLayout bottomSheetLayout;
     private AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
-
 
     private RecyclerView recycler_view_recipe_images;
     private RecipeImageRecycler recipeImageRecycler;
@@ -176,7 +171,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             }
 
             nestedscrollview = (NestedScrollView) findViewById(R.id.nestedscrollview);
-            scene_target = (ViewGroup) findViewById(R.id.scene_target);
 
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
 
@@ -209,9 +203,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_comments = (AppCompatButton) findViewById(R.id.card_comments);
             card_comments.setOnClickListener(this);
 
-
-            textview_abv_overview = (TextView) findViewById(R.id.textview_abv_overview);
-            textview_abv_overview.setText("69");
+;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -222,8 +214,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         Intent activityThatCalled = getIntent();
 
         recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
-//        recipeToken = "8A87F5C2-3F08-4DBB-B8C1-CC0EC9DA011E";
-
         contentItemPk = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
         adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
@@ -341,25 +331,21 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void goToSceneOverView(View view) {
-        exitActivity = false;
         sceneId = Constants.sceneOverview;
         moveButton(view);
     }
 
     public void goToSceneIngredients(View view) {
-        exitActivity = false;
         sceneId = Constants.sceneIngredients;
         moveButton(view);
     }
 
     public void goToSceneDirections(View view) {
-        exitActivity = false;
         sceneId = Constants.sceneDirections;
         moveButton(view);
     }
 
     public void goToSceneComments(View view) {
-        exitActivity = false;
         sceneId = Constants.sceneComments;
         moveButton(view);
     }
@@ -511,6 +497,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     fragment = CommentFragment.newInstance(20, 20, randomColor, recipeComents);
                 }
 
+                ViewGroup scene_target = (ViewGroup) findViewById(R.id.scene_target);
+                scene_target.removeAllViews();
+
                 getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
 
                 view.setVisibility(View.INVISIBLE);
@@ -621,7 +610,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_START);
             mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.recycler_view_recipe_images);
-            mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.full_margin));
+            mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.quarter_margin));
+            mainLayoutParam.setMargins((int) getResources().getDimension(R.dimen.quarter_margin), (int) getResources().getDimension(R.dimen.quarter_margin), 0,0);
+
             resetLayouts();
 
             if (sceneId == Constants.sceneOverview) {

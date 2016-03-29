@@ -98,6 +98,7 @@
     <string name="text_amount_type_spinner_default">Type</string>
 
     <string name="text_grain">Grain</string>
+    <string name="text_grains">Grains</string>
     <string name="text_hops">Hops</string>
     <string name="text_yeast">Yeast</string>
     <string name="text_button_update_recipe">Update</string>

@@ -1,56 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scene_overview_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_orange"
-    android:clipChildren="false"
+    android:layout_marginRight="@dimen/quarter_margin"
+    android:layout_marginLeft="@dimen/quarter_margin"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/full_margin"
-        android:layout_marginRight="@dimen/full_margin"
-        android:clipChildren="false"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clipChildren="false"
-            android:drawableTop="@drawable/ic_details_black_24px"
-            android:elevation="10dp"
-            android:text="@string/string_overview"
-            android:textSize="12sp"
-            android:theme="@style/buttonOrange" />
-
-
-        <LinearLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@color/app_yellow"
-            android:gravity="right|end|center_vertical"
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textview_abv_overview"
-                style="@style/summaryAbv"
+            <android.support.v7.widget.AppCompatButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="009" />
+                android:clipChildren="false"
+                android:drawableLeft="@drawable/ic_details_black_24px"
+                android:elevation="10dp"
+                android:text="@string/string_overview"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:theme="@style/buttonOrange" />
 
-            <TextView
-                style="@style/appSmallFont"
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical|center_horizontal"
-                android:text="ABV"
-                android:textIsSelectable="true" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/half_margin"
+                android:layout_marginRight="@dimen/half_margin"/>
         </LinearLayout>
 
-
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>

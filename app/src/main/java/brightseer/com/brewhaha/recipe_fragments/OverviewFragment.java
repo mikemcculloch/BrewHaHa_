@@ -38,7 +38,7 @@ public class OverviewFragment extends BaseRecipeFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_overview, container, false);
         rootView = SetCircularReveal(rootView);
-        rootView.setBackgroundColor(getArguments().getInt("color"));
+//        rootView.setBackgroundColor(getArguments().getInt("color"));
 
 
         ReadBundle();

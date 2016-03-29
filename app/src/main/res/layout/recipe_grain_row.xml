@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/grain_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/half_margin"
+            android:gravity="center_vertical" />
+
+        <ImageView
+            android:id="@+id/my_grain_color_image_view"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@color/app_orange"
+            android:focusableInTouchMode="true" />
+
+        <TextView
+            android:id="@+id/my_grain_amount_text_view"
+            style="@style/appSmallFont"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:gravity="center_vertical"
+            android:text="6.60" />
+
+        <TextView
+            android:id="@+id/my_grain_weight_text_view"
+            style="@style/appSmallFont"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:gravity="center_vertical"
+            android:text="LB," />
+
+        <TextView
+            android:id="@+id/row_grain_country_text_view"
+            style="@style/appSmallFont"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:gravity="center_vertical"
+            android:text="US" />
+
+        <TextView
+            android:id="@+id/my_grain_description_text_view"
+            style="@style/appSmallFont"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:gravity="center_vertical"
+            android:text="Maris Otter Extract" />
+
+        <TextView
+            android:id="@+id/row_grain_use_text_view"
+            style="@style/appSmallFont"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="Boil" />
+
+    </LinearLayout>
+</LinearLayout>
