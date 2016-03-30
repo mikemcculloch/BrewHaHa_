@@ -78,7 +78,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private RecyclerView recycler_view_recipe_images;
     private RecipeImageRecycler recipeImageRecycler;
-    private List<RecipeImage> recipeImageList = new Vector<>();
 
     private String userToken, recipeToken;
 
@@ -308,7 +307,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            showImage(recipeImageList.get(position));
+                            showImage(recipeImages.get(position));
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());

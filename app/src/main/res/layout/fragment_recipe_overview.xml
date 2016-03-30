@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_marginRight="@dimen/quarter_margin"
     android:layout_marginLeft="@dimen/quarter_margin"
-    android:background="@color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"

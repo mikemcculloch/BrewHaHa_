@@ -614,7 +614,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 //            getWindow().setSharedElementExitTransition(ts);
 
 
-
 //            getWindow().setAllowEnterTransitionOverlap(false); --meh
 //            getWindow().setAllowReturnTransitionOverlap(false); --meh
 //            getWindow().setEnterTransition(ts);
@@ -759,7 +758,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     public void showImage(RecipeImage recipeImage) {
-//        final Dialog builder = new Dialog(this);
         final Dialog builder = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
 
         builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -784,7 +782,9 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 builder.dismiss();
             }
         });
+
         Ion.with(dialog_image)
+                .deepZoom()
                 .placeholder(R.mipmap.ic_beercap)
                 .load(recipeImage.getImageUrl()
                 );

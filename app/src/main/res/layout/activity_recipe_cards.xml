@@ -3,16 +3,15 @@
     android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="false"
-    android:background="@color/white"
-    android:clipChildren="false"
+    android:animateLayoutChanges="true"
+    android:clipChildren="true"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false"
+        android:clipChildren="true"
         android:orientation="vertical">
 
         <include
@@ -27,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:clipChildren="false">
+            android:clipChildren="true">
 
             <android.support.v7.widget.AppCompatButton
                 android:id="@+id/card_overview"
@@ -35,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_details_black_24px"
                 android:elevation="10dp"
                 android:text="@string/string_overview"
@@ -48,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_details_black_24px"
                 android:elevation="10dp"
                 android:text="@string/string_overview"
@@ -61,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/card_overviewHolder"
                 android:layout_toRightOf="@+id/card_overviewHolder"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_shopping_basket_black_24px"
                 android:elevation="10dp"
                 android:text="@string/string_ingredients"
@@ -74,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/card_commentsHolder"
                 android:layout_toStartOf="@+id/card_commentsHolder"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_directions_black_24px"
                 android:elevation="10dp"
                 android:text="@string/text_Direction"
@@ -87,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
                 android:elevation="10dp"
                 android:text="@string/title_comments"
@@ -100,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:drawableTop="@drawable/ic_chat_bubble_outline_black_24dp"
                 android:elevation="10dp"
                 android:text="@string/title_comments"
@@ -114,22 +113,22 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/card_overviewHolder"
-                android:clipChildren="false" />
+                android:clipChildren="true" />
 
             <android.support.v4.widget.NestedScrollView
                 android:id="@+id/nestedscrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/recycler_view_recipe_images"
-                android:clipChildren="false"
+                android:clipChildren="true"
                 android:fillViewport="true">
 
-                <RelativeLayout
+                <FrameLayout
                     android:id="@+id/scene_target"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/quarter_margin"
-                    android:clipChildren="false"></RelativeLayout>
+                    android:clipChildren="true" />
             </android.support.v4.widget.NestedScrollView>
         </RelativeLayout>
 
