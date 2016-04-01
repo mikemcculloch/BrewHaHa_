@@ -28,7 +28,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/headerTitleFont"
+                    style="@style/appMediumFont"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -137,7 +137,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/headerTitleFont"
+                    style="@style/appMediumFont"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
@@ -216,7 +216,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/headerTitleFont"
+                    style="@style/appMediumFont"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"

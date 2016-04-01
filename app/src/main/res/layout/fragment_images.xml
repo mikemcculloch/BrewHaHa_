@@ -24,7 +24,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/headerTitleFont"
+                    style="@style/appMediumFont"
                     android:text="Beer Image Upload"
                     android:layout_marginLeft="@dimen/half_margin"
                     android:layout_marginRight="@dimen/half_margin"

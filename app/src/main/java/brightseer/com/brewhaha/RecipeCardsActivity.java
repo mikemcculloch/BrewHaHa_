@@ -42,12 +42,11 @@ import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
-import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeItem;
 import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.objects.RecipeYeast;
@@ -173,20 +172,20 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
 
-            recipe_header_user_image_view = (ImageView) findViewById(R.id.recipe_header_user_image_view);
-            imageTransition(recipe_header_user_image_view, authorImageUrl, Constants.exBitMapInfo);
+//            recipe_header_user_image_view = (ImageView) findViewById(R.id.recipe_header_user_image_view);
+//            imageTransition(recipe_header_user_image_view, authorImageUrl, Constants.exBitMapInfo);
 
-            recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
-            recipe_author_text_view.setText(author);
-            ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_username));
+//            recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
+//            recipe_author_text_view.setText(author);
+//            ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_username));
 
             recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
             recipe_title_text_view.setText(recipeTitle);
             ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
 
-            recipe_date_posted = (TextView) findViewById(R.id.recipe_date_posted);
-            recipe_date_posted.setText(Utilities.DisplayTimeFormater(datePosted));
-            ViewCompat.setTransitionName(recipe_date_posted, getResources().getString(R.string.transition_userdate));
+//            recipe_date_posted = (TextView) findViewById(R.id.recipe_date_posted);
+//            recipe_date_posted.setText(Utilities.DisplayTimeFormater(datePosted));
+//            ViewCompat.setTransitionName(recipe_date_posted, getResources().getString(R.string.transition_userdate));
 
             fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
             fabEdit.setOnClickListener(this);
@@ -201,9 +200,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_directions.setOnClickListener(this);
             card_comments = (AppCompatButton) findViewById(R.id.card_comments);
             card_comments.setOnClickListener(this);
-
-;
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -610,8 +606,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_START);
             mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.recycler_view_recipe_images);
             mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.quarter_margin));
-            mainLayoutParam.setMargins((int) getResources().getDimension(R.dimen.quarter_margin), (int) getResources().getDimension(R.dimen.quarter_margin), 0,0);
+            mainLayoutParam.setMargins((int) getResources().getDimension(R.dimen.quarter_margin), (int) getResources().getDimension(R.dimen.quarter_margin), 0, 0);
 
+            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
             resetLayouts();
 
             if (sceneId == Constants.sceneOverview) {
@@ -639,10 +636,15 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void resetLayouts() {
         LayoutParams mainLayoutParam;
+
+
+
+
         if (sceneIdLast == Constants.sceneOverview) {
             mainLayoutParam = (LayoutParams) card_overview.getLayoutParams();
             mainLayoutParam.removeRule(RelativeLayout.BELOW);
             mainLayoutParam.setMarginStart(0);
+            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
             card_overview.setLayoutParams(mainLayoutParam);
             card_overview.setVisibility(View.VISIBLE);
@@ -657,7 +659,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.setMarginStart(0);
             mainLayoutParam.addRule(RelativeLayout.END_OF, R.id.card_overviewHolder);
             mainLayoutParam.addRule(RelativeLayout.RIGHT_OF, R.id.card_overviewHolder);
-
+            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
             card_ingredients.setLayoutParams(mainLayoutParam);
             card_ingredients.setVisibility(View.VISIBLE);
@@ -673,6 +675,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.setMarginStart(0);
             mainLayoutParam.addRule(RelativeLayout.LEFT_OF, R.id.card_commentsHolder);
             mainLayoutParam.addRule(RelativeLayout.START_OF, R.id.card_commentsHolder);
+            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
             card_directions.setLayoutParams(mainLayoutParam);
             card_directions.setVisibility(View.VISIBLE);
@@ -688,6 +691,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.setMarginStart(0);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_END);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
             card_comments.setLayoutParams(mainLayoutParam);
             card_comments.setVisibility(View.VISIBLE);

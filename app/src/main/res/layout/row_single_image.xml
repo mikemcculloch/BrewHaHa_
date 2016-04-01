@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/single_image_view"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:maxHeight="100dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:maxHeight="75dp"
         android:scaleType="centerCrop"
         android:layout_marginRight="@dimen/quarter_margin"
         android:layout_marginLeft="@dimen/quarter_margin"

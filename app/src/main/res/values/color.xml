@@ -14,6 +14,10 @@
     <color name="app_yellow">#F9E29C</color>
     <color name="app_gray">#D8D8D8</color>
 
+
+    <color name="testColor">#F9E29C</color>
+    <color name="testColor2">#8FB299</color>
+
     <color name="appGrayTransparent">#B3D8D8D8</color>
     <color name="red">#f00</color>
     <color name="blue_light">#1353E6</color>

@@ -121,4 +121,6 @@
         <item name="android:background">@color/appGrayTransparent</item>
         <item name="android:tag">sticky-hastransparancy"</item>
     </style>
+
+
 </resources>

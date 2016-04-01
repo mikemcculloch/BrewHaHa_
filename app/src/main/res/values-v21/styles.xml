@@ -73,13 +73,18 @@
     </style>
 
 
-    <style name="headerTitleFont" parent="TextAppearance.AppCompat.Medium">
-        <!--<item name="android:textColor">@color/app_orange</item>-->
+    <!--<style name="headerTitleFont" parent="TextAppearance.AppCompat.Medium">-->
+        <!--<item name="android:textColor">@color/black</item>-->
+        <!--<item name="android:fontFamily">sans-serif</item>-->
+    <!--</style>-->
+    <style name="appMediumFont" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/black</item>
-        <!--<item name="android:textStyle">bold</item>-->
         <item name="android:fontFamily">sans-serif</item>
     </style>
-
+    <style name="appMediumFontWhite" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 
     <style name="whiteFont" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/white</item>
@@ -101,10 +106,7 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
-    <style name="appMediumFont" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textColor">@color/black</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
+
 
     <style name="appLargeFont" parent="TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/black</item>
@@ -119,19 +121,6 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
-
-
-
-
-
-    <!--<style name="buttonHeadLine" parent="Base.Widget.AppCompat.Button">-->
-        <!--<item name="colorButtonNormal">@color/app_gray</item>-->
-        <!--<item name="android:fontFamily">sans-serif</item>-->
-        <!--<item name="android:textAppearance">@style/TextAppearance.AppCompat.Headline</item>-->
-    <!--</style>-->
-
-
-
 
 
     <style name="buttonOrange" parent="Base.Widget.AppCompat.Button">
