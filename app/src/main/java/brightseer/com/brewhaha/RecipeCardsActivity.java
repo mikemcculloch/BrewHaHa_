@@ -65,7 +65,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private int sceneId, sceneIdLast = 0;
 
     private int imageCount = 0, contentItemPk;
-    private String recipeTitle, author, datePosted, authorImageUrl;
     private ImageView recipe_header_user_image_view;
     private TextView recipe_author_text_view, recipe_title_text_view, recipe_date_posted;
 
@@ -78,7 +77,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView recycler_view_recipe_images;
     private RecipeImageRecycler recipeImageRecycler;
 
-    private String userToken, recipeToken;
+    private String recipeTitle, userToken, recipeToken, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
 
     private RecipeSummary recipeSummary = new RecipeSummary();
     private List<RecipeGrain> recipeGrains = new Vector<>();
@@ -212,8 +211,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         contentItemPk = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
         adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
-        author = activityThatCalled.getExtras().getString(Constants.exUsername);
-        datePosted = activityThatCalled.getExtras().getString(Constants.exUserdate);
+        authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
+        recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
     }
 
@@ -247,6 +246,12 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                              recipeImages = recipeContent.getRecipeImage();
                                              if (recipeImages == null)
                                                  recipeImages = new Vector<>();
+
+                                             recipeDesctiption = recipeContent.getDescription();
+
+                                             authorImageUrl = recipeContent.getUserImageUrl();
+                                             recipeDateCreated = recipeContent.getDateCreated();
+                                             recipeDateModified = recipeContent.getDateModified();
 
                                              loadRecipeImages();
                                              goToSceneOverView(findViewById(R.id.card_overview));
@@ -474,7 +479,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 Fragment fragment = null;
                 if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified);
                 }
 
                 if (sceneId == Constants.sceneIngredients) {
@@ -605,8 +610,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_START);
             mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.recycler_view_recipe_images);
-            mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.quarter_margin));
-            mainLayoutParam.setMargins((int) getResources().getDimension(R.dimen.quarter_margin), (int) getResources().getDimension(R.dimen.quarter_margin), 0, 0);
+//            mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.quarter_margin));
+            mainLayoutParam.setMargins(0, 0, 0, 0);
 
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
             resetLayouts();
@@ -636,8 +641,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void resetLayouts() {
         LayoutParams mainLayoutParam;
-
-
 
 
         if (sceneIdLast == Constants.sceneOverview) {

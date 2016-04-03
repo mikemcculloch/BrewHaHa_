@@ -122,5 +122,12 @@
         <item name="android:tag">sticky-hastransparancy"</item>
     </style>
 
+    <style name="headlineTextWhite" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="headlineTextBlack" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 </resources>

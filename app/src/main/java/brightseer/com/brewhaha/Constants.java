@@ -219,12 +219,20 @@ public class Constants {
 
     public static final String exRecipeTitle = "RecipeTitle";
     public static final String exPosition = "Position";
-    public static final String exUsername = "exUsername";
-    public static final String exUserdate = "exUserdate";
+    public static final String exUsername = "Username";
+    public static final String exUserdate = "Userdate";
     public static final String exBitMapInfo = "BitMapInfo";
-    public static final String exAuthorImage = "exAuthorImage";
-    public static final String exRecipeImage = "exRecipeImage";
+    public static final String exAuthorImage = "AuthorImage";
+    public static final String exRecipeImage = "RecipeImage";
     public static final String exBitMapInfoMain = "BitMapInfoMain";
+
+    public static final String exRecipeDesctiption = "RecipeDesctiption";
+    public static final String exAuthorImageUrl = "AuthorImageUrl";
+    public static final String exRecipeDateCreated = "RecipeDateCreated";
+    public static final String exRecipeDateModified = "RecipeDateModified";
+
+
+
 
     public static final String exAbvValue = "abvValue";
     public static final String exIbuValue = "ibuValue";

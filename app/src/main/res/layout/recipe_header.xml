@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Recipe header place holder text"
+            android:layout_marginBottom="@dimen/quarter_margin"
             android:transitionName="@string/transition_title" />
 
         <com.google.android.gms.plus.PlusOneButton xmlns:plus="http://schemas.android.com/apk/lib/com.google.android.gms.plus"

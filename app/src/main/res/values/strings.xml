@@ -133,6 +133,9 @@
     <string name="transition_userdate">UserDate</string>
     <string name="transition_googlePlus">UserDate</string>
 
+
+    <string name="next_x_results">%1$d</string>
+
     <string name="transition_bitmapmain">BitmapMain</string>
     <string name="transition_bitmapuser">BitmapUser</string>
     <string name="title_comments">Comments</string>
@@ -140,4 +143,8 @@
     <string name="string_overview">Overview</string>
     <string name="text_Direction">Direction</string>
     <string name="string_brewing_steps">Brewing Steps</string>
+    <string name="string_placeholder">THis is the place holder fro some awesome stuff stuff stuff. THis is the place holder fro some awesome stuff stuff stuff. THis is the place holder fro some awesome stuff stuff stuff. THis is the place holder fro some awesome stuff stuff stuff. THis is the place holder fro some awesome stuff stuff stuff.</string>
+    <string name="string_original_gravity">Original Gravity(OG)</string>
+    <string name="string_final_gravity">Final Gravity(FG)</string>
+    <string name="string_bitterness_ibu">Bitterness(IBU)</string>
 </resources>

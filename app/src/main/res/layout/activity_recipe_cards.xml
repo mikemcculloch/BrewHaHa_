@@ -116,7 +116,7 @@
                     android:layout_alignParentStart="true"
                     android:layout_below="@+id/card_overviewHolder"
                     android:layout_marginTop="@dimen/quarter_margin"
-                    android:background="@color/testColor2"
+                    android:background="@color/white"
                     android:paddingBottom="@dimen/half_margin"
                     android:paddingTop="@dimen/half_margin" />
 
