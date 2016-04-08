@@ -39,7 +39,7 @@
             android:layout_marginLeft="@dimen/quarter_margin"
             android:layout_marginTop="@dimen/quarter_margin"
             android:gravity="center_vertical|center_horizontal"
-            android:text="@string/text_Direction"
+            android:text="@string/ingredients_text"
             style="@style/headlineTextWhite"
              />
     </android.support.v7.widget.CardView>

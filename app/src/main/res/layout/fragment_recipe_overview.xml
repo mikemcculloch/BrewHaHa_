@@ -47,6 +47,7 @@
             android:layout_marginBottom="@dimen/half_margin"
             android:layout_marginLeft="@dimen/quarter_margin"
             android:layout_marginRight="@dimen/quarter_margin"
+            android:layout_marginTop="@dimen/half_margin"
             android:orientation="vertical">
 
             <TextView
@@ -73,88 +74,141 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/string_placeholder" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#C0C0C0" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="3">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/string_original_gravity" />
-
-                    <TextView
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/string_final_gravity" />
-
-                    <TextView
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/string_bitterness_ibu" />
-
-                    <!--<TextView-->
-                    <!--style="@style/appMediumFont"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="SRM Color" />-->
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="right"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/original_gravity_text_view"
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0%" />
-
-                    <TextView
-                        android:id="@+id/final_gravity_text_view"
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0%" />
-
-                    <TextView
-                        android:id="@+id/bitterness_text_view"
-                        style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0%" />
-
-                    <!--<TextView-->
-                    <!--android:id="@+id/srm_color_text_view"-->
-                    <!--style="@style/appMediumFont"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="0" />-->
-
-                </LinearLayout>
-            </LinearLayout>
-
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_marginLeft="@dimen/half_margin"
+        android:layout_marginRight="@dimen/half_margin"
+        card_view:cardCornerRadius="4dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/half_margin"
+            android:layout_marginLeft="@dimen/quarter_margin"
+            android:layout_marginRight="@dimen/quarter_margin"
+            android:layout_marginTop="@dimen/half_margin"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_original_gravity" />
+
+                <TextView
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_final_gravity" />
+
+                <TextView
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/string_bitterness_ibu" />
+
+                <TextView
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SRM Color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/original_gravity_text_view"
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/final_gravity_text_view"
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+                <TextView
+                    android:id="@+id/bitterness_text_view"
+                    style="@style/appMediumFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/circle_srm_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/half_margin"
+                        android:src="@drawable/circle_srm" />
+
+                    <TextView
+                        android:id="@+id/srm_color_text_view"
+                        style="@style/appMediumFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        card_view:cardBackgroundColor="@color/app_yellow"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/abv_text_view"
+                style="@style/headlineTextBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="7%" />
+
+            <TextView
+                style="@style/headlineTextBlack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/string_abv" />
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

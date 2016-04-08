@@ -1,6 +1,10 @@
 package brightseer.com.brewhaha.recipe_adapters;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -64,7 +68,19 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
         if (TextUtils.isEmpty(item.getHexColor())) {
             item.setHexColor("#fee799");
         }
-        itemViewHolder.my_grain_color_image_view.setBackgroundColor(Color.parseColor(item.getHexColor()));
+
+        int newColor = Color.parseColor(item.getHexColor());
+        Drawable mDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDrawable = _fragment.getContext().getResources().getDrawable(R.drawable.circle_srm, _fragment.getActivity().getTheme());
+        }
+        else{
+            mDrawable = _fragment.getContext().getResources().getDrawable(R.drawable.circle_srm);
+        }
+
+        mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
+        itemViewHolder.my_grain_color_image_view.setImageDrawable(mDrawable);
+
 
         itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
         itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));

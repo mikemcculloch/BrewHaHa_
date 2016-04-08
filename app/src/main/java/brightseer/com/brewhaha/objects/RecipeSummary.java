@@ -14,11 +14,13 @@ public class RecipeSummary implements Serializable {
     private String FinalGravity;
     private String OriginalGravity;
     private int YieldByGallon;
+    public String SrmHex;
+
 
     public RecipeSummary() {
     }
 
-    public RecipeSummary(String alcoholByVol, int beerSummaryId, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, int yieldByGallon) {
+    public RecipeSummary(String alcoholByVol, int beerSummaryId, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, int yieldByGallon, String srmHex) {
         AlcoholByVol = alcoholByVol;
         BeerSummaryId = beerSummaryId;
         BitternessIbu = bitternessIbu;
@@ -26,6 +28,7 @@ public class RecipeSummary implements Serializable {
         FinalGravity = finalGravity;
         OriginalGravity = originalGravity;
         YieldByGallon = yieldByGallon;
+        SrmHex = srmHex;
     }
 
     public String getAlcoholByVol() {
@@ -82,5 +85,13 @@ public class RecipeSummary implements Serializable {
 
     public void setYieldByGallon(int yieldByGallon) {
         YieldByGallon = yieldByGallon;
+    }
+
+    public String getSrmHex() {
+        return SrmHex;
+    }
+
+    public void setSrmHex(String srmHex) {
+        SrmHex = srmHex;
     }
 }

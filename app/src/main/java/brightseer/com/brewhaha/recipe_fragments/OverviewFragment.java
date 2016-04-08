@@ -1,10 +1,16 @@
 package brightseer.com.brewhaha.recipe_fragments;
 
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import brightseer.com.brewhaha.Constants;
@@ -74,15 +80,31 @@ public class OverviewFragment extends BaseRecipeFragment {
         recipe_description_text_view.setText(recipeDesctiption);
 
         TextView original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
-        original_gravity_text_view.setText(recipeSummary.getOriginalGravity() + "%");
+        original_gravity_text_view.setText(recipeSummary.getOriginalGravity());
 
         TextView final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
-        final_gravity_text_view.setText(recipeSummary.getFinalGravity() + "%");
+        final_gravity_text_view.setText(recipeSummary.getFinalGravity());
 
         TextView bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
-        bitterness_text_view.setText(recipeSummary.getBitternessIbu() + "%");
+        bitterness_text_view.setText(recipeSummary.getBitternessIbu());
 
-//        TextView srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
-//        srm_color_text_view.setText(recipeSummary.getColorSrm() + "%");
+        TextView srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
+        srm_color_text_view.setText(recipeSummary.getColorSrm());
+
+        TextView abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
+        abv_text_view.setText(recipeSummary.getAlcoholByVol() + "%");
+
+        int newColor = Color.parseColor(recipeSummary.SrmHex);
+        Drawable mDrawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm, getActivity().getTheme());
+        }
+        else{
+            mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm);
+        }
+
+        mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
+        ImageView circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
+        circle_srm_image_view.setImageDrawable(mDrawable);
     }
 }

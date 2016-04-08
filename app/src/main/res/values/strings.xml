@@ -147,4 +147,5 @@
     <string name="string_original_gravity">Original Gravity(OG)</string>
     <string name="string_final_gravity">Final Gravity(FG)</string>
     <string name="string_bitterness_ibu">Bitterness(IBU)</string>
+    <string name="string_abv">ABV</string>
 </resources>
