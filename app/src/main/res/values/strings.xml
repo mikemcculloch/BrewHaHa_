@@ -148,4 +148,6 @@
     <string name="string_final_gravity">Final Gravity(FG)</string>
     <string name="string_bitterness_ibu">Bitterness(IBU)</string>
     <string name="string_abv">ABV</string>
+    <string name="string_alcohol_by_volume">Alcohol by Volume</string>
+    <string name="string_images">Images</string>
 </resources>

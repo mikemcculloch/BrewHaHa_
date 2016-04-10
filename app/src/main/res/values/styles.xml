@@ -104,6 +104,9 @@
     <style name="appLargeFont" parent="TextAppearance.AppCompat.Large">
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="appLargeFontWhite" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <style name="instructionsTitle" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textColor">@color/black</item>

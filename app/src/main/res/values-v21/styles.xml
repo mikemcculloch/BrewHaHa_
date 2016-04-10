@@ -113,6 +113,11 @@
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
+    <style name="appLargeFontWhite" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
     <style name="AppTheme.Button" parent="Base.Widget.AppCompat.Button">
         <item name="android:colorButtonNormal">@color/blue_light</item>
     </style>

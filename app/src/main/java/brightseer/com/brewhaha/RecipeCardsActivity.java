@@ -11,10 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.transition.Transition;
@@ -37,8 +34,6 @@ import com.koushikdutta.ion.bitmap.BitmapInfo;
 import java.util.List;
 import java.util.Vector;
 
-import brightseer.com.brewhaha.adapter.RecipeImageRecycler;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
@@ -50,8 +45,8 @@ import brightseer.com.brewhaha.objects.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeItem;
 import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.objects.RecipeYeast;
-import brightseer.com.brewhaha.recipe_fragments.CommentFragment;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
+import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
 import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
 import brightseer.com.brewhaha.repository.JsonToObject;
@@ -68,14 +63,11 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private ImageView recipe_header_user_image_view;
     private TextView recipe_author_text_view, recipe_title_text_view, recipe_date_posted;
 
-    private NestedScrollView nestedscrollview;
     private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
-    private AppCompatButton card_overview, card_ingredients, card_directions, card_comments;
+    private AppCompatButton card_overview, card_ingredients, card_directions, card_images;
 
-    private RecyclerView recycler_view_recipe_images;
-    private RecipeImageRecycler recipeImageRecycler;
 
     private String recipeTitle, userToken, recipeToken, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
 
@@ -99,10 +91,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 //        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
-            setContentView(R.layout.activity_recipe_cards);
+            setContentView(R.layout.activity_recipe_animated);
             _mContext = RecipeCardsActivity.this;
             initExtras();
-            initRecyclerView();
+//            initRecyclerView();
             initViews();
             initPrefs();
             loadData();
@@ -127,7 +119,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 if (toggleSceneButtons)
                     goToSceneDirections(v);
                 break;
-            case R.id.card_comments:
+            case R.id.card_images:
                 if (toggleSceneButtons) {
                     goToSceneComments(v);
                 }
@@ -167,7 +159,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }
 
-            nestedscrollview = (NestedScrollView) findViewById(R.id.nestedscrollview);
+//            nestedscrollview = (NestedScrollView) findViewById(R.id.nestedscrollview);
 
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
 
@@ -197,8 +189,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_ingredients.setOnClickListener(this);
             card_directions = (AppCompatButton) findViewById(R.id.card_directions);
             card_directions.setOnClickListener(this);
-            card_comments = (AppCompatButton) findViewById(R.id.card_comments);
-            card_comments.setOnClickListener(this);
+            card_images = (AppCompatButton) findViewById(R.id.card_images);
+            card_images.setOnClickListener(this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -283,51 +275,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         recipeImages.add(test);
         recipeImages.add(test);
 
-        for (RecipeImage item : recipeImages) {
-            recipeImageRecycler.add(item, recipeImages.size() - 1);
-        }
-    }
-
-    private void initRecyclerView() {
-        recycler_view_recipe_images = (RecyclerView) findViewById(R.id.recycler_view_recipe_images);
-        recycler_view_recipe_images.setHasFixedSize(true);
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        layoutManager.scrollToPosition(0);
-
-        recycler_view_recipe_images.setLayoutManager(layoutManager);
-
-        List<RecipeImage> placeHolder = new Vector<>();
-        recipeImageRecycler = new RecipeImageRecycler(placeHolder, RecipeCardsActivity.this);
-
-        recycler_view_recipe_images.setAdapter(recipeImageRecycler);
-
-        recycler_view_recipe_images.addOnItemTouchListener(
-                new RecyclerItemClickListener(this, recycler_view_recipe_images, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        try {
-                            showImage(recipeImages.get(position));
-                        } catch (Exception e) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, e.getMessage());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-//                        selectedImagePk = recipeImageList.get(position).getImagePk();
-//                        deletePosition = position;
-//                        menuType = 2;
-//                        registerForContextMenu(view);
-//                        getActivity().openContextMenu(view);
-//                        view.setLongClickable(false);
-
-                    }
-                })
-        );
+//        for (RecipeImage item : recipeImages) {
+//            recipeImageRecycler.add(item, recipeImages.size() - 1);
+//        }
     }
 
     public void goToSceneOverView(View view) {
@@ -346,7 +296,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     }
 
     public void goToSceneComments(View view) {
-        sceneId = Constants.sceneComments;
+        sceneId = Constants.sceneImages;
         moveButton(view);
     }
 
@@ -431,44 +381,18 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         if (sceneId == Constants.sceneDirections) {
             view = findViewById(R.id.card_directions);
         }
-        if (sceneId == Constants.sceneComments) {
-            view = findViewById(R.id.card_comments);
+        if (sceneId == Constants.sceneImages) {
+            view = findViewById(R.id.card_images);
         }
 
         view.setTranslationX(newLoc.mX);
         view.setTranslationY(newLoc.mY);
     }
 
-    private Animator.AnimatorListener animatorSceneEnter = new Animator.AnimatorListener() {
+    Animator.AnimatorListener animatorSceneEnter = new Animator.AnimatorListener() {
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onAnimationStart(Animator animation) {
-//            View view = null;
-//            if (sceneId == R.layout.scene_comments) {
-//                view = card_comments;
-//
-////                view.setBackground(getDrawable(R.drawable.round_button));
-//
-////
-////                ChangeBounds changeBounds = new ChangeBounds();
-////                changeBounds.setResizeClip(true);
-////                changeBounds.setDuration(500);
-////                TransitionValues tv = new TransitionValues();
-////                changeBounds.createAnimator(view, tv, tv);
-////
-////view.startAnimation(changeBounds);
-////                ScaleAnimation scale = new ScaleAnimation((float) 1.0, (float) 1.5, (float) 1.0, (float) 1.5);
-////                scale.setFillAfter(false);
-////                scale.setDuration(1000);
-////                view.startAnimation(scale);
-//
-//
-////                RotateAnimation r = new RotateAnimation(0f, -90f,200,200); // HERE
-//////                r.setStartOffset(1000);
-////                r.setDuration(500);
-////                view.startAnimation(r);
-//            }
         }
 
         @Override
@@ -492,9 +416,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                     fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeRecipeInstructions, recipeToken);
                 }
 
-                if (sceneId == Constants.sceneComments) {
-                    view = card_comments;
-                    fragment = CommentFragment.newInstance(20, 20, randomColor, recipeComents);
+                if (sceneId == Constants.sceneImages) {
+                    view = card_images;
+                    fragment = ImageFragment.newInstance(20, 20, randomColor, recipeImages);
                 }
 
                 ViewGroup scene_target = (ViewGroup) findViewById(R.id.scene_target);
@@ -626,7 +550,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 mainLayoutParam.removeRule(RelativeLayout.LEFT_OF);
                 mainLayoutParam.removeRule(RelativeLayout.START_OF);
             }
-            if (sceneId == Constants.sceneComments) {
+            if (sceneId == Constants.sceneImages) {
                 mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_END);
                 mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             }
@@ -684,9 +608,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             card_directions.setVisibility(View.VISIBLE);
         }
 
-        if (sceneIdLast == Constants.sceneComments) {
-            card_comments.setVisibility(View.VISIBLE);
-            mainLayoutParam = (LayoutParams) card_comments.getLayoutParams();
+        if (sceneIdLast == Constants.sceneImages) {
+            card_images.setVisibility(View.VISIBLE);
+            mainLayoutParam = (LayoutParams) card_images.getLayoutParams();
 
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
@@ -696,8 +620,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-            card_comments.setLayoutParams(mainLayoutParam);
-            card_comments.setVisibility(View.VISIBLE);
+            card_images.setLayoutParams(mainLayoutParam);
+            card_images.setVisibility(View.VISIBLE);
         }
     }
 }

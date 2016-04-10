@@ -20,11 +20,11 @@ import brightseer.com.brewhaha.objects.RecyclerObjects;
  */
 public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.RecipeImageViewHolder> {
     private List<RecipeImage> recipeImageList = new Vector<>();
-    private RecipeCardsActivity _activity;
+//    private RecipeCardsActivity _activity;
 
-    public RecipeImageRecycler(List<RecipeImage> jsonObject, RecipeCardsActivity activity) {
+    public RecipeImageRecycler(List<RecipeImage> recipeImageList) {
         this.recipeImageList = recipeImageList;
-        _activity = activity;
+//        _activity = activity; , RecipeCardsActivity activity
     }
 
     public void add(RecipeImage item, int position) {

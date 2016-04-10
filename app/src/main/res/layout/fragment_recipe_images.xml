@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/half_margin"
-        card_view:cardBackgroundColor="@color/app_gray"
+        card_view:cardBackgroundColor="@color/app_blue"
         card_view:cardCornerRadius="0dp">
 
         <ImageView
@@ -19,9 +19,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/half_margin"
-            android:src="@drawable/ic_directions_black_24px"/>
+            android:src="@drawable/ic_crop_original_white_24dp" />
 
         <TextView
+            style="@style/headlineTextWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|center_vertical"
@@ -29,48 +30,34 @@
             android:layout_marginLeft="@dimen/quarter_margin"
             android:layout_marginTop="@dimen/quarter_margin"
             android:gravity="center_vertical|center_horizontal"
-            android:text="@string/text_Direction"
-            style="@style/headlineTextBlack"/>
+            android:text="@string/string_images" />
     </android.support.v7.widget.CardView>
-
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        card_view:cardBackgroundColor="@color/app_orange"
         android:layout_marginBottom="@dimen/half_margin"
         android:layout_marginLeft="@dimen/half_margin"
-        android:layout_marginRight="@dimen/half_margin"
-        card_view:cardCornerRadius="4dp">
+        android:layout_marginRight="@dimen/half_margin">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+
             android:orientation="vertical">
 
-
-            <LinearLayout
+            <android.support.v4.view.ViewPager
+                android:id="@+id/recipe_image_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/app_blue">
+                android:layout_height="match_parent" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginLeft="@dimen/quarter_margin"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/string_brewing_steps"
-                    android:textAppearance="@style/appMediumFontWhite" />
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/my_instruction_recycle_view"
+            <com.viewpagerindicator.LinePageIndicator
+                android:id="@+id/view_page_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/half_margin"
-                android:layout_marginRight="@dimen/half_margin" />
+                android:padding="5dip" />
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
-
-
 </LinearLayout>

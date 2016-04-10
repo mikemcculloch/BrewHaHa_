@@ -244,7 +244,8 @@ public class Constants {
     public static final int sceneDirections = 1;
     public static final int sceneIngredients = 2;
     public static final int sceneOverview = 3;
-    public static final int sceneComments = 4;
+//    public static final int sceneComments = 4;
+    public static final int sceneImages = 4;
 
     public static final String bundleRecipeGrains = "recipeGrains";
     public static final String bundleRecipeHops = "recipeHops";
