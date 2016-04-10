@@ -14,6 +14,7 @@ import com.koushikdutta.ion.Ion;
 import java.util.List;
 
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.helper.TouchImageView;
 import brightseer.com.brewhaha.objects.RecipeImage;
 
 /**
@@ -26,10 +27,11 @@ public class ImagesAdapter extends PagerAdapter {
     private LayoutInflater inflater;
 
     // constructor
-    public ImagesAdapter(Activity activity,List<RecipeImage> imagePaths) {
+    public ImagesAdapter(Activity activity, List<RecipeImage> recepeImages) {
         this._activity = activity;
-        this._recepeImages = imagePaths;
+        this._recepeImages = recepeImages;
     }
+
 
     @Override
     public int getCount() {
@@ -43,15 +45,17 @@ public class ImagesAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imgDisplay;
-
+        TouchImageView imgDisplay;
         inflater = (LayoutInflater) _activity
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
 
-        View viewLayout = inflater.inflate(R.layout.pager_simple, container, false);
+        viewLayout.setTag(position);
 
-        imgDisplay = (ImageView) viewLayout.findViewById(R.id.simple_image_view);
+        viewLayout.setLongClickable(true);
+        imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay);
         imgDisplay.setContentDescription(String.valueOf(position));
+        imgDisplay.setLongClickable(true);
 
         RecipeImage recipeImage = _recepeImages.get(position);
 
@@ -59,6 +63,7 @@ public class ImagesAdapter extends PagerAdapter {
                 .placeholder(R.mipmap.ic_beercap)
                 .load(recipeImage.getImageUrl());
 
+        _activity.registerForContextMenu(imgDisplay);
         (container).addView(viewLayout);
 
         return viewLayout;
@@ -67,5 +72,12 @@ public class ImagesAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         (container).removeView((RelativeLayout) object);
+
     }
+
+    @Override
+    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+        super.setPrimaryItem(container, position, object);
+    }
+
 }

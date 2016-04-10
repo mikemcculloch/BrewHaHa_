@@ -33,31 +33,21 @@
             android:text="@string/string_images" />
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        card_view:cardBackgroundColor="@color/app_orange"
-        android:layout_marginBottom="@dimen/half_margin"
-        android:layout_marginLeft="@dimen/half_margin"
-        android:layout_marginRight="@dimen/half_margin">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.v4.view.ViewPager
+            android:id="@+id/recipe_image_view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent" />
 
-            android:orientation="vertical">
+        <com.viewpagerindicator.LinePageIndicator
+            android:id="@+id/view_page_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dip" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/recipe_image_view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <com.viewpagerindicator.LinePageIndicator
-                android:id="@+id/view_page_indicator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip" />
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>
