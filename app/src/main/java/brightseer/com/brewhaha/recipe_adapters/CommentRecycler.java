@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.adapter;
+package brightseer.com.brewhaha.recipe_adapters;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -22,9 +22,10 @@ import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.CommentItemViewHolder> {
-    Activity _Activity;
-    List<Comment> objects = new Vector<>();
+//    Activity _Activity;
+    List<Comment> comments = new Vector<>();
     int cornerRadius = 200;
+
     Transform trans = new Transform() {
         boolean isOval = false;
 
@@ -44,19 +45,19 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
         }
     };
 
-    public CommentRecycler(List<Comment> objects, RecipeActivity activity) {
-        this.objects = objects;
-        _Activity = activity;
+    public CommentRecycler(List<Comment> _comments) {
+        this.comments = _comments;
+//        _Activity = activity;
     }
 
 
     public void add(Comment item, int position) {
-        objects.add(item);
+        comments.add(item);
         notifyItemInserted(position);
     }
 
     public void removeAll() {
-        objects.clear();
+        comments.clear();
         notifyAll();
 //        notifyItemInserted(position);
     }
@@ -73,7 +74,7 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
     @Override
     public void onBindViewHolder(RecyclerObjects.CommentItemViewHolder holder, int position) {
 
-        Comment getItem = objects.get(position);
+        Comment getItem = comments.get(position);
 
         Ion.with(holder.comment_user_image)
                 .placeholder(R.drawable.ic_person_black_24dp)
@@ -89,6 +90,6 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
 
     @Override
     public int getItemCount() {
-        return objects.size();
+        return comments.size();
     }
 }

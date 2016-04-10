@@ -7,15 +7,28 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
+
+import java.util.List;
+import java.util.Vector;
+
+import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.RecipeSummary;
+import brightseer.com.brewhaha.recipe_adapters.CommentRecycler;
 
 /**
  * Created by wooan on 3/21/2016.
@@ -23,8 +36,9 @@ import brightseer.com.brewhaha.objects.RecipeSummary;
 public class OverviewFragment extends BaseRecipeFragment {
     private View rootView;
     private RecipeSummary recipeSummary = new RecipeSummary();
-    String recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
+    private String recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
 
+    private RecyclerView comments_recycler_view;
 
     public OverviewFragment() {
     }
@@ -56,9 +70,9 @@ public class OverviewFragment extends BaseRecipeFragment {
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
-
         ReadBundle();
         initViews();
+        initCommentRecyclerView();
         return rootView;
     }
 
@@ -98,13 +112,49 @@ public class OverviewFragment extends BaseRecipeFragment {
         Drawable mDrawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm, getActivity().getTheme());
-        }
-        else{
+        } else {
             mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm);
         }
 
         mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
         ImageView circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
         circle_srm_image_view.setImageDrawable(mDrawable);
+    }
+
+    private void initCommentRecyclerView() {
+        LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
+        recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recylerViewLayoutManager.scrollToPosition(0);
+
+        comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_grain_recycler_view);
+        comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
+        } else {
+            comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+        }
+        List<Comment> comments = new Vector<>();
+        CommentRecycler commentRecycler = new CommentRecycler(comments);
+
+        comments_recycler_view.setAdapter(commentRecycler);
+        comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
+        comments_recycler_view.addOnItemTouchListener(
+                new RecyclerItemClickListener(getContext(), comments_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        try {
+
+                        } catch (Exception e) {
+                            if (BuildConfig.DEBUG) {
+                                Log.e(Constants.LOG, e.getMessage());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                    }
+                })
+        );
     }
 }
