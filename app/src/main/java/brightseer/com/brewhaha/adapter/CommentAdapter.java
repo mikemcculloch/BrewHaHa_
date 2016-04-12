@@ -78,7 +78,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
             ViewHolder.comment_item_author.setText(comment.getAuthorName());
 
             ViewHolder.comment_item_timestamp = (TextView) theView.findViewById(R.id.comment_item_timestamp);
-            ViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getTimestamp()));
+            ViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
 
             ViewHolder.comment_text_view = (TextView) theView.findViewById(R.id.comment_text_view);
             ViewHolder.comment_text_view.setText(comment.getBody());

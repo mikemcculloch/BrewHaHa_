@@ -403,7 +403,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 Fragment fragment = null;
                 if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified, contentItemPk);
                 }
 
                 if (sceneId == Constants.sceneIngredients) {

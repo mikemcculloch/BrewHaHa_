@@ -1,6 +1,5 @@
 package brightseer.com.brewhaha.recipe_adapters;
 
-import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,13 +15,11 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.CommentItemViewHolder> {
-//    Activity _Activity;
     List<Comment> comments = new Vector<>();
     int cornerRadius = 200;
 
@@ -52,8 +49,16 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
 
 
     public void add(Comment item, int position) {
-        comments.add(item);
+//        comments.add(item);
+        comments.add(position, item);
         notifyItemInserted(position);
+        notifyDataSetChanged();
+    }
+
+    public void remove(int position) {
+        comments.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
     }
 
     public void removeAll() {
@@ -84,12 +89,21 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
                 .load(getItem.getImageUrl());
 
         holder.comment_item_author.setText(getItem.getAuthorName());
-        holder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(getItem.getTimestamp()));
+        holder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(getItem.getDateCreated()));
         holder.comment_text_view.setText(getItem.getBody());
     }
 
     @Override
     public int getItemCount() {
         return comments.size();
+    }
+
+    public int getPostionByKey(String itemKey) {
+        for (Comment item : comments) {
+            if (itemKey.equals(item.getKey())) {
+                return comments.indexOf(item);
+            }
+        }
+        return 0;
     }
 }

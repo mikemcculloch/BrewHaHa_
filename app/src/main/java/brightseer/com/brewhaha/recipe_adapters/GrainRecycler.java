@@ -90,7 +90,7 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
 //        CheckBox ingredient_checkbox = (CheckBox) theView.findViewById(R.id.ingredient_checkbox);
 //        if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //            for (IngredientSelected appDataItem : _appDataList) {
-//                if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getContentItemPk()) {
+//                if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getRecipeContentId()) {
 //                    ingredient_checkbox.setChecked(true);
 //                }
 //            }

@@ -630,7 +630,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         final Comment comment = comments.get(commentSize);
 
         Ion.with(_mContext)
-                .load(Constants.wcfGetCommentSetByLastId + responseContentItemPk + "/" + comment.getCommentPk() + "/6")
+                .load(Constants.wcfGetCommentSetByLastId + responseContentItemPk + "/" + comment.getCommentId() + "/6")
                 .setHeader("Cache-Control", "No-Cache")
                 .asJsonArray()
                 .setCallback(new FutureCallback<JsonArray>() {

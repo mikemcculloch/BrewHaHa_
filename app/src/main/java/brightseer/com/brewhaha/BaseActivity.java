@@ -327,7 +327,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
         ImageView recipe_comment_add_image_view = (ImageView) _Activity.findViewById(R.id.recipe_comment_add_image_view);
         recipe_comment_add_image_view.setImageResource(R.drawable.ic_mode_edit_black_24dp);
-        commentEditPk = comment.getCommentPk();
+        commentEditPk = comment.getCommentId();
     }
 
     private void DeleteComment(View v, final Comment comment) {
@@ -346,7 +346,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                     dialog.dismiss();
                     RecipeActivity.setListViewHeightBasedOnChildren(((RecipeActivity) _Activity).comments_list_view);
                     Ion.with(_Activity.getApplicationContext())
-                            .load(Constants.wcfRemoveComment + comment.getCommentPk())
+                            .load(Constants.wcfRemoveComment + comment.getCommentId())
                             .addHeader("Content-Type", "application/json")
                             .asString()
                             .setCallback(new FutureCallback<String>() {

@@ -5,46 +5,45 @@ import java.io.Serializable;
 /**
  * Created by mccul_000 on 10/26/2014.
  */
-public class Comment  implements Serializable {
-    private int CommentPk;
-    private int ContentItemPk;
+public class Comment implements Serializable {
+    private int CommentId;
+    private int RecipeContentId;
+
     private String AuthorName;
     private String ImageUrl;
     private String Body;
-    private int RatingValue;
-    private String RatingDescription;
-    private String Timestamp;
+    private String DateCreated;
     private String UserToken;
+    private String Key;
 
     public Comment() {
     }
 
-    public Comment(int commentPk, int contentItemPk, String authorName, String imageUrl, String body, int ratingValue, String ratingDescription, String timestamp, String userToken) {
-        CommentPk = commentPk;
-        ContentItemPk = contentItemPk;
+    public Comment(int commentId, int recipeContentId, String authorName, String imageUrl, String body, String dateCreated, String userToken, String key) {
+        CommentId = commentId;
+        RecipeContentId = recipeContentId;
         AuthorName = authorName;
         ImageUrl = imageUrl;
         Body = body;
-        RatingValue = ratingValue;
-        RatingDescription = ratingDescription;
-        Timestamp = timestamp;
+        DateCreated = dateCreated;
         UserToken = userToken;
+        Key = key;
     }
 
-    public int getCommentPk() {
-        return CommentPk;
+    public int getCommentId() {
+        return CommentId;
     }
 
-    public void setCommentPk(int commentPk) {
-        CommentPk = commentPk;
+    public void setCommentId(int commentId) {
+        CommentId = commentId;
     }
 
-    public int getContentItemPk() {
-        return ContentItemPk;
+    public int getRecipeContentId() {
+        return RecipeContentId;
     }
 
-    public void setContentItemPk(int contentItemPk) {
-        ContentItemPk = contentItemPk;
+    public void setRecipeContentId(int recipeContentId) {
+        RecipeContentId = recipeContentId;
     }
 
     public String getAuthorName() {
@@ -71,28 +70,12 @@ public class Comment  implements Serializable {
         Body = body;
     }
 
-    public int getRatingValue() {
-        return RatingValue;
+    public String getDateCreated() {
+        return DateCreated;
     }
 
-    public void setRatingValue(int ratingValue) {
-        RatingValue = ratingValue;
-    }
-
-    public String getRatingDescription() {
-        return RatingDescription;
-    }
-
-    public void setRatingDescription(String ratingDescription) {
-        RatingDescription = ratingDescription;
-    }
-
-    public String getTimestamp() {
-        return Timestamp;
-    }
-
-    public void setTimestamp(String timestamp) {
-        Timestamp = timestamp;
+    public void setDateCreated(String dateCreated) {
+        DateCreated = dateCreated;
     }
 
     public String getUserToken() {
@@ -101,5 +84,13 @@ public class Comment  implements Serializable {
 
     public void setUserToken(String userToken) {
         UserToken = userToken;
+    }
+
+    public String getKey() {
+        return Key;
+    }
+
+    public void setKey(String key) {
+        Key = key;
     }
 }
