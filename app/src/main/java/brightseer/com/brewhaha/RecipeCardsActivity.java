@@ -59,7 +59,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private FloatingActionButton fabEdit;
     private int sceneId, sceneIdLast = 0;
 
-    private int imageCount = 0, contentItemPk;
+    private int imageCount = 0, recipeContentId;
     private ImageView recipe_header_user_image_view;
     private TextView recipe_author_text_view, recipe_title_text_view, recipe_date_posted;
 
@@ -200,7 +200,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         Intent activityThatCalled = getIntent();
 
         recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
-        contentItemPk = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
+//        recipeContentId = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
         adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
@@ -228,7 +228,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                                      try {
                                          if (result != null) {
                                              RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
-
+                                             recipeContentId = recipeContent.getRecipeContentId();
                                              recipeGrains = recipeContent.getRecipeGrains();
                                              recipeHops = recipeContent.getRecipeHops();
                                              recipeYeasts = recipeContent.getRecipeYeasts();
@@ -403,7 +403,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 Fragment fragment = null;
                 if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified, contentItemPk);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified, recipeContentId);
                 }
 
                 if (sceneId == Constants.sceneIngredients) {

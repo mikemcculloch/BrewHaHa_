@@ -21,7 +21,6 @@ public class Constants {
     public static String recipeServices = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
 
 
-
     public static String wcfGetHomeContentListByLastId = rest_url_base + "GetHomeContentListByLastId/";
     public static String wcfGetBatchSizeList = rest_url_base + "GetBatchSizeList"; //No Params
     public static String wcfGetContentById = rest_url_base + "GetContentById/";
@@ -85,16 +84,9 @@ public class Constants {
     public static String wcfPlusValidation = rest_url_base + "PlusValidation"; //(string googlePlusId, string fullName, string emailAddress, string userImageUrl, string plusProfile)
 
 
-
-
-
     public static String GetRecipeItemUrl = recipeServices + "GetRecipeByGuid/";
     public static String GetMainFeed = recipeServices + "GetMainFeed/";
     public static String UpdateInstructions = recipeServices + "UpdateInstructions"; //POST
-
-
-
-
 
 
     public static String DATABASE_NAME = "brewhaha.db";
@@ -232,8 +224,6 @@ public class Constants {
     public static final String exRecipeDateModified = "RecipeDateModified";
 
 
-
-
     public static final String exAbvValue = "abvValue";
     public static final String exIbuValue = "ibuValue";
     public static final String exGrainPk = "grainPk";
@@ -244,7 +234,7 @@ public class Constants {
     public static final int sceneDirections = 1;
     public static final int sceneIngredients = 2;
     public static final int sceneOverview = 3;
-//    public static final int sceneComments = 4;
+    //    public static final int sceneComments = 4;
     public static final int sceneImages = 4;
 
     public static final String bundleRecipeGrains = "recipeGrains";
@@ -254,6 +244,10 @@ public class Constants {
     public static final String bundleRecipeComments = "recipeComents";
     public static final String bundleRecipeInstructions = "recipeInstructions";
     public static final String bundleRecipeImages = "recipeImages";
+
+    public static final String fireBaseRoot = "https://scorching-fire-712.firebaseio.com/";
+
+    public static final String fireBaseComments = fireBaseRoot + "comments/";
 
 
     public static final int ANIMATION_DELAY = 300;
