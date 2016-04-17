@@ -22,7 +22,7 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.models.Comment;
 
 public class CommentAdapter extends ArrayAdapter<Comment> {
 

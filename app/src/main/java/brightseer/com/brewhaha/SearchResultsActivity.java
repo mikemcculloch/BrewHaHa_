@@ -1,36 +1,26 @@
 package brightseer.com.brewhaha;
 
-import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.adapter.SearchResultRecycler;
-import brightseer.com.brewhaha.objects.MainFeedItem;
-import brightseer.com.brewhaha.repository.JsonToObject;
+import brightseer.com.brewhaha.models.MainFeedItem;
 
 public class SearchResultsActivity extends BaseActivity {
     String query = "na";
@@ -195,45 +185,45 @@ public class SearchResultsActivity extends BaseActivity {
     }
 
     public void load() {
-        if (loading != null && !loading.isDone() && !loading.isCancelled())
-            return;
-
-        String url = Constants.wcfGetHomeContentFromSearch + "0/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
-        if (mainFeedItemList != null) {
-            if (mainFeedItemList.size() > 0) {
-                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
-                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
-            }
-        }
-        JsonObject json = new JsonObject();
-        json.addProperty("searchText", query.trim());
-        loading = Ion.with(getApplicationContext())
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        try {
-                            dialogProgress.dismiss();
-                            if (result != null) {
-                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(result);
-                                for (MainFeedItem item : resultsList) {
-                                    mainFeedItemList.add(item);
-                                    adapter.add(item, mainFeedItemList.size() - 1);
-                                }
-                            }
-                            if (mainFeedItemList.size() == 0) {
-                                search_results_recycler_view.setVisibility(View.GONE);
-                            }
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
+//        if (loading != null && !loading.isDone() && !loading.isCancelled())
+//            return;
+//
+//        String url = Constants.wcfGetHomeContentFromSearch + "0/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
+//        if (mainFeedItemList != null) {
+//            if (mainFeedItemList.size() > 0) {
+//                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
+//                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
+//            }
+//        }
+//        JsonObject json = new JsonObject();
+//        json.addProperty("searchText", query.trim());
+//        loading = Ion.with(getApplicationContext())
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonArray result) {
+//                        try {
+//                            dialogProgress.dismiss();
+//                            if (result != null) {
+//                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(result);
+//                                for (MainFeedItem item : resultsList) {
+//                                    mainFeedItemList.add(item);
+//                                    adapter.add(item, mainFeedItemList.size() - 1);
+//                                }
+//                            }
+//                            if (mainFeedItemList.size() == 0) {
+//                                search_results_recycler_view.setVisibility(View.GONE);
+//                            }
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
     }
 
     @Override
@@ -253,52 +243,52 @@ public class SearchResultsActivity extends BaseActivity {
     public void openDetailActivity(View view, int position) {
         try {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                view.setElevation(10);
-            }
-
-            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
-            Intent newIntent = new Intent();
-            if (mainFeedItem.getItemTypeId() == 1) {
-                newIntent = new Intent(this, RecipeActivity.class);
-            }
-            if (mainFeedItem.getItemTypeId() == 2) {
-                newIntent = new Intent(this, GridViewActivity.class);
-            }
-
-            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, mainFeedItem.getTitle());
-
-            newIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
-            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
-            newIntent.putExtra(Constants.exPosition, position);
-
-            newIntent.putExtra(Constants.exUsername, mainFeedItem.getAuthor());
-            newIntent.putExtra(Constants.exUserdate, String.valueOf(mainFeedItem.getDateCreated()));
-
-            newIntent.putExtra(Constants.exAuthorImage, mainFeedItem.getUserImageUrl());
-            newIntent.putExtra(Constants.exRecipeImage, mainFeedItem.getImageUrl());
-
-            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
-            newIntent.putExtra(Constants.exBitMapInfo, bi.key);
-
-            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Pair p1 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_username));
-                Pair p2 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_userdate));
-                Pair p3 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
-//                Pair p4 = Pair.create(view.findViewById(R.id.image), getResources().getString(R.string.transition_bitmapmain));
-                Pair p5 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
-                Pair p6 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
-
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, p1, p2, p3, p5, p6);
-                ActivityCompat.startActivityForResult(this, newIntent, 0, options.toBundle());
-
-          } else {
-                startActivity(newIntent);
-                overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-            }
-
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                view.setElevation(10);
+//            }
+//
+//            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
+//            Intent newIntent = new Intent();
+//            if (mainFeedItem.getItemTypeId() == 1) {
+//                newIntent = new Intent(this, RecipeActivity.class);
+//            }
+//            if (mainFeedItem.getItemTypeId() == 2) {
+//                newIntent = new Intent(this, GridViewActivity.class);
+//            }
+//
+//            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, mainFeedItem.getTitle());
+//
+//            newIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
+//            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//            newIntent.putExtra(Constants.exPosition, position);
+//
+//            newIntent.putExtra(Constants.exUsername, mainFeedItem.getAuthor());
+//            newIntent.putExtra(Constants.exUserdate, String.valueOf(mainFeedItem.getDateCreated()));
+//
+//            newIntent.putExtra(Constants.exAuthorImage, mainFeedItem.getUserImageUrl());
+//            newIntent.putExtra(Constants.exRecipeImage, mainFeedItem.getImageUrl());
+//
+//            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
+//            newIntent.putExtra(Constants.exBitMapInfo, bi.key);
+//
+//            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                Pair p1 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_username));
+//                Pair p2 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_userdate));
+//                Pair p3 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
+////                Pair p4 = Pair.create(view.findViewById(R.id.image), getResources().getString(R.string.transition_bitmapmain));
+//                Pair p5 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
+//                Pair p6 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
+//
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this, p1, p2, p3, p5, p6);
+//                ActivityCompat.startActivityForResult(this, newIntent, 0, options.toBundle());
+//
+//          } else {
+//                startActivity(newIntent);
+//                overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//            }
+//
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());

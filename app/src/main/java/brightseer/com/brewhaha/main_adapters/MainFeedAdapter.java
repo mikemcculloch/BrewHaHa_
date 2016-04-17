@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.adapter;
+package brightseer.com.brewhaha.main_adapters;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -16,17 +16,18 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.HomeFragment;
+import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.MainFeedItem;
-import brightseer.com.brewhaha.objects.RecyclerObjects;
+import brightseer.com.brewhaha.models.MainFeedItem;
 
 /**
  * Created by wooan_000 on 12/16/2014.
  */
-public class MainFeedAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeItemViewHolder> {
+
+///DEPRICATED USE FIREBASEADAPTER
+public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder.HomeItemViewHolder> {
     private List<MainFeedItem> mainFeedItems = new Vector<>();
-    private HomeFragment _fragment;
+    private MainFeedFragment _fragment;
 
     Transform trans = new Transform() {
         boolean isOval = false;
@@ -48,7 +49,7 @@ public class MainFeedAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
         }
     };
 
-    public MainFeedAdapter(List<MainFeedItem> jsonObject, HomeFragment fragment) {
+    public MainFeedAdapter(List<MainFeedItem> jsonObject, MainFeedFragment fragment) {
         this.mainFeedItems = jsonObject;
         _fragment = fragment;
     }
@@ -68,15 +69,15 @@ public class MainFeedAdapter extends RecyclerView.Adapter<RecyclerObjects.HomeIt
     }
 
     @Override
-    public RecyclerObjects.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    public MainFeedViewHolder.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_home, viewGroup, false);
-        return new RecyclerObjects.HomeItemViewHolder(itemView);
+        return new MainFeedViewHolder.HomeItemViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerObjects.HomeItemViewHolder homeItemViewHolder, int position) {
+    public void onBindViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, int position) {
 //        _fragment.load();
         MainFeedItem mainFeedItem = mainFeedItems.get(position);
         final int currentPos = position;

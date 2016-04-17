@@ -11,7 +11,6 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddYeastFragment;
-import brightseer.com.brewhaha.objects.Comment;
 import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.objects.RecyclerObjects;

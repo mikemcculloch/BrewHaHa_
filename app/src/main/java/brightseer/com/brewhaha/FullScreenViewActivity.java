@@ -235,7 +235,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        myVib.vibrate(100);
+//        myVib.vibrate(100);
         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         switch (v.getId()) {
             case R.id.pager_action_back_image:

@@ -3,7 +3,6 @@ package brightseer.com.brewhaha;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -31,20 +30,14 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.PlusOneButton;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
-import com.shamanland.fab.ShowHideOnScroll;
 import com.viewpagerindicator.LinePageIndicator;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -56,7 +49,7 @@ import brightseer.com.brewhaha.adapter.SimpleViewPagerAdapter;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.BatchSize;
 import brightseer.com.brewhaha.objects.RecipeSummary;
-import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
 import brightseer.com.brewhaha.objects.RecipeInstruction;
@@ -66,8 +59,7 @@ import brightseer.com.brewhaha.repository.JsonToObject;
 
 import static android.view.ViewGroup.LayoutParams;
 
-public class RecipeActivity extends BaseActivity implements View.OnClickListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class RecipeActivity extends BaseActivity implements View.OnClickListener{
     private DBHelper_BatchSize repoBatch;
     private int contentItemPk;
     private boolean toggleStar = false;
@@ -102,13 +94,13 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         _Activity = RecipeActivity.this;
         LoadDialog(_mContext, false, true);
         try {
-            myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+//            myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
             setContentView(R.layout.activity_recipe);
 
             initExtras();
 
             initGoogleAnalytics(this.getClass().getSimpleName());
-            initGooglePlus();
+//            initGooglePlus();
             initScrollView();
             initAdMob();
 
@@ -243,7 +235,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        myVib.vibrate(50);
+//        myVib.vibrate(50);
         v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         switch (v.getId()) {
 
@@ -543,11 +535,11 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 
         footer = (LinearLayout) findViewById(R.id.footer);
 
-        if (previewMode) {
-            footer.setVisibility(View.GONE);
-        } else {
-            sticky_scroll.setOnTouchListener(new ShowHideOnScroll(footer));
-        }
+//        if (previewMode) {
+//            footer.setVisibility(View.GONE);
+//        } else {
+//            sticky_scroll.setOnTouchListener(new ShowHideOnScroll(footer));
+//        }
 
 
         recipe_parent_layout = (LinearLayout) findViewById(R.id.recipe_parent_layout);
@@ -629,41 +621,41 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         int commentSize = comments.size() - 1;
         final Comment comment = comments.get(commentSize);
 
-        Ion.with(_mContext)
-                .load(Constants.wcfGetCommentSetByLastId + responseContentItemPk + "/" + comment.getCommentId() + "/6")
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-
-                    @Override
-                    public void onCompleted(Exception e, JsonArray result) {
-                        if (result != null) {
-                            try {
-                                List<Comment> commentList = JsonToObject.JsonToCommentsList(result);
-                                if (commentList != null) {
-                                    for (Comment item : commentList) {
-                                        commentAdapter.addAll(item);
-                                    }
-                                    commentAdapter.notifyDataSetChanged();
-                                    setListViewHeightBasedOnChildren(comments_list_view);
-                                }
-
-                                if (comments.size() == comment_count) {
-                                    recipe_comments_load_more.setEnabled(false);
-                                    recipe_comments_load_more.setVisibility(View.GONE);
-                                }
-                                dialogProgress.dismiss();
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                    Log.e(Constants.LOG, e.getMessage());
-                                }
-                                dialogProgress.dismiss();
-                            }
-                        }
-                        dialogProgress.dismiss();
-                    }
-                });
+//        Ion.with(_mContext)
+//                .load(Constants.wcfGetCommentSetByLastId + responseContentItemPk + "/" + comment.getCommentId() + "/6")
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//
+//                    @Override
+//                    public void onCompleted(Exception e, JsonArray result) {
+//                        if (result != null) {
+//                            try {
+//                                List<Comment> commentList = JsonToObject.JsonToCommentsList(result);
+//                                if (commentList != null) {
+//                                    for (Comment item : commentList) {
+//                                        commentAdapter.addAll(item);
+//                                    }
+//                                    commentAdapter.notifyDataSetChanged();
+//                                    setListViewHeightBasedOnChildren(comments_list_view);
+//                                }
+//
+//                                if (comments.size() == comment_count) {
+//                                    recipe_comments_load_more.setEnabled(false);
+//                                    recipe_comments_load_more.setVisibility(View.GONE);
+//                                }
+//                                dialogProgress.dismiss();
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                    Log.e(Constants.LOG, e.getMessage());
+//                                }
+//                                dialogProgress.dismiss();
+//                            }
+//                        }
+//                        dialogProgress.dismiss();
+//                    }
+//                });
     }
 
     public void AddUpdateComments() {
@@ -751,12 +743,12 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == RC_SIGN_IN) {
-                mIntentInProgress = false;
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-            }
+//            if (requestCode == RC_SIGN_IN) {
+//                mIntentInProgress = false;
+//                if (!mGoogleApiClient.isConnecting()) {
+//                    mGoogleApiClient.connect();
+//                }
+//            }
         }
     }
 
@@ -770,27 +762,27 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            BrewSharedPrefs.setIsUserLoggedIn(true);
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            BrewSharedPrefs.setFullName(currentPerson.getDisplayName());
-            String personPhoto = currentPerson.getImage().getUrl();
-
-            try {
-                URL url = new URL(personPhoto);
-                personPhoto = personPhoto.replace(url.getQuery(), "");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            BrewSharedPrefs.setGoolgePlusProfileUrl(currentPerson.getUrl());
-            BrewSharedPrefs.setUserProfileImageUrl(personPhoto);
-            BrewSharedPrefs.setEmailAddress(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            PlusAccountSetup();
-        }
-    }
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+//            BrewSharedPrefs.setIsUserLoggedIn(true);
+//            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+//            BrewSharedPrefs.setFullName(currentPerson.getDisplayName());
+//            String personPhoto = currentPerson.getImage().getUrl();
+//
+//            try {
+//                URL url = new URL(personPhoto);
+//                personPhoto = personPhoto.replace(url.getQuery(), "");
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            BrewSharedPrefs.setGoolgePlusProfileUrl(currentPerson.getUrl());
+//            BrewSharedPrefs.setUserProfileImageUrl(personPhoto);
+//            BrewSharedPrefs.setEmailAddress(Plus.AccountApi.getAccountName(mGoogleApiClient));
+//            PlusAccountSetup();
+//        }
+//    }
 
     private void imageTransition(final ImageView imageview_holder, final String urlImage, String bitMapInfo) {
 //        final ImageView imageview_holder = imageView;

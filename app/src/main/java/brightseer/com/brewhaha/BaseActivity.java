@@ -7,15 +7,14 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -26,13 +25,11 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,9 +39,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.Future;
@@ -61,16 +61,13 @@ import java.util.Vector;
 import brightseer.com.brewhaha.adapter.CommentAdapter;
 import brightseer.com.brewhaha.helper.ToastAdListener;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.RecipeImage;
-import brightseer.com.brewhaha.objects.UserProfile;
-import brightseer.com.brewhaha.repository.JsonToObject;
+import brightseer.com.brewhaha.models.Comment;
+
 
 /**
  * Created by mccul_000 on 11/25/2014.
  */
-public class BaseActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class BaseActivity extends AppCompatActivity {
     String url;
     public String userToken = "na";
     final int CONTEXT_MENU_DOWNLOAD = 1;
@@ -84,7 +81,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     public Activity _Activity;
     public Context _mContext;
     public CommentAdapter commentAdapter;
-    public Vibrator myVib;
+//    public Vibrator myVib;
     public int commentEditPk = 0;
     public final int CAMERA_CAPTURE = 1;
     public final int RESULT_LOAD_IMAGE = 1;
@@ -97,10 +94,14 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     public String contentToken;
     public String contentItemPk = "";
 
-    public static final int RC_SIGN_IN = 0;
     public static final int PLUS_ONE_REQUEST_CODE = 0;
+
+
+    public static final int RC_SIGN_IN = 0;
+
     public GoogleApiClient mGoogleApiClient;
-    public boolean mIntentInProgress;
+//    public boolean mIntentInProgress;
+
     public int adapterPosition;
 
     Transform trans = new Transform() {
@@ -126,67 +127,46 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initGooglePlus();
-        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        initGoogleAuth();
+//        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         tabletSize = getResources().getBoolean(R.bool.isTablet);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-//        Share Menu
         MenuItem menuItem = menu.findItem(R.id.menu_item_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            SearchManager SManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-            android.support.v7.widget.SearchView searchViewAction =
-                    (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search_main).getActionView();
-            searchViewAction.setSearchableInfo(SManager.getSearchableInfo(getComponentName()));
-            searchViewAction.setIconifiedByDefault(false);
-            searchViewAction.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
-                    return false;
-                }
 
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    return false;
-                }
-            });
+        SearchManager SManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.support.v7.widget.SearchView searchViewAction =
+                (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search_main).getActionView();
+        searchViewAction.setSearchableInfo(SManager.getSearchableInfo(getComponentName()));
+        searchViewAction.setIconifiedByDefault(false);
+        searchViewAction.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
-            return super.onCreateOptionsMenu(menu);
-        }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
         if (BrewSharedPrefs.getIsUserLoggedIn()) {
             menu.addSubMenu(0, 10, Menu.NONE, "Settings");
+
+
+            MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
+
+            if (mGoogleApiClient.isConnected()) {
+                action_menu_options.setVisible(true);
+            }
         }
 
-        MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
-        if (mGoogleApiClient.isConnected()) {
-            action_menu_options.setVisible(true);
-        }
-
-//        MenuItem downloadMenu = menu.findItem(R.id.menu_item_download);
-        /*clickedView = getCurrentFocus();
-        if (v.getId() == R.id.grid) {
-            AdapterView.AdapterContextMenuInfo info =
-                    (AdapterView.AdapterContextMenuInfo) menuInfo;
-            int thePosition = info.position;
-            View newView = info.targetView;
-            ImageView imageView = (ImageView) newView.findViewById(R.id.gridview_image_view);
-            clickedView = imageView;
-        }*/
-//        downloadMenu.setActionView()
-
-//        Floating menu dont delete
-//        SubMenu submenu = menu.addSubMenu(0, Menu.FIRST, Menu.NONE, "Preferences");
-//        submenu.add(0, 10, Menu.NONE, "Settings");
-//        submenu.add(0, 15, Menu.NONE, "Get Last 10 Packets");
-//        submenu.add(0, 20, Menu.NONE, "Get Last 20 Packets");
-//        getMenuInflater().inflate(R.menu.main, submenu);
-
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -238,29 +218,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    public void initGooglePlus() {
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(Plus.API)
-//                .addScope(new Scope(Scopes.PROFILE))
-                    .addScope(Plus.SCOPE_PLUS_LOGIN)
-//                .addScope(Plus.SCOPE_PLUS_PROFILE)
-                    .build();
-        }
-    }
-
-    public void signOut() {
-        BrewSharedPrefs.clearAllPrefs();
-        if (mGoogleApiClient.isConnected()) {
-            Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-            //Revoke
-//            Plus.AccountApi.revokeAccessAndDisconnect(mGoogleApiClient);
-            mGoogleApiClient.disconnect();
-        }
-    }
-
     private Intent getShareDefaultIntent() {
         Uri.Builder b = Uri.parse(Constants.urlBrewHahaContent + BrewSharedPrefs.getCurrentContentTitle().replace(" ", "-")).buildUpon();
         url = b.build().toString();
@@ -289,7 +246,7 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
                 Utilities.saveImage(selectedView);
                 break;
             case R.id.comment_menu_button_edit:
-                EditComment(selectedView, _Comment);
+//                EditComment(selectedView, _Comment);
                 break;
             case R.id.comment_menu_button_delete:
                 DeleteComment(selectedView, _Comment);
@@ -315,20 +272,20 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         super.onContextMenuClosed(menu);
     }
 
-    private void EditComment(View v, Comment comment) {
-        String body = comment.getBody();
-        LinearLayout footer = (LinearLayout) _Activity.findViewById(R.id.footer);
-        footer.setVisibility(View.VISIBLE);
-
-        EditText recipe_comment_add_edit_text_view = (EditText) _Activity.findViewById(R.id.recipe_comment_add_edit_text_view);
-        recipe_comment_add_edit_text_view.setText(body);
-        recipe_comment_add_edit_text_view.setSelection(body.length());
-        recipe_comment_add_edit_text_view.requestFocus();
-
-        ImageView recipe_comment_add_image_view = (ImageView) _Activity.findViewById(R.id.recipe_comment_add_image_view);
-        recipe_comment_add_image_view.setImageResource(R.drawable.ic_mode_edit_black_24dp);
-        commentEditPk = comment.getCommentId();
-    }
+//    private void EditComment(View v, Comment comment) {
+//        String body = comment.getBody();
+//        LinearLayout footer = (LinearLayout) _Activity.findViewById(R.id.footer);
+//        footer.setVisibility(View.VISIBLE);
+//
+//        EditText recipe_comment_add_edit_text_view = (EditText) _Activity.findViewById(R.id.recipe_comment_add_edit_text_view);
+//        recipe_comment_add_edit_text_view.setText(body);
+//        recipe_comment_add_edit_text_view.setSelection(body.length());
+//        recipe_comment_add_edit_text_view.requestFocus();
+//
+//        ImageView recipe_comment_add_image_view = (ImageView) _Activity.findViewById(R.id.recipe_comment_add_image_view);
+//        recipe_comment_add_image_view.setImageResource(R.drawable.ic_mode_edit_black_24dp);
+//        commentEditPk = comment.getCommentId();
+//    }
 
     private void DeleteComment(View v, final Comment comment) {
 
@@ -345,16 +302,16 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
 
                     dialog.dismiss();
                     RecipeActivity.setListViewHeightBasedOnChildren(((RecipeActivity) _Activity).comments_list_view);
-                    Ion.with(_Activity.getApplicationContext())
-                            .load(Constants.wcfRemoveComment + comment.getCommentId())
-                            .addHeader("Content-Type", "application/json")
-                            .asString()
-                            .setCallback(new FutureCallback<String>() {
-                                @Override
-                                public void onCompleted(Exception e, String s) {
-
-                                }
-                            });
+//                    Ion.with(_Activity.getApplicationContext())
+//                            .load(Constants.wcfRemoveComment + comment.getCommentId())
+//                            .addHeader("Content-Type", "application/json")
+//                            .asString()
+//                            .setCallback(new FutureCallback<String>() {
+//                                @Override
+//                                public void onCompleted(Exception e, String s) {
+//
+//                                }
+//                            });
                 } catch (Exception e) {
                     if (BuildConfig.DEBUG) {
                         Log.e(Constants.LOG, e.getMessage());
@@ -602,47 +559,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
         }
     }
 
-    public void setupTransistionSlide() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
-
-            //set the transition
-//            Transition ts = new android.transition.Explode();
-//            ts.setDuration(300);
-//            getWindow().setSharedElementEnterTransition(ts);
-//            getWindow().setSharedElementExitTransition(ts);
-
-
-//            getWindow().setAllowEnterTransitionOverlap(false); --meh
-//            getWindow().setAllowReturnTransitionOverlap(false); --meh
-//            getWindow().setEnterTransition(ts);
-            //set an exit transition so it is activated when the current activity exits
-//            getWindow().setExitTransition(ts);
-//
-//            Slide transitionEnter = new Slide();
-//            transitionEnter.setSlideEdge(Gravity.TOP);
-//            transitionEnter.setDuration(300);
-//            Window currentW = getWindow();
-//            currentW.setEnterTransition(transitionEnter);
-//            currentW.setExitTransition(transitionEnter);
-
-
-            Slide slide = new Slide(Gravity.BOTTOM);
-//            slide.addTarget(R.id.root);
-            slide.setInterpolator(
-                    AnimationUtils.loadInterpolator(this,
-                            android.R.interpolator.linear_out_slow_in));
-            slide.setDuration(500);
-
-            getWindow().setEnterTransition(slide);
-            getWindow().setExitTransition(slide);
-            getWindow().setSharedElementsUseOverlay(false);
-            getWindow().setAllowEnterTransitionOverlap(true);
-            getWindow().setAllowReturnTransitionOverlap(true);
-        }
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -654,27 +570,6 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
             finish();
         }
 
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-//        String test = "test";
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (!mIntentInProgress && result.hasResolution()) {
-            try {
-                mIntentInProgress = true;
-                startIntentSenderForResult(result.getResolution().getIntentSender(),
-                        RC_SIGN_IN, null, 0, 0, 0);
-            } catch (IntentSender.SendIntentException e) {
-                // The intent was canceled before it was sent.  Return to the default
-                // state and attempt to connect to get an updated ConnectionResult.
-                mIntentInProgress = false;
-                mGoogleApiClient.connect();
-            }
-        }
     }
 
     public int getStatusBarHeight() {
@@ -697,98 +592,78 @@ public class BaseActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     protected void onStart() {
         super.onStart();
-        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-            initGooglePlus();
-            mGoogleApiClient.connect();
-        }
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
+
+//    public void showImage(RecipeImage recipeImage) {
+//        final Dialog builder = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+//
+//        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        builder.getWindow().setBackgroundDrawable(
+//                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+//            @Override
+//            public void onDismiss(DialogInterface dialogInterface) {
+//                //nothing;
+//            }
+//        });
+//        LayoutInflater factory = LayoutInflater.from(this);
+//        View dialogImage = factory.inflate(
+//                R.layout.dialog_image, null);
+//
+//        builder.setContentView(dialogImage);
+//
+//        ImageView dialog_image = (ImageView) dialogImage.findViewById(R.id.dialog_image);
+//        dialog_image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                builder.dismiss();
+//            }
+//        });
+//
+//        Ion.with(dialog_image)
+//                .deepZoom()
+//                .placeholder(R.mipmap.ic_beercap)
+//                .load(recipeImage.getImageUrl()
+//                );
+//        builder.show();
+//    }
+
+
+    public void initGoogleAuth() {
+//        String scopes = "oauth2:profile email";
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestIdToken(getString(R.string.server_client_id))
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+                    }
+                } /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
 
     }
 
-    public void PlusAccountSetup() {
-        try {
-            JsonObject json = new JsonObject();
-            json.addProperty("googlePlusId", 0);
-            json.addProperty("fullName", BrewSharedPrefs.getFullName());
-            json.addProperty("emailAddress", BrewSharedPrefs.getEmailAddress());
-            json.addProperty("userImageUrl", BrewSharedPrefs.getUserProfileImageUrl());
-            json.addProperty("plusProfile", BrewSharedPrefs.getGoolgePlusProfileUrl());
-
-            String url = Constants.wcfPlusValidation;
-            Ion.with(_mContext)
-                    .load(url)
-                    .setHeader("Cache-Control", "No-Cache")
-                    .setJsonObjectBody(json)
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            try {
-                                if (result != null) {
-                                    UserProfile userProfile = JsonToObject.JsonToUserProfile(result);
-                                    if (userProfile != null) {
-                                        if (userProfile.getToken() != null) {
-                                            BrewSharedPrefs.setUserToken(userProfile.getToken());
-                                            BrewSharedPrefs.setIsUserLoggedIn(true);
-                                            BrewSharedPrefs.setShowWelcome(true);
-                                            BrewSharedPrefs.setScreenName(userProfile.getScreenName());
-                                            BrewSharedPrefs.setFullName(userProfile.getFullName());
-                                            BrewSharedPrefs.setEmailAddress(userProfile.getEmailAddress());
-                                            BrewSharedPrefs.setUserProfileImageUrl(userProfile.getImageUrl());
-                                            BrewSharedPrefs.setUserProfileDate(userProfile.getSignupDate());
-                                            BrewSharedPrefs.setAcceptedTerms(userProfile.getDisclaimer());
-                                        }
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, e.getMessage());
-            }
-        }
+    public void googleSignIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void showImage(RecipeImage recipeImage) {
-        final Dialog builder = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-
-        builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        builder.getWindow().setBackgroundDrawable(
-                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialogInterface) {
-                //nothing;
-            }
-        });
-        LayoutInflater factory = LayoutInflater.from(this);
-        View dialogImage = factory.inflate(
-                R.layout.dialog_image, null);
-
-        builder.setContentView(dialogImage);
-
-        ImageView dialog_image = (ImageView) dialogImage.findViewById(R.id.dialog_image);
-        dialog_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                builder.dismiss();
-            }
-        });
-
-        Ion.with(dialog_image)
-                .deepZoom()
-                .placeholder(R.mipmap.ic_beercap)
-                .load(recipeImage.getImageUrl()
-                );
-        builder.show();
+    public void signOut() {
+        BrewSharedPrefs.clearAllPrefs();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // ...
+                    }
+                });
     }
+
 }
 

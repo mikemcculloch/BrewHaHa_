@@ -1,11 +1,7 @@
 package brightseer.com.brewhaha.fragment;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,11 +23,9 @@ import java.util.Vector;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
-import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.adapter.AdminRecipeRecycler;
-import brightseer.com.brewhaha.objects.MainFeedItem;
+import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.repository.JsonToObject;
 import brightseer.com.brewhaha.swipedismiss.OnItemClickListener;
 import brightseer.com.brewhaha.swipedismiss.SwipeToDismissTouchListener;
@@ -135,25 +129,25 @@ public class AdminFragment extends BaseFragment {
     }
 
     private void ApproveRecipe() {
-        String token = String.valueOf(itemApproveMe.getToken());
-        String url = Constants.wcfApproveRequest + BrewSharedPrefs.getUserToken() + "/" + token;
-        Ion.with(_fContext)
-                .load(url)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        try {
-                            Boolean success = Boolean.valueOf(s);
-
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                        itemApproveMe = null;
-                    }
-                });
+//        String token = String.valueOf(itemApproveMe.getToken());
+//        String url = Constants.wcfApproveRequest + BrewSharedPrefs.getUserToken() + "/" + token;
+//        Ion.with(_fContext)
+//                .load(url)
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        try {
+//                            Boolean success = Boolean.valueOf(s);
+//
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                        itemApproveMe = null;
+//                    }
+//                });
     }
 
     private void initRecycler() {
@@ -229,27 +223,27 @@ public class AdminFragment extends BaseFragment {
 
     private void openContent(int position) {
         try {
-            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
-            Intent recipeIntent = null;
-            if (mainFeedItem.getItemTypeId() == 1) {
-                recipeIntent = new Intent(getActivity().getApplicationContext(), RecipeActivity.class);
-            }
-            if (mainFeedItem.getItemTypeId() == 2) {
-                recipeIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
-            }
-
-            assert recipeIntent != null;
-            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
-            recipeIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-            recipeIntent.putExtra(Constants.exRecipePreview, true);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                ActivityCompat.startActivity(getActivity(), recipeIntent, options.toBundle());
-            } else {
-                startActivity(recipeIntent);
-                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-            }
+//            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
+//            Intent recipeIntent = null;
+//            if (mainFeedItem.getItemTypeId() == 1) {
+//                recipeIntent = new Intent(getActivity().getApplicationContext(), RecipeActivity.class);
+//            }
+//            if (mainFeedItem.getItemTypeId() == 2) {
+//                recipeIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
+//            }
+//
+//            assert recipeIntent != null;
+//            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//            recipeIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//            recipeIntent.putExtra(Constants.exRecipePreview, true);
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+//                ActivityCompat.startActivity(getActivity(), recipeIntent, options.toBundle());
+//            } else {
+//                startActivity(recipeIntent);
+//                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//            }
 
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {

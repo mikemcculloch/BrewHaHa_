@@ -36,8 +36,7 @@ import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
-public class GridViewActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class GridViewActivity extends BaseActivity {
     private GridImagesRecycler adapter;
     private RecyclerView grid;
     private ArrayList<String> imageUrlList = new ArrayList<>();
@@ -241,21 +240,21 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK) {
-            if (requestCode == RC_SIGN_IN) {
-                mIntentInProgress = false;
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-            }
+//            if (requestCode == RC_SIGN_IN) {
+//                mIntentInProgress = false;
+//                if (!mGoogleApiClient.isConnecting()) {
+//                    mGoogleApiClient.connect();
+//                }
+//            }
         }
         if (resultCode == RESULT_OK) {
             this.onCreate(null);
-            if (requestCode == RC_SIGN_IN) {
-                mIntentInProgress = false;
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-            }
+//            if (requestCode == RC_SIGN_IN) {
+//                mIntentInProgress = false;
+//                if (!mGoogleApiClient.isConnecting()) {
+//                    mGoogleApiClient.connect();
+//                }
+//            }
         }
     }
 
@@ -267,27 +266,27 @@ public class GridViewActivity extends BaseActivity implements GoogleApiClient.Co
         mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            BrewSharedPrefs.setIsUserLoggedIn(true);
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            BrewSharedPrefs.setFullName(currentPerson.getDisplayName());
-            String personPhoto = currentPerson.getImage().getUrl();
-
-            try {
-                URL url = new URL(personPhoto);
-                personPhoto = personPhoto.replace(url.getQuery(), "");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            BrewSharedPrefs.setGoolgePlusProfileUrl(currentPerson.getUrl());
-            BrewSharedPrefs.setUserProfileImageUrl(personPhoto);
-            BrewSharedPrefs.setEmailAddress(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            PlusAccountSetup();
-        }
-    }
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
+//            BrewSharedPrefs.setIsUserLoggedIn(true);
+//            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+//            BrewSharedPrefs.setFullName(currentPerson.getDisplayName());
+//            String personPhoto = currentPerson.getImage().getUrl();
+//
+//            try {
+//                URL url = new URL(personPhoto);
+//                personPhoto = personPhoto.replace(url.getQuery(), "");
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            BrewSharedPrefs.setGoolgePlusProfileUrl(currentPerson.getUrl());
+//            BrewSharedPrefs.setUserProfileImageUrl(personPhoto);
+//            BrewSharedPrefs.setEmailAddress(Plus.AccountApi.getAccountName(mGoogleApiClient));
+//            PlusAccountSetup();
+//        }
+//    }
 
     public void openImageDetail(View view, int position) {
         try {

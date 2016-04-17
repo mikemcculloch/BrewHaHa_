@@ -10,7 +10,11 @@ import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.koushikdutta.ion.bitmap.Transform;
+import com.makeramen.RoundedDrawable;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -145,6 +149,30 @@ public class Utilities {
         final int bottom = v.getBottom() + ty;
 
         return (x >= left) && (x <= right) && (y >= top) && (y <= bottom);
+    }
+
+    public static Transform GetRoundTransform() {
+        Transform trans = new Transform() {
+            boolean isOval = false;
+            int cornerRadius = 100;
+
+            @Override
+            public Bitmap transform(Bitmap bitmap) {
+                Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
+                Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
+                if (!bitmap.equals(scaled)) bitmap.recycle();
+                if (!scaled.equals(transformed)) bitmap.recycle();
+
+                return transformed;
+            }
+
+            @Override
+            public String key() {
+                return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
+            }
+        };
+
+        return  trans;
     }
 
 

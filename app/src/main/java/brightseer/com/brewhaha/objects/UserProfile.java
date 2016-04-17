@@ -1,58 +1,36 @@
 package brightseer.com.brewhaha.objects;
 
+import java.io.Serializable;
+
 /**
  * Created by mccul_000 on 11/18/2014.
  */
-public class UserProfile {
-    private String FirstName;
-    private String LastName;
-    private String FullName;
+public class UserProfile implements Serializable {
+    private String Key;
     private String EmailAddress;
     private String ImageUrl;
-    private Boolean Disclaimer;
     private String ScreenName;
-    private String Type;
-    private String Token;
-    private String SignupDate;
+    private String DateCreated;
+    private boolean Admin;
 
     public UserProfile() {
     }
 
-    public UserProfile(String firstName, String lastName, String fullName, String emailAddress, String imageUrl, Boolean disclaimer, String screenName, String type, String token, String signupDate) {
-        FirstName = firstName;
-        LastName = lastName;
-        FullName = fullName;
+    public UserProfile(String key, String emailAddress, String imageUrl, String screenName, String dateCreated, boolean admin) {
+        Key = key;
         EmailAddress = emailAddress;
         ImageUrl = imageUrl;
-        Disclaimer = disclaimer;
         ScreenName = screenName;
-        Type = type;
-        Token = token;
-        SignupDate = signupDate;
+        DateCreated = dateCreated;
+        Admin = admin;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getKey() {
+        return Key;
     }
 
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
-    }
-
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
-    }
-
-    public String getFullName() {
-        return FullName;
-    }
-
-    public void setFullName(String fullName) {
-        FullName = fullName;
+    public void setKey(String key) {
+        Key = key;
     }
 
     public String getEmailAddress() {
@@ -71,14 +49,6 @@ public class UserProfile {
         ImageUrl = imageUrl;
     }
 
-    public Boolean getDisclaimer() {
-        return Disclaimer;
-    }
-
-    public void setDisclaimer(Boolean disclaimer) {
-        Disclaimer = disclaimer;
-    }
-
     public String getScreenName() {
         return ScreenName;
     }
@@ -87,28 +57,20 @@ public class UserProfile {
         ScreenName = screenName;
     }
 
-    public String getType() {
-        return Type;
+    public String getDateCreated() {
+        return DateCreated;
     }
 
-    public void setType(String type) {
-        Type = type;
+    public void setDateCreated(String dateCreated) {
+        DateCreated = dateCreated;
     }
 
-    public String getToken() {
-        return Token;
+    public boolean isAdmin() {
+        return Admin;
     }
 
-    public void setToken(String token) {
-        Token = token;
-    }
-
-    public String getSignupDate() {
-        return SignupDate;
-    }
-
-    public void setSignupDate(String signupDate) {
-        SignupDate = signupDate;
+    public void setAdmin(boolean admin) {
+        Admin = admin;
     }
 }
 

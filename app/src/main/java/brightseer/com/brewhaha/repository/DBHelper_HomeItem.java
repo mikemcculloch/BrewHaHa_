@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import brightseer.com.brewhaha.Constants;
-import brightseer.com.brewhaha.objects.MainFeedItem;
+import brightseer.com.brewhaha.models.MainFeedItem;
 
 public class DBHelper_HomeItem extends OrmLiteSqliteOpenHelper {
     private final String TAG = this.getClass().getName();

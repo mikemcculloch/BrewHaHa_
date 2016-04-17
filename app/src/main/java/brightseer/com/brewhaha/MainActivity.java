@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,9 +25,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
+import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
@@ -38,16 +45,13 @@ import com.koushikdutta.ion.Ion;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import brightseer.com.brewhaha.fragment.AdminFragment;
 import brightseer.com.brewhaha.fragment.AdvancedSearchFragment;
-import brightseer.com.brewhaha.fragment.HomeFragment;
+import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
 import brightseer.com.brewhaha.fragment.MyRecipeListFragment;
+import brightseer.com.brewhaha.objects.UserProfile;
 
-public class MainActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends BaseActivity {
     static public MainActivity instance;
     private LicenseCheckerCallback mLicenseCheckerCallback;
     private LicenseChecker mChecker;
@@ -64,6 +68,8 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
     private Menu menu;
     private MenuItem navigation_item_5;
 
+    private Firebase rootRef;
+
 
     private static final byte[] SALT = new byte[]{
             -117, 47, -21, 24, -30,
@@ -74,7 +80,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupTransistionSlide();
         setupTransistion();
         super.onCreate(savedInstanceState);
         try {
@@ -82,14 +87,13 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
             _mContext = this;
             instance = this;
 
-            initAdvertisingIdCollection();
-//            createTermsDialog();
+//            initAdvertisingIdCollection();
             initViews();
+            initFirebaseDb();
             initDrawer(savedInstanceState);
-            initGooglePlus();
 
             if (savedInstanceState == null) {
-                SetFragment(new HomeFragment());
+                SetFragment(new MainFeedFragment());
             }
 
             CheckForUpdates();
@@ -106,9 +110,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
         menu.findItem(R.id.action_menu_options).setVisible(false);
         menu.findItem(R.id.menu_item_share).setVisible(false);
 
-        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-            menu.findItem(R.id.action_menu_options).setVisible(true);
-        }
+//        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//            menu.findItem(R.id.action_menu_options).setVisible(true);
+//        }
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -146,7 +150,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
             @Override
             public void onClick(View v) {
                 //Fatal error with out this click event
-                //String test = "fart";
             }
         });
         Ion.with(image)
@@ -159,15 +162,17 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
         drawer_userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.connect();
-                }
+                googleSignIn();
             }
         });
 
 //        terms_webview = (WebView) termsView.findViewById(R.id.terms_webview);
 //        terms_webview.loadUrl(Constants.urlTermsConditions);
 //        terms_webview.setWebViewClient(new myWebViewClient());
+    }
+
+    private void initFirebaseDb() {
+        rootRef = new Firebase(Constants.fireBaseRoot);
     }
 
     private void setAdminNav() {
@@ -195,9 +200,9 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_item_1:
                         fab.setVisibility(View.VISIBLE);
-                        fragment = new HomeFragment();
+                        fragment = new MainFeedFragment();
                         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.HomeFragment");
+                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.MainFeedFragment");
                         break;
 
                     case R.id.navigation_item_2:
@@ -350,22 +355,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            actionBarDrawerToggle.syncState();
-            if (requestCode == RC_SIGN_IN) {
-                mIntentInProgress = false;
-                if (!mGoogleApiClient.isConnecting()) {
-                    mGoogleApiClient.connect();
-                }
-            }
-        } else {
-            initGooglePlus();
-        }
-    }
-
-    @Override
     protected void onRestart() {
         super.onRestart();
     }
@@ -462,148 +451,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
 //        mChecker.onDestroy();
     }
 
-//    public class myWebViewClient extends WebViewClient {
-//        @Override
-//        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//            view.loadUrl(url);
-//            return true;
-//        }
-//    }
-
-//    public void createTermsDialog() {
-//        try {
-//            Rect displayRectangle = new Rect();
-//            Window window = getWindow();
-//            window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
-//
-//            LayoutInflater factory = LayoutInflater.from(_mContext);
-//            termsView = factory.inflate(
-//                    R.layout.dialog_terms, null);
-//
-//            termsView.setMinimumWidth((int) (displayRectangle.width() * 0.9f));
-//            termsView.setMinimumHeight((int) (displayRectangle.height() * 0.9f));
-//
-//            termsDialog = new AlertDialog.Builder(_mContext).create();
-//            termsDialog.setView(termsView);
-//
-//            termsView.findViewById(R.id.accept_terms_button).setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    BrewSharedPrefs.setAcceptedTerms(true);
-//                    AcceptedDisclaimer();
-//                    termsDialog.dismiss();
-//                }
-//            });
-//            termsView.findViewById(R.id.decline_terms_button).setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    BrewSharedPrefs.setAcceptedTerms(false);
-//                    signOut();
-//                    termsDialog.dismiss();
-//                }
-//            });
-//        } catch (Exception ex) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, ex.getMessage());
-//            }
-////                                         dialogProgress.dismiss();
-//        }
-//
-//    }
-
-//    private void logout() {
-//        try {
-//            BrewSharedPrefs.clearAllPrefs();
-//            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
-//                    MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
-//            suggestions.clearHistory();
-//
-//            _mContext.deleteDatabase(Constants.DATABASE_NAME_IngredientSelected);
-//            _mContext.deleteDatabase(Constants.DATABASE_NAME_InstructionSelected);
-//
-//            recreate();
-//        } catch (Exception e) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, e.getMessage());
-//            }
-//        }
-//    }
-
-//    private void AcceptedDisclaimer() {
-//        String url = Constants.wcfAcceptDisclaimer + BrewSharedPrefs.getUserToken();
-//        Ion.with(_mContext)
-//                .load(url)
-//                .asString()
-//                .setCallback(new FutureCallback<String>() {
-//                    @Override
-//                    public void onCompleted(Exception e, String s) {
-//                        try {
-//                            Boolean success = Boolean.valueOf(s);
-//
-//                        } catch (Exception ex) {
-//                            if (BuildConfig.DEBUG) {
-//                                Log.e(Constants.LOG, ex.getMessage());
-//                            }
-//                        }
-//                    }
-//                });
-//    }
-
-    @Override
-    public void onConnected(Bundle bundle) {
-        if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
-            BrewSharedPrefs.setIsUserLoggedIn(true);
-            Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            BrewSharedPrefs.setFullName(currentPerson.getDisplayName());
-            String personPhoto = currentPerson.getImage().getUrl();
-
-            try {
-                URL url = new URL(personPhoto);
-                personPhoto = personPhoto.replace(url.getQuery(), "");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            BrewSharedPrefs.setGoolgePlusProfileUrl(currentPerson.getUrl());
-            BrewSharedPrefs.setUserProfileImageUrl(personPhoto);
-            BrewSharedPrefs.setEmailAddress(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            PlusAccountSetup();
-            setUserViews();
-            SetFragment(new HomeFragment());
-            collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-        }
-    }
-
-    private void setUserViews() {
-        drawer_displayName.setText(BrewSharedPrefs.getFullName());
-        drawer_useremail.setText(BrewSharedPrefs.getEmailAddress());
-
-        String personPhoto = BrewSharedPrefs.getUserProfileImageUrl();
-        if (!personPhoto.isEmpty()) {
-            int dpConversion = (int) (65 * Resources.getSystem().getDisplayMetrics().density);
-            cornerRadius = 100;
-            Ion.with(drawer_userImage)
-                    .transform(trans)
-                    .load(personPhoto);
-
-
-            drawer_userImage.setMinimumWidth(dpConversion);
-            drawer_userImage.setMinimumHeight(dpConversion);
-        } else {
-            drawer_userImage.setImageResource(R.drawable.ic_person_white_48dp);
-            drawer_userImage.setMinimumWidth(0);
-            drawer_userImage.setMinimumHeight(0);
-        }
-
-        if (menu != null) {
-            MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
-            action_menu_options.setVisible(true);
-        }
-        setAdminNav();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -615,7 +462,7 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
                 if (action_menu_options != null)
                     action_menu_options.setVisible(false);
 
-                SetFragment(new HomeFragment());
+                SetFragment(new MainFeedFragment());
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -645,6 +492,213 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.Connec
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            actionBarDrawerToggle.syncState();
+        }
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+//        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result != null && result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount account = result.getSignInAccount();
+            signInUpdateUi(account);
+
+        } else {
+            // Signed out, show unauthenticated UI.
+            //updateUI(false);
+        }
+    }
+
+    private void signInUpdateUi(GoogleSignInAccount account) {
+        try {
+            if (account != null) {
+                BrewSharedPrefs.setIsUserLoggedIn(true);
+
+                String personName = account.getDisplayName();
+                String personEmail = account.getEmail();
+//                String personId = account.getId();
+                Uri personPhoto = account.getPhotoUrl();
+
+                BrewSharedPrefs.setScreenName(personName);
+                BrewSharedPrefs.setEmailAddress(personEmail);
+                BrewSharedPrefs.setUserProfileImageUrl(personPhoto.toString());
+                String idToken = account.getIdToken();
+
+//                fireBaseAuth(idToken);
+                setUserViews();
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+
+    private void fireBaseAuth(String idToken) {
+        try {
+
+//            AddUserProfile();
+
+//            ref.authWithOAuthToken("google", idToken, new Firebase.AuthResultHandler() {
+            rootRef.authWithCustomToken(idToken, new Firebase.AuthResultHandler() {
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    String test = authData.getUid();
+                    long testAuth = authData.getExpires();
+
+                    // the Google user is now authenticated with your Firebase app
+                }
+
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    // there was an error
+                }
+            });
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+
+    private void AddUserProfile() {
+        try {
+
+            final double[] count = {0};
+            Firebase ref = new Firebase(Constants.fireBaseUsers);
+            Query queryRef =  ref.orderByChild("EmailAddress").equalTo(BrewSharedPrefs.getEmailAddress());
+
+
+            queryRef.addChildEventListener(new ChildEventListener() {
+                // Retrieve new posts as they are added to the database
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+//                    Comment newComment = snapshot.getValue(Comment.class);
+//                    newComment.setKey(snapshot.getKey());
+
+                    UserProfile posgft = snapshot.getValue(UserProfile.class);
+
+//                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                        UserProfile post = postSnapshot.getValue(UserProfile.class);
+//                        String test = post.getImageUrl();
+//                    }
+
+                    count[0] += 1;
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+
+
+
+
+
+
+//            UserProfile userProfile = new UserProfile();
+//            userProfile.setImageUrl("asdlkfasdjkf");
+//            userProfile.setScreenName("Poop Smith");
+//            userProfile.setDateCreated(DateTime.now().toString());
+//            userProfile.setEmailAddress("fake at fart.com");
+//
+//            Firebase postRef = rootRef.child("users");
+//            postRef.push().setValue(userProfile);
+
+//            userProfile.setKey(postRef.getKey());
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+
+//    private static class SetUserProfile extends AsyncTaskLoader {
+//
+//        public SetUserProfile(Context context) {
+//            super(context);
+//        }
+//
+//        @Override
+//        public Object loadInBackground() {
+//            Firebase ref = new Firebase(Constants.fireBaseUsers);
+//
+//            List<UserProfile> userProfiles = JsonToObject.JsonToUserProfile(Constants.fireBaseUsers);
+//
+//
+//
+//            return null;
+//        }
+//    }
+
+
+
+    private void setUserViews() {
+        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+            drawer_displayName.setText(BrewSharedPrefs.getScreenName());
+            drawer_useremail.setText(BrewSharedPrefs.getEmailAddress());
+
+            String personPhoto = BrewSharedPrefs.getUserProfileImageUrl();
+            if (!personPhoto.isEmpty()) {
+                int dpConversion = (int) (65 * Resources.getSystem().getDisplayMetrics().density);
+                cornerRadius = 100;
+                Ion.with(drawer_userImage)
+                        .transform(trans)
+                        .load(personPhoto);
+
+                drawer_userImage.setMinimumWidth(dpConversion);
+                drawer_userImage.setMinimumHeight(dpConversion);
+            } else {
+                drawer_userImage.setImageResource(R.drawable.ic_person_white_48dp);
+                drawer_userImage.setMinimumWidth(0);
+                drawer_userImage.setMinimumHeight(0);
+            }
+
+//        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//            if (menu != null) {
+//                MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
+//                action_menu_options.setVisible(true);
+//            }
+//        }
+
+//            SetFragment(new MainFeedFragment());
+//        app_bar_layout.setExpanded(false);
+//        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
+            setAdminNav();
         }
     }
 }

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -25,9 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
-import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 
@@ -37,19 +40,17 @@ import java.util.Vector;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
-import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.models.Comment;
+import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.objects.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecipeHop;
 import brightseer.com.brewhaha.objects.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeInstruction;
-import brightseer.com.brewhaha.objects.RecipeItem;
-import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
 import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
-import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
  * Created by wooan on 10/24/2015.
@@ -71,7 +72,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private String recipeTitle, userToken, recipeToken, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
 
-    private RecipeSummary recipeSummary = new RecipeSummary();
+    //    private RecipeSummary recipeSummary = new RecipeSummary();
     private List<RecipeGrain> recipeGrains = new Vector<>();
     private List<RecipeHop> recipeHops = new Vector<>();
     private List<RecipeYeast> recipeYeasts = new Vector<>();
@@ -79,16 +80,13 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     public List<RecipeInstruction> recipeRecipeInstructions = new Vector<>();
     private List<RecipeImage> recipeImages = new Vector<>();
 
-    @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-//        goToSceneOverView(card_overview);
-    }
+    private String feedKey;
+    private Firebase ref;
+    private RecipeDetail recipeDetail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        setupTransistionSlide();
-//        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_recipe_animated);
@@ -97,8 +95,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 //            initRecyclerView();
             initViews();
             initPrefs();
-            loadData();
 
+
+            ref = new Firebase(Constants.fireBaseRecipeDetail);
+            getRecipeDetail();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,6 +206,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
         recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
+        feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
     }
 
     private void initPrefs() {
@@ -215,51 +216,79 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    private void loadData() {
-        String contentUrl = Constants.GetRecipeItemUrl + recipeToken + "/" + userToken;
-        Ion.with(_mContext)
-                .load(contentUrl)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
+    private void getRecipeDetail() {
+        try {
+            Query queryRef = ref.orderByChild("feedKey").equalTo(feedKey);;
+            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        recipeDetail = postSnapshot.getValue(RecipeDetail.class);
+                        recipeDetail.setKey(postSnapshot.getKey());
+                    }
+                    goToSceneOverView(findViewById(R.id.card_overview));
+                    toggleSceneButtons = true;
+                }
 
-                                 @Override
-                                 public void onCompleted(Exception e, JsonObject result) {
-                                     try {
-                                         if (result != null) {
-                                             RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
-                                             recipeContentId = recipeContent.getRecipeContentId();
-                                             recipeGrains = recipeContent.getRecipeGrains();
-                                             recipeHops = recipeContent.getRecipeHops();
-                                             recipeYeasts = recipeContent.getRecipeYeasts();
-                                             recipeSummary = recipeContent.getRecipeSummary();
-                                             recipeComents = recipeContent.getComments();
-                                             recipeRecipeInstructions = recipeContent.getRecipeInstructions();
-                                             recipeImages = recipeContent.getRecipeImage();
-                                             if (recipeImages == null)
-                                                 recipeImages = new Vector<>();
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
 
-                                             recipeDesctiption = recipeContent.getDescription();
+                }
+            });
 
-                                             authorImageUrl = recipeContent.getUserImageUrl();
-                                             recipeDateCreated = recipeContent.getDateCreated();
-                                             recipeDateModified = recipeContent.getDateModified();
 
-                                             loadRecipeImages();
-                                             goToSceneOverView(findViewById(R.id.card_overview));
-                                             toggleSceneButtons = true;
-                                         }
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, e.getMessage());
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
+
+//    private void loadData() {
+//        String contentUrl = Constants.GetRecipeItemUrl + recipeToken + "/" + userToken;
+//        Ion.with(_mContext)
+//                .load(contentUrl)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonObject result) {
+//                                     try {
+//                                         if (result != null) {
+//                                             RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
+//                                             recipeContentId = recipeContent.getRecipeContentId();
+//                                             recipeGrains = recipeContent.getRecipeGrains();
+//                                             recipeHops = recipeContent.getRecipeHops();
+//                                             recipeYeasts = recipeContent.getRecipeYeasts();
+//                                             recipeSummary = recipeContent.getRecipeSummary();
+//                                             recipeComents = recipeContent.getComments();
+//                                             recipeRecipeInstructions = recipeContent.getRecipeInstructions();
+//                                             recipeImages = recipeContent.getRecipeImage();
+//                                             if (recipeImages == null)
+//                                                 recipeImages = new Vector<>();
+//
+//                                             recipeDesctiption = recipeContent.getDescription();
+//
+//                                             authorImageUrl = recipeContent.getUserImageUrl();
+//                                             recipeDateCreated = recipeContent.getDateCreated();
+//                                             recipeDateModified = recipeContent.getDateModified();
+//
+//                                             loadRecipeImages();
+//                                             goToSceneOverView(findViewById(R.id.card_overview));
+//                                             toggleSceneButtons = true;
+//                                         }
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, e.getMessage());
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
+//    }
 
     private void loadRecipeImages() {
         RecipeImage test = new RecipeImage();
@@ -403,7 +432,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 Fragment fragment = null;
                 if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeSummary, recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified, recipeContentId);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle);
                 }
 
                 if (sceneId == Constants.sceneIngredients) {

@@ -18,13 +18,13 @@ import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.FavoriteItemsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.MainFeedItem;
-import brightseer.com.brewhaha.objects.RecyclerObjects;
+import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
+import brightseer.com.brewhaha.models.MainFeedItem;
 
 /**
  * Created by wooan_000 on 12/18/2014.
  */
-public class FavoriteItemRecycler extends RecyclerView.Adapter<RecyclerObjects.HomeItemViewHolder> {
+public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolder.HomeItemViewHolder> {
     private List<MainFeedItem> jsonObjects = new Vector<>();
     private FavoriteItemsFragment _fragment;
 
@@ -64,16 +64,16 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<RecyclerObjects.H
     }
 
     @Override
-    public RecyclerObjects.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    public MainFeedViewHolder.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_home, viewGroup, false);
 
-        return new RecyclerObjects.HomeItemViewHolder(itemView);
+        return new MainFeedViewHolder.HomeItemViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerObjects.HomeItemViewHolder homeItemViewHolder, int i) {
+    public void onBindViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, int i) {
         MainFeedItem mainFeedItem = jsonObjects.get(i);
         if (mainFeedItem != null) {
             homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());

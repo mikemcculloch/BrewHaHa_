@@ -218,6 +218,9 @@ public class Constants {
     public static final String exRecipeImage = "RecipeImage";
     public static final String exBitMapInfoMain = "BitMapInfoMain";
 
+    public static final String exFeedKey = "FeedKey";
+
+
     public static final String exRecipeDesctiption = "RecipeDesctiption";
     public static final String exAuthorImageUrl = "AuthorImageUrl";
     public static final String exRecipeDateCreated = "RecipeDateCreated";
@@ -245,9 +248,16 @@ public class Constants {
     public static final String bundleRecipeInstructions = "recipeInstructions";
     public static final String bundleRecipeImages = "recipeImages";
 
+    public static final String bundleRecipeDetail = "RecipeDetail";
+
+
     public static final String fireBaseRoot = "https://scorching-fire-712.firebaseio.com/";
 
     public static final String fireBaseComments = fireBaseRoot + "comments/";
+    public static final String fireBaseUsers = fireBaseRoot + "users/";
+
+    public static final String fireBaseRecipeDetail = fireBaseRoot + "RecipeDetail/";
+
 
 
     public static final int ANIMATION_DELAY = 300;

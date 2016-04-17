@@ -23,56 +23,48 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
+import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
+import com.koushikdutta.ion.Ion;
 
 import org.joda.time.DateTime;
-
-import java.util.List;
-import java.util.Vector;
 
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.objects.Comment;
-import brightseer.com.brewhaha.objects.RecipeSummary;
-import brightseer.com.brewhaha.recipe_adapters.CommentRecycler;
+import brightseer.com.brewhaha.helper.Utilities;
+import brightseer.com.brewhaha.models.Comment;
+import brightseer.com.brewhaha.models.RecipeDetail;
+import brightseer.com.brewhaha.recipe_adapters.CommentViewHolder;
 
 /**
  * Created by wooan on 3/21/2016.
  */
 public class OverviewFragment extends BaseRecipeFragment implements View.OnClickListener {
     private View rootView;
-    private RecipeSummary recipeSummary = new RecipeSummary();
-    private String recipeTitle, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
-    private int recipeContentId;
+    private RecipeDetail recipeDetail = new RecipeDetail();
+    private String recipeTitle;
 
     private RecyclerView comments_recycler_view;
-    private CommentRecycler commentRecycler;
     private EditText recipe_comment_edit_view;
     private View send_comment_button;
     private Firebase rootRef;
+    FirebaseRecyclerAdapter mAdapter;
 
     public OverviewFragment() {
     }
 
-    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeSummary recipeSummary, String recipeTitle, String recipeDesctiption,
-                                               String authorImageUrl, String recipeDateCreated, String recipeDateModified, int _recipeContentId) {
+    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
-        args.putSerializable(Constants.bundleRecipeSummary, recipeSummary);
+        args.putSerializable(Constants.bundleRecipeDetail, _recipeDetail);
 
-        args.putString(Constants.exRecipeTitle, recipeTitle);
-        args.putString(Constants.exRecipeDesctiption, recipeDesctiption);
-
-        args.putInt(Constants.exContentItemPk, _recipeContentId);
-
-        args.putString(Constants.exAuthorImageUrl, authorImageUrl);
-        args.putString(Constants.exRecipeDateCreated, recipeDateCreated);
-        args.putString(Constants.exRecipeDateModified, recipeDateModified);
+        args.putString(Constants.exRecipeTitle, _recipeTitle);
 
         OverviewFragment fragment = new OverviewFragment();
         fragment.setArguments(args);
@@ -88,55 +80,67 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
         ReadBundle();
         initViews();
-        CommentListener();
-        initCommentRecyclerView();
+        populateViews();
         initFirebaseDb();
+
+        RecipeDetailListener();
+        initCommentRecyclerView();
         return rootView;
     }
 
     private void ReadBundle() {
-        recipeSummary = (RecipeSummary) getArguments().getSerializable(Constants.bundleRecipeSummary);
-
+        recipeDetail = (RecipeDetail) getArguments().getSerializable(Constants.bundleRecipeDetail);
         recipeTitle = getArguments().getString(Constants.exRecipeTitle);
-        recipeDesctiption = getArguments().getString(Constants.exRecipeDesctiption);
-        authorImageUrl = getArguments().getString(Constants.exAuthorImageUrl);
-        recipeDateCreated = getArguments().getString(Constants.exRecipeDateCreated);
-        recipeDateModified = getArguments().getString(Constants.exRecipeDateModified);
-        recipeContentId = getArguments().getInt(Constants.exContentItemPk);
+
+//        recipeDesctiption = getArguments().getString(Constants.exRecipeDesctiption);
+//        authorImageUrl = getArguments().getString(Constants.exAuthorImageUrl);
+//        recipeDateCreated = getArguments().getString(Constants.exRecipeDateCreated);
+//        recipeDateModified = getArguments().getString(Constants.exRecipeDateModified);
+//        recipeContentId = getArguments().getInt(Constants.exContentItemPk);
     }
 
+    TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view;
+    ImageView circle_srm_image_view;
+
     private void initViews() {
-        TextView recipe_title_text_view = (TextView) rootView.findViewById(R.id.recipe_title_text_view);
+        recipe_title_text_view = (TextView) rootView.findViewById(R.id.recipe_title_text_view);
+
+        recipe_description_text_view = (TextView) rootView.findViewById(R.id.recipe_description_text_view);
+
+        original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
+        final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
+
+        bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
+
+        srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
+
+        abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
+
+        circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
+
+
+        recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
+        send_comment_button = rootView.findViewById(R.id.send_comment_button);
+        send_comment_button.setOnClickListener(this);
+    }
+
+    private void populateViews() {
         recipe_title_text_view.setText(recipeTitle);
+        recipe_description_text_view.setText(recipeDetail.getDescription());
+        original_gravity_text_view.setText(recipeDetail.getOriginalGravity());
+        final_gravity_text_view.setText(recipeDetail.getFinalGravity());
+        bitterness_text_view.setText(recipeDetail.getBitternessIbu());
+        srm_color_text_view.setText(recipeDetail.getColorSrm());
+        abv_text_view.setText(recipeDetail.getAlcoholByVol() + "%");
 
-        TextView recipe_description_text_view = (TextView) rootView.findViewById(R.id.recipe_description_text_view);
-        recipe_description_text_view.setText(recipeDesctiption);
-
-        TextView original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
-        original_gravity_text_view.setText(recipeSummary.getOriginalGravity());
-
-        TextView final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
-        final_gravity_text_view.setText(recipeSummary.getFinalGravity());
-
-        TextView bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
-        bitterness_text_view.setText(recipeSummary.getBitternessIbu());
-
-        TextView srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
-        srm_color_text_view.setText(recipeSummary.getColorSrm());
-
-        TextView abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
-        abv_text_view.setText(recipeSummary.getAlcoholByVol() + "%");
-
-        int newColor = Color.parseColor(recipeSummary.SrmHex);
+        int newColor = Color.parseColor(recipeDetail.getSrmHex());
         Drawable mDrawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm, getActivity().getTheme());
         } else {
             mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm);
         }
-
         mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
-        ImageView circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
         circle_srm_image_view.setImageDrawable(mDrawable);
 
         recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
@@ -149,40 +153,62 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     }
 
     private void initCommentRecyclerView() {
-        LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
-        recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recylerViewLayoutManager.scrollToPosition(0);
+        try {
+            LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
+            recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recylerViewLayoutManager.scrollToPosition(0);
 
-        comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
-        comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
-        } else {
-            comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
-        }
-        List<Comment> comments = new Vector<>();
-        commentRecycler = new CommentRecycler(comments);
+            comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
+            comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
+            } else {
+                comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+            }
 
-        comments_recycler_view.setAdapter(commentRecycler);
-        comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
-        comments_recycler_view.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), comments_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        try {
+            Firebase ref = rootRef.child("comments").child(recipeTitle);
+            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, ref) {
+                @Override
+                public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
+                    Ion.with(commentViewHolder.comment_user_image)
+                            .placeholder(R.drawable.ic_person_black_24dp)
+                            .error(R.drawable.ic_person_black_24dp)
+                            .centerCrop()
+                            .transform(Utilities.GetRoundTransform())
+                            .load(comment.getImageUrl());
 
-                        } catch (Exception e) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, e.getMessage());
+                    commentViewHolder.comment_item_author.setText(comment.getAuthorName());
+                    commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
+                    commentViewHolder.comment_text_view.setText(comment.getBody());
+                }
+            };
+            comments_recycler_view.setAdapter(mAdapter);
+
+
+            comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
+            comments_recycler_view.addOnItemTouchListener(
+                    new RecyclerItemClickListener(getContext(), comments_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            try {
+
+                            } catch (Exception e) {
+                                if (BuildConfig.DEBUG) {
+                                    Log.e(Constants.LOG, e.getMessage());
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-                    }
-                })
-        );
+                        @Override
+                        public void onItemLongClick(View view, int position) {
+                        }
+                    })
+            );
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     @Override
@@ -194,50 +220,77 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
         }
     }
+//
+//    public void CommentListener() {
+//        try {
+////            Firebase ref = new Firebase(Constants.fireBaseComments + recipeTitle);
+////            Query queryRef = ref.orderByChild("dateCreated");
+////
+////            queryRef.addChildEventListener(new ChildEventListener() {
+////                // Retrieve new posts as they are added to the database
+////                @Override
+////                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+////                    Comment newComment = snapshot.getValue(Comment.class);
+////                    newComment.setKey(snapshot.getKey());
+////
+////                    commentRecycler.add(newComment, 0);
+////                }
+////
+////                @Override
+////                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+////
+////                    Comment newComment = dataSnapshot.getValue(Comment.class);
+////                    newComment.setKey(dataSnapshot.getKey());
+////                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
+////
+////                    commentRecycler.remove(position);
+////                    commentRecycler.add(newComment, position);
+////                }
+////
+////                @Override
+////                public void onChildRemoved(DataSnapshot dataSnapshot) {
+////                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
+////                    commentRecycler.remove(position);
+////                }
+////
+////                @Override
+////                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+////
+////                }
+////
+////                @Override
+////                public void onCancelled(FirebaseError firebaseError) {
+////
+////                }
+////            });
+//
+//
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
-    public void CommentListener() {
+    private void AddComment() {
         try {
-            Firebase ref = new Firebase(Constants.fireBaseComments + recipeTitle);
-            Query queryRef = ref.orderByChild("dateCreated");
 
-            queryRef.addChildEventListener(new ChildEventListener() {
-                // Retrieve new posts as they are added to the database
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                    Comment newComment = snapshot.getValue(Comment.class);
-                    newComment.setKey(snapshot.getKey());
+//            if (!BrewSharedPrefs.getIsUserLoggedIn())
+//            {
+//
+//                return;
+//            }
 
-                    commentRecycler.add(newComment, 0);
-                }
+            Comment comment = new Comment();
+            comment.setAuthorName(BrewSharedPrefs.getScreenName());
+            comment.setBody(recipe_comment_edit_view.getText().toString());
+            comment.setFeedKey(recipeDetail.getFeedKey());
+            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
+            comment.setDateCreated(DateTime.now().toString());
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                    Comment newComment = dataSnapshot.getValue(Comment.class);
-                    newComment.setKey(dataSnapshot.getKey());
-                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
-
-                    commentRecycler.remove(position);
-                    commentRecycler.add(newComment, position);
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
-                    commentRecycler.remove(position);
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-
+            Firebase postRef = rootRef.child("comments").child(recipeTitle).push();
+            postRef.setValue(comment);
+            recipe_comment_edit_view.setText("");
 
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -246,30 +299,30 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         }
     }
 
-    private void AddComment() {
+    public void RecipeDetailListener() {
         try {
+            Firebase ref = new Firebase(Constants.fireBaseRecipeDetail);
+            Query queryRef = ref.orderByChild("feedKey").equalTo(recipeDetail.getFeedKey());
 
-            if (!BrewSharedPrefs.getIsUserLoggedIn())
-            {
+            queryRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        recipeDetail = postSnapshot.getValue(RecipeDetail.class);
+                        recipeDetail.setKey(postSnapshot.getKey());
+                    }
+                    populateViews();
+                }
 
-                return;
-            }
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
 
-            Comment comment = new Comment();
-            comment.setAuthorName(BrewSharedPrefs.getScreenName());
-            comment.setBody(recipe_comment_edit_view.getText().toString());
-            comment.setRecipeContentId(recipeContentId);
-            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
-            comment.setDateCreated(DateTime.now().toString());
-
-            Firebase postRef = rootRef.child("comments").child(recipeTitle);
-            postRef.push().setValue(comment);
-
-            // Get the unique ID generated by push()
-//            String postId = postRef.getKey();
-            recipe_comment_edit_view.setText("");
+                }
+            });
         } catch (Exception ex) {
-
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 }

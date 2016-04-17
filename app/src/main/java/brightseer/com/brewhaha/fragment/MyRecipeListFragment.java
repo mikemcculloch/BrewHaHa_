@@ -16,10 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonArray;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
 import java.util.List;
 import java.util.Vector;
 
@@ -27,16 +23,11 @@ import brightseer.com.brewhaha.AddUpdateRecipe;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
-import brightseer.com.brewhaha.GridViewActivity;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.AddRecipeRecycler;
-import brightseer.com.brewhaha.objects.MainFeedItem;
-import brightseer.com.brewhaha.repository.JsonToObject;
-import brightseer.com.brewhaha.swipedismiss.OnItemClickListener;
+import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.swipedismiss.SwipeToDismissTouchListener;
-import brightseer.com.brewhaha.swipedismiss.SwipeableItemClickListener;
 import brightseer.com.brewhaha.swipedismiss.adapter.RecyclerViewAdapter;
-import brightseer.com.brewhaha.swipedismiss.adapter.ViewAdapter;
 
 /**
  * Created by Michael McCulloch on 2/25/2015.
@@ -95,41 +86,41 @@ public class MyRecipeListFragment extends BaseFragment {
     }
 
     public void load() {
-        if (loading != null && !loading.isDone() && !loading.isCancelled())
-            return;
-
-        String url = Constants.wcfGetUserContentByLastId + "0/" + userToken;
-        if (mainFeedItemList != null) {
-            if (mainFeedItemList.size() > 0) {
-                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
-                url = Constants.wcfGetUserContentByLastId + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + userToken;
-            }
-        }
-        loading = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray jsonArray) {
-                        try {
-//                            mSwipeRefreshLayout.setRefreshing(false);
-                            dialogProgress.dismiss();
-                            if (jsonArray != null) {
-                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
-                                for (MainFeedItem item : resultsList) {
-                                    mainFeedItemList.add(item);
-                                    adapter.add(item, mainFeedItemList.size() - 1);
-                                }
-                            }
-//                            addFabListener();
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
+//        if (loading != null && !loading.isDone() && !loading.isCancelled())
+//            return;
+//
+//        String url = Constants.wcfGetUserContentByLastId + "0/" + userToken;
+//        if (mainFeedItemList != null) {
+//            if (mainFeedItemList.size() > 0) {
+//                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
+//                url = Constants.wcfGetUserContentByLastId + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + userToken;
+//            }
+//        }
+//        loading = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonArray jsonArray) {
+//                        try {
+////                            mSwipeRefreshLayout.setRefreshing(false);
+//                            dialogProgress.dismiss();
+//                            if (jsonArray != null) {
+//                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+//                                for (MainFeedItem item : resultsList) {
+//                                    mainFeedItemList.add(item);
+//                                    adapter.add(item, mainFeedItemList.size() - 1);
+//                                }
+//                            }
+////                            addFabListener();
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
     }
 
 //    public void addFabListener() {
@@ -177,7 +168,7 @@ public class MyRecipeListFragment extends BaseFragment {
             itemRemoveMe = mainFeedItemList.get(position);
             adapter.remove(itemRemoveMe, position);
             mainFeedItemList.remove(position);
-            RemoveFromDB();
+//            RemoveFromDB();
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -185,27 +176,27 @@ public class MyRecipeListFragment extends BaseFragment {
         }
     }
 
-    private void RemoveFromDB() {
-        String token = String.valueOf(itemRemoveMe.getToken());
-        String url = Constants.wcfRemoveRecipe + BrewSharedPrefs.getUserToken() + "/" + token;
-        Ion.with(_fContext)
-                .load(url)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        try {
-                            Boolean success = Boolean.valueOf(s);
-
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                        itemRemoveMe = null;
-                    }
-                });
-    }
+//    private void RemoveFromDB() {
+//        String token = String.valueOf(itemRemoveMe.getToken());
+//        String url = Constants.wcfRemoveRecipe + BrewSharedPrefs.getUserToken() + "/" + token;
+//        Ion.with(_fContext)
+//                .load(url)
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        try {
+//                            Boolean success = Boolean.valueOf(s);
+//
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                        itemRemoveMe = null;
+//                    }
+//                });
+//    }
 
     private void initRecycler() {
         recycle_add_recipe_view = (RecyclerView) rootView.findViewById(R.id.recycle_add_recipe_view);
@@ -235,67 +226,67 @@ public class MyRecipeListFragment extends BaseFragment {
         recycle_add_recipe_view.setAdapter(adapter);
         recycle_add_recipe_view.setItemAnimator(new DefaultItemAnimator());
 
-        final SwipeToDismissTouchListener touchListener =
-                new SwipeToDismissTouchListener(
-                        new RecyclerViewAdapter(recycle_add_recipe_view),
-                        new SwipeToDismissTouchListener.DismissCallbacks() {
-                            @Override
-                            public boolean canDismiss(int position) {
-                                return !mainFeedItemList.get(position).isApproved();
-                            }
-
-                            @Override
-                            public void onDismiss(ViewAdapter recyclerView, int position) {
-                                RemoveRecipe(position);
-                            }
-                        });
-
-        recycle_add_recipe_view.setOnTouchListener(touchListener);
-        recycle_add_recipe_view.setOnScrollListener((RecyclerView.OnScrollListener) touchListener.makeScrollListener());
-        recycle_add_recipe_view.addOnItemTouchListener(new SwipeableItemClickListener(_fContext,
-                new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        try {
-                            if (view.getId() == R.id.txt_delete) {
-                                touchListener.processPendingDismisses();
+//        final SwipeToDismissTouchListener touchListener =
+//                new SwipeToDismissTouchListener(
+//                        new RecyclerViewAdapter(recycle_add_recipe_view),
+//                        new SwipeToDismissTouchListener.DismissCallbacks() {
+//                            @Override
+//                            public boolean canDismiss(int position) {
+//                                return !mainFeedItemList.get(position).isApproved();
+//                            }
 //
-                            } else if (view.getId() == R.id.txt_undo) {
-                                touchListener.undoPendingDismiss();
-                            } else {
-                                openContent(position);
-                            }
-                        } catch (Exception e) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, e.getMessage());
-                            }
-                        }
-                    }
-                }));
+//                            @Override
+//                            public void onDismiss(ViewAdapter recyclerView, int position) {
+//                                RemoveRecipe(position);
+//                            }
+//                        });
+
+//        recycle_add_recipe_view.setOnTouchListener(touchListener);
+//        recycle_add_recipe_view.setOnScrollListener((RecyclerView.OnScrollListener) touchListener.makeScrollListener());
+//        recycle_add_recipe_view.addOnItemTouchListener(new SwipeableItemClickListener(_fContext,
+//                new OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(View view, int position) {
+//                        try {
+//                            if (view.getId() == R.id.txt_delete) {
+//                                touchListener.processPendingDismisses();
+////
+//                            } else if (view.getId() == R.id.txt_undo) {
+//                                touchListener.undoPendingDismiss();
+//                            } else {
+//                                openContent(position);
+//                            }
+//                        } catch (Exception e) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, e.getMessage());
+//                            }
+//                        }
+//                    }
+//                }));
     }
 
     private void openContent(int position) {
         try {
-            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
-            if (mainFeedItem.getItemTypeId() == 1) {
-                contentToken = mainFeedItem.getToken();
-                StartAddUpdate(String.valueOf(mainFeedItem.getContentItemPk()));
-            }
-            if (mainFeedItem.getItemTypeId() == 2) {
-                Intent getNameScreenIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
-                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
-                getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                    ActivityCompat.startActivity(getActivity(), getNameScreenIntent, options.toBundle());
-                } else {
-                    startActivity(getNameScreenIntent);
-                    getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                }
-
-
-            }
+//            MainFeedItem mainFeedItem = mainFeedItemList.get(position);
+//            if (mainFeedItem.getItemTypeId() == 1) {
+//                contentToken = mainFeedItem.getToken();
+//                StartAddUpdate(String.valueOf(mainFeedItem.getContentItemPk()));
+//            }
+//            if (mainFeedItem.getItemTypeId() == 2) {
+//                Intent getNameScreenIntent = new Intent(getActivity().getApplicationContext(), GridViewActivity.class);
+//                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//                getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+//                    ActivityCompat.startActivity(getActivity(), getNameScreenIntent, options.toBundle());
+//                } else {
+//                    startActivity(getNameScreenIntent);
+//                    getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                }
+//
+//
+//            }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());

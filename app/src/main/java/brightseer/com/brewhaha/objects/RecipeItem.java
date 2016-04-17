@@ -2,6 +2,8 @@ package brightseer.com.brewhaha.objects;
 
 import java.util.List;
 
+import brightseer.com.brewhaha.models.Comment;
+
 public class RecipeItem {
     private int RecipeContentId;
     private String Title;

@@ -34,6 +34,7 @@
     <string name="deviceElyseS3">09FA4796A495BED3A045CE307AEADC79</string>
 
 
+
     <!---->
     <string name="banner_standard_id">ca-app-pub-6262365309243348/7532368117</string>
     <!--<string name="banner_standard_id">TEST</string>-->
@@ -150,4 +151,9 @@
     <string name="string_abv">ABV</string>
     <string name="string_alcohol_by_volume">Alcohol by Volume</string>
     <string name="string_images">Images</string>
+
+    <!--<string name="server_client_id">1087014534539-4hcnmnb0erb5tmcrel89lf3qli5ohbko.apps.googleusercontent.com</string>-->
+    <string name="server_client_id">1087014534539-b61q17kem52h2658v1r0a0f3jbu2bjs8.apps.googleusercontent.com</string>
+
+//
 </resources>

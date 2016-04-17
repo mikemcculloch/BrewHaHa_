@@ -18,7 +18,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.MyRecipeListFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.MainFeedItem;
+import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
@@ -93,14 +93,14 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
 
             String published = "Unpublished";
             homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.red));
-            if (mainFeedItem.isApproved()) {
-                published = "Published";
-                homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_blue));
-            }
-            if (mainFeedItem.isSubmitted() && !mainFeedItem.isApproved()) {
-                published = "Pending";
-                homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_orange));
-            }
+//            if (mainFeedItem.isApproved()) {
+//                published = "Published";
+//                homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_blue));
+//            }
+//            if (mainFeedItem.isSubmitted() && !mainFeedItem.isApproved()) {
+//                published = "Pending";
+//                homeItemViewHolder.my_recipe_published_text_view.setTextColor(_fragment.getResources().getColor(R.color.app_orange));
+//            }
 
             homeItemViewHolder.my_recipe_published_text_view.setText(published);
 

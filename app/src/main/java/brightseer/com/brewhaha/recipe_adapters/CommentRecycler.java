@@ -16,7 +16,7 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.Comment;
+import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.CommentItemViewHolder> {
