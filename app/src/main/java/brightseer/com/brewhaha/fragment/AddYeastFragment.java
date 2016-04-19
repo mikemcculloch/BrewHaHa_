@@ -36,10 +36,10 @@ import java.util.Vector;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.adapter.YeastMyRecipeRecycler;
 import brightseer.com.brewhaha.objects.Laboratory;
-import brightseer.com.brewhaha.objects.RecipeYeast;
+import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.Yeast;
 import brightseer.com.brewhaha.repository.DBHelper_Laboratory;
 import brightseer.com.brewhaha.repository.DBHelper_Yeast;
@@ -181,14 +181,14 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            RecipeYeast recipeComment = adapter.getItemAt(position);
-                            mHeader = recipeComment.getName() + ", " + lookupLaboratory(recipeComment.getLaboratoryId()).getName();
-
-                            ingredientYeastPk = recipeComment.getIngredientYeastId();
-                            listPosition = position;
-                            registerForContextMenu(view);
-                            getActivity().openContextMenu(view);
-                            view.setLongClickable(false);
+//                            RecipeYeast recipeComment = adapter.getItemAt(position);
+//                            mHeader = recipeComment.getName() + ", " + lookupLaboratory(recipeComment.getLaboratoryId()).getName();
+//
+//                            ingredientYeastPk = recipeComment.getIngredientYeastId();
+//                            listPosition = position;
+//                            registerForContextMenu(view);
+//                            getActivity().openContextMenu(view);
+//                            view.setLongClickable(false);
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -352,14 +352,14 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void setDialogValues(RecipeYeast selected) {
-        my_yeast_master_spinner.setEnabled(false);
-        ingredientYeastPk = selected.getIngredientYeastId();
-        selectedLabPk = selected.getLaboratoryId();
-        selectedYeastPk = selected.getYeastId();
-        my_yeast_name_edit_text.setText(String.valueOf(selected.getName()));
-        my_yeast_submit_button.setText("Update");
-        my_yeast_master_spinner.setSelection(yeastMasterList.indexOf(lookupYeast(selected.getYeastId())) + 1);
-        my_yeast_laboratory_spinner.setSelection(laboratoryList.indexOf(lookupLaboratory(selected.getLaboratoryId())));
+//        my_yeast_master_spinner.setEnabled(false);
+//        ingredientYeastPk = selected.getIngredientYeastId();
+//        selectedLabPk = selected.getLaboratoryId();
+//        selectedYeastPk = selected.getYeastId();
+//        my_yeast_name_edit_text.setText(String.valueOf(selected.getName()));
+//        my_yeast_submit_button.setText("Update");
+//        my_yeast_master_spinner.setSelection(yeastMasterList.indexOf(lookupYeast(selected.getYeastId())) + 1);
+//        my_yeast_laboratory_spinner.setSelection(laboratoryList.indexOf(lookupLaboratory(selected.getLaboratoryId())));
     }
 
     private Yeast lookupYeast(int itemPk) {
@@ -402,12 +402,12 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
                                          RecipeYeast item = ingredient.get(0);
                                          int pos = 0;
 
-                                         if (ingredientYeastPk != 0) {
-                                             pos = adapter.getPostionByPk(item.getIngredientYeastId());
-                                             adapter.remove(pos);
-                                         } else {
-                                             pos = adapter.getItemCount();
-                                         }
+//                                         if (ingredientYeastPk != 0) {
+//                                             pos = adapter.getPostionByPk(item.getIngredientYeastId());
+//                                             adapter.remove(pos);
+//                                         } else {
+//                                             pos = adapter.getItemCount();
+//                                         }
 
                                          adapter.add(item, pos);
                                      } catch (Exception ex) {

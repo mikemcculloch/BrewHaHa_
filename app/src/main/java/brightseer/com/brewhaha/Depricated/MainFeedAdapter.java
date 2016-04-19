@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.main_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.MainFeedItem;
@@ -25,7 +26,7 @@ import brightseer.com.brewhaha.models.MainFeedItem;
  */
 
 ///DEPRICATED USE FIREBASEADAPTER
-public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder.HomeItemViewHolder> {
+public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder> {
     private List<MainFeedItem> mainFeedItems = new Vector<>();
     private MainFeedFragment _fragment;
 
@@ -69,15 +70,15 @@ public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder.Hom
     }
 
     @Override
-    public MainFeedViewHolder.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    public MainFeedViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_home, viewGroup, false);
-        return new MainFeedViewHolder.HomeItemViewHolder(itemView);
+        return new MainFeedViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, int position) {
+    public void onBindViewHolder(MainFeedViewHolder homeItemViewHolder, int position) {
 //        _fragment.load();
         MainFeedItem mainFeedItem = mainFeedItems.get(position);
         final int currentPos = position;

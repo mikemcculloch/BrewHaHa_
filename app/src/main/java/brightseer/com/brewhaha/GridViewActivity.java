@@ -17,22 +17,17 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.PlusOneButton;
-import com.google.android.gms.plus.model.people.Person;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.adapter.GridImagesRecycler;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
@@ -293,7 +288,7 @@ public class GridViewActivity extends BaseActivity {
             RecipeImage recipeImageItem = adapter.GetItemAt(position);
             Intent i = new Intent(this, FullScreenViewActivity.class);
             i.putExtra("position", position);
-            i.putExtra(Constants.exContentItemPk, String.valueOf(recipeImageItem.getRecipeContentId()));
+//            i.putExtra(Constants.exContentItemPk, String.valueOf(recipeImageItem.getRecipeContentId()));
             i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             startActivity(i);

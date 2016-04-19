@@ -43,11 +43,11 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.HopMyRecipeRecycler;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.objects.Hops;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
-import brightseer.com.brewhaha.objects.RecipeHop;
+import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 import brightseer.com.brewhaha.repository.DBHelper_HopUse;
 import brightseer.com.brewhaha.repository.DBHelper_Hops;
@@ -240,9 +240,9 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                     public void onItemClick(View view, int position) {
                         try {
                             RecipeHop recipeHop = adapter.getItemAt(position);
-                            mHeader = recipeHop.getAmount() + " " + lookupUnitOfMeasure(recipeHop.getUnitOfMeasureId(), 1).getDescription() + ", " + recipeHop.getName();
-                            ingredientHopPk = recipeHop.getIngredientHopsId();
-                            listPosition = position;
+//                            mHeader = recipeHop.getAmount() + " " + lookupUnitOfMeasure(recipeHop.getUnitOfMeasureId(), 1).getDescription() + ", " + recipeHop.getName();
+//                            ingredientHopPk = recipeHop.getIngredientHopsId();
+//                            listPosition = position;
 
                             registerForContextMenu(view);
                             getActivity().openContextMenu(view);
@@ -529,12 +529,12 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
     public void setDialogValues(RecipeHop selected) {
         if (selected != null) {
             my_hops_master_spinner.setEnabled(false);
-            selectedHopPk = selected.getHopsId();
-            selectedMeasurement = selected.getUnitOfMeasureId();
-            selectedHopsUsePk = selected.getHopsUseId();
-            selectedTimeUnit = selected.getTimeUnitOfMeasureId();
-            selectedHopFormPk = selected.getHopsFormId();
-            ingredientHopPk = selected.getIngredientHopsId();
+//            selectedHopPk = selected.getHopsId();
+//            selectedMeasurement = selected.getUnitOfMeasureId();
+//            selectedHopsUsePk = selected.getHopsUseId();
+//            selectedTimeUnit = selected.getTimeUnitOfMeasureId();
+//            selectedHopFormPk = selected.getHopsFormId();
+//            ingredientHopPk = selected.getIngredientHopsId();
 
             my_hops_name_edit_text.setText(String.valueOf(selected.getName()));
             my_hop_amount_edit_text.setText(String.valueOf(selected.getAmount()));
@@ -544,10 +544,10 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
             acidProgress = Float.parseFloat(String.valueOf(selected.getAlphaAcidPercentage())) * 10;
             my_hop_alpha_acid_seekbar.setProgress((int) acidProgress);
 
-            my_hops_measurement_size_spinner.setSelection(unitOfWeight.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasureId(), 1)) - 1);
-            my_hop_use_spinner.setSelection(hopUseList.indexOf(lookupHopUse(selected.getHopsUseId())) - 1);
-            my_hops_time_unit_size_spinner.setSelection(unitOfTime.indexOf(lookupUnitOfMeasure(selected.getTimeUnitOfMeasureId(), 2)) - 1);
-            my_hop_form_spinner.setSelection(hopsFormList.indexOf(lookupHopForm(selected.getHopsFormId())) - 1);
+//            my_hops_measurement_size_spinner.setSelection(unitOfWeight.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasureId(), 1)) - 1);
+//            my_hop_use_spinner.setSelection(hopUseList.indexOf(lookupHopUse(selected.getHopsUseId())) - 1);
+//            my_hops_time_unit_size_spinner.setSelection(unitOfTime.indexOf(lookupUnitOfMeasure(selected.getTimeUnitOfMeasureId(), 2)) - 1);
+//            my_hop_form_spinner.setSelection(hopsFormList.indexOf(lookupHopForm(selected.getHopsFormId())) - 1);
         }
     }
 
@@ -633,12 +633,12 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                                          RecipeHop item = ingredient.get(0);
                                          int pos = 0;
 
-                                         if (ingredientHopPk != 0) {
-                                             pos = adapter.getPostionByPk(item.getIngredientHopsId());
-                                             adapter.remove(pos);
-                                         } else {
-                                             pos = adapter.getItemCount();
-                                         }
+//                                         if (ingredientHopPk != 0) {
+//                                             pos = adapter.getPostionByPk(item.getIngredientHopsId());
+//                                             adapter.remove(pos);
+//                                         } else {
+//                                             pos = adapter.getItemCount();
+//                                         }
 
                                          adapter.add(item, pos);
                                          updateInstruction();

@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.recipe_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,9 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.AddHopsFragment;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
-import brightseer.com.brewhaha.objects.RecipeHop;
+import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -57,15 +56,15 @@ public class HopsRecycler extends RecyclerView.Adapter<RecyclerObjects.HopMyReci
     @Override
     public void onBindViewHolder(RecyclerObjects.HopMyRecipeViewHolder itemViewHolder, int i) {
         RecipeHop item = recipeHops.get(i);
-        itemViewHolder.my_hop_amount_text_view.setText(String.valueOf(item.getAmount()));
-        itemViewHolder.my_hop_time_text_view.setText(String.valueOf(item.getCookTime()) + " " + lookupUnitOfMeasure(item.getTimeUnitOfMeasureId(), 2) + ",");
-        itemViewHolder.my_hop_type_text_view.setText(item.getName() + ",");
-
-        itemViewHolder.my_hop_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId(), 1) + ",");
-
-        itemViewHolder.my_hop_use_text_view.setText(lookupHopUse(item.getHopsUseId()) + ",");
-        itemViewHolder.my_hop_form_text_view.setText(lookupHopForm(item.getHopsFormId()) + ",");
-        itemViewHolder.row_hop_alpha_text_view.setText(String.valueOf(item.getAlphaAcidPercentage()) + "%");
+//        itemViewHolder.my_hop_amount_text_view.setText(String.valueOf(item.getAmount()));
+//        itemViewHolder.my_hop_time_text_view.setText(String.valueOf(item.getCookTime()) + " " + lookupUnitOfMeasure(item.getTimeUnitOfMeasureId(), 2) + ",");
+//        itemViewHolder.my_hop_type_text_view.setText(item.getName() + ",");
+//
+//        itemViewHolder.my_hop_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId(), 1) + ",");
+//
+//        itemViewHolder.my_hop_use_text_view.setText(lookupHopUse(item.getHopsUseId()) + ",");
+//        itemViewHolder.my_hop_form_text_view.setText(lookupHopForm(item.getHopsFormId()) + ",");
+//        itemViewHolder.row_hop_alpha_text_view.setText(String.valueOf(item.getAlphaAcidPercentage()) + "%");
     }
 
     @Override
@@ -98,11 +97,11 @@ public class HopsRecycler extends RecyclerView.Adapter<RecyclerObjects.HopMyReci
     }
 
     public int getPostionById(int itemId) {
-        for (RecipeHop item : recipeHops) {
-            if (itemId == item.getIngredientHopsId()) {
-                return recipeHops.indexOf(item);
-            }
-        }
+//        for (RecipeHop item : recipeHops) {
+//            if (itemId == item.getIngredientHopsId()) {
+//                return recipeHops.indexOf(item);
+//            }
+//        }
         return 0;
     }
 

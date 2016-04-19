@@ -24,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -40,13 +39,12 @@ import java.util.Vector;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
-import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeDetail;
-import brightseer.com.brewhaha.objects.RecipeGrain;
-import brightseer.com.brewhaha.objects.RecipeHop;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeHop;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeInstruction;
-import brightseer.com.brewhaha.objects.RecipeYeast;
+import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -72,11 +70,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private String recipeTitle, userToken, recipeToken, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
 
-    //    private RecipeSummary recipeSummary = new RecipeSummary();
     private List<RecipeGrain> recipeGrains = new Vector<>();
     private List<RecipeHop> recipeHops = new Vector<>();
     private List<RecipeYeast> recipeYeasts = new Vector<>();
-    private List<Comment> recipeComents = new Vector<>();
     public List<RecipeInstruction> recipeRecipeInstructions = new Vector<>();
     private List<RecipeImage> recipeImages = new Vector<>();
 
@@ -92,10 +88,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             setContentView(R.layout.activity_recipe_animated);
             _mContext = RecipeCardsActivity.this;
             initExtras();
-//            initRecyclerView();
             initViews();
             initPrefs();
-
 
             ref = new Firebase(Constants.fireBaseRecipeDetail);
             getRecipeDetail();
@@ -218,7 +212,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private void getRecipeDetail() {
         try {
-            Query queryRef = ref.orderByChild("feedKey").equalTo(feedKey);;
+            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);;
             queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -290,24 +284,24 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 //                );
 //    }
 
-    private void loadRecipeImages() {
-        RecipeImage test = new RecipeImage();
-        test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-        recipeImages.add(test);
-
-//        for (RecipeImage item : recipeImages) {
-//            recipeImageRecycler.add(item, recipeImages.size() - 1);
-//        }
-    }
+//    private void loadRecipeImages() {
+//        RecipeImage test = new RecipeImage();
+//        test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//        recipeImages.add(test);
+//
+////        for (RecipeImage item : recipeImages) {
+////            recipeImageRecycler.add(item, recipeImages.size() - 1);
+////        }
+//    }
 
     public void goToSceneOverView(View view) {
         sceneId = Constants.sceneOverview;
@@ -437,7 +431,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                 if (sceneId == Constants.sceneIngredients) {
                     view = card_ingredients;
-                    fragment = IngredientFragment.newInstance(20, 20, randomColor, recipeGrains, recipeHops, recipeYeasts);
+                    fragment = IngredientFragment.newInstance(20, 20, randomColor, feedKey);
                 }
 
                 if (sceneId == Constants.sceneDirections) {
@@ -447,7 +441,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                 if (sceneId == Constants.sceneImages) {
                     view = card_images;
-                    fragment = ImageFragment.newInstance(20, 20, randomColor, recipeImages);
+                    fragment = ImageFragment.newInstance(20, 20, randomColor, feedKey);
                 }
 
                 ViewGroup scene_target = (ViewGroup) findViewById(R.id.scene_target);

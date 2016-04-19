@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.adapter;
+package brightseer.com.brewhaha.helper;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

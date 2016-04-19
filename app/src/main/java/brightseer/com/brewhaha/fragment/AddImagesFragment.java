@@ -42,8 +42,8 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.BeerMyRecipeRecycler;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
@@ -142,7 +142,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
 
                     @Override
                     public void onItemLongClick(View view, int position) {
-                        selectedImagePk = recipeImageList.get(position).getImagePk();
+//                        selectedImagePk = recipeImageList.get(position).getImagePk();
                         deletePosition = position;
                         menuType = 2;
                         registerForContextMenu(view);

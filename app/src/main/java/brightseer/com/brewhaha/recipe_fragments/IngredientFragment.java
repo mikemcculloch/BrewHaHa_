@@ -1,40 +1,44 @@
 package brightseer.com.brewhaha.recipe_fragments;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
-import brightseer.com.brewhaha.adapter.YeastMyRecipeRecycler;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.Utilities;
+import brightseer.com.brewhaha.models.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeHop;
+import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.Grain;
 import brightseer.com.brewhaha.objects.GrainUse;
 import brightseer.com.brewhaha.objects.HopsForm;
 import brightseer.com.brewhaha.objects.HopsUse;
 import brightseer.com.brewhaha.objects.Laboratory;
-import brightseer.com.brewhaha.objects.RecipeGrain;
-import brightseer.com.brewhaha.objects.RecipeHop;
-import brightseer.com.brewhaha.objects.RecipeYeast;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
-import brightseer.com.brewhaha.recipe_adapters.GrainRecycler;
-import brightseer.com.brewhaha.recipe_adapters.HopsRecycler;
-import brightseer.com.brewhaha.recipe_adapters.YeastRecycler;
+import brightseer.com.brewhaha.recipe_adapters.RecipeGrainViewHolder;
+import brightseer.com.brewhaha.recipe_adapters.RecipeHopViewHolder;
+import brightseer.com.brewhaha.recipe_adapters.RecipeYeastViewHolder;
 import brightseer.com.brewhaha.repository.DBHelper_Country;
 import brightseer.com.brewhaha.repository.DBHelper_Grain;
 import brightseer.com.brewhaha.repository.DBHelper_GrainUse;
@@ -48,17 +52,20 @@ import brightseer.com.brewhaha.repository.DBHelper_UnitOfMeasure;
  */
 public class IngredientFragment extends BaseRecipeFragment {
     private View rootView;
-    private List<RecipeGrain> recipeGrains = new Vector<>();
-    private List<RecipeHop> recipeHops = new Vector<>();
-    private List<RecipeYeast> recipeYeasts = new Vector<>();
     private RecyclerView recipe_grain_recycler_view, recipe_hop_recycler_view, recipe_yeast_recycler_view;
 
-    private GrainRecycler GrainRecyclerAdapter;
-    private HopsRecycler HopsRecyclerAdapter;
-    private YeastRecycler YeastRecyclerAdapter;
+    FirebaseRecyclerAdapter mAdapterGrain ;
+    FirebaseRecyclerAdapter mAdapterHop;
+    FirebaseRecyclerAdapter mAdapterYeast;
+//    private GrainRecycler GrainRecyclerAdapter;
+//    private HopsRecycler HopsRecyclerAdapter;
+//    private YeastRecycler YeastRecyclerAdapter;
 
-    private int ingredientGrainId = 0, ingredientHopId = 0, ingredientYeastId = 0, selectedGrainId = 0, selectedCountyId = 0, selectedGrainUseId = 0, selectedUnitOfMeasureId = 0, selectedSrm = 0;
-    private int colorPickerProgress = 0, listPosition = 0;
+    private String feedKey;
+    private Firebase rootRef;
+
+//    private int ingredientGrainId = 0, ingredientHopId = 0, ingredientYeastId = 0, selectedGrainId = 0, selectedCountyId = 0, selectedGrainUseId = 0, selectedUnitOfMeasureId = 0, selectedSrm = 0;
+//    private int colorPickerProgress = 0, listPosition = 0;
 
     private List<UnitOfMeasure> unitOfMeasures = new Vector<>();
     private List<Country> counties = new Vector<>();
@@ -67,16 +74,17 @@ public class IngredientFragment extends BaseRecipeFragment {
     private List<HopsUse> hopUseList = new Vector<>();
     private List<HopsForm> hopsFormList = new Vector<>();
     private List<Laboratory> laboratoryList = new Vector<>();
-    
-    public static IngredientFragment newInstance(int centerX, int centerY, int color, List<RecipeGrain> grains, List<RecipeHop> hops, List<RecipeYeast> yeasts) {
+
+    public static IngredientFragment newInstance(int centerX, int centerY, int color, String _feedKey) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
 
-        args.putSerializable(Constants.bundleRecipeGrains, (Serializable) grains);
-        args.putSerializable(Constants.bundleRecipeHops, (Serializable) hops);
-        args.putSerializable(Constants.bundleRecipeYeasts, (Serializable) yeasts);
+        args.putString(Constants.exFeedKey, _feedKey);
+//        args.putSerializable(Constants.bundleRecipeGrains, (Serializable) grains);
+//        args.putSerializable(Constants.bundleRecipeHops, (Serializable) hops);
+//        args.putSerializable(Constants.bundleRecipeYeasts, (Serializable) yeasts);
 
         IngredientFragment fragment = new IngredientFragment();
         fragment.setArguments(args);
@@ -91,62 +99,209 @@ public class IngredientFragment extends BaseRecipeFragment {
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
+        initFirebaseDb();
         ReadBundle();
-        GetDbHelper();
-        initGrainRecyclerView();
+//        GetDbHelper();
+
+//        addTestGrainData();
+//        addTestHopData();
+//        addTestYeastData();
+
         initHopRecyclerView();
         initYeastRecyclerView();
+        initGrainRecyclerView();
         return rootView;
     }
 
+    private void initFirebaseDb() {
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients);
+    }
+
+    public void addTestGrainData() {
+        try {
+            ///ADD NEW RecipeGrain//////////////////
+            Firebase refGrain = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exGrains).child(feedKey);
+
+            RecipeGrain recipeGrain = new RecipeGrain();
+            recipeGrain.setFeedKey(feedKey);
+            recipeGrain.setUserProfileKey("1");
+            recipeGrain.setAmount((double) 1.4);
+            recipeGrain.setColor(15);
+            recipeGrain.setCountry("USA");
+            recipeGrain.setGrainUse("Pellet 2");
+            recipeGrain.setHexColor("#FF5252");
+            recipeGrain.setName("Lamma Pellet");
+            recipeGrain.setUnitOfMeasure("oz");
+            refGrain.push().setValue(recipeGrain);
+
+
+            recipeGrain = new RecipeGrain();
+            recipeGrain.setFeedKey(feedKey);
+            recipeGrain.setUserProfileKey("1");
+            recipeGrain.setAmount(5);
+            recipeGrain.setColor(15);
+            recipeGrain.setCountry("USA geg from list");
+            recipeGrain.setGrainUse("Pellet - get from list");
+            recipeGrain.setHexColor("#F34452");
+            recipeGrain.setName("Lamma Mama Pellet 2");
+            recipeGrain.setUnitOfMeasure("Lb");
+            refGrain.push().setValue(recipeGrain);
+
+
+            recipeGrain = new RecipeGrain();
+            recipeGrain.setFeedKey(feedKey);
+            recipeGrain.setUserProfileKey("1");
+            recipeGrain.setAmount(3.5);
+            recipeGrain.setColor(15);
+            recipeGrain.setCountry("USA");
+            recipeGrain.setGrainUse("Pellet");
+            recipeGrain.setHexColor("#FF52fe");
+            recipeGrain.setName("Lamma Mama Pajama Pellet 2");
+            recipeGrain.setUnitOfMeasure("Ton");
+            refGrain.push().setValue(recipeGrain);
+
+
+            //////////////////
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    public void addTestHopData() {
+        try {
+            ///ADD NEW RecipeGrain//////////////////
+            Firebase refHop = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exHops).child(feedKey);
+
+            RecipeHop recipeHop = new RecipeHop();
+            recipeHop.setFeedKey(feedKey);
+            recipeHop.setUnitOfMeasure("oz");
+            recipeHop.setName("Lamma Drama 2");
+            recipeHop.setAlphaAcidPercentage((double) 16);
+            recipeHop.setAmount((double) 4);
+            recipeHop.setCookTime((double) 15);
+            recipeHop.setHopForm("Pellet");
+            recipeHop.setHopUse("Boil");
+            recipeHop.setUnitOfTime("Mins");
+            recipeHop.setUserProfileKey("1");
+            refHop.push().setValue(recipeHop);
+
+            recipeHop = new RecipeHop();
+            recipeHop.setFeedKey(feedKey);
+            recipeHop.setUnitOfMeasure("oz");
+            recipeHop.setName("Lamma Drama To YoMama 2");
+            recipeHop.setAlphaAcidPercentage((double) 16);
+            recipeHop.setAmount((double) 4);
+            recipeHop.setCookTime((double) 12.9);
+            recipeHop.setHopForm("Pellet");
+            recipeHop.setHopUse("Boil");
+            recipeHop.setUnitOfTime("Mins");
+            recipeHop.setUserProfileKey("1");
+            refHop.push().setValue(recipeHop);
+
+
+            //////////////////
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    public void addTestYeastData() {
+        try {
+            ///ADD NEW RecipeGrain//////////////////
+            Firebase refHop = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exYeasts).child(feedKey);
+
+            RecipeYeast recipeYeast = new RecipeYeast();
+            recipeYeast.setFeedKey(feedKey);
+            recipeYeast.setUserProfileKey("1");
+            recipeYeast.setAttenuationPercentage((double) 4);
+            recipeYeast.setLaboratory("WestSide");
+            recipeYeast.setName("Pellet Yeast Farts 2");
+            refHop.push().setValue(recipeYeast);
+
+            recipeYeast = new RecipeYeast();
+            recipeYeast.setFeedKey(feedKey);
+            recipeYeast.setUserProfileKey("1");
+            recipeYeast.setAttenuationPercentage((double) 9);
+            recipeYeast.setLaboratory("EastSide");
+            recipeYeast.setName("Wood Yeast Farts 2");
+            refHop.push().setValue(recipeYeast);
+
+            //////////////////
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
     private void ReadBundle() {
-        recipeGrains = (List<RecipeGrain>) getArguments().getSerializable(Constants.bundleRecipeGrains);
-        recipeHops = (List<RecipeHop>) getArguments().getSerializable(Constants.bundleRecipeHops);
-        recipeYeasts = (List<RecipeYeast>) getArguments().getSerializable(Constants.bundleRecipeYeasts);
+        feedKey = String.valueOf(getArguments().get(Constants.exFeedKey));
     }
 
     private void initGrainRecyclerView() {
-        LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
-        recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recylerViewLayoutManager.scrollToPosition(0);
+        try {
+            LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
+            recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recylerViewLayoutManager.scrollToPosition(0);
 
-        recipe_grain_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_grain_recycler_view);
-        recipe_grain_recycler_view.setLayoutManager(recylerViewLayoutManager);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
-        } else {
-            recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
-        }
+            recipe_grain_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_grain_recycler_view);
+            recipe_grain_recycler_view.setLayoutManager(recylerViewLayoutManager);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
+            } else {
+                recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+            }
 
-        GrainRecyclerAdapter = new GrainRecycler(recipeGrains, IngredientFragment.this);
+            Firebase ref = rootRef.child(Constants.exGrains).child(feedKey);
+            mAdapterGrain = new FirebaseRecyclerAdapter<RecipeGrain, RecipeGrainViewHolder>(RecipeGrain.class, R.layout.recipe_grain_row, RecipeGrainViewHolder.class, ref) {
+                @Override
+                public void populateViewHolder(RecipeGrainViewHolder recipeGrainViewHolder, RecipeGrain recipeGrain, int position) {
 
-        recipe_grain_recycler_view.setAdapter(GrainRecyclerAdapter);
-        recipe_grain_recycler_view.setItemAnimator(new DefaultItemAnimator());
+                    recipeGrainViewHolder.my_grain_amount_text_view.setText(String.valueOf(recipeGrain.getAmount()));
 
-        recipe_grain_recycler_view.addOnItemTouchListener(
-                new RecyclerItemClickListener(getContext(), recipe_grain_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        try {
-                            RecipeGrain recipeGrain = GrainRecyclerAdapter.getItemAt(position);
+                    String decription = recipeGrain.getName() + ",";
+                    recipeGrainViewHolder.my_grain_description_text_view.setText(decription);
 
-//                            ingredientGrainId = recipeGrain.getIngredientGrainId();
-//                            listPosition = position;
-//                            registerForContextMenu(view);
-//                            getActivity().openContextMenu(view);
-//                            view.setLongClickable(false);
-                        } catch (Exception e) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, e.getMessage());
+                    recipeGrainViewHolder.my_grain_weight_text_view.setText(recipeGrain.getUnitOfMeasure());
+
+                    if (TextUtils.isEmpty(recipeGrain.getHexColor())) {
+                        recipeGrain.setHexColor("#fee799");
+                    }
+
+                    Drawable mDrawable = Utilities.SetDrawableColor(recipeGrain.getHexColor(), getContext(), getActivity());
+                    recipeGrainViewHolder.my_grain_color_image_view.setImageDrawable(mDrawable);
+                }
+            };
+            recipe_grain_recycler_view.setAdapter(mAdapterGrain);
+
+            recipe_grain_recycler_view.setItemAnimator(new DefaultItemAnimator());
+            recipe_grain_recycler_view.addOnItemTouchListener(
+                    new RecyclerItemClickListener(getContext(), recipe_grain_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            try {
+
+                            } catch (Exception e) {
+                                if (BuildConfig.DEBUG) {
+                                    Log.e(Constants.LOG, e.getMessage());
+                                }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onItemLongClick(View view, int position) {
-                    }
-                })
-        );
+                        @Override
+                        public void onItemLongClick(View view, int position) {
+                        }
+                    })
+            );
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
     }
 
     private void initHopRecyclerView() {
@@ -164,23 +319,42 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_hop_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        HopsRecyclerAdapter = new HopsRecycler(recipeHops, IngredientFragment.this);
+        Firebase ref = rootRef.child(Constants.exHops).child(feedKey);
+//        Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);
+        mAdapterHop = new FirebaseRecyclerAdapter<RecipeHop, RecipeHopViewHolder>(RecipeHop.class, R.layout.recipe_hop_row, RecipeHopViewHolder.class, ref) {
+            @Override
+            public void populateViewHolder(RecipeHopViewHolder recipeHopViewHolder, RecipeHop recipeHop, int position) {
 
-        recipe_hop_recycler_view.setAdapter(HopsRecyclerAdapter);
+                recipeHopViewHolder.my_hop_amount_text_view.setText(String.valueOf(recipeHop.getAmount()));
+
+                String timeDesctiption = String.valueOf(recipeHop.getCookTime()) + " " + recipeHop.getUnitOfTime() + ",";
+                recipeHopViewHolder.my_hop_time_text_view.setText(timeDesctiption);
+
+                String hopName = recipeHop.getName() + ",";
+                recipeHopViewHolder.my_hop_type_text_view.setText(hopName);
+
+                String hopWeight = recipeHop.getUnitOfMeasure() + ",";
+                recipeHopViewHolder.my_hop_weight_text_view.setText(hopWeight);
+
+                String hopUse = recipeHop.getHopUse() + ",";
+                recipeHopViewHolder.my_hop_use_text_view.setText(hopUse);
+
+                String hopForm = recipeHop.getHopForm() + ",";
+                recipeHopViewHolder.my_hop_form_text_view.setText(hopForm);
+
+                String hopAlpha = String.valueOf(recipeHop.getAlphaAcidPercentage()) + "%";
+                recipeHopViewHolder.row_hop_alpha_text_view.setText(hopAlpha);
+            }
+        };
+        recipe_hop_recycler_view.setAdapter(mAdapterHop);
+
         recipe_hop_recycler_view.setItemAnimator(new DefaultItemAnimator());
-
         recipe_hop_recycler_view.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recipe_hop_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            RecipeHop recipeHop = HopsRecyclerAdapter.getItemAt(position);
-                            ingredientHopId = recipeHop.getIngredientHopsId();
-                            listPosition = position;
 
-//                            registerForContextMenu(view);
-//                            getActivity().openContextMenu(view);
-//                            view.setLongClickable(false);
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -214,24 +388,25 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_yeast_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        YeastRecyclerAdapter = new YeastRecycler(recipeYeasts, IngredientFragment.this);
+        Firebase ref = rootRef.child(Constants.exYeasts).child(feedKey);
+        mAdapterYeast = new FirebaseRecyclerAdapter<RecipeYeast, RecipeYeastViewHolder>(RecipeYeast.class, R.layout.recipe_yeast_row, RecipeYeastViewHolder.class, ref) {
+            @Override
+            public void populateViewHolder(RecipeYeastViewHolder recipeYeastViewHolder, RecipeYeast recipeYeast, int position) {
+                recipeYeastViewHolder.my_yeast_Lab_text_view.setText(recipeYeast.getLaboratory());
 
-        recipe_yeast_recycler_view.setAdapter(YeastRecyclerAdapter);
+                String yeastName = recipeYeast.getName() + ",";
+                recipeYeastViewHolder.my_yeast_type_text_view.setText(yeastName);
+            }
+        };
+        recipe_yeast_recycler_view.setAdapter(mAdapterYeast);
+
         recipe_yeast_recycler_view.setItemAnimator(new DefaultItemAnimator());
-
-
         recipe_yeast_recycler_view.addOnItemTouchListener(
                 new RecyclerItemClickListener(getContext(), recipe_yeast_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            RecipeYeast recipeYeast = YeastRecyclerAdapter.getItemAt(position);
 
-                            ingredientYeastId = recipeYeast.getIngredientYeastId();
-                            listPosition = position;
-//                            registerForContextMenu(view);
-//                            getActivity().openContextMenu(view);
-//                            view.setLongClickable(false);
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -338,5 +513,16 @@ public class IngredientFragment extends BaseRecipeFragment {
             }
         }
         return new Laboratory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mAdapterGrain != null)
+            mAdapterGrain.cleanup();
+        if (mAdapterHop != null)
+            mAdapterHop.cleanup();
+        if (mAdapterYeast != null)
+            mAdapterYeast.cleanup();
     }
 }

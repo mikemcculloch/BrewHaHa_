@@ -1,24 +1,27 @@
 package brightseer.com.brewhaha.recipe_fragments;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.viewpagerindicator.LinePageIndicator;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.adapter.RecipeImageRecycler;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeDetail;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.recipe_adapters.ImagesAdapter;
 
 /**
@@ -27,9 +30,8 @@ import brightseer.com.brewhaha.recipe_adapters.ImagesAdapter;
 public class ImageFragment extends BaseRecipeFragment {
     private View rootView;
     private List<RecipeImage> recipeImages = new Vector<>();
-    private RecyclerView recycler_view_recipe_images;
-    private RecipeImageRecycler recipeImageRecycler;
-
+    private String feedKey;
+    private Firebase rootRef;
     private ViewPager recipe_image_view_pager;
     private static final float MIN_SCALE = 0.85f;
     private static final float MIN_ALPHA = 0.5f;
@@ -37,12 +39,14 @@ public class ImageFragment extends BaseRecipeFragment {
     public ImageFragment() {
     }
 
-    public static ImageFragment newInstance(int centerX, int centerY, int color, List<RecipeImage> recipeImages) {
+    public static ImageFragment newInstance(int centerX, int centerY, int color, String _feedKey) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
-        args.putSerializable(Constants.bundleRecipeImages, (Serializable) recipeImages);
+//        args.putSerializable(Constants.bundleRecipeImages, (Serializable) recipeImages);
+
+        args.putString(Constants.exFeedKey, _feedKey);
 
         ImageFragment fragment = new ImageFragment();
         fragment.setArguments(args);
@@ -60,65 +64,85 @@ public class ImageFragment extends BaseRecipeFragment {
         rootView = inflater.inflate(R.layout.fragment_recipe_images, container, false);
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
+        initFirebaseDb();
 
         ReadBundle();
-        initViewPager();
-//        initRecyclerView();
+//        addTestImages();
+
+        GetImages();
+//        initViewPager();
         return rootView;
     }
 
-    /*Runs 3rd*/
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        ReadBundle();
+    private void initFirebaseDb() {
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exImages);
     }
-
 
     private void ReadBundle() {
-        recipeImages = (List<RecipeImage>) getArguments().getSerializable(Constants.bundleRecipeImages);
+        feedKey = getArguments().getString(Constants.exFeedKey);
     }
 
-    private void initRecyclerView() {
-        recycler_view_recipe_images = (RecyclerView) rootView.findViewById(R.id.recycler_view_recipe_images);
-        recycler_view_recipe_images.setHasFixedSize(true);
+    public void addTestImages() {
+        try {
+            ///ADD NEW RecipeGrain//////////////////
+            Firebase refImages = rootRef.child(feedKey);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        layoutManager.scrollToPosition(0);
+            RecipeImage recipeImage = new RecipeImage();
+            recipeImage.setFeedKey(feedKey);
+            recipeImage.setUserProfileKey("1");
+            recipeImage.setCaption("fart smell");
+            recipeImage.setImageName("PoopStick");
+            recipeImage.setImageUrl("http://www.paphosbeerfestival.com/assets/images/bg_beer.jpg");
+            refImages.push().setValue(recipeImage);
 
-        recycler_view_recipe_images.setLayoutManager(layoutManager);
+            recipeImage = new RecipeImage();
+            recipeImage.setFeedKey(feedKey);
+            recipeImage.setUserProfileKey("1");
+            recipeImage.setCaption("stink or pink");
+            recipeImage.setImageName("pink");
+            recipeImage.setImageUrl("http://wholesalegourmet.net/images/AA2254.jpg");
+            refImages.push().setValue(recipeImage);
 
-        recipeImageRecycler = new RecipeImageRecycler(recipeImages);
+            recipeImage = new RecipeImage();
+            recipeImage.setFeedKey(feedKey);
+            recipeImage.setUserProfileKey("1");
+            recipeImage.setCaption("stink or pink");
+            recipeImage.setImageName("pink");
+            recipeImage.setImageUrl("https://image.spreadshirtmedia.net/image-server/v1/designs/15687130,width=178,height=178,version=1373472021/Sex-And-Beer-Drinking-Team.png");
+            refImages.push().setValue(recipeImage);
 
-        recycler_view_recipe_images.setAdapter(recipeImageRecycler);
+            //////////////////
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
 
-//        recycler_view_recipe_images.addOnItemTouchListener(
-//                new RecyclerItemClickListener(this, recycler_view_recipe_images, new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override
-//                    public void onItemClick(View view, int position) {
-//                        try {
-//                            showImage(recipeImages.get(position));
-//                        } catch (Exception e) {
-//                            if (BuildConfig.DEBUG) {
-//                                Log.e(Constants.LOG, e.getMessage());
-//                            }
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onItemLongClick(View view, int position) {
-////                        selectedImagePk = recipeImageList.get(position).getImagePk();
-////                        deletePosition = position;
-////                        menuType = 2;
-////                        registerForContextMenu(view);
-////                        getActivity().openContextMenu(view);
-////                        view.setLongClickable(false);
-//
-//                    }
-//                })
-//        );
+    private void GetImages() {
+        try {
+            Firebase ref = rootRef.child(feedKey);;
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        RecipeImage recipeImage = postSnapshot.getValue(RecipeImage.class);
+                        recipeImages.add(recipeImage);
+                    }
+                    initViewPager();
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
     }
 
     private void initViewPager() {
@@ -168,7 +192,10 @@ public class ImageFragment extends BaseRecipeFragment {
 
             LinePageIndicator view_page_indicator = (LinePageIndicator) rootView.findViewById(R.id.view_page_indicator);
             view_page_indicator.setViewPager(recipe_image_view_pager);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
         }
     }
 }

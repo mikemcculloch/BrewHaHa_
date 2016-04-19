@@ -24,7 +24,7 @@ import brightseer.com.brewhaha.models.MainFeedItem;
 /**
  * Created by wooan_000 on 12/18/2014.
  */
-public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolder.HomeItemViewHolder> {
+public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolder> {
     private List<MainFeedItem> jsonObjects = new Vector<>();
     private FavoriteItemsFragment _fragment;
 
@@ -64,16 +64,16 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolde
     }
 
     @Override
-    public MainFeedViewHolder.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    public MainFeedViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_home, viewGroup, false);
 
-        return new MainFeedViewHolder.HomeItemViewHolder(itemView);
+        return new MainFeedViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, int i) {
+    public void onBindViewHolder(MainFeedViewHolder homeItemViewHolder, int i) {
         MainFeedItem mainFeedItem = jsonObjects.get(i);
         if (mainFeedItem != null) {
             homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());

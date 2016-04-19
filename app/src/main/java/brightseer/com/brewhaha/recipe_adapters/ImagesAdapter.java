@@ -6,7 +6,6 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.koushikdutta.ion.Ion;
@@ -15,7 +14,7 @@ import java.util.List;
 
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.TouchImageView;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeImage;
 
 /**
  * Created by wooan on 4/10/2016.

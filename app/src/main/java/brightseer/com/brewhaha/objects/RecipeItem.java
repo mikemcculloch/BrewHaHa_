@@ -3,6 +3,10 @@ package brightseer.com.brewhaha.objects;
 import java.util.List;
 
 import brightseer.com.brewhaha.models.Comment;
+import brightseer.com.brewhaha.models.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeHop;
+import brightseer.com.brewhaha.models.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeYeast;
 
 public class RecipeItem {
     private int RecipeContentId;
@@ -10,7 +14,7 @@ public class RecipeItem {
     private String Description;
     private String Author;
     private String UserImageUrl;
-    private List<RecipeImage> RecipeImage;
+    private List<brightseer.com.brewhaha.models.RecipeImage> RecipeImage;
     private int UserProfileId;
     private brightseer.com.brewhaha.objects.RecipeSummary RecipeSummary;
     private int BatchSizeId;

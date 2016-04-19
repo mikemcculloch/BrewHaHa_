@@ -41,11 +41,11 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.GrainMyRecipeRecycler;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.Grain;
 import brightseer.com.brewhaha.objects.GrainUse;
-import brightseer.com.brewhaha.objects.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.objects.SrmColorKey;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 import brightseer.com.brewhaha.repository.DBHelper_Country;
@@ -240,15 +240,15 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
                     @Override
                     public void onItemClick(View view, int position) {
                         try {
-                            RecipeGrain recipeGrain = adapter.getItemAt(position);
-
-                            mHeader = recipeGrain.getAmount() + " " + lookupUnitOfMeasure(recipeGrain.getUnitOfMeasureId(), 1).getDescription() + ", " + lookupCountry(recipeGrain.getCountryId()).getAbbreviation() + " " + recipeGrain.getName();
-
-                            ingredientGrainPk = recipeGrain.getIngredientGrainId();
-                            listPosition = position;
-                            registerForContextMenu(view);
-                            getActivity().openContextMenu(view);
-                            view.setLongClickable(false);
+//                            RecipeGrain recipeGrain = adapter.getItemAt(position);
+//
+//                            mHeader = recipeGrain.getAmount() + " " + lookupUnitOfMeasure(recipeGrain.getUnitOfMeasureId(), 1).getDescription() + ", " + lookupCountry(recipeGrain.getCountryId()).getAbbreviation() + " " + recipeGrain.getName();
+//
+//                            ingredientGrainPk = recipeGrain.getIngredientGrainId();
+//                            listPosition = position;
+//                            registerForContextMenu(view);
+//                            getActivity().openContextMenu(view);
+//                            view.setLongClickable(false);
                         } catch (Exception e) {
                             if (BuildConfig.DEBUG) {
                                 Log.e(Constants.LOG, e.getMessage());
@@ -510,12 +510,12 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
                                          RecipeGrain item = recipeGrain.get(0);
                                          int pos = 0;
 
-                                         if (ingredientGrainPk != 0) {
-                                             pos = adapter.getPostionByPk(item.getIngredientGrainId());
-                                             adapter.remove(pos);
-                                         } else {
-                                             pos = adapter.getItemCount();
-                                         }
+//                                         if (ingredientGrainPk != 0) {
+//                                             pos = adapter.getPostionByPk(item.getIngredientGrainId());
+//                                             adapter.remove(pos);
+//                                         } else {
+//                                             pos = adapter.getItemCount();
+//                                         }
 
                                          adapter.add(item, pos);
                                      } catch (Exception ex) {
@@ -600,25 +600,25 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void setDialogValues(RecipeGrain selected) {
-        if (selected != null) {
-            ingredientGrainPk = selected.getIngredientGrainId();
-            selectedGrainPk = selected.getGrainId();
-            my_grain_amount_edit_text.setText(String.valueOf(selected.getAmount()));
-            my_grain_name_edit_text.setText(String.valueOf(selected.getName()));
-
-            my_grain_master_spinner.setSelection(grainList.indexOf(lookupGrain(selected.getGrainId())) + 1);
-            my_grain_master_spinner.setEnabled(false);
-
-            my_grain_country_spinner.setSelection(counties.indexOf(lookupCountry(selected.getCountryId())) - 1);
-
-            my_grain_use_spinner.setSelection(grainUse.indexOf(lookupGrainUse(selected.getGrainUseId())) - 1);
-            my_grain_measurement_size_spinner.setSelection(unitOfMeasures.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasureId(), 1)) - 1);
-
-            my_grain_submit_button.setText("Update");
-
-            my_grain_color_seekbar.setProgress((int) selected.getColor());
-            selectedSrm = (int) selected.getColor();
-        }
+//        if (selected != null) {
+//            ingredientGrainPk = selected.getIngredientGrainId();
+//            selectedGrainPk = selected.getGrainId();
+//            my_grain_amount_edit_text.setText(String.valueOf(selected.getAmount()));
+//            my_grain_name_edit_text.setText(String.valueOf(selected.getName()));
+//
+//            my_grain_master_spinner.setSelection(grainList.indexOf(lookupGrain(selected.getGrainId())) + 1);
+//            my_grain_master_spinner.setEnabled(false);
+//
+//            my_grain_country_spinner.setSelection(counties.indexOf(lookupCountry(selected.getCountryId())) - 1);
+//
+//            my_grain_use_spinner.setSelection(grainUse.indexOf(lookupGrainUse(selected.getGrainUseId())) - 1);
+//            my_grain_measurement_size_spinner.setSelection(unitOfMeasures.indexOf(lookupUnitOfMeasure(selected.getUnitOfMeasureId(), 1)) - 1);
+//
+//            my_grain_submit_button.setText("Update");
+//
+//            my_grain_color_seekbar.setProgress((int) selected.getColor());
+//            selectedSrm = (int) selected.getColor();
+//        }
     }
 
     private boolean validateGrainEntry() {

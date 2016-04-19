@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.adapter;
+package brightseer.com.brewhaha.recipe_adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeCardsActivity;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**

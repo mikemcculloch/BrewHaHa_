@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**

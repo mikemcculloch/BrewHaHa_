@@ -24,7 +24,6 @@ import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +31,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeCardsActivity;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.models.MainFeedItem;
@@ -64,7 +63,7 @@ public class MainFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        ref = new Firebase(Constants.fireBaseRoot).child("feeds");
+        ref = new Firebase(Constants.fireBaseRoot).child(Constants.exFeeds);
 
 //        _fContext = getActivity();
 //        initGoogleAnalytics(this.getClass().getSimpleName());
@@ -76,11 +75,11 @@ public class MainFeedFragment extends Fragment {
     public void addTestData() {
         try {
             ///ADD NEW FEED//////////////////
-            Firebase refFeed = new Firebase(Constants.fireBaseRoot).child("feeds");
+            Firebase refFeed = new Firebase(Constants.fireBaseRoot).child(Constants.exFeeds);
             Firebase refFeedPush = refFeed.push();
 
             MainFeedItem mainFeedItem = new MainFeedItem();
-            mainFeedItem.setTitle("One Again recipe");
+            mainFeedItem.setTitle("Two recipe");
             mainFeedItem.setAuthor("Mike Mc");
             mainFeedItem.setUserKey("1");
             mainFeedItem.setUserImageUrl("https://lh3.googleusercontent.com/-aawpJBwnegU/AAAAAAAAAAI/AAAAAAAAAAA/Mh3nJ_5Rm4Q/photo.jpg");
@@ -101,7 +100,7 @@ public class MainFeedFragment extends Fragment {
             ///////////////////////////
 
             ///ADD NEW RecipeDetail//////////////////
-            Firebase refDetail = new Firebase(Constants.fireBaseRoot).child("RecipeDetail");
+            Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
             RecipeDetail recipeDetail = new RecipeDetail();
             recipeDetail.setFeedKey(postId);
             recipeDetail.setDateCreated(DateTime.now().toString());
@@ -109,9 +108,9 @@ public class MainFeedFragment extends Fragment {
             recipeDetail.setAlcoholByVol("7.8");
             recipeDetail.setBitternessIbu("3.78");
             recipeDetail.setColorSrm("15");
-            recipeDetail.setDescription("One Again recipe New App, new Description.");
+            recipeDetail.setDescription("Two is my description Sucka fo.");
             recipeDetail.setOriginalGravity("5");
-            recipeDetail.setSrmHex("#FEE799");
+            recipeDetail.setSrmHex("#FE3499");
             recipeDetail.setFinalGravity("4");
             recipeDetail.setStyle("Get From list");
             recipeDetail.setStyleDescription("Bland pail ale");
@@ -121,11 +120,15 @@ public class MainFeedFragment extends Fragment {
             refDetail.push().setValue(recipeDetail);
             //////////////////
 
+            ///ADD NEW RecipeDetail//////////////////
+            Firebase refGrain = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exGrains);
 
+
+            //////////////////
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
-            Log.e(Constants.LOG, ex.getMessage());
-        }
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
@@ -155,7 +158,6 @@ public class MainFeedFragment extends Fragment {
                         @Override
                         public void onItemClick(View view, int position) {
                             try {
-
                                 openDetailActivity(view, position);
                             } catch (Exception e) {
                                 if (BuildConfig.DEBUG) {
@@ -173,19 +175,19 @@ public class MainFeedFragment extends Fragment {
             );
 
 
-            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder.HomeItemViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.HomeItemViewHolder.class, ref) {
+            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, ref) {
                 @Override
-                public void populateViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, MainFeedItem mainFeedItem, int position) {
-                    homeItemViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-                    homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());
-                    homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
+                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
+                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
+                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
 
-                    Ion.with(homeItemViewHolder.vimage)
+                    Ion.with(mainFeedViewHolder.vimage)
                             .placeholder(R.mipmap.ic_beercap)
                             .centerCrop()
                             .load(mainFeedItem.getImageUrl());
 
-                    Ion.with(homeItemViewHolder.vuser_image_view)
+                    Ion.with(mainFeedViewHolder.vuser_image_view)
                             .placeholder(R.drawable.ic_person_black_24dp)
                             .error(R.drawable.ic_person_black_24dp)
                             .centerCrop()
@@ -193,10 +195,7 @@ public class MainFeedFragment extends Fragment {
                             .load(mainFeedItem.getUserImageUrl());
 
                     String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-                    homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
-
-
-
+                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
                 }
             };
             home_recycler_view.setAdapter(mAdapter);

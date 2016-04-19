@@ -12,7 +12,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddYeastFragment;
 import brightseer.com.brewhaha.objects.Laboratory;
-import brightseer.com.brewhaha.objects.RecipeYeast;
+import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**
@@ -53,8 +53,8 @@ public class YeastMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
     @Override
     public void onBindViewHolder(RecyclerObjects.YeastMyRecipeViewHolder itemViewHolder, int i) {
         RecipeYeast item = jsonObjects.get(i);
-        itemViewHolder.my_yeast_Lab_text_view.setText(lookupLab(item.getLaboratoryId()));
-        itemViewHolder.my_yeast_type_text_view.setText(item.getName() + ",");
+//        itemViewHolder.my_yeast_Lab_text_view.setText(lookupLab(item.getLaboratoryId()));
+//        itemViewHolder.my_yeast_type_text_view.setText(item.getName() + ",");
 //        itemViewHolder.my_yeast_atten_text_view.setText(String.valueOf(item.getAttenuationPercentage()));
     }
 
@@ -78,11 +78,11 @@ public class YeastMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
     }
 
     public int getPostionByPk(int itemPk) {
-        for (RecipeYeast item : jsonObjects) {
-            if (itemPk == item.getIngredientYeastId()) {
-                return jsonObjects.indexOf(item);
-            }
-        }
+//        for (RecipeYeast item : jsonObjects) {
+//            if (itemPk == item.getIngredientYeastId()) {
+//                return jsonObjects.indexOf(item);
+//            }
+//        }
         return 0;
     }
 }

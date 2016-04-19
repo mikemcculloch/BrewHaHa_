@@ -15,7 +15,7 @@ import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddGrainsFragment;
 import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.GrainUse;
-import brightseer.com.brewhaha.objects.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 
@@ -56,17 +56,17 @@ public class GrainMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
 
     @Override
     public void onBindViewHolder(RecyclerObjects.GrainMyRecipeViewHolder itemViewHolder, int i) {
-        RecipeGrain item = jsonObjects.get(i);
-        itemViewHolder.my_grain_amount_text_view.setText(String.valueOf(item.getAmount()));
-        itemViewHolder.my_grain_description_text_view.setText(item.getName() + ",");
-        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId()) + ",");
-        if (TextUtils.isEmpty(item.getHexColor())) {
-            item.setHexColor("#fee799");
-        }
-        itemViewHolder.my_grain_color_image_view.setBackgroundColor(Color.parseColor(item.getHexColor()));
-
-        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
-        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));
+//        RecipeGrain item = jsonObjects.get(i);
+//        itemViewHolder.my_grain_amount_text_view.setText(String.valueOf(item.getAmount()));
+//        itemViewHolder.my_grain_description_text_view.setText(item.getName() + ",");
+//        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId()) + ",");
+//        if (TextUtils.isEmpty(item.getHexColor())) {
+//            item.setHexColor("#fee799");
+//        }
+//        itemViewHolder.my_grain_color_image_view.setBackgroundColor(Color.parseColor(item.getHexColor()));
+//
+//        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
+//        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));
     }
 
     @Override
@@ -99,11 +99,11 @@ public class GrainMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.
     }
 
     public int getPostionByPk(int itemPk) {
-        for (RecipeGrain item : jsonObjects) {
-            if (itemPk == item.getIngredientGrainId()) {
-                return jsonObjects.indexOf(item);
-            }
-        }
+//        for (RecipeGrain item : jsonObjects) {
+//            if (itemPk == item.getIngredientGrainId()) {
+//                return jsonObjects.indexOf(item);
+//            }
+//        }
         return 0;
     }
 

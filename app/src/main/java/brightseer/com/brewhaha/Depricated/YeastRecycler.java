@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.recipe_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.AddYeastFragment;
 import brightseer.com.brewhaha.objects.Laboratory;
-import brightseer.com.brewhaha.objects.RecipeYeast;
+import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
 
@@ -54,8 +53,8 @@ public class YeastRecycler extends RecyclerView.Adapter<RecyclerObjects.YeastMyR
     @Override
     public void onBindViewHolder(RecyclerObjects.YeastMyRecipeViewHolder itemViewHolder, int i) {
         RecipeYeast item = recipeYeasts.get(i);
-        itemViewHolder.my_yeast_Lab_text_view.setText(lookupLab(item.getLaboratoryId()));
-        itemViewHolder.my_yeast_type_text_view.setText(item.getName() + ",");
+//        itemViewHolder.my_yeast_Lab_text_view.setText(lookupLab(item.getLaboratoryId()));
+//        itemViewHolder.my_yeast_type_text_view.setText(item.getName() + ",");
     }
 
     @Override
@@ -78,11 +77,11 @@ public class YeastRecycler extends RecyclerView.Adapter<RecyclerObjects.YeastMyR
     }
 
     public int getPostionById(int itemId) {
-        for (RecipeYeast item : recipeYeasts) {
-            if (itemId == item.getIngredientYeastId()) {
-                return recipeYeasts.indexOf(item);
-            }
-        }
+//        for (RecipeYeast item : recipeYeasts) {
+//            if (itemId == item.getIngredientYeastId()) {
+//                return recipeYeasts.indexOf(item);
+//            }
+//        }
         return 0;
     }
 }

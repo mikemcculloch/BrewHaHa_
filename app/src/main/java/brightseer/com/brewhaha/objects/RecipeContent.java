@@ -3,6 +3,7 @@ package brightseer.com.brewhaha.objects;
 import java.util.List;
 
 import brightseer.com.brewhaha.models.Comment;
+import brightseer.com.brewhaha.models.RecipeImage;
 
 public class RecipeContent {
     private int ContentItemPk;

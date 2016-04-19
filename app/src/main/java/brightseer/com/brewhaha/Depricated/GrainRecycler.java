@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.recipe_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -16,10 +16,9 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.AddGrainsFragment;
 import brightseer.com.brewhaha.objects.Country;
 import brightseer.com.brewhaha.objects.GrainUse;
-import brightseer.com.brewhaha.objects.RecipeGrain;
+import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -64,7 +63,7 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
         RecipeGrain item = recipeGrains.get(i);
         itemViewHolder.my_grain_amount_text_view.setText(String.valueOf(item.getAmount()));
         itemViewHolder.my_grain_description_text_view.setText(item.getName() + ",");
-        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId()) + ",");
+//        itemViewHolder.my_grain_weight_text_view.setText(lookupUnitOfMeasure(item.getUnitOfMeasureId()) + ",");
         if (TextUtils.isEmpty(item.getHexColor())) {
             item.setHexColor("#fee799");
         }
@@ -81,9 +80,9 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
         mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
         itemViewHolder.my_grain_color_image_view.setImageDrawable(mDrawable);
 
-
-        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
-        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));
+//
+//        itemViewHolder.row_grain_use_text_view.setText(lookupGrainUse(item.getGrainUseId()));
+//        itemViewHolder.row_grain_country_text_view.setText(lookupCountry(item.getCountryId()));
 
 
 
@@ -129,11 +128,11 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
     }
 
     public int getPostionById(int itemId) {
-        for (RecipeGrain item : recipeGrains) {
-            if (itemId == item.getIngredientGrainId()) {
-                return recipeGrains.indexOf(item);
-            }
-        }
+//        for (RecipeGrain item : recipeGrains) {
+//            if (itemId == item.getIngredientGrainId()) {
+//                return recipeGrains.indexOf(item);
+//            }
+//        }
         return 0;
     }
 

@@ -1,9 +1,15 @@
 package brightseer.com.brewhaha.helper;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
@@ -31,6 +37,7 @@ import java.util.Date;
 
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 
 /**
  * Created by mccul_000 on 12/6/2014.
@@ -173,6 +180,26 @@ public class Utilities {
         };
 
         return  trans;
+    }
+
+    public static Drawable SetDrawableColor(String hexColor, Context context, Activity activity){
+        try
+        {
+            int newColor = Color.parseColor(hexColor);
+            Drawable mDrawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mDrawable =  context.getResources().getDrawable(R.drawable.circle_srm, activity.getTheme());
+            }
+            else{
+                mDrawable = context.getResources().getDrawable(R.drawable.circle_srm);
+            }
+
+            mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
+            return  mDrawable;
+        }
+        catch (Exception ex){
+            return null;
+        }
     }
 
 

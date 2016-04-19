@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.recipe_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;

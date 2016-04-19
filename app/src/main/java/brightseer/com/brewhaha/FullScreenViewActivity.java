@@ -30,7 +30,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.adapter.FullScreenImageAdapter;
 import brightseer.com.brewhaha.helper.TouchImageView;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.JsonToObject;
 

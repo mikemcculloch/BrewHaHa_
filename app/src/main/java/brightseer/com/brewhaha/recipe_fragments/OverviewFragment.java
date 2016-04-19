@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -34,7 +33,7 @@ import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.adapter.RecyclerItemClickListener;
+import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeDetail;
@@ -47,7 +46,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private View rootView;
     private RecipeDetail recipeDetail = new RecipeDetail();
     private String recipeTitle;
-
+    private TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view;
+    private ImageView circle_srm_image_view;
     private RecyclerView comments_recycler_view;
     private EditText recipe_comment_edit_view;
     private View send_comment_button;
@@ -63,7 +63,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         args.putInt("cy", centerY);
         args.putInt("color", color);
         args.putSerializable(Constants.bundleRecipeDetail, _recipeDetail);
-
         args.putString(Constants.exRecipeTitle, _recipeTitle);
 
         OverviewFragment fragment = new OverviewFragment();
@@ -98,9 +97,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 //        recipeDateModified = getArguments().getString(Constants.exRecipeDateModified);
 //        recipeContentId = getArguments().getInt(Constants.exContentItemPk);
     }
-
-    TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view;
-    ImageView circle_srm_image_view;
 
     private void initViews() {
         recipe_title_text_view = (TextView) rootView.findViewById(R.id.recipe_title_text_view);
@@ -166,7 +162,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child("comments").child(recipeTitle);
+            Firebase ref = rootRef.child(Constants.exComments).child(recipeTitle);
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, ref) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
@@ -183,7 +179,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 }
             };
             comments_recycler_view.setAdapter(mAdapter);
-
 
             comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
             comments_recycler_view.addOnItemTouchListener(
@@ -220,57 +215,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
         }
     }
-//
-//    public void CommentListener() {
-//        try {
-////            Firebase ref = new Firebase(Constants.fireBaseComments + recipeTitle);
-////            Query queryRef = ref.orderByChild("dateCreated");
-////
-////            queryRef.addChildEventListener(new ChildEventListener() {
-////                // Retrieve new posts as they are added to the database
-////                @Override
-////                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-////                    Comment newComment = snapshot.getValue(Comment.class);
-////                    newComment.setKey(snapshot.getKey());
-////
-////                    commentRecycler.add(newComment, 0);
-////                }
-////
-////                @Override
-////                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-////
-////                    Comment newComment = dataSnapshot.getValue(Comment.class);
-////                    newComment.setKey(dataSnapshot.getKey());
-////                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
-////
-////                    commentRecycler.remove(position);
-////                    commentRecycler.add(newComment, position);
-////                }
-////
-////                @Override
-////                public void onChildRemoved(DataSnapshot dataSnapshot) {
-////                    int position = commentRecycler.getPostionByKey(dataSnapshot.getKey());
-////                    commentRecycler.remove(position);
-////                }
-////
-////                @Override
-////                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-////
-////                }
-////
-////                @Override
-////                public void onCancelled(FirebaseError firebaseError) {
-////
-////                }
-////            });
-//
-//
-//        } catch (Exception ex) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, ex.getMessage());
-//            }
-//        }
-//    }
 
     private void AddComment() {
         try {
@@ -288,7 +232,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
             comment.setDateCreated(DateTime.now().toString());
 
-            Firebase postRef = rootRef.child("comments").child(recipeTitle).push();
+            Firebase postRef = rootRef.child(Constants.exComments).child(recipeTitle).push();
             postRef.setValue(comment);
             recipe_comment_edit_view.setText("");
 
@@ -302,12 +246,12 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     public void RecipeDetailListener() {
         try {
             Firebase ref = new Firebase(Constants.fireBaseRecipeDetail);
-            Query queryRef = ref.orderByChild("feedKey").equalTo(recipeDetail.getFeedKey());
+            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(recipeDetail.getFeedKey());
 
             queryRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         recipeDetail = postSnapshot.getValue(RecipeDetail.class);
                         recipeDetail.setKey(postSnapshot.getKey());
                     }
@@ -324,5 +268,11 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 Log.e(Constants.LOG, ex.getMessage());
             }
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mAdapter.cleanup();
     }
 }

@@ -24,7 +24,7 @@ import brightseer.com.brewhaha.models.MainFeedItem;
 /**
  * Created by wooan_000 on 12/18/2014.
  */
-public class SearchResultRecycler extends RecyclerView.Adapter<MainFeedViewHolder.HomeItemViewHolder> {
+public class SearchResultRecycler extends RecyclerView.Adapter<MainFeedViewHolder> {
     private List<MainFeedItem> jsonObjects = new Vector<>();
     private SearchResultsActivity _activity;
 
@@ -60,15 +60,15 @@ public class SearchResultRecycler extends RecyclerView.Adapter<MainFeedViewHolde
     }
 
     @Override
-    public MainFeedViewHolder.HomeItemViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    public MainFeedViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_home, viewGroup, false);
-        return new MainFeedViewHolder.HomeItemViewHolder(itemView);
+        return new MainFeedViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MainFeedViewHolder.HomeItemViewHolder homeItemViewHolder, int position) {
+    public void onBindViewHolder(MainFeedViewHolder homeItemViewHolder, int position) {
         MainFeedItem mainFeedItem = jsonObjects.get(position);
         final int currentPos = position;
         if (mainFeedItem != null) {
