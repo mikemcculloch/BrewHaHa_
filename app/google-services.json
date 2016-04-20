@@ -1,0 +1,86 @@
+{
+  "project_info": {
+    "project_id": "scenic-theorem-769",
+    "project_number": "1087014534539",
+    "name": "BrewHaHa"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087014534539:android:781184ab27b72a12",
+        "client_id": "android:brightseer.com.brewhaha",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "brightseer.com.brewhaha",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087014534539-3eu5mdplv0ajtcl9v0nhosieg1rgf4rv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brightseer.com.brewhaha",
+            "certificate_hash": "443778444754082EADAA9A13ECCC642EC0326A38"
+          }
+        },
+        {
+          "client_id": "1087014534539-pu84l4evn6qogvm4696kj8bl16jdoi8b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brightseer.com.brewhaha",
+            "certificate_hash": "7E8B174E29EE40E5D7B9571DFA0F84D428FA35B7"
+          }
+        },
+        {
+          "client_id": "1087014534539-f2jai92lgfj87qm4vj3qufuj7uil2skj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "brightseer.com.brewhaha",
+            "certificate_hash": "79060354286DF12F624987890F058EB5131FF19D"
+          }
+        },
+        {
+          "client_id": "1087014534539-b61q17kem52h2658v1r0a0f3jbu2bjs8.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1087014534539-5u44flu191kua5a3lalk7kccub46ua7m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-57905649-2"
+          }
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087014534539-b61q17kem52h2658v1r0a0f3jbu2bjs8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
