@@ -83,52 +83,52 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
                 }
             });
 
-            getSupportActionBar().setTitle(BrewSharedPrefs.getCurrentContentTitle());
+//            getSupportActionBar().setTitle(BrewSharedPrefs.getCurrentContentTitle());
         }
 
         Intent i = getIntent();
         position = i.getIntExtra("position", 0);
         String contentPk = i.getStringExtra(Constants.exContentItemPk);
-        String userToken = BrewSharedPrefs.getUserToken();
+//        String userToken = BrewSharedPrefs.getUserToken();
 
-        Ion.with(getApplicationContext())
-                .load(Constants.wcfGetContentById + contentPk + "/" + userToken)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        try {
-                            if (result != null) {
-                                RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
-                                NextContentItemId = recipeContent.getNextContentItemId();
-                                recipeTitle = recipeContent.getTitle();
-                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
-                                recipeImageList = recipeContent.getImagesMList();
-                                imageUrlList = new ArrayList<String>();
-                                for (RecipeImage item : recipeImageList) {
-                                    imageUrlList.add(item.getImageUrl());
-                                }
-                                imageCount = recipeImageList.size();
-                                adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, imageUrlList);
-
-                                viewPager.setAdapter(adapter);
-                                viewPager.setCurrentItem(position);
-
-                                viewPager.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        pageChangeListener.onPageSelected(viewPager.getCurrentItem());
-                                    }
-                                });
-
-                            }
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
+//        Ion.with(getApplicationContext())
+//                .load(Constants.wcfGetContentById + contentPk + "/" + userToken)
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+//                        try {
+//                            if (result != null) {
+//                                RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
+//                                NextContentItemId = recipeContent.getNextContentItemId();
+//                                recipeTitle = recipeContent.getTitle();
+//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
+//                                recipeImageList = recipeContent.getImagesMList();
+//                                imageUrlList = new ArrayList<String>();
+//                                for (RecipeImage item : recipeImageList) {
+//                                    imageUrlList.add(item.getImageUrl());
+//                                }
+//                                imageCount = recipeImageList.size();
+//                                adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, imageUrlList);
+//
+//                                viewPager.setAdapter(adapter);
+//                                viewPager.setCurrentItem(position);
+//
+//                                viewPager.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        pageChangeListener.onPageSelected(viewPager.getCurrentItem());
+//                                    }
+//                                });
+//
+//                            }
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
     }
 
     private void initViews() {

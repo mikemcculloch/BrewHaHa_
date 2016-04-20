@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity {
                 SetFragment(new MainFeedFragment());
             }
 
-            CheckForUpdates();
+//            CheckForUpdates();
             licenseCheck();
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,16 +133,16 @@ public class MainActivity extends BaseActivity {
 
 
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                    StartAddUpdate("");
-                } else {
-                    AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                }
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                    StartAddUpdate("");
+//                } else {
+//                    AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                }
+//            }
+//        });
 
 //        ViewGroup paralax = (ViewGroup) findViewById(R.id.includeLayout);
         ImageView image = (ImageView) findViewById(R.id.image);
@@ -179,10 +179,10 @@ public class MainActivity extends BaseActivity {
         Menu menuNav = navigationView.getMenu();
         MenuItem navigationAdmin = menuNav.findItem(R.id.navigation_item_5);
 
-        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
-            navigationAdmin.setVisible(true);
-        } else
-            navigationAdmin.setVisible(false);
+//        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
+//            navigationAdmin.setVisible(true);
+//        } else
+//            navigationAdmin.setVisible(false);
 
     }
 
@@ -213,37 +213,37 @@ public class MainActivity extends BaseActivity {
                         break;
 
                     case R.id.navigation_item_3:
-                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
-                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                        } else {
-                            eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.Favorites");
-
-                            intent = new Intent(getApplicationContext(), FavoriteTabActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
-                                ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-//                                finishAfterTransition();
-                            } else {
-                                startActivity(intent);
-                            }
-                        }
+//                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
+//                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                        } else {
+//                            eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.Favorites");
+//
+//                            intent = new Intent(getApplicationContext(), FavoriteTabActivity.class);
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
+//                                ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+////                                finishAfterTransition();
+//                            } else {
+//                                startActivity(intent);
+//                            }
+//                        }
                         break;
 
                     case R.id.navigation_item_4:
-                        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                            fragment = new MyRecipeListFragment();
-                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_myrecipes));
-                        } else {
-                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                        }
+//                        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                            fragment = new MyRecipeListFragment();
+//                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_myrecipes));
+//                        } else {
+//                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                        }
                         break;
                     case R.id.navigation_item_5:
-                        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
-                            fragment = new AdminFragment();
-                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_admin));
-                        }
+//                        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
+//                            fragment = new AdminFragment();
+//                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_admin));
+//                        }
                         break;
 
 //                    case R.id.navigation_item_6:
@@ -298,61 +298,61 @@ public class MainActivity extends BaseActivity {
         actionBarDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private void CheckForUpdates() {
-        try {
-            String url = Constants.wcfGetRefreshDate;
-            Ion.with(getApplicationContext())
-                    .load(url)
-                    .asString()
-                    .setCallback(new FutureCallback<String>() {
-                        @Override
-                        public void onCompleted(Exception e, String result) {
-                            try {
-                                if (result != null) {
-                                    ForceReferenceUpdate(result.replaceAll("\"", ""));
-                                }
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, e.getMessage());
-            }
-        }
-    }
+//    private void CheckForUpdates() {
+//        try {
+//            String url = Constants.wcfGetRefreshDate;
+//            Ion.with(getApplicationContext())
+//                    .load(url)
+//                    .asString()
+//                    .setCallback(new FutureCallback<String>() {
+//                        @Override
+//                        public void onCompleted(Exception e, String result) {
+//                            try {
+//                                if (result != null) {
+//                                    ForceReferenceUpdate(result.replaceAll("\"", ""));
+//                                }
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                    });
+//        } catch (Exception e) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, e.getMessage());
+//            }
+//        }
+//    }
 
-    private static void ForceReferenceUpdate(String serverDate) {
-        Intent mServiceIntent = new Intent(getInstance().getApplicationContext(), DataPullerService.class);
-
-        DateTime itemTime = new DateTime(serverDate);
-        String prefLastUpdate = BrewSharedPrefs.getLastForcedUpdateDate();
-        DateTime prefTime = new DateTime(prefLastUpdate);
-        int result = DateTimeComparator.getInstance().compare(prefTime, itemTime);
-        switch (result) {
-            case -1:
-                // System.out.println("d1 is less than d2");
-                BrewSharedPrefs.setLastForcedUpdateDate(serverDate);
-                mServiceIntent.putExtra(Constants.exForceUpdate, true);
-                break;
-            case 0:
-                mServiceIntent.putExtra(Constants.exForceUpdate, false);
-//                System.out.println("d1 is equal to d2");
-                break;
-            case 1:
-                mServiceIntent.putExtra(Constants.exForceUpdate, false);
-//                System.out.println("d1 is greater than d2");
-                break;
-
-            default:
-                break;
-        }
-
-        getInstance().getApplicationContext().startService(mServiceIntent);
-    }
+//    private static void ForceReferenceUpdate(String serverDate) {
+//        Intent mServiceIntent = new Intent(getInstance().getApplicationContext(), DataPullerService.class);
+//
+//        DateTime itemTime = new DateTime(serverDate);
+//        String prefLastUpdate = BrewSharedPrefs.getLastForcedUpdateDate();
+//        DateTime prefTime = new DateTime(prefLastUpdate);
+//        int result = DateTimeComparator.getInstance().compare(prefTime, itemTime);
+//        switch (result) {
+//            case -1:
+//                // System.out.println("d1 is less than d2");
+//                BrewSharedPrefs.setLastForcedUpdateDate(serverDate);
+//                mServiceIntent.putExtra(Constants.exForceUpdate, true);
+//                break;
+//            case 0:
+//                mServiceIntent.putExtra(Constants.exForceUpdate, false);
+////                System.out.println("d1 is equal to d2");
+//                break;
+//            case 1:
+//                mServiceIntent.putExtra(Constants.exForceUpdate, false);
+////                System.out.println("d1 is greater than d2");
+//                break;
+//
+//            default:
+//                break;
+//        }
+//
+//        getInstance().getApplicationContext().startService(mServiceIntent);
+//    }
 
     @Override
     protected void onRestart() {
@@ -456,7 +456,7 @@ public class MainActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.menu_signout:
                 signOut();
-                setUserViews();
+//                setUserViews();
 
                 MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
                 if (action_menu_options != null)
@@ -471,7 +471,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setUserViews();
+//        setUserViews();
     }
 
     public void StartAddUpdate(String contentPk) {
@@ -514,7 +514,7 @@ public class MainActivity extends BaseActivity {
         if (result != null && result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount account = result.getSignInAccount();
-            signInUpdateUi(account);
+//            signInUpdateUi(account);
 
         } else {
             // Signed out, show unauthenticated UI.
@@ -522,30 +522,30 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void signInUpdateUi(GoogleSignInAccount account) {
-        try {
-            if (account != null) {
-                BrewSharedPrefs.setIsUserLoggedIn(true);
-
-                String personName = account.getDisplayName();
-                String personEmail = account.getEmail();
-//                String personId = account.getId();
-                Uri personPhoto = account.getPhotoUrl();
-
-                BrewSharedPrefs.setScreenName(personName);
-                BrewSharedPrefs.setEmailAddress(personEmail);
-                BrewSharedPrefs.setUserProfileImageUrl(personPhoto.toString());
-                String idToken = account.getIdToken();
-
-//                fireBaseAuth(idToken);
-                setUserViews();
-            }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
+//    private void signInUpdateUi(GoogleSignInAccount account) {
+//        try {
+//            if (account != null) {
+//                BrewSharedPrefs.setIsUserLoggedIn(true);
+//
+//                String personName = account.getDisplayName();
+//                String personEmail = account.getEmail();
+////                String personId = account.getId();
+//                Uri personPhoto = account.getPhotoUrl();
+//
+//                BrewSharedPrefs.setScreenName(personName);
+//                BrewSharedPrefs.setEmailAddress(personEmail);
+//                BrewSharedPrefs.setUserProfileImageUrl(personPhoto.toString());
+//                String idToken = account.getIdToken();
+//
+////                fireBaseAuth(idToken);
+//                setUserViews();
+//            }
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
 
     private void fireBaseAuth(String idToken) {
@@ -577,74 +577,74 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void AddUserProfile() {
-        try {
-
-            final double[] count = {0};
-            Firebase ref = new Firebase(Constants.fireBaseUsers);
-            Query queryRef =  ref.orderByChild("EmailAddress").equalTo(BrewSharedPrefs.getEmailAddress());
-
-
-            queryRef.addChildEventListener(new ChildEventListener() {
-                // Retrieve new posts as they are added to the database
-                @Override
-                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-//                    Comment newComment = snapshot.getValue(Comment.class);
-//                    newComment.setKey(snapshot.getKey());
-
-                    UserProfile posgft = snapshot.getValue(UserProfile.class);
-
-//                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                        UserProfile post = postSnapshot.getValue(UserProfile.class);
-//                        String test = post.getImageUrl();
-//                    }
-
-                    count[0] += 1;
-
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-
-
-
-
-
-
-//            UserProfile userProfile = new UserProfile();
-//            userProfile.setImageUrl("asdlkfasdjkf");
-//            userProfile.setScreenName("Poop Smith");
-//            userProfile.setDateCreated(DateTime.now().toString());
-//            userProfile.setEmailAddress("fake at fart.com");
+//    private void AddUserProfile() {
+//        try {
 //
-//            Firebase postRef = rootRef.child("users");
-//            postRef.push().setValue(userProfile);
-
-//            userProfile.setKey(postRef.getKey());
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
+//            final double[] count = {0};
+//            Firebase ref = new Firebase(Constants.fireBaseUsers);
+//            Query queryRef =  ref.orderByChild("EmailAddress").equalTo(BrewSharedPrefs.getEmailAddress());
+//
+//
+//            queryRef.addChildEventListener(new ChildEventListener() {
+//                // Retrieve new posts as they are added to the database
+//                @Override
+//                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+////                    Comment newComment = snapshot.getValue(Comment.class);
+////                    newComment.setKey(snapshot.getKey());
+//
+//                    UserProfile posgft = snapshot.getValue(UserProfile.class);
+//
+////                    for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+////                        UserProfile post = postSnapshot.getValue(UserProfile.class);
+////                        String test = post.getImageUrl();
+////                    }
+//
+//                    count[0] += 1;
+//
+//                }
+//
+//                @Override
+//                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+//
+//
+//                }
+//
+//                @Override
+//                public void onChildRemoved(DataSnapshot dataSnapshot) {
+//                }
+//
+//                @Override
+//                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(FirebaseError firebaseError) {
+//
+//                }
+//            });
+//
+//
+//
+//
+//
+//
+////            UserProfile userProfile = new UserProfile();
+////            userProfile.setImageUrl("asdlkfasdjkf");
+////            userProfile.setScreenName("Poop Smith");
+////            userProfile.setDateCreated(DateTime.now().toString());
+////            userProfile.setEmailAddress("fake at fart.com");
+////
+////            Firebase postRef = rootRef.child("users");
+////            postRef.push().setValue(userProfile);
+//
+////            userProfile.setKey(postRef.getKey());
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
 
 //    private static class SetUserProfile extends AsyncTaskLoader {
@@ -667,38 +667,38 @@ public class MainActivity extends BaseActivity {
 
 
 
-    private void setUserViews() {
-        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-            drawer_displayName.setText(BrewSharedPrefs.getScreenName());
-            drawer_useremail.setText(BrewSharedPrefs.getEmailAddress());
-
-            String personPhoto = BrewSharedPrefs.getUserProfileImageUrl();
-            if (!personPhoto.isEmpty()) {
-                int dpConversion = (int) (65 * Resources.getSystem().getDisplayMetrics().density);
-                cornerRadius = 100;
-                Ion.with(drawer_userImage)
-                        .transform(trans)
-                        .load(personPhoto);
-
-                drawer_userImage.setMinimumWidth(dpConversion);
-                drawer_userImage.setMinimumHeight(dpConversion);
-            } else {
-                drawer_userImage.setImageResource(R.drawable.ic_person_white_48dp);
-                drawer_userImage.setMinimumWidth(0);
-                drawer_userImage.setMinimumHeight(0);
-            }
-
+//    private void setUserViews() {
 //        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-//            if (menu != null) {
-//                MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
-//                action_menu_options.setVisible(true);
+//            drawer_displayName.setText(BrewSharedPrefs.getScreenName());
+//            drawer_useremail.setText(BrewSharedPrefs.getEmailAddress());
+//
+//            String personPhoto = BrewSharedPrefs.getUserProfileImageUrl();
+//            if (!personPhoto.isEmpty()) {
+//                int dpConversion = (int) (65 * Resources.getSystem().getDisplayMetrics().density);
+//                cornerRadius = 100;
+//                Ion.with(drawer_userImage)
+//                        .transform(trans)
+//                        .load(personPhoto);
+//
+//                drawer_userImage.setMinimumWidth(dpConversion);
+//                drawer_userImage.setMinimumHeight(dpConversion);
+//            } else {
+//                drawer_userImage.setImageResource(R.drawable.ic_person_white_48dp);
+//                drawer_userImage.setMinimumWidth(0);
+//                drawer_userImage.setMinimumHeight(0);
 //            }
+//
+////        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+////            if (menu != null) {
+////                MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
+////                action_menu_options.setVisible(true);
+////            }
+////        }
+//
+////            SetFragment(new MainFeedFragment());
+////        app_bar_layout.setExpanded(false);
+////        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
+//            setAdminNav();
 //        }
-
-//            SetFragment(new MainFeedFragment());
-//        app_bar_layout.setExpanded(false);
-//        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-            setAdminNav();
-        }
-    }
+//    }
 }

@@ -227,10 +227,10 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 //            }
 
             Comment comment = new Comment();
-            comment.setAuthorName(BrewSharedPrefs.getScreenName());
+//            comment.setAuthorName(BrewSharedPrefs.getScreenkm  jhzvV,,Name());
             comment.setBody(recipe_comment_edit_view.getText().toString());
             comment.setFeedKey(recipeDetail.getFeedKey());
-            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
+//            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
             comment.setDateCreated(DateTime.now().toString());
 
             Firebase postRef = rootRef.child(Constants.exComments).child(recipeTitle).push();

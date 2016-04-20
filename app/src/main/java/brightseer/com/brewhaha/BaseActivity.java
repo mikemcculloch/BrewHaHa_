@@ -155,16 +155,16 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-            menu.addSubMenu(0, 10, Menu.NONE, "Settings");
+//        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//            menu.addSubMenu(0, 10, Menu.NONE, "Settings");
 
 
-            MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
-
-            if (mGoogleApiClient.isConnected()) {
-                action_menu_options.setVisible(true);
-            }
-        }
+//            MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
+//
+//            if (mGoogleApiClient.isConnected()) {
+//                action_menu_options.setVisible(true);
+//            }
+//        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -219,8 +219,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     private Intent getShareDefaultIntent() {
-        Uri.Builder b = Uri.parse(Constants.urlBrewHahaContent + BrewSharedPrefs.getCurrentContentTitle().replace(" ", "-")).buildUpon();
-        url = b.build().toString();
+//        Uri.Builder b = Uri.parse(Constants.urlBrewHahaContent + BrewSharedPrefs.getCurrentContentTitle().replace(" ", "-")).buildUpon();
+//        url = b.build().toString();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
 //        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         shareIntent.setType("text/plain");
@@ -646,7 +646,6 @@ public class BaseActivity extends AppCompatActivity {
                 } /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
     }
 
     public void googleSignIn() {

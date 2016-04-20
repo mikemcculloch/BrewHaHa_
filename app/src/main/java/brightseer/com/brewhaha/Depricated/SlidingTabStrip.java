@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package brightseer.com.brewhaha.helper;
+package brightseer.com.brewhaha.Depricated;
 
 import android.R;
 import android.content.Context;

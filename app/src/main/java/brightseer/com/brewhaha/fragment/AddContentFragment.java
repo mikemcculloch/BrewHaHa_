@@ -94,61 +94,61 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
         initViews();
         EditTextListner();
 
-        loadContent();
+//        loadContent();
         return rootView;
     }
 
-    public void loadContent() {
-        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
-        ionLoadRecipe = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonObject result) {
-                                     try {
-
-                                         RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
-                                         contentToken = recipeContent.getToken();
-                                         my_recipe_title_edit_text.setText(recipeContent.getTitle());
-                                         my_recipe_description_edit_text.setText(recipeContent.getDescription());
-                                         selectedStylePk = recipeContent.getStylePk();
-                                         selectedBatchSizePk = recipeContent.getBatchSizePk();
-                                         activeRecipe = recipeContent.isApproved();
-                                         submittedRecipe = recipeContent.isSubmitted();
-                                         abvProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getAlcoholByVol());
-                                         ogProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getOriginalGravity());
-                                         fgProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getFinalGravity());
-                                         srmProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getColorSrm());
-                                         ibuProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getBitternessIbu());
-
-                                         my_recipe_og_value_text_view.setText(String.valueOf(ogProgress));
-                                         my_recipe_srm_value_text_view.setText(String.valueOf(srmProgress));
-                                         my_recipe_fg_value_text_view.setText(String.valueOf(fgProgress));
-                                         my_recipe_ibu_value_text_view.setText(String.valueOf(ibuProgress));
-                                         my_recipe_abv_value_text_view.setText(String.valueOf(abvProgress));
-
-
-                                         populateBatchSizeSpinner(selectedBatchSizePk);
-                                         populateStyleSpinner(repoStyle.getPostion(selectedStylePk, styleList));
-                                         addListenerSpinner();
-                                         setSeekBarProgress();
-                                         setOnfocusListener();
-                                         setPreviewMode();
-                                         setButtonView();
-//                                         dialogProgress.dismiss();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-//                                         dialogProgress.dismiss();
-                                     }
-                                 }
-                             }
-
-                );
-    }
+//    public void loadContent() {
+//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        ionLoadRecipe = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonObject result) {
+//                                     try {
+//
+//                                         RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
+//                                         contentToken = recipeContent.getToken();
+//                                         my_recipe_title_edit_text.setText(recipeContent.getTitle());
+//                                         my_recipe_description_edit_text.setText(recipeContent.getDescription());
+//                                         selectedStylePk = recipeContent.getStylePk();
+//                                         selectedBatchSizePk = recipeContent.getBatchSizePk();
+//                                         activeRecipe = recipeContent.isApproved();
+//                                         submittedRecipe = recipeContent.isSubmitted();
+//                                         abvProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getAlcoholByVol());
+//                                         ogProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getOriginalGravity());
+//                                         fgProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getFinalGravity());
+//                                         srmProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getColorSrm());
+//                                         ibuProgress = Float.parseFloat(recipeContent.getRecipeSummaryM().getBitternessIbu());
+//
+//                                         my_recipe_og_value_text_view.setText(String.valueOf(ogProgress));
+//                                         my_recipe_srm_value_text_view.setText(String.valueOf(srmProgress));
+//                                         my_recipe_fg_value_text_view.setText(String.valueOf(fgProgress));
+//                                         my_recipe_ibu_value_text_view.setText(String.valueOf(ibuProgress));
+//                                         my_recipe_abv_value_text_view.setText(String.valueOf(abvProgress));
+//
+//
+//                                         populateBatchSizeSpinner(selectedBatchSizePk);
+//                                         populateStyleSpinner(repoStyle.getPostion(selectedStylePk, styleList));
+//                                         addListenerSpinner();
+//                                         setSeekBarProgress();
+//                                         setOnfocusListener();
+//                                         setPreviewMode();
+//                                         setButtonView();
+////                                         dialogProgress.dismiss();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+////                                         dialogProgress.dismiss();
+//                                     }
+//                                 }
+//                             }
+//
+//                );
+//    }
 
     @Override
     public void onClick(View v) {
@@ -158,7 +158,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.my_recipe_cancel_button:
 //                LoadDialog(_fContext, false, false);
-                loadContent();
+//                loadContent();
                 break;
             case R.id.my_recipe_expand_coll_imageview:
                 toggleSeekbars();
@@ -173,7 +173,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.my_recipe_publish_button:
-                publishRecipe();
+//                publishRecipe();
                 break;
         }
     }
@@ -219,26 +219,26 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
         }
 
 //        LoadDialog(_fContext, false, true);
-        String url = Constants.wcfUpdateRecipeContent + contentToken + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedBatchSizePk + "/" + selectedStylePk + "/" + abvProgress + "/" + ogProgress + "/" + fgProgress + "/" + srmProgress + "/" + ibuProgress;
-        ionUpdateRecipe = Ion.with(_fContext)
-                .load(url)
-                .setJsonObjectBody(json)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        try {
-                            Boolean success = Boolean.valueOf(s);
-                            Snackbar.make(rootView.findViewById(R.id.frag_content_add_parent), "Updated", Snackbar.LENGTH_SHORT)
-                                    .show();
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-//                            dialogProgress.dismiss();
-                        }
-                    }
-                });
+//        String url = Constants.wcfUpdateRecipeContent + contentToken + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedBatchSizePk + "/" + selectedStylePk + "/" + abvProgress + "/" + ogProgress + "/" + fgProgress + "/" + srmProgress + "/" + ibuProgress;
+//        ionUpdateRecipe = Ion.with(_fContext)
+//                .load(url)
+//                .setJsonObjectBody(json)
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        try {
+//                            Boolean success = Boolean.valueOf(s);
+//                            Snackbar.make(rootView.findViewById(R.id.frag_content_add_parent), "Updated", Snackbar.LENGTH_SHORT)
+//                                    .show();
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+////                            dialogProgress.dismiss();
+//                        }
+//                    }
+//                });
 
     }
 
@@ -693,98 +693,98 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    public void publishRecipe() {
-        LoadDialog(_fContext, false, false);
-        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
-        ionLoadRecipe = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonObject result) {
-                                     try {
-                                         RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
-                                         boolean validRecipe = true;
-                                         String errorMessage = "";
+//    public void publishRecipe() {
+//        LoadDialog(_fContext, false, false);
+//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        ionLoadRecipe = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonObject result) {
+//                                     try {
+//                                         RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
+//                                         boolean validRecipe = true;
+//                                         String errorMessage = "";
+//
+//                                         if (TextUtils.isEmpty(recipeContent.getDescription()) && validRecipe) {
+//                                             validRecipe = false;
+//                                             errorMessage = "Missing Description";
+//                                         }
+//                                         if (TextUtils.isEmpty(recipeContent.getTitle()) && validRecipe) {
+//                                             validRecipe = false;
+//                                             errorMessage = "Missing Title";
+//                                         }
+//
+//                                         List<Ingredient> ingredientList = recipeContent.getIngredientMList();
+//                                         List<Ingredient> grains = new Vector<>();
+//                                         List<Ingredient> hops = new Vector<>();
+//                                         List<Ingredient> yeasts = new Vector<>();
+//                                         for (Ingredient item : ingredientList) {
+//                                             if (item.getType().equals("Grain")) {
+//                                                 grains.add(item);
+//                                             }
+//                                             if (item.getType().equals("Hops")) {
+//                                                 hops.add(item);
+//                                             }
+//                                             if (item.getType().equals("Yeast")) {
+//                                                 yeasts.add(item);
+//                                             }
+//                                         }
+//
+//                                         if (grains.size() <= 0 && validRecipe) {
+//                                             validRecipe = false;
+//                                             errorMessage = "You Must add at least 1 Grain";
+//                                         }
+//                                         if (hops.size() <= 0 && validRecipe) {
+//                                             validRecipe = false;
+//                                             errorMessage = "You Must add at least 1 Hop";
+//                                         }
+//                                         if (yeasts.size() <= 0 && validRecipe) {
+//                                             validRecipe = false;
+//                                             errorMessage = "You Must add at least 1 Yeast";
+//                                         }
+//
+//                                         if (validRecipe) {
+//                                             RequestApproval();
+//                                         } else {
+//                                             Toast.makeText(_fContext, errorMessage, Toast.LENGTH_LONG).show();
+//                                         }
+//                                         dialogProgress.dismiss();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                         dialogProgress.dismiss();
+//                                     }
+//                                 }
+//                             }
+//                );
+//    }
 
-                                         if (TextUtils.isEmpty(recipeContent.getDescription()) && validRecipe) {
-                                             validRecipe = false;
-                                             errorMessage = "Missing Description";
-                                         }
-                                         if (TextUtils.isEmpty(recipeContent.getTitle()) && validRecipe) {
-                                             validRecipe = false;
-                                             errorMessage = "Missing Title";
-                                         }
-
-                                         List<Ingredient> ingredientList = recipeContent.getIngredientMList();
-                                         List<Ingredient> grains = new Vector<>();
-                                         List<Ingredient> hops = new Vector<>();
-                                         List<Ingredient> yeasts = new Vector<>();
-                                         for (Ingredient item : ingredientList) {
-                                             if (item.getType().equals("Grain")) {
-                                                 grains.add(item);
-                                             }
-                                             if (item.getType().equals("Hops")) {
-                                                 hops.add(item);
-                                             }
-                                             if (item.getType().equals("Yeast")) {
-                                                 yeasts.add(item);
-                                             }
-                                         }
-
-                                         if (grains.size() <= 0 && validRecipe) {
-                                             validRecipe = false;
-                                             errorMessage = "You Must add at least 1 Grain";
-                                         }
-                                         if (hops.size() <= 0 && validRecipe) {
-                                             validRecipe = false;
-                                             errorMessage = "You Must add at least 1 Hop";
-                                         }
-                                         if (yeasts.size() <= 0 && validRecipe) {
-                                             validRecipe = false;
-                                             errorMessage = "You Must add at least 1 Yeast";
-                                         }
-
-                                         if (validRecipe) {
-                                             RequestApproval();
-                                         } else {
-                                             Toast.makeText(_fContext, errorMessage, Toast.LENGTH_LONG).show();
-                                         }
-                                         dialogProgress.dismiss();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                         dialogProgress.dismiss();
-                                     }
-                                 }
-                             }
-                );
-    }
-
-    private void RequestApproval() {
-        String url = Constants.wcfRequestApproval + BrewSharedPrefs.getUserToken() + "/" + contentToken;
-        Ion.with(_fContext)
-                .load(url)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        try {
-                            Boolean success = Boolean.valueOf(s);
-//                            snackTime("Publish Request Sent", _fContext);
-                            //snackbar
-
-                            Snackbar.make(rootView.findViewById(R.id.frag_content_add_parent), "Publish Request Sent", Snackbar.LENGTH_SHORT)
-                                    .show();
-                            my_recipe_publish_button.setVisibility(View.GONE);
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
-    }
+//    private void RequestApproval() {
+//        String url = Constants.wcfRequestApproval + BrewSharedPrefs.getUserToken() + "/" + contentToken;
+//        Ion.with(_fContext)
+//                .load(url)
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        try {
+//                            Boolean success = Boolean.valueOf(s);
+////                            snackTime("Publish Request Sent", _fContext);
+//                            //snackbar
+//
+//                            Snackbar.make(rootView.findViewById(R.id.frag_content_add_parent), "Publish Request Sent", Snackbar.LENGTH_SHORT)
+//                                    .show();
+//                            my_recipe_publish_button.setVisibility(View.GONE);
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 }

@@ -61,7 +61,7 @@ public class GridViewActivity extends BaseActivity {
         initGridLayout();
 
         _mContext = this;
-        userToken = BrewSharedPrefs.getUserToken();
+//        userToken = BrewSharedPrefs.getUserToken();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.standard_toolbar);
         setSupportActionBar(toolbar);
@@ -87,61 +87,61 @@ public class GridViewActivity extends BaseActivity {
         recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
         responseContentItemPk = activityThatCalled.getExtras().getString(Constants.exContentItemPk);
         if (TextUtils.isEmpty(responseContentItemPk)) {
-            responseContentItemPk = String.valueOf(BrewSharedPrefs.getLastContentItemPk());
+//            responseContentItemPk = String.valueOf(BrewSharedPrefs.getLastContentItemPk());
         }
     }
 
-    private void load() {
-        String url = Constants.wcfGetContentById + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken();
-        loadingObj = Ion.with(getApplicationContext())
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonObject result) {
-                        try {
-                            if (result != null) {
-                                RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
-
-                                BrewSharedPrefs.setCurrentToken(recipeContent.getToken());
-                                BrewSharedPrefs.setCurrentContentTitle(recipeContent.getTitle());
-                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
-                                BrewSharedPrefs.setNextContentItemId(recipeContent.getNextContentItemId());
-
-                                setShareIntent();
-
-                                toggleStar = recipeContent.isFavorite();
-                                recipeImageList = recipeContent.getImagesMList();
-//                                imageUrlList = new ArrayList<String>();
-                                for (RecipeImage item : recipeImageList) {
-//                                    imageUrlList.add(item.getImageUrl());
-                                    adapter.add(item);
-                                }
-
-                                boolean addRecipe = false;
-                                if (recipeContent.getNextContentItemId() > 0) {
-                                    RecipeImage placeHolder = new RecipeImage();
-                                    placeHolder.setImageUrl(Constants.urlRecipePlaceHolder);
-
-                                    adapter.add(placeHolder);
-//                                    imageUrlList.add(Constants.urlRecipePlaceHolder);
-                                    addRecipe = true;
-                                }
-
-                                adapter.setAddRecipe(addRecipe);
-                                adapter.notifyDataSetChanged();
-
-                                addFabListener();
-                            }
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
-    }
+//    private void load() {
+//        String url = Constants.wcfGetContentById + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        loadingObj = Ion.with(getApplicationContext())
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonObject result) {
+//                        try {
+//                            if (result != null) {
+//                                RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
+//
+//                                BrewSharedPrefs.setCurrentToken(recipeContent.getToken());
+//                                BrewSharedPrefs.setCurrentContentTitle(recipeContent.getTitle());
+//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
+//                                BrewSharedPrefs.setNextContentItemId(recipeContent.getNextContentItemId());
+//
+//                                setShareIntent();
+//
+//                                toggleStar = recipeContent.isFavorite();
+//                                recipeImageList = recipeContent.getImagesMList();
+////                                imageUrlList = new ArrayList<String>();
+//                                for (RecipeImage item : recipeImageList) {
+////                                    imageUrlList.add(item.getImageUrl());
+//                                    adapter.add(item);
+//                                }
+//
+//                                boolean addRecipe = false;
+//                                if (recipeContent.getNextContentItemId() > 0) {
+//                                    RecipeImage placeHolder = new RecipeImage();
+//                                    placeHolder.setImageUrl(Constants.urlRecipePlaceHolder);
+//
+//                                    adapter.add(placeHolder);
+////                                    imageUrlList.add(Constants.urlRecipePlaceHolder);
+//                                    addRecipe = true;
+//                                }
+//
+//                                adapter.setAddRecipe(addRecipe);
+//                                adapter.notifyDataSetChanged();
+//
+//                                addFabListener();
+//                            }
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
+//    }
 
     private void initGridLayout() {
         mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
@@ -149,9 +149,9 @@ public class GridViewActivity extends BaseActivity {
         try {
             int screenOrientation = getResources().getConfiguration().orientation;
 
-            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-                userToken = BrewSharedPrefs.getUserToken();
-            }
+//            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
+//                userToken = BrewSharedPrefs.getUserToken();
+//            }
 
             grid = (RecyclerView) findViewById(R.id.grid);
             grid.setItemAnimator(new DefaultItemAnimator());
@@ -170,7 +170,7 @@ public class GridViewActivity extends BaseActivity {
             adapter = new GridImagesRecycler(placeHolder, this);
             grid.setAdapter(adapter);
 
-            load();
+//            load();
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
@@ -186,26 +186,26 @@ public class GridViewActivity extends BaseActivity {
                 fab.setImageResource(R.drawable.ic_star_border_white_24dp);
             }
 
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (!BrewSharedPrefs.getIsUserLoggedIn()) {
-                        AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                    } else {
-                        if (toggleStar) {
-                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
-                            toggleStar = false;
-                        } else {
-                            fab.setImageResource(R.drawable.ic_star_white_24dp);
-                            toggleStar = true;
-                        }
-
-                        Ion.with(getApplicationContext())
-                                .load(Constants.wcfAddUpdateFavorite + responseContentItemPk + "/" + userToken)
-                                .asString();
-                    }
-                }
-            });
+//            fab.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (!BrewSharedPrefs.getIsUserLoggedIn()) {
+//                        AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                    } else {
+//                        if (toggleStar) {
+//                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
+//                            toggleStar = false;
+//                        } else {
+//                            fab.setImageResource(R.drawable.ic_star_white_24dp);
+//                            toggleStar = true;
+//                        }
+//
+//                        Ion.with(getApplicationContext())
+//                                .load(Constants.wcfAddUpdateFavorite + responseContentItemPk + "/" + userToken)
+//                                .asString();
+//                    }
+//                }
+//            });
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
@@ -307,8 +307,8 @@ public class GridViewActivity extends BaseActivity {
 
             Intent intent = new Intent(this, RecipeActivity.class);
 
-            intent.putExtra(Constants.exRecipeTitle, String.valueOf(BrewSharedPrefs.getCurrentContentTitle()));
-            intent.putExtra(Constants.exContentItemPk, String.valueOf(BrewSharedPrefs.getNextContentItemId()));
+//            intent.putExtra(Constants.exRecipeTitle, String.valueOf(BrewSharedPrefs.getCurrentContentTitle()));
+//            intent.putExtra(Constants.exContentItemPk, String.valueOf(BrewSharedPrefs.getNextContentItemId()));
             intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

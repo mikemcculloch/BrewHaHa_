@@ -38,8 +38,6 @@ import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 
 public class MainFeedFragment extends Fragment {
-    //    private List<MainFeedItem> mainFeedItemList = new Vector<>();
-//    private MainFeedAdapter adapter;
     private String userToken = "na";
     private RecyclerView home_recycler_view;
     private View rootView;
@@ -136,7 +134,8 @@ public class MainFeedFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mAdapter.cleanup();
+        if (mAdapter != null)
+            mAdapter.cleanup();
     }
 
     @Override

@@ -36,7 +36,7 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
         _context = context;
         _ContentPk = contentPk;
         repoSelected = new DBHelper_InstructionSelected(_context);
-        _appDataList = repoSelected.getInstructionSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
+//        _appDataList = repoSelected.getInstructionSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
     }
 
     static class ViewHolder {
@@ -55,16 +55,16 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
             viewHolder.comment_item_author.setText(String.valueOf(item.getOrder()));
 
             viewHolder.instruction_checkbox = (CheckBox) theView.findViewById(R.id.instruction_checkbox);
-            if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//            if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //                for (InstructionSelected appDataItem : _appDataList) {
 //                    if (appDataItem.getInstructionsId() == item.getInstructionId() && _ContentPk == appDataItem.getRecipeContentId()) {
 //                        viewHolder.instruction_checkbox.setChecked(true);
 //                    }
 //                }
-
-                viewHolder.instruction_checkbox.setOnCheckedChangeListener(this);
-                viewHolder.instruction_checkbox.setTag(position);
-            }
+//
+//                viewHolder.instruction_checkbox.setOnCheckedChangeListener(this);
+//                viewHolder.instruction_checkbox.setTag(position);
+//            }
 
             TextView comment_text_view = (TextView) theView.findViewById(R.id.instruction_instruction_text);
             comment_text_view.setText(item.getDescription());

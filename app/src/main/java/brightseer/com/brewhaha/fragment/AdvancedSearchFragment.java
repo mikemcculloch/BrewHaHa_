@@ -382,33 +382,33 @@ public class AdvancedSearchFragment extends BaseFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.search_advanced_submit_button:
 
-                if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                    Intent searchIntent = new Intent(getActivity().getApplicationContext(), SearchResultsActivity.class);
-                    searchIntent.setAction(Intent.ACTION_SEARCH);
-                    searchIntent.putExtra(Constants.exSearchValue, search_advanced_text_edit_text.getText().toString().trim());
-                    searchIntent.putExtra(Constants.exRecipeTypeValue, selectedType);
-                    searchIntent.putExtra(Constants.exStyleValue, selectedStyle);
-                    searchIntent.putExtra(Constants.exAbvValue, abvProgress);
-                    searchIntent.putExtra(Constants.exIbuValue, ibuProgress);
-                    searchIntent.putExtra(Constants.exGrainPk, grainPk);
-                    searchIntent.putExtra(Constants.exHopsPk, hopsPk);
-                    searchIntent.putExtra(Constants.exYeastPk, yeastPk);
-                    searchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-//                    startActivity(searchIntent);
-
-
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                        ActivityCompat.startActivity(getActivity(), searchIntent, options.toBundle());
-                    } else {
-                        startActivity(searchIntent);
-                        getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                    }
-
-                } else {
-                    AlertLoginPrompt(_fContext, getText(R.string.text_login_to_use_adv_search).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_sign_up).toString(), getText(R.string.text_close).toString());
-                }
+//                if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                    Intent searchIntent = new Intent(getActivity().getApplicationContext(), SearchResultsActivity.class);
+//                    searchIntent.setAction(Intent.ACTION_SEARCH);
+//                    searchIntent.putExtra(Constants.exSearchValue, search_advanced_text_edit_text.getText().toString().trim());
+//                    searchIntent.putExtra(Constants.exRecipeTypeValue, selectedType);
+//                    searchIntent.putExtra(Constants.exStyleValue, selectedStyle);
+//                    searchIntent.putExtra(Constants.exAbvValue, abvProgress);
+//                    searchIntent.putExtra(Constants.exIbuValue, ibuProgress);
+//                    searchIntent.putExtra(Constants.exGrainPk, grainPk);
+//                    searchIntent.putExtra(Constants.exHopsPk, hopsPk);
+//                    searchIntent.putExtra(Constants.exYeastPk, yeastPk);
+//                    searchIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+////                    startActivity(searchIntent);
+//
+//
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
+//                        ActivityCompat.startActivity(getActivity(), searchIntent, options.toBundle());
+//                    } else {
+//                        startActivity(searchIntent);
+//                        getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                    }
+//
+//                } else {
+//                    AlertLoginPrompt(_fContext, getText(R.string.text_login_to_use_adv_search).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_sign_up).toString(), getText(R.string.text_close).toString());
+//                }
                 break;
         }
     }

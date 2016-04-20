@@ -202,9 +202,9 @@ public class MyRecipeListFragment extends BaseFragment {
         recycle_add_recipe_view = (RecyclerView) rootView.findViewById(R.id.recycle_add_recipe_view);
         int screenOrientation = getResources().getConfiguration().orientation;
 
-        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-            userToken = BrewSharedPrefs.getUserToken();
-        }
+//        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
+//            userToken = BrewSharedPrefs.getUserToken();
+//        }
 
         recycle_add_recipe_view.setHasFixedSize(true);
 

@@ -72,7 +72,7 @@ public class DataPullerService extends IntentService {
         InitHopsForm();
         InitLaboratory();
 
-        UpdateUserProfile();
+//        UpdateUserProfile();
     }
 
     private void InitGrain() {
@@ -247,31 +247,31 @@ public class DataPullerService extends IntentService {
         }
     }
 
-    private void UpdateUserProfile() {
-        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-            Ion.with(getApplicationContext())
-                    .load(Constants.wcfGetUserProfile + BrewSharedPrefs.getUserToken())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            try {
-                                if (result != null) {
-                                    UserProfile userProfile = JsonToObject.JsonToUserProfile(result);
-                                    if (userProfile != null) {
-                                        BrewSharedPrefs.setUserProfileImageUrl(userProfile.getImageUrl());
-                                    }
-                                }
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
-
-        }
-    }
+//    private void UpdateUserProfile() {
+//        if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//            Ion.with(getApplicationContext())
+//                    .load(Constants.wcfGetUserProfile + BrewSharedPrefs.getUserToken())
+//                    .asJsonObject()
+//                    .setCallback(new FutureCallback<JsonObject>() {
+//                        @Override
+//                        public void onCompleted(Exception e, JsonObject result) {
+//                            try {
+//                                if (result != null) {
+//                                    UserProfile userProfile = JsonToObject.JsonToUserProfile(result);
+//                                    if (userProfile != null) {
+//                                        BrewSharedPrefs.setUserProfileImageUrl(userProfile.getImageUrl());
+//                                    }
+//                                }
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//        }
+//    }
 
     private void InitUnitOfMeasure() {
         if (repoUnitOfMeasure.getUnitOfMeasureCount() <= 0 || forceUpdate) {

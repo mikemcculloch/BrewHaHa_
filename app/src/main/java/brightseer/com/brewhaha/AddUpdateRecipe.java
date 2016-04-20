@@ -66,7 +66,7 @@ public class AddUpdateRecipe extends BaseActivity {
                     .show();
         }
 
-        PrepareContent();
+//        PrepareContent();
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -74,31 +74,31 @@ public class AddUpdateRecipe extends BaseActivity {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void PrepareContent() {
-        if (TextUtils.isEmpty(contentPk)) {
-            Ion.with(_mContext)
-                    .load(Constants.wcfAddDefaultRecipe + BrewSharedPrefs.getUserToken())
-                    .asJsonObject()
-                    .setCallback(new FutureCallback<JsonObject>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonObject result) {
-                            try {
-                                KeyValuepair pair = JsonToObject.JsonToKeyValuepair(result);
-                                contentPk = String.valueOf(pair.getKey());
-                                contentToken = pair.getValue();
-                                SetAdapter();
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
-        } else {
-            SetAdapter();
-        }
-
-    }
+//    private void PrepareContent() {
+//        if (TextUtils.isEmpty(contentPk)) {
+//            Ion.with(_mContext)
+//                    .load(Constants.wcfAddDefaultRecipe + BrewSharedPrefs.getUserToken())
+//                    .asJsonObject()
+//                    .setCallback(new FutureCallback<JsonObject>() {
+//                        @Override
+//                        public void onCompleted(Exception e, JsonObject result) {
+//                            try {
+//                                KeyValuepair pair = JsonToObject.JsonToKeyValuepair(result);
+//                                contentPk = String.valueOf(pair.getKey());
+//                                contentToken = pair.getValue();
+//                                SetAdapter();
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                    });
+//        } else {
+//            SetAdapter();
+//        }
+//
+//    }
 
     private void SetAdapter() {
         final android.support.v7.app.ActionBar actionBar = getSupportActionBar();

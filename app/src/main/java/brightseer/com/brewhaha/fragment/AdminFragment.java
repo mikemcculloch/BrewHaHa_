@@ -84,35 +84,35 @@ public class AdminFragment extends BaseFragment {
     }
 
     public void load() {
-        if (loading != null && !loading.isDone() && !loading.isCancelled())
-            return;
-
-        String url = Constants.wcfGetAllPendingApproval + BrewSharedPrefs.getUserToken();
-        loading = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                    @Override
-                    public void onCompleted(Exception e, JsonArray jsonArray) {
-                        try {
-                            mSwipeRefreshLayout.setRefreshing(false);
-                            dialogProgress.dismiss();
-                            if (jsonArray != null) {
-                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
-                                for (MainFeedItem item : resultsList) {
-                                    mainFeedItemList.add(item);
-                                    adapter.add(item, mainFeedItemList.size() - 1);
-                                }
-                            }
-//                            addFabListener();
-                        } catch (Exception ex) {
-                            if (BuildConfig.DEBUG) {
-                                Log.e(Constants.LOG, ex.getMessage());
-                            }
-                        }
-                    }
-                });
+//        if (loading != null && !loading.isDone() && !loading.isCancelled())
+//            return;
+//
+//        String url = Constants.wcfGetAllPendingApproval + BrewSharedPrefs.getUserToken();
+//        loading = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                    @Override
+//                    public void onCompleted(Exception e, JsonArray jsonArray) {
+//                        try {
+//                            mSwipeRefreshLayout.setRefreshing(false);
+//                            dialogProgress.dismiss();
+//                            if (jsonArray != null) {
+//                                List<MainFeedItem> resultsList = JsonToObject.JsonToHomeItemList(jsonArray);
+//                                for (MainFeedItem item : resultsList) {
+//                                    mainFeedItemList.add(item);
+//                                    adapter.add(item, mainFeedItemList.size() - 1);
+//                                }
+//                            }
+////                            addFabListener();
+//                        } catch (Exception ex) {
+//                            if (BuildConfig.DEBUG) {
+//                                Log.e(Constants.LOG, ex.getMessage());
+//                            }
+//                        }
+//                    }
+//                });
     }
 
     private void Approve(final int position) {
@@ -154,9 +154,9 @@ public class AdminFragment extends BaseFragment {
         recyclerViewAdmin = (RecyclerView) rootView.findViewById(R.id.admin_recycle_view);
         int screenOrientation = getResources().getConfiguration().orientation;
 
-        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-            userToken = BrewSharedPrefs.getUserToken();
-        }
+//        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
+//            userToken = BrewSharedPrefs.getUserToken();
+//        }
 
         recyclerViewAdmin.setHasFixedSize(true);
 

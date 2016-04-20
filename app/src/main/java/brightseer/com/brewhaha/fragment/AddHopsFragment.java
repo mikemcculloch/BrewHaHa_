@@ -477,7 +477,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
                     if (validateHopEntry()) {
-                        addUpdateHop();
+//                        addUpdateHop();
                     }
                 }
             });
@@ -605,55 +605,55 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
         }
     }
 
-    public void addUpdateHop() {
-
-        int addInstruction = 0;
-        if (ingredientHopPk == 0) {
-            if (checkbox_add_instruction.isChecked()) {
-                addInstruction = 1;
-            }
-        }
-
-        String url = Constants.wcfAddUpdateIngredientHopV2 + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + ingredientHopPk + "/" + selectedHopsUsePk + "/" + selectedHopFormPk + "/" + selectedMeasurement + "/" + selectedHopPk + "/" + selectedTimeUnit + "/" + acidProgress + "/" + my_hop_time_edit_text.getText().toString() + "/" + my_hop_amount_edit_text.getText().toString().trim() + "/" + addInstruction;
-        json = new JsonObject();
-        json.addProperty("name", my_hops_name_edit_text.getText().toString().trim());
-
-        ionUpdateHop = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         addHopDialog.dismiss();
-                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
-
-                                         RecipeHop item = ingredient.get(0);
-                                         int pos = 0;
-
-//                                         if (ingredientHopPk != 0) {
-//                                             pos = adapter.getPostionByPk(item.getIngredientHopsId());
-//                                             adapter.remove(pos);
-//                                         } else {
-//                                             pos = adapter.getItemCount();
+//    public void addUpdateHop() {
+//
+//        int addInstruction = 0;
+//        if (ingredientHopPk == 0) {
+//            if (checkbox_add_instruction.isChecked()) {
+//                addInstruction = 1;
+//            }
+//        }
+//
+//        String url = Constants.wcfAddUpdateIngredientHopV2 + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + ingredientHopPk + "/" + selectedHopsUsePk + "/" + selectedHopFormPk + "/" + selectedMeasurement + "/" + selectedHopPk + "/" + selectedTimeUnit + "/" + acidProgress + "/" + my_hop_time_edit_text.getText().toString() + "/" + my_hop_amount_edit_text.getText().toString().trim() + "/" + addInstruction;
+//        json = new JsonObject();
+//        json.addProperty("name", my_hops_name_edit_text.getText().toString().trim());
+//
+//        ionUpdateHop = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         addHopDialog.dismiss();
+//                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+//
+//                                         RecipeHop item = ingredient.get(0);
+//                                         int pos = 0;
+//
+////                                         if (ingredientHopPk != 0) {
+////                                             pos = adapter.getPostionByPk(item.getIngredientHopsId());
+////                                             adapter.remove(pos);
+////                                         } else {
+////                                             pos = adapter.getItemCount();
+////                                         }
+//
+//                                         adapter.add(item, pos);
+//                                         updateInstruction();
+//
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
 //                                         }
-
-                                         adapter.add(item, pos);
-                                         updateInstruction();
-
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
-
-    }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
+//
+//    }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {

@@ -250,7 +250,7 @@ public class AddInstructionsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (validateEntry()) {
-                    addUpdateInstruction();
+//                    addUpdateInstruction();
                 }
             }
         });
@@ -295,38 +295,38 @@ public class AddInstructionsFragment extends BaseFragment {
         }
     }
 
-    public void addUpdateInstruction() {
-        String url = Constants.wcfAddUpdateInstruction + selectedInstructionPk + "/" + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedPosition;
-        json = new JsonObject();
-        json.addProperty("description", my_instruction_name_edit_text.getText().toString().trim());
-        ionUpdateInstructions = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
-                                         if (selectedInstructionPk != 0) {
-                                             instructionDraggableRecyclerAdapter.remove(selectedPosition - 1);
-                                         }
-
-                                         RecipeInstruction item = recipeInstructions.get(0);
-                                         instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
-                                         instructionDraggableRecyclerAdapter.RefreshOrder(false);
-                                         addInstructionDialog.dismiss();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
-    }
+//    public void addUpdateInstruction() {
+//        String url = Constants.wcfAddUpdateInstruction + selectedInstructionPk + "/" + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedPosition;
+//        json = new JsonObject();
+//        json.addProperty("description", my_instruction_name_edit_text.getText().toString().trim());
+//        ionUpdateInstructions = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
+//                                         if (selectedInstructionPk != 0) {
+//                                             instructionDraggableRecyclerAdapter.remove(selectedPosition - 1);
+//                                         }
+//
+//                                         RecipeInstruction item = recipeInstructions.get(0);
+//                                         instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
+//                                         instructionDraggableRecyclerAdapter.RefreshOrder(false);
+//                                         addInstructionDialog.dismiss();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
+//    }
 
     public void addFabListener() {
         try {

@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.helper;
+package brightseer.com.brewhaha.Depricated;
 
 //import android.util.Base64;
 

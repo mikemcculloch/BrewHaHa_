@@ -89,7 +89,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             _mContext = RecipeCardsActivity.this;
             initExtras();
             initViews();
-            initPrefs();
+//            initPrefs();
 
             ref = new Firebase(Constants.fireBaseRecipeDetail);
             getRecipeDetail();
@@ -203,12 +203,12 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
     }
 
-    private void initPrefs() {
-        userToken = BrewSharedPrefs.getUserToken();
-        if (TextUtils.isEmpty(userToken)) {
-            userToken = "na";
-        }
-    }
+//    private void initPrefs() {
+//        userToken = BrewSharedPrefs.getUserToken();
+//        if (TextUtils.isEmpty(userToken)) {
+//            userToken = "na";
+//        }
+//    }
 
     private void getRecipeDetail() {
         try {

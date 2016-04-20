@@ -43,7 +43,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
         _TitlesArray = titlesArray;
         _ContentPk = contentPk;
         repoSelected = new DBHelper_IngredientSelected(_context);
-        _appDataList = repoSelected.getIngredientSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
+//        _appDataList = repoSelected.getIngredientSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
     }
 
     @Override
@@ -66,15 +66,15 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
                 ingredient_type_text_view.setVisibility(View.GONE);
             }
             CheckBox ingredient_checkbox = (CheckBox) theView.findViewById(R.id.ingredient_checkbox);
-            if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                for (IngredientSelected appDataItem : _appDataList) {
-                    if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getContentItemPk()) {
-                        ingredient_checkbox.setChecked(true);
-                    }
-                }
-                ingredient_checkbox.setOnCheckedChangeListener(this);
-                ingredient_checkbox.setTag(position);
-            }
+//            if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                for (IngredientSelected appDataItem : _appDataList) {
+//                    if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getContentItemPk()) {
+//                        ingredient_checkbox.setChecked(true);
+//                    }
+//                }
+//                ingredient_checkbox.setOnCheckedChangeListener(this);
+//                ingredient_checkbox.setTag(position);
+//            }
             ImageView ingredient_color_image_view = (ImageView) theView.findViewById(R.id.ingredient_color_image_view);
             if (item.getType().equals("Grain")) {
 
@@ -105,7 +105,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
                 int typeInt = Utilities.getIngredientTypeId(item.getType());
                 if (isChecked) {
                     IngredientSelected newItem = new IngredientSelected();
-                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
+//                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
                     newItem.setContentItemPk(item.getContentItemPk());
                     newItem.setIngredientId(item.getIngredientId());
                     newItem.setType(typeInt);

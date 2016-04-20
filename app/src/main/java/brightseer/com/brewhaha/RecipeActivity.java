@@ -137,7 +137,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
             }
 
             repoBatch = new DBHelper_BatchSize(_mContext);
-            load();
+//            load();
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
@@ -156,82 +156,82 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
     }
 
-    private void load() {
-        String contentUrl = Constants.wcfGetContentById + responseContentItemPk.toString() + "/" + BrewSharedPrefs.getUserToken();
-        Ion.with(_mContext)
-                .load(contentUrl)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-
-                                 @Override
-                                 public void onCompleted(Exception e, JsonObject result) {
-                                     try {
-                                         dialogProgress.dismiss();
-                                         if (result != null) {
-                                             RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
-                                             BrewSharedPrefs.setCurrentToken(recipeContent.getToken());
-                                             BrewSharedPrefs.setCurrentContentTitle(recipeContent.getTitle());
-
-                                             setShareIntent();
-
-                                             toggleStar = recipeContent.isFavorite();
-                                             contentItemPk = recipeContent.getContentItemPk();
-                                             comment_count = recipeContent.getCommentCount();
-                                             int imageCount = recipeContent.getImagesMList().size();
-
-                                             if (TextUtils.isEmpty(recipe_author_text_view.getText())) {
-                                                 recipe_author_text_view.setText(recipeContent.getAuthor());
-                                             }
-
-                                             overview_text_view.setText(recipeContent.getDescription());
-
-                                             if (TextUtils.isEmpty(recipeTitle)) {
-                                                 recipe_title_text_view.setText(recipeContent.getTitle());
-                                             }
-
-                                             if (TextUtils.isEmpty(datePosted)) {
-                                                 recipe_date_posted.setText(Utilities.DisplayTimeFormater(recipeContent.getLastUpdatedTimestamp()));
-                                             }
-                                             recipe_total_comments_text_view.setText(String.valueOf(recipeContent.getCommentCount()) + " " + recipe_total_comments_text_view.getText());
-                                             recipe_total_images_text_view.setText(String.valueOf(imageCount) + " " + recipe_total_images_text_view.getText());
-
-                                             if (TextUtils.isEmpty(authorImageUrl)) {
-                                                 Ion.with(recipe_header_user_image_view)
-                                                         .placeholder(R.drawable.ic_person_black_24dp)
-                                                         .error(R.drawable.ic_person_black_24dp)
-                                                         .transform(trans)
-                                                         .load(recipeContent.getUserImageUrl());
-                                             }
-
-                                             String batch_text = "";
-                                             if (repoBatch.getBatchSizeCount() > 0) {
-                                                 BatchSize batchSize = repoBatch.getBatchSizeByPk(recipeContent.getBatchSizePk());
-
-                                                 batch_text = batchSize.getValue() + " " + batchSize.getDescription();
-
-                                             }
-                                             summary_header_batch_size_text_view.setText(batch_text);
-
-                                             addSummaryItems(recipeContent.getRecipeSummaryM());
-                                             addIngredientItems(recipeContent.getIngredientMList());
-                                             addRecipeSteps(recipeContent.getRecipeInstructions());
-                                             comments = recipeContent.getCommentMList();
-                                             addComments(comments);
-                                             addImages(recipeContent.getImagesMList());
-                                             addFabListener();
-                                         }
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, e.getMessage());
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
-    }
+//    private void load() {
+//        String contentUrl = Constants.wcfGetContentById + responseContentItemPk.toString() + "/" + BrewSharedPrefs.getUserToken();
+//        Ion.with(_mContext)
+//                .load(contentUrl)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonObject()
+//                .setCallback(new FutureCallback<JsonObject>() {
+//
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonObject result) {
+//                                     try {
+//                                         dialogProgress.dismiss();
+//                                         if (result != null) {
+//                                             RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
+//                                             BrewSharedPrefs.setCurrentToken(recipeContent.getToken());
+//                                             BrewSharedPrefs.setCurrentContentTitle(recipeContent.getTitle());
+//
+//                                             setShareIntent();
+//
+//                                             toggleStar = recipeContent.isFavorite();
+//                                             contentItemPk = recipeContent.getContentItemPk();
+//                                             comment_count = recipeContent.getCommentCount();
+//                                             int imageCount = recipeContent.getImagesMList().size();
+//
+//                                             if (TextUtils.isEmpty(recipe_author_text_view.getText())) {
+//                                                 recipe_author_text_view.setText(recipeContent.getAuthor());
+//                                             }
+//
+//                                             overview_text_view.setText(recipeContent.getDescription());
+//
+//                                             if (TextUtils.isEmpty(recipeTitle)) {
+//                                                 recipe_title_text_view.setText(recipeContent.getTitle());
+//                                             }
+//
+//                                             if (TextUtils.isEmpty(datePosted)) {
+//                                                 recipe_date_posted.setText(Utilities.DisplayTimeFormater(recipeContent.getLastUpdatedTimestamp()));
+//                                             }
+//                                             recipe_total_comments_text_view.setText(String.valueOf(recipeContent.getCommentCount()) + " " + recipe_total_comments_text_view.getText());
+//                                             recipe_total_images_text_view.setText(String.valueOf(imageCount) + " " + recipe_total_images_text_view.getText());
+//
+//                                             if (TextUtils.isEmpty(authorImageUrl)) {
+//                                                 Ion.with(recipe_header_user_image_view)
+//                                                         .placeholder(R.drawable.ic_person_black_24dp)
+//                                                         .error(R.drawable.ic_person_black_24dp)
+//                                                         .transform(trans)
+//                                                         .load(recipeContent.getUserImageUrl());
+//                                             }
+//
+//                                             String batch_text = "";
+//                                             if (repoBatch.getBatchSizeCount() > 0) {
+//                                                 BatchSize batchSize = repoBatch.getBatchSizeByPk(recipeContent.getBatchSizePk());
+//
+//                                                 batch_text = batchSize.getValue() + " " + batchSize.getDescription();
+//
+//                                             }
+//                                             summary_header_batch_size_text_view.setText(batch_text);
+//
+//                                             addSummaryItems(recipeContent.getRecipeSummaryM());
+//                                             addIngredientItems(recipeContent.getIngredientMList());
+//                                             addRecipeSteps(recipeContent.getRecipeInstructions());
+//                                             comments = recipeContent.getCommentMList();
+//                                             addComments(comments);
+//                                             addImages(recipeContent.getImagesMList());
+//                                             addFabListener();
+//                                         }
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, e.getMessage());
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
+//    }
 
     @Override
     public void onClick(View v) {
@@ -244,13 +244,13 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                 loadMoreComments();
                 break;
             case R.id.recipe_comment_add_image_view:
-                if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                    LoadDialog(this, false, true);
-                    AddUpdateComments();
-                } else {
-                    AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_comment).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                }
-                break;
+//                if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                    LoadDialog(this, false, true);
+//                    AddUpdateComments();
+//                } else {
+//                    AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_comment).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                }
+//                break;
 
             case R.id.recipe_total_comments_text_view:
                 sticky_scroll.fullScroll(ScrollView.FOCUS_DOWN);
@@ -347,21 +347,21 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
             if (comment_count > 6) {
                 recipe_comments_load_more.setVisibility(View.VISIBLE);
             }
-            if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                comments_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        _Comment = commentAdapter.getItem(position);
-                        if (_Comment.getUserToken().trim().equals(BrewSharedPrefs.getUserToken().trim())) {
-                            ClearCommentInput();
-                            registerForContextMenu(view);
-                            openContextMenu(view);
-                            view.setLongClickable(false);
-
-                        }
-                    }
-                });
-            }
+//            if (BrewSharedPrefs.getIsUserLoggedIn()) {
+//                comments_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        _Comment = commentAdapter.getItem(position);
+//                        if (_Comment.getUserToken().trim().equals(BrewSharedPrefs.getUserToken().trim())) {
+//                            ClearCommentInput();
+//                            registerForContextMenu(view);
+//                            openContextMenu(view);
+//                            view.setLongClickable(false);
+//
+//                        }
+//                    }
+//                });
+//            }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
@@ -593,21 +593,21 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!BrewSharedPrefs.getIsUserLoggedIn()) {
-                        AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-                    } else {
-                        if (toggleStar) {
-                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
-                            toggleStar = false;
-                        } else {
-                            fab.setImageResource(R.drawable.ic_star_white_24dp);
-                            toggleStar = true;
-                        }
-                        String url = Constants.wcfAddUpdateFavorite + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
-                        Ion.with(_mContext)
-                                .load(url)
-                                .asString();
-                    }
+//                    if (!BrewSharedPrefs.getIsUserLoggedIn()) {
+//                        AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+//                    } else {
+//                        if (toggleStar) {
+//                            fab.setImageResource(R.drawable.ic_star_border_white_24dp);
+//                            toggleStar = false;
+//                        } else {
+//                            fab.setImageResource(R.drawable.ic_star_white_24dp);
+//                            toggleStar = true;
+//                        }
+//                        String url = Constants.wcfAddUpdateFavorite + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//                        Ion.with(_mContext)
+//                                .load(url)
+//                                .asString();
+//                    }
                 }
             });
         } catch (Exception e) {
@@ -664,41 +664,41 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                 JsonObject json = new JsonObject();
                 json.addProperty("body", recipe_comment_add_edit_text_view.getText().toString().trim());
 
-                String test = BrewSharedPrefs.getUserToken();
+//                String test = BrewSharedPrefs.getUserToken();
 
-                Ion.with(_mContext)
-                        .load(Constants.wcfAddUpdateComment + commentEditPk + "/" + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + String.valueOf(comments.size() + 1))
-                        .setHeader("Cache-Control", "No-Cache")
-                        .setJsonObjectBody(json)
-                        .asJsonArray()
-                        .setCallback(new FutureCallback<JsonArray>() {
-                            @Override
-                            public void onCompleted(Exception e, JsonArray result) {
-                                try {
-                                    if (result != null) {
-                                        try {
-                                            List<Comment> commentList = JsonToObject.JsonToCommentsList(result);//.ToCommentsListAdd(result);
-                                            comment_count = commentList.size();
-                                            comments = commentList; //needed to refresh original list
-                                            commentAdapter.clear();
-                                            addComments(commentList);
-                                            commentAdapter.notifyDataSetChanged();
-                                        } catch (Exception ex) {
-                                            if (BuildConfig.DEBUG) {
-                                                Log.e(Constants.LOG, ex.getMessage());
-                                            }
-                                        } finally {
-                                            dialogProgress.dismiss();
-                                            ClearCommentInput();
-                                        }
-                                    }
-                                } catch (Exception ex) {
-                                    if (BuildConfig.DEBUG) {
-                                        Log.e(Constants.LOG, ex.getMessage());
-                                    }
-                                }
-                            }
-                        });
+//                Ion.with(_mContext)
+//                        .load(Constants.wcfAddUpdateComment + commentEditPk + "/" + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + String.valueOf(comments.size() + 1))
+//                        .setHeader("Cache-Control", "No-Cache")
+//                        .setJsonObjectBody(json)
+//                        .asJsonArray()
+//                        .setCallback(new FutureCallback<JsonArray>() {
+//                            @Override
+//                            public void onCompleted(Exception e, JsonArray result) {
+//                                try {
+//                                    if (result != null) {
+//                                        try {
+//                                            List<Comment> commentList = JsonToObject.JsonToCommentsList(result);//.ToCommentsListAdd(result);
+//                                            comment_count = commentList.size();
+//                                            comments = commentList; //needed to refresh original list
+//                                            commentAdapter.clear();
+//                                            addComments(commentList);
+//                                            commentAdapter.notifyDataSetChanged();
+//                                        } catch (Exception ex) {
+//                                            if (BuildConfig.DEBUG) {
+//                                                Log.e(Constants.LOG, ex.getMessage());
+//                                            }
+//                                        } finally {
+//                                            dialogProgress.dismiss();
+//                                            ClearCommentInput();
+//                                        }
+//                                    }
+//                                } catch (Exception ex) {
+//                                    if (BuildConfig.DEBUG) {
+//                                        Log.e(Constants.LOG, ex.getMessage());
+//                                    }
+//                                }
+//                            }
+//                        });
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
