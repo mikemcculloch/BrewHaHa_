@@ -26,7 +26,7 @@ import brightseer.com.brewhaha.objects.HopsUse;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.models.RecipeHop;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.objects.KeyValuepair;
 import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.objects.RecipeContent;

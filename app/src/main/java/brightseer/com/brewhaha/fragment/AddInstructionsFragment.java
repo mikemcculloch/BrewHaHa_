@@ -38,7 +38,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.InstructionDraggableRecyclerAdapter;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.repository.JsonToObject;
 
 //import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
@@ -132,7 +132,7 @@ public class AddInstructionsFragment extends BaseFragment {
                 }
 
                 mHeader = modelObject.getDescription().substring(0, getLength);
-                selectedInstructionPk = modelObject.getInstructionId();
+//                selectedInstructionPk = modelObject.getInstructionId();
 
                 registerForContextMenu(view);
                 getActivity().openContextMenu(view);
@@ -288,7 +288,7 @@ public class AddInstructionsFragment extends BaseFragment {
 
     public void setDialogValues(RecipeInstruction selected) {
         if (selected != null) {
-            selectedInstructionPk = selected.getInstructionId();
+//            selectedInstructionPk = selected.getInstructionId();
             my_instruction_name_edit_text.setText(selected.getDescription());
             my_instruction_submit_button.setText("Update");
             selectedPosition = selected.getOrder();

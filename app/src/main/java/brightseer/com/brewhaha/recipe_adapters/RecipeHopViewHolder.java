@@ -3,7 +3,6 @@ package brightseer.com.brewhaha.recipe_adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-
 import brightseer.com.brewhaha.R;
 
 /**

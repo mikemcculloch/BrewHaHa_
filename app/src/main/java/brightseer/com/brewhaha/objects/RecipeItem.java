@@ -6,6 +6,7 @@ import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.models.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.models.RecipeYeast;
 
 public class RecipeItem {

@@ -52,7 +52,7 @@ import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
 import brightseer.com.brewhaha.repository.JsonToObject;

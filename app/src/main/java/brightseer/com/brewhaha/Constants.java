@@ -262,13 +262,14 @@ public class Constants {
     public static final String exHops = "hops";
     public static final String exYeasts = "yeasts";
     public static final String exImages = "images";
+    public static final String exDirections = "directions";
 
 
-    public static final String fireBaseComments = fireBaseRoot + exComments;
+//    public static final String fireBaseComments = fireBaseRoot + exComments;
     public static final String fireBaseUsers = fireBaseRoot + exUsers;
     public static final String fireBaseRecipeDetail = fireBaseRoot + exRecipeDetail;
 
-    public static final String fireBaseRecipeGrain = fireBaseRoot + exIngredients + exGrains;
+//    public static final String fireBaseRecipeGrain = fireBaseRoot + exIngredients + exGrains;
 
 
     public static final int ANIMATION_DELAY = 300;

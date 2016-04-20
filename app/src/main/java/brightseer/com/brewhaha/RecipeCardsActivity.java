@@ -43,7 +43,7 @@ import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.models.RecipeImage;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
@@ -436,7 +436,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
                 if (sceneId == Constants.sceneDirections) {
                     view = card_directions;
-                    fragment = DirectionFragment.newInstance(20, 20, randomColor, recipeRecipeInstructions, recipeToken);
+                    fragment = DirectionFragment.newInstance(20, 20, randomColor, feedKey);
                 }
 
                 if (sceneId == Constants.sceneImages) {

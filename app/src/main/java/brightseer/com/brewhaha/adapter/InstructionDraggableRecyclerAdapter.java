@@ -18,7 +18,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.AddInstructionsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
 
 /**

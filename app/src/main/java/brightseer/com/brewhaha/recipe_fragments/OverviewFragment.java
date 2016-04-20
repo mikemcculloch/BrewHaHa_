@@ -156,6 +156,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
             comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
             comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
             } else {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeImage;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 
 public class RecipeContent {
     private int ContentItemPk;

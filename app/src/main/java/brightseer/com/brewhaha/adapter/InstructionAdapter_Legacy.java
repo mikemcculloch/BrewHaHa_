@@ -19,7 +19,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
-import brightseer.com.brewhaha.objects.RecipeInstruction;
+import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.objects.InstructionSelected;
 import brightseer.com.brewhaha.repository.DBHelper_InstructionSelected;
 
@@ -56,11 +56,11 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
 
             viewHolder.instruction_checkbox = (CheckBox) theView.findViewById(R.id.instruction_checkbox);
             if (BrewSharedPrefs.getIsUserLoggedIn()) {
-                for (InstructionSelected appDataItem : _appDataList) {
-                    if (appDataItem.getInstructionsId() == item.getInstructionId() && _ContentPk == appDataItem.getRecipeContentId()) {
-                        viewHolder.instruction_checkbox.setChecked(true);
-                    }
-                }
+//                for (InstructionSelected appDataItem : _appDataList) {
+//                    if (appDataItem.getInstructionsId() == item.getInstructionId() && _ContentPk == appDataItem.getRecipeContentId()) {
+//                        viewHolder.instruction_checkbox.setChecked(true);
+//                    }
+//                }
 
                 viewHolder.instruction_checkbox.setOnCheckedChangeListener(this);
                 viewHolder.instruction_checkbox.setTag(position);
@@ -83,15 +83,15 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
                 int position = Integer.parseInt(buttonView.getTag().toString());
                 RecipeInstruction recipeInstructionItem = getItem(position);
 
-                if (isChecked) {
-                    InstructionSelected newItem = new InstructionSelected();
-                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
-                    newItem.setRecipeContentId(recipeInstructionItem.getRecipeContentId());
-                    newItem.setInstructionsId(recipeInstructionItem.getInstructionId());
-                    repoSelected.insertInstructionSelected(newItem);
-                } else {
-                    repoSelected.deleteInstructionSelectedRecord(recipeInstructionItem.getRecipeContentId(), recipeInstructionItem.getInstructionId());
-                }
+//                if (isChecked) {
+//                    InstructionSelected newItem = new InstructionSelected();
+//                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
+//                    newItem.setRecipeContentId(recipeInstructionItem.getRecipeContentId());
+//                    newItem.setInstructionsId(recipeInstructionItem.getInstructionId());
+//                    repoSelected.insertInstructionSelected(newItem);
+//                } else {
+//                    repoSelected.deleteInstructionSelectedRecord(recipeInstructionItem.getRecipeContentId(), recipeInstructionItem.getInstructionId());
+//                }
             }
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
