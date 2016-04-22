@@ -127,7 +127,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        initGooglePlus();
-        initGoogleAuth();
+//        initGoogleAuth();
 //        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         tabletSize = getResources().getBoolean(R.bool.isTablet);
     }
@@ -630,39 +630,7 @@ public class BaseActivity extends AppCompatActivity {
 //    }
 
 
-    public void initGoogleAuth() {
-//        String scopes = "oauth2:profile email";
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken(getString(R.string.server_client_id))
-                .build();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                    @Override
-                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-                    }
-                } /* OnConnectionFailedListener */)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-    }
-
-    public void googleSignIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    public void signOut() {
-        BrewSharedPrefs.clearAllPrefs();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // ...
-                    }
-                });
-    }
 
 }
 

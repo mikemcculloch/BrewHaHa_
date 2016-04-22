@@ -15,29 +15,18 @@ public class BrewSharedPrefs {
 
 
 
-//    public static void setIsUserLoggedIn(boolean loggedIn) {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putBoolean(Constants.spLoggedIn, loggedIn);
-//        editor.apply();
-//    }
-//
-//    public static boolean getIsUserLoggedIn() {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        return preferences.getBoolean(Constants.spLoggedIn, false);
-//    }
-//
-//    public static void setUserToken(String token) {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putString(Constants.spUserToken, token);
-//        editor.apply();
-//    }
-//
-//    public static String getUserToken() {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        return preferences.getString(Constants.spUserToken, "na");
-//    }
+
+    public static void setUid(String uId) {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constants.spUid, uId);
+        editor.apply();
+    }
+
+    public static String getUid() {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        return preferences.getString(Constants.spUid, "");
+    }
 //
 //    public static void setShowWelcome(Boolean showWelcome) {
 //        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);

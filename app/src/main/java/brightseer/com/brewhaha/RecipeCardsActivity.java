@@ -91,7 +91,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             initViews();
 //            initPrefs();
 
-            ref = new Firebase(Constants.fireBaseRecipeDetail);
+            ref = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
             getRecipeDetail();
         } catch (Exception e) {
             e.printStackTrace();

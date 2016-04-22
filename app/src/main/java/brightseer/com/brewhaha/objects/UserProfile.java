@@ -7,20 +7,22 @@ import java.io.Serializable;
  */
 public class UserProfile implements Serializable {
     private String Key;
+    private String Uid;
     private String EmailAddress;
     private String ImageUrl;
-    private String ScreenName;
+    private String DisplayName;
     private String DateCreated;
-    private boolean Admin;
+    private boolean Admin; //GET ONLY
 
     public UserProfile() {
     }
 
-    public UserProfile(String key, String emailAddress, String imageUrl, String screenName, String dateCreated, boolean admin) {
+    public UserProfile(String key, String uid, String emailAddress, String imageUrl, String displayName, String dateCreated, boolean admin) {
         Key = key;
+        Uid = uid;
         EmailAddress = emailAddress;
         ImageUrl = imageUrl;
-        ScreenName = screenName;
+        DisplayName = displayName;
         DateCreated = dateCreated;
         Admin = admin;
     }
@@ -31,6 +33,14 @@ public class UserProfile implements Serializable {
 
     public void setKey(String key) {
         Key = key;
+    }
+
+    public String getUid() {
+        return Uid;
+    }
+
+    public void setUid(String uid) {
+        Uid = uid;
     }
 
     public String getEmailAddress() {
@@ -49,12 +59,12 @@ public class UserProfile implements Serializable {
         ImageUrl = imageUrl;
     }
 
-    public String getScreenName() {
-        return ScreenName;
+    public String getDisplayName() {
+        return DisplayName;
     }
 
-    public void setScreenName(String screenName) {
-        ScreenName = screenName;
+    public void setDisplayName(String displayName) {
+        DisplayName = displayName;
     }
 
     public String getDateCreated() {

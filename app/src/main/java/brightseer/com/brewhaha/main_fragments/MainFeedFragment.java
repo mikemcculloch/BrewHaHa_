@@ -130,7 +130,6 @@ public class MainFeedFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -337,5 +336,4 @@ public class MainFeedFragment extends Fragment {
             }
         }
     }
-
 }

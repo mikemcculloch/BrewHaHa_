@@ -180,7 +180,7 @@ public class Constants {
     public static final String laboratory_LaboratoryPk = "LaboratoryPk";
 
     public static final String spLoggedIn = "LoggedIn";
-    public static final String spUserToken = "UserToken";
+
     public static final String spShowWelcome = "ShowWelcome";
     public static final String spScreenName = "ScreenName";
     public static final String spContentToken = "ContentToken";
@@ -255,6 +255,7 @@ public class Constants {
     public static final String exFeedKey = "feedKey";
     public static final String exComments = "comments";
     public static final String exUsers = "users";
+    public static final String exUsersReadOnly = "usersReadOnly";
     public static final String exRecipeDetail = "recipedetail";
     public static final String exFeeds = "feeds";
     public static final String exIngredients = "ingredients";
@@ -264,12 +265,9 @@ public class Constants {
     public static final String exImages = "images";
     public static final String exDirections = "directions";
 
+    public static final String spUid = "uId";
 
-//    public static final String fireBaseComments = fireBaseRoot + exComments;
-    public static final String fireBaseUsers = fireBaseRoot + exUsers;
-    public static final String fireBaseRecipeDetail = fireBaseRoot + exRecipeDetail;
 
-//    public static final String fireBaseRecipeGrain = fireBaseRoot + exIngredients + exGrains;
 
 
     public static final int ANIMATION_DELAY = 300;

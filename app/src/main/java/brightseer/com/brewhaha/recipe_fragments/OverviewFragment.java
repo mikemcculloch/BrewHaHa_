@@ -246,7 +246,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     public void RecipeDetailListener() {
         try {
-            Firebase ref = new Firebase(Constants.fireBaseRecipeDetail);
+            Firebase ref = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
             Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(recipeDetail.getFeedKey());
 
             queryRef.addValueEventListener(new ValueEventListener() {
