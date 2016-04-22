@@ -60,16 +60,14 @@ public class MainActivity extends NewActivtyBase {
     private NavigationView navigationView;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private android.support.design.widget.FloatingActionButton fab;
-    TextView drawer_displayName, drawer_useremail;
-    ImageView drawer_userImage;
-    AppBarLayout app_bar_layout;
+    private TextView drawer_displayName, drawer_useremail;
+    private ImageView drawer_userImage;
+     AppBarLayout app_bar_layout;
     private Menu menu;
     private MenuItem navigation_item_5;
 
-
     private Firebase rootRef;
     private String emailAddress;
-//    private UserProfile userProfile;
 
     private static final byte[] SALT = new byte[]{
             -117, 47, -21, 24, -30,
@@ -441,10 +439,10 @@ public class MainActivity extends NewActivtyBase {
             try {
                 token = GoogleAuthUtil.getToken(getApplicationContext(), emailAddress, scopes);
                 fireBaseAuth(token);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (GoogleAuthException e) {
-                e.printStackTrace();
+            } catch (IOException | GoogleAuthException e) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(Constants.LOG, e.getMessage());
+                }
             }
             // exception handling removed for brevity
             return token;
@@ -646,7 +644,7 @@ public class MainActivity extends NewActivtyBase {
 ////        }
 //
 ////            SetFragment(new MainFeedFragment());
-////        app_bar_layout.setExpanded(false);
+
 ////        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
 //            setAdminNav();
 //        }

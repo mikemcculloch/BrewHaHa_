@@ -110,8 +110,7 @@ public class MainFeedFragment extends Fragment {
             recipeDetail.setOriginalGravity("5");
             recipeDetail.setSrmHex("#FE3499");
             recipeDetail.setFinalGravity("4");
-            recipeDetail.setStyle("Get From list");
-            recipeDetail.setStyleDescription("Bland pail ale");
+            recipeDetail.setStyle("Bland pail ale");
             recipeDetail.setUserProfileKey("1");
             recipeDetail.setYieldByGallon("5");
 

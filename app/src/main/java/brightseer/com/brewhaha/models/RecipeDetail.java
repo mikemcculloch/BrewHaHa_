@@ -10,15 +10,9 @@ public class RecipeDetail implements Serializable {
     private String Key;
     private String FeedKey;
     private String UserProfileKey;
-
-//    private String Title;
     private String Description;
-//    private String Author;
-//    private String UserImageUrl;
-
     private String Style;
-    private String StyleDescription;
-
+//    private String StyleDescription;
     private String AlcoholByVol;
     private String BitternessIbu;
     private String ColorSrm;
@@ -26,20 +20,18 @@ public class RecipeDetail implements Serializable {
     private String OriginalGravity;
     private String YieldByGallon;
     private String SrmHex;
-
     private String DateModified;
     private String DateCreated;
 
     public RecipeDetail() {
     }
 
-    public RecipeDetail(String key, String feedKey, String userProfileKey, String description, String style, String styleDescription, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
+    public RecipeDetail(String key, String feedKey, String userProfileKey, String description, String style, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
         Key = key;
         FeedKey = feedKey;
         UserProfileKey = userProfileKey;
         Description = description;
         Style = style;
-        StyleDescription = styleDescription;
         AlcoholByVol = alcoholByVol;
         BitternessIbu = bitternessIbu;
         ColorSrm = colorSrm;
@@ -89,14 +81,6 @@ public class RecipeDetail implements Serializable {
 
     public void setStyle(String style) {
         Style = style;
-    }
-
-    public String getStyleDescription() {
-        return StyleDescription;
-    }
-
-    public void setStyleDescription(String styleDescription) {
-        StyleDescription = styleDescription;
     }
 
     public String getAlcoholByVol() {

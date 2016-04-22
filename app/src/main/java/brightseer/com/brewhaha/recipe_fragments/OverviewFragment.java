@@ -29,7 +29,6 @@ import com.koushikdutta.ion.Ion;
 
 import org.joda.time.DateTime;
 
-import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
@@ -121,27 +120,38 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     }
 
     private void populateViews() {
-        recipe_title_text_view.setText(recipeTitle);
-        recipe_description_text_view.setText(recipeDetail.getDescription());
-        original_gravity_text_view.setText(recipeDetail.getOriginalGravity());
-        final_gravity_text_view.setText(recipeDetail.getFinalGravity());
-        bitterness_text_view.setText(recipeDetail.getBitternessIbu());
-        srm_color_text_view.setText(recipeDetail.getColorSrm());
-        abv_text_view.setText(recipeDetail.getAlcoholByVol() + "%");
+        try {
+            recipe_title_text_view.setText(recipeTitle);
+            recipe_description_text_view.setText(recipeDetail.getDescription());
+            original_gravity_text_view.setText(recipeDetail.getOriginalGravity());
+            final_gravity_text_view.setText(recipeDetail.getFinalGravity());
+            bitterness_text_view.setText(recipeDetail.getBitternessIbu());
+            srm_color_text_view.setText(recipeDetail.getColorSrm());
+            String abvText = recipeDetail.getAlcoholByVol() + "%";
+            abv_text_view.setText(abvText);
 
-        int newColor = Color.parseColor(recipeDetail.getSrmHex());
-        Drawable mDrawable;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm, getActivity().getTheme());
-        } else {
-            mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm);
+            int newColor = Color.parseColor(recipeDetail.getSrmHex());
+            Drawable mDrawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm, getActivity().getTheme());
+            } else {
+                mDrawable = getContext().getResources().getDrawable(R.drawable.circle_srm);
+            }
+            PorterDuffColorFilter porterDuffColorFilter = new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY);
+            if (mDrawable != null) {
+                mDrawable.setColorFilter(porterDuffColorFilter);
+                circle_srm_image_view.setImageDrawable(mDrawable);
+            }
+
+
+            recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
+            send_comment_button = rootView.findViewById(R.id.send_comment_button);
+            send_comment_button.setOnClickListener(this);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
-        mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
-        circle_srm_image_view.setImageDrawable(mDrawable);
-
-        recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
-        send_comment_button = rootView.findViewById(R.id.send_comment_button);
-        send_comment_button.setOnClickListener(this);
     }
 
     private void initFirebaseDb() {
