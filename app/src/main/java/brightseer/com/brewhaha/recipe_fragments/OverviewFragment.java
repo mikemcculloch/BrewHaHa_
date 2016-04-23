@@ -21,7 +21,6 @@ import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
@@ -52,17 +51,19 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private View send_comment_button;
     private Firebase rootRef;
     FirebaseRecyclerAdapter mAdapter;
+    private String feedKey;
 
     public OverviewFragment() {
     }
 
-    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle) {
+    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle, String _feedKey) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
         args.putSerializable(Constants.bundleRecipeDetail, _recipeDetail);
         args.putString(Constants.exRecipeTitle, _recipeTitle);
+        args.putString(Constants.exFeedKey, _feedKey);
 
         OverviewFragment fragment = new OverviewFragment();
         fragment.setArguments(args);
@@ -89,12 +90,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private void ReadBundle() {
         recipeDetail = (RecipeDetail) getArguments().getSerializable(Constants.bundleRecipeDetail);
         recipeTitle = getArguments().getString(Constants.exRecipeTitle);
-
-//        recipeDesctiption = getArguments().getString(Constants.exRecipeDesctiption);
-//        authorImageUrl = getArguments().getString(Constants.exAuthorImageUrl);
-//        recipeDateCreated = getArguments().getString(Constants.exRecipeDateCreated);
-//        recipeDateModified = getArguments().getString(Constants.exRecipeDateModified);
-//        recipeContentId = getArguments().getInt(Constants.exContentItemPk);
+        feedKey = String.valueOf(getArguments().get(Constants.exFeedKey));
     }
 
     private void initViews() {
@@ -155,7 +151,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(feedKey);
     }
 
     private void initCommentRecyclerView() {
@@ -239,7 +235,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             Comment comment = new Comment();
 //            comment.setAuthorName(BrewSharedPrefs.getScreenkm  jhzvV,,Name());
             comment.setBody(recipe_comment_edit_view.getText().toString());
-            comment.setFeedKey(recipeDetail.getFeedKey());
+            comment.setFeedKey(feedKey);
 //            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
             comment.setDateCreated(DateTime.now().toString());
 
@@ -256,16 +252,15 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     public void RecipeDetailListener() {
         try {
-            Firebase ref = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
-            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(recipeDetail.getFeedKey());
+//            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);
 
-            queryRef.addValueEventListener(new ValueEventListener() {
+            rootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        recipeDetail = postSnapshot.getValue(RecipeDetail.class);
-                        recipeDetail.setKey(postSnapshot.getKey());
-                    }
+//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
+                    recipeDetail.setKey(dataSnapshot.getKey());
+//                    }
                     populateViews();
                 }
 

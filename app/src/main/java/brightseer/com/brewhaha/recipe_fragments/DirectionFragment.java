@@ -86,7 +86,7 @@ public class DirectionFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exDirections);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exDirections).child(feedKey);
     }
 
     private void ReadBundle() {
@@ -95,48 +95,36 @@ public class DirectionFragment extends BaseRecipeFragment {
 
     public void addTestDirections() {
         try {
-            ///ADD NEW RecipeGrain//////////////////
-            Firebase refImages = rootRef.child(feedKey);
-
+            ///ADD NEW //////////////////
             RecipeInstruction recipeInstruction = new RecipeInstruction();
-            recipeInstruction.setFeedKey(feedKey);
-            recipeInstruction.setUserProfileKey("1");
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 1");
             recipeInstruction.setOrder(1);
-            refImages.push().setValue(recipeInstruction);
+            rootRef.push().setValue(recipeInstruction);
 
             recipeInstruction = new RecipeInstruction();
-            recipeInstruction.setFeedKey(feedKey);
-            recipeInstruction.setUserProfileKey("1");
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 2");
             recipeInstruction.setOrder(2);
-            refImages.push().setValue(recipeInstruction);
+            rootRef.push().setValue(recipeInstruction);
 
             recipeInstruction = new RecipeInstruction();
-            recipeInstruction.setFeedKey(feedKey);
-            recipeInstruction.setUserProfileKey("1");
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 3");
             recipeInstruction.setOrder(3);
-            refImages.push().setValue(recipeInstruction);
+            rootRef.push().setValue(recipeInstruction);
 
             recipeInstruction = new RecipeInstruction();
-            recipeInstruction.setFeedKey(feedKey);
-            recipeInstruction.setUserProfileKey("1");
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 4");
             recipeInstruction.setOrder(4);
-            refImages.push().setValue(recipeInstruction);
+            rootRef.push().setValue(recipeInstruction);
 
             recipeInstruction = new RecipeInstruction();
-            recipeInstruction.setFeedKey(feedKey);
-            recipeInstruction.setUserProfileKey("1");
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 5");
             recipeInstruction.setOrder(5);
-            refImages.push().setValue(recipeInstruction);
+            rootRef.push().setValue(recipeInstruction);
 
             //////////////////
         } catch (Exception ex) {
@@ -148,8 +136,7 @@ public class DirectionFragment extends BaseRecipeFragment {
 
     private void GetDirections() {
         try {
-            Firebase ref = rootRef.child(feedKey);
-            Query queryRef = ref.orderByChild("order");
+            Query queryRef = rootRef.orderByChild("order");
             queryRef.addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -203,8 +190,7 @@ public class DirectionFragment extends BaseRecipeFragment {
                 my_instruction_recycle_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child(feedKey);
-            Query queryRef = ref.orderByChild("order");
+            Query queryRef = rootRef.orderByChild("order");
             fbInstructionAdapter = new FirebaseRecyclerAdapter<RecipeInstruction, RecipeDirectionViewHolder>(RecipeInstruction.class, R.layout.row_recipe_direction, RecipeDirectionViewHolder.class, queryRef) {
                 @Override
                 protected void populateViewHolder(RecipeDirectionViewHolder recipeDirectionViewHolder, RecipeInstruction recipeInstruction, int i) {

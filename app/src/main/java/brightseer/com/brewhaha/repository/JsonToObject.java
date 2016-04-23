@@ -36,7 +36,7 @@ import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.SrmColorKey;
 import brightseer.com.brewhaha.objects.Style;
 import brightseer.com.brewhaha.objects.UnitOfMeasure;
-import brightseer.com.brewhaha.objects.UserProfile;
+import brightseer.com.brewhaha.models.UserProfile;
 import brightseer.com.brewhaha.objects.Yeast;
 
 public class JsonToObject {

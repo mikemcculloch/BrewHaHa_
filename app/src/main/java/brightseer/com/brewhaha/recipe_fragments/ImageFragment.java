@@ -64,9 +64,10 @@ public class ImageFragment extends BaseRecipeFragment {
         rootView = inflater.inflate(R.layout.fragment_recipe_images, container, false);
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
-        initFirebaseDb();
+
 
         ReadBundle();
+        initFirebaseDb();
 //        addTestImages();
 
         GetImages();
@@ -75,7 +76,7 @@ public class ImageFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exImages);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exImages).child(feedKey);
     }
 
     private void ReadBundle() {
@@ -85,31 +86,24 @@ public class ImageFragment extends BaseRecipeFragment {
     public void addTestImages() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refImages = rootRef.child(feedKey);
 
             RecipeImage recipeImage = new RecipeImage();
-            recipeImage.setFeedKey(feedKey);
-            recipeImage.setUserProfileKey("1");
             recipeImage.setCaption("fart smell");
             recipeImage.setImageName("PoopStick");
             recipeImage.setImageUrl("http://www.paphosbeerfestival.com/assets/images/bg_beer.jpg");
-            refImages.push().setValue(recipeImage);
+            rootRef.push().setValue(recipeImage);
 
             recipeImage = new RecipeImage();
-            recipeImage.setFeedKey(feedKey);
-            recipeImage.setUserProfileKey("1");
             recipeImage.setCaption("stink or pink");
             recipeImage.setImageName("pink");
             recipeImage.setImageUrl("http://wholesalegourmet.net/images/AA2254.jpg");
-            refImages.push().setValue(recipeImage);
+            rootRef.push().setValue(recipeImage);
 
             recipeImage = new RecipeImage();
-            recipeImage.setFeedKey(feedKey);
-            recipeImage.setUserProfileKey("1");
             recipeImage.setCaption("stink or pink");
             recipeImage.setImageName("pink");
             recipeImage.setImageUrl("https://image.spreadshirtmedia.net/image-server/v1/designs/15687130,width=178,height=178,version=1373472021/Sex-And-Beer-Drinking-Team.png");
-            refImages.push().setValue(recipeImage);
+            rootRef.push().setValue(recipeImage);
 
             //////////////////
         } catch (Exception ex) {
@@ -121,8 +115,7 @@ public class ImageFragment extends BaseRecipeFragment {
 
     private void GetImages() {
         try {
-            Firebase ref = rootRef.child(feedKey);;
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {

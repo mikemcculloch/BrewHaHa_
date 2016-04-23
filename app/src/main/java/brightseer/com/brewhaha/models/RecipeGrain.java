@@ -7,8 +7,6 @@ import java.io.Serializable;
  */
 public class RecipeGrain implements Serializable {
     private String Key;
-    private String FeedKey;
-    private String UserProfileKey;
 
     private String GrainUse;
     private String Country;
@@ -22,10 +20,8 @@ public class RecipeGrain implements Serializable {
     public RecipeGrain() {
     }
 
-    public RecipeGrain(String key, String feedKey, String userProfileKey, String grainUse, String country, String unitOfMeasure, double amount, String name, String hexColor, int color) {
+    public RecipeGrain(String key, String grainUse, String country, String unitOfMeasure, double amount, String name, String hexColor, int color) {
         Key = key;
-        FeedKey = feedKey;
-        UserProfileKey = userProfileKey;
         GrainUse = grainUse;
         Country = country;
         UnitOfMeasure = unitOfMeasure;
@@ -41,22 +37,6 @@ public class RecipeGrain implements Serializable {
 
     public void setKey(String key) {
         Key = key;
-    }
-
-    public String getFeedKey() {
-        return FeedKey;
-    }
-
-    public void setFeedKey(String feedKey) {
-        FeedKey = feedKey;
-    }
-
-    public String getUserProfileKey() {
-        return UserProfileKey;
-    }
-
-    public void setUserProfileKey(String userProfileKey) {
-        UserProfileKey = userProfileKey;
     }
 
     public String getGrainUse() {

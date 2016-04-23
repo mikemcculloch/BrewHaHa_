@@ -99,8 +99,8 @@ public class IngredientFragment extends BaseRecipeFragment {
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
-        initFirebaseDb();
         ReadBundle();
+        initFirebaseDb();
 //        GetDbHelper();
 
 //        addTestGrainData();
@@ -114,17 +114,15 @@ public class IngredientFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(feedKey);
     }
 
     public void addTestGrainData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refGrain = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exGrains).child(feedKey);
+            Firebase refGrain = rootRef.child(Constants.exGrains);
 
             RecipeGrain recipeGrain = new RecipeGrain();
-            recipeGrain.setFeedKey(feedKey);
-            recipeGrain.setUserProfileKey("1");
             recipeGrain.setAmount((double) 1.4);
             recipeGrain.setColor(15);
             recipeGrain.setCountry("USA");
@@ -136,8 +134,6 @@ public class IngredientFragment extends BaseRecipeFragment {
 
 
             recipeGrain = new RecipeGrain();
-            recipeGrain.setFeedKey(feedKey);
-            recipeGrain.setUserProfileKey("1");
             recipeGrain.setAmount(5);
             recipeGrain.setColor(15);
             recipeGrain.setCountry("USA geg from list");
@@ -149,8 +145,6 @@ public class IngredientFragment extends BaseRecipeFragment {
 
 
             recipeGrain = new RecipeGrain();
-            recipeGrain.setFeedKey(feedKey);
-            recipeGrain.setUserProfileKey("1");
             recipeGrain.setAmount(3.5);
             recipeGrain.setColor(15);
             recipeGrain.setCountry("USA");
@@ -172,10 +166,9 @@ public class IngredientFragment extends BaseRecipeFragment {
     public void addTestHopData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refHop = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exHops).child(feedKey);
+            Firebase refHop = rootRef.child(Constants.exHops);
 
             RecipeHop recipeHop = new RecipeHop();
-            recipeHop.setFeedKey(feedKey);
             recipeHop.setUnitOfMeasure("oz");
             recipeHop.setName("Lamma Drama 2");
             recipeHop.setAlphaAcidPercentage((double) 16);
@@ -184,11 +177,9 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipeHop.setHopForm("Pellet");
             recipeHop.setHopUse("Boil");
             recipeHop.setUnitOfTime("Mins");
-            recipeHop.setUserProfileKey("1");
             refHop.push().setValue(recipeHop);
 
             recipeHop = new RecipeHop();
-            recipeHop.setFeedKey(feedKey);
             recipeHop.setUnitOfMeasure("oz");
             recipeHop.setName("Lamma Drama To YoMama 2");
             recipeHop.setAlphaAcidPercentage((double) 16);
@@ -197,10 +188,7 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipeHop.setHopForm("Pellet");
             recipeHop.setHopUse("Boil");
             recipeHop.setUnitOfTime("Mins");
-            recipeHop.setUserProfileKey("1");
             refHop.push().setValue(recipeHop);
-
-
             //////////////////
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -212,19 +200,15 @@ public class IngredientFragment extends BaseRecipeFragment {
     public void addTestYeastData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refHop = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exYeasts).child(feedKey);
+            Firebase refHop = rootRef.child(Constants.exYeasts);
 
             RecipeYeast recipeYeast = new RecipeYeast();
-            recipeYeast.setFeedKey(feedKey);
-            recipeYeast.setUserProfileKey("1");
             recipeYeast.setAttenuationPercentage((double) 4);
             recipeYeast.setLaboratory("WestSide");
             recipeYeast.setName("Pellet Yeast Farts 2");
             refHop.push().setValue(recipeYeast);
 
             recipeYeast = new RecipeYeast();
-            recipeYeast.setFeedKey(feedKey);
-            recipeYeast.setUserProfileKey("1");
             recipeYeast.setAttenuationPercentage((double) 9);
             recipeYeast.setLaboratory("EastSide");
             recipeYeast.setName("Wood Yeast Farts 2");
@@ -256,7 +240,7 @@ public class IngredientFragment extends BaseRecipeFragment {
                 recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child(Constants.exGrains).child(feedKey);
+            Firebase ref = rootRef.child(Constants.exGrains);
             mAdapterGrain = new FirebaseRecyclerAdapter<RecipeGrain, RecipeGrainViewHolder>(RecipeGrain.class, R.layout.recipe_grain_row, RecipeGrainViewHolder.class, ref) {
                 @Override
                 public void populateViewHolder(RecipeGrainViewHolder recipeGrainViewHolder, RecipeGrain recipeGrain, int position) {
@@ -319,7 +303,7 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_hop_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        Firebase ref = rootRef.child(Constants.exHops).child(feedKey);
+        Firebase ref = rootRef.child(Constants.exHops);
 //        Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);
         mAdapterHop = new FirebaseRecyclerAdapter<RecipeHop, RecipeHopViewHolder>(RecipeHop.class, R.layout.recipe_hop_row, RecipeHopViewHolder.class, ref) {
             @Override
@@ -388,7 +372,7 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_yeast_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        Firebase ref = rootRef.child(Constants.exYeasts).child(feedKey);
+        Firebase ref = rootRef.child(Constants.exYeasts);
         mAdapterYeast = new FirebaseRecyclerAdapter<RecipeYeast, RecipeYeastViewHolder>(RecipeYeast.class, R.layout.recipe_yeast_row, RecipeYeastViewHolder.class, ref) {
             @Override
             public void populateViewHolder(RecipeYeastViewHolder recipeYeastViewHolder, RecipeYeast recipeYeast, int position) {

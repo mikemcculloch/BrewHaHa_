@@ -255,7 +255,6 @@ public class Constants {
     public static final String exFeedKey = "feedKey";
     public static final String exComments = "comments";
     public static final String exUsers = "users";
-    public static final String exUsersReadOnly = "usersReadOnly";
     public static final String exRecipeDetail = "recipedetail";
     public static final String exFeeds = "feeds";
     public static final String exIngredients = "ingredients";
@@ -264,6 +263,8 @@ public class Constants {
     public static final String exYeasts = "yeasts";
     public static final String exImages = "images";
     public static final String exDirections = "directions";
+    public static final String exUserFeeds = "userFeeds";
+
 
     public static final String spUid = "uId";
 

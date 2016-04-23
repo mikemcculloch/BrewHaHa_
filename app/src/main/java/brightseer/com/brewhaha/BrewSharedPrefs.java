@@ -3,8 +3,6 @@ package brightseer.com.brewhaha;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.joda.time.DateTime;
-
 public class BrewSharedPrefs {
     public static void clearAllPrefs() {
         SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
@@ -13,7 +11,17 @@ public class BrewSharedPrefs {
         editor.apply();
     }
 
+    public static void setEmailAddress(String emailAddress) {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constants.spEmailAddress, emailAddress);
+        editor.apply();
+    }
 
+    public static String getEmailAddress() {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        return preferences.getString(Constants.spEmailAddress, "");
+    }
 
 
     public static void setUid(String uId) {
@@ -103,17 +111,7 @@ public class BrewSharedPrefs {
 //        return preferences.getString(Constants.spFullName, "");
 //    }
 //
-//    public static void setEmailAddress(String emailAddress) {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
-//        editor.putString(Constants.spEmailAddress, emailAddress);
-//        editor.apply();
-//    }
-//
-//    public static String getEmailAddress() {
-//        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
-//        return preferences.getString(Constants.spEmailAddress, "");
-//    }
+
 //
 //    public static void setUserProfileImageUrl(String userImageUrl) {
 //        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);

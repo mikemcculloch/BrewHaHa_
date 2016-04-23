@@ -70,7 +70,7 @@ public class AddUpdateRecipe extends BaseActivity {
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.menu_item_share).setVisible(false);
+//        menu.findItem(R.id.menu_item_share).setVisible(false);
         return super.onPrepareOptionsMenu(menu);
     }
 

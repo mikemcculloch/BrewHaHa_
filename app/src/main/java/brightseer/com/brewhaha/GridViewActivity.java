@@ -219,7 +219,7 @@ public class GridViewActivity extends BaseActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.menu_item_share).setVisible(true);
+//        menu.findItem(R.id.menu_item_share).setVisible(true);
         return super.onPrepareOptionsMenu(menu);
     }
 

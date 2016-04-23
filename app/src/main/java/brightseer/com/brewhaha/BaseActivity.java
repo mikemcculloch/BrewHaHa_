@@ -135,8 +135,8 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem menuItem = menu.findItem(R.id.menu_item_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+//        MenuItem menuItem = menu.findItem(R.id.menu_item_share);
+//        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         SearchManager SManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         android.support.v7.widget.SearchView searchViewAction =
@@ -193,8 +193,8 @@ public class BaseActivity extends AppCompatActivity {
 //                }
 //
 //                return true;
-            case R.id.menu_item_share:
-                return true;
+//            case R.id.menu_item_share:
+//                return true;
 //            case 10:
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(BaseActivity.this);

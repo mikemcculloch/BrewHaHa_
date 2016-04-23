@@ -8,11 +8,10 @@ import java.io.Serializable;
  */
 public class RecipeDetail implements Serializable {
     private String Key;
-    private String FeedKey;
-    private String UserProfileKey;
     private String Description;
     private String Style;
-//    private String StyleDescription;
+    private String OwnerEmail;
+    //    private String StyleDescription;
     private String AlcoholByVol;
     private String BitternessIbu;
     private String ColorSrm;
@@ -26,12 +25,11 @@ public class RecipeDetail implements Serializable {
     public RecipeDetail() {
     }
 
-    public RecipeDetail(String key, String feedKey, String userProfileKey, String description, String style, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
+    public RecipeDetail(String key, String description, String style, String ownerEmail, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
         Key = key;
-        FeedKey = feedKey;
-        UserProfileKey = userProfileKey;
         Description = description;
         Style = style;
+        OwnerEmail = ownerEmail;
         AlcoholByVol = alcoholByVol;
         BitternessIbu = bitternessIbu;
         ColorSrm = colorSrm;
@@ -43,28 +41,20 @@ public class RecipeDetail implements Serializable {
         DateCreated = dateCreated;
     }
 
+    public String getOwnerEmail() {
+        return OwnerEmail;
+    }
+
+    public void setOwnerEmail(String ownerEmail) {
+        OwnerEmail = ownerEmail;
+    }
+
     public String getKey() {
         return Key;
     }
 
     public void setKey(String key) {
         Key = key;
-    }
-
-    public String getFeedKey() {
-        return FeedKey;
-    }
-
-    public void setFeedKey(String feedKey) {
-        FeedKey = feedKey;
-    }
-
-    public String getUserProfileKey() {
-        return UserProfileKey;
-    }
-
-    public void setUserProfileKey(String userProfileKey) {
-        UserProfileKey = userProfileKey;
     }
 
     public String getDescription() {

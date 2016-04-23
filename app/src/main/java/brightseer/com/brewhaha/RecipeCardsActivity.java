@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
@@ -24,10 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
 import com.koushikdutta.ion.Ion;
@@ -58,28 +57,19 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private FloatingActionButton fabEdit;
     private int sceneId, sceneIdLast = 0;
 
-    private int imageCount = 0, recipeContentId;
-    private ImageView recipe_header_user_image_view;
-    private TextView recipe_author_text_view, recipe_title_text_view, recipe_date_posted;
+    private TextView  recipe_title_text_view;
 
     private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
     private AppCompatButton card_overview, card_ingredients, card_directions, card_images;
 
-
-    private String recipeTitle, userToken, recipeToken, recipeDesctiption, authorImageUrl, recipeDateCreated, recipeDateModified;
-
-    private List<RecipeGrain> recipeGrains = new Vector<>();
-    private List<RecipeHop> recipeHops = new Vector<>();
-    private List<RecipeYeast> recipeYeasts = new Vector<>();
-    public List<RecipeInstruction> recipeRecipeInstructions = new Vector<>();
-    private List<RecipeImage> recipeImages = new Vector<>();
+    private String recipeTitle;
 
     private String feedKey;
-    private Firebase ref;
+    private Firebase rootRef;
     private RecipeDetail recipeDetail;
-
+    private boolean isOwner = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +80,9 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
             initExtras();
             initViews();
 //            initPrefs();
-
-            ref = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
+            initFirebaseDb();
             getRecipeDetail();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,14 +118,19 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        setResult(adapterPosition);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            finishAfterTransition();
-        } else {
-            overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-            finish();
+        try {
+            setResult(adapterPosition);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAfterTransition();
+            } else {
+                overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                finish();
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
-
     }
 
     private void initViews() {
@@ -191,37 +186,41 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initExtras() {
-        Intent activityThatCalled = getIntent();
+        try {
+            Intent activityThatCalled = getIntent();
 
-        recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
+//            recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
 //        recipeContentId = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
-        recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
-        adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
-        authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
-        recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
-        authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
-        feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
+            recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
+            adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
+//            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
+//            recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
+//            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
+            feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
-//    private void initPrefs() {
-//        userToken = BrewSharedPrefs.getUserToken();
-//        if (TextUtils.isEmpty(userToken)) {
-//            userToken = "na";
-//        }
-//    }
+    private void initFirebaseDb() {
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(feedKey);
+    }
 
     private void getRecipeDetail() {
         try {
-            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);;
-            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);;
+            rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        recipeDetail = postSnapshot.getValue(RecipeDetail.class);
-                        recipeDetail.setKey(postSnapshot.getKey());
-                    }
+//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
+                        recipeDetail.setKey(dataSnapshot.getKey());
+//                    }
                     goToSceneOverView(findViewById(R.id.card_overview));
                     toggleSceneButtons = true;
+                    evaluateUser();
                 }
 
                 @Override
@@ -238,89 +237,48 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-//    private void loadData() {
-//        String contentUrl = Constants.GetRecipeItemUrl + recipeToken + "/" + userToken;
-//        Ion.with(_mContext)
-//                .load(contentUrl)
-//                .setHeader("Cache-Control", "No-Cache")
-//                .asJsonObject()
-//                .setCallback(new FutureCallback<JsonObject>() {
-//
-//                                 @Override
-//                                 public void onCompleted(Exception e, JsonObject result) {
-//                                     try {
-//                                         if (result != null) {
-//                                             RecipeItem recipeContent = JsonToObject.JsonToRecipeItem(result);
-//                                             recipeContentId = recipeContent.getRecipeContentId();
-//                                             recipeGrains = recipeContent.getRecipeGrains();
-//                                             recipeHops = recipeContent.getRecipeHops();
-//                                             recipeYeasts = recipeContent.getRecipeYeasts();
-//                                             recipeSummary = recipeContent.getRecipeSummary();
-//                                             recipeComents = recipeContent.getComments();
-//                                             recipeRecipeInstructions = recipeContent.getRecipeInstructions();
-//                                             recipeImages = recipeContent.getRecipeImage();
-//                                             if (recipeImages == null)
-//                                                 recipeImages = new Vector<>();
-//
-//                                             recipeDesctiption = recipeContent.getDescription();
-//
-//                                             authorImageUrl = recipeContent.getUserImageUrl();
-//                                             recipeDateCreated = recipeContent.getDateCreated();
-//                                             recipeDateModified = recipeContent.getDateModified();
-//
-//                                             loadRecipeImages();
-//                                             goToSceneOverView(findViewById(R.id.card_overview));
-//                                             toggleSceneButtons = true;
-//                                         }
-//                                     } catch (Exception ex) {
-//                                         if (BuildConfig.DEBUG) {
-//                                             Log.e(Constants.LOG, e.getMessage());
-//                                             Log.e(Constants.LOG, ex.getMessage());
-//                                         }
-//                                     }
-//                                 }
-//                             }
-//
-//                );
-//    }
-
-//    private void loadRecipeImages() {
-//        RecipeImage test = new RecipeImage();
-//        test.setImageUrl("http://www.brewhaha.beer/Content/images/banner.jpg");
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//        recipeImages.add(test);
-//
-////        for (RecipeImage item : recipeImages) {
-////            recipeImageRecycler.add(item, recipeImages.size() - 1);
-////        }
-//    }
-
     public void goToSceneOverView(View view) {
-        sceneId = Constants.sceneOverview;
-        moveButton(view);
+        try {
+            sceneId = Constants.sceneOverview;
+            moveButton(view);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     public void goToSceneIngredients(View view) {
-        sceneId = Constants.sceneIngredients;
-        moveButton(view);
+        try {
+            sceneId = Constants.sceneIngredients;
+            moveButton(view);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     public void goToSceneDirections(View view) {
-        sceneId = Constants.sceneDirections;
-        moveButton(view);
+        try {
+            sceneId = Constants.sceneDirections;
+            moveButton(view);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     public void goToSceneComments(View view) {
-        sceneId = Constants.sceneImages;
-        moveButton(view);
+        try {
+            sceneId = Constants.sceneImages;
+            moveButton(view);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     /**
@@ -394,22 +352,28 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
      * property string.
      */
     public void setButtonLoc(PathPoint newLoc) {
-        View view = null;
-        if (sceneId == Constants.sceneOverview) {
-            view = findViewById(R.id.card_overview);
-        }
-        if (sceneId == Constants.sceneIngredients) {
-            view = findViewById(R.id.card_ingredients);
-        }
-        if (sceneId == Constants.sceneDirections) {
-            view = findViewById(R.id.card_directions);
-        }
-        if (sceneId == Constants.sceneImages) {
-            view = findViewById(R.id.card_images);
-        }
+        try {
+            View view = null;
+            if (sceneId == Constants.sceneOverview) {
+                view = findViewById(R.id.card_overview);
+            }
+            if (sceneId == Constants.sceneIngredients) {
+                view = findViewById(R.id.card_ingredients);
+            }
+            if (sceneId == Constants.sceneDirections) {
+                view = findViewById(R.id.card_directions);
+            }
+            if (sceneId == Constants.sceneImages) {
+                view = findViewById(R.id.card_images);
+            }
 
-        view.setTranslationX(newLoc.mX);
-        view.setTranslationY(newLoc.mY);
+            view.setTranslationX(newLoc.mX);
+            view.setTranslationY(newLoc.mY);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     Animator.AnimatorListener animatorSceneEnter = new Animator.AnimatorListener() {
@@ -426,7 +390,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 Fragment fragment = null;
                 if (sceneId == Constants.sceneOverview) {
                     view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle);
+                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey);
                 }
 
                 if (sceneId == Constants.sceneIngredients) {
@@ -467,53 +431,59 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     };
 
     private void imageTransition(final ImageView imageview_holder, final String urlImage, String bitMapInfo) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            String bitmapKey = getIntent().getStringExtra(bitMapInfo);
-            BitmapInfo bi = Ion.getDefault(this)
-                    .getBitmapCache()
-                    .get(bitmapKey);
+                String bitmapKey = getIntent().getStringExtra(bitMapInfo);
+                BitmapInfo bi = Ion.getDefault(this)
+                        .getBitmapCache()
+                        .get(bitmapKey);
 
-            if (bi == null)
-                return;
+                if (bi == null)
+                    return;
 
-            imageview_holder.setImageBitmap(bi.bitmap);
+                imageview_holder.setImageBitmap(bi.bitmap);
 
-            getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionCancel(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionPause(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionResume(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().getEnterTransition().removeListener(this);
+                getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
+                    @Override
+                    public void onTransitionStart(Transition transition) {
                     }
 
-                    // load the full version, crossfading from the thumbnail image
-                    Ion.with(imageview_holder)
-                            .crossfade(true)
-                            .transform(trans)
-                            .load(urlImage);
-                }
-            });
-        } else {
-            Ion.with(imageview_holder)
-                    .centerCrop()
-                    .transform(trans)
-                    .load(urlImage);
+                    @Override
+                    public void onTransitionCancel(Transition transition) {
+                    }
+
+                    @Override
+                    public void onTransitionPause(Transition transition) {
+                    }
+
+                    @Override
+                    public void onTransitionResume(Transition transition) {
+                    }
+
+                    @Override
+                    public void onTransitionEnd(Transition transition) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            getWindow().getEnterTransition().removeListener(this);
+                        }
+
+                        // load the full version, crossfading from the thumbnail image
+                        Ion.with(imageview_holder)
+                                .crossfade(true)
+                                .transform(trans)
+                                .load(urlImage);
+                    }
+                });
+            } else {
+                Ion.with(imageview_holder)
+                        .centerCrop()
+                        .transform(trans)
+                        .load(urlImage);
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
@@ -541,10 +511,16 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (recipeTitle != null) {
-            String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
-            // Refresh the state of the +1 button each time the activity receives focus.
-            mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+        try {
+            if (recipeTitle != null) {
+                String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
+                // Refresh the state of the +1 button each time the activity receives focus.
+                mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
@@ -552,14 +528,10 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private void setLayoutParam(View view) {
         try {
             LayoutParams mainLayoutParam = (LayoutParams) view.getLayoutParams();
-//            LayoutParams childLayoutParam;
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_START);
             mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.recycler_view_recipe_images);
-//            mainLayoutParam.setMarginStart((int) getResources().getDimension(R.dimen.quarter_margin));
             mainLayoutParam.setMargins(0, 0, 0, 0);
-
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
             resetLayouts();
 
@@ -587,64 +559,103 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private void resetLayouts() {
-        LayoutParams mainLayoutParam;
+        try {
+            LayoutParams mainLayoutParam;
+            if (sceneIdLast == Constants.sceneOverview) {
+                mainLayoutParam = (LayoutParams) card_overview.getLayoutParams();
+                mainLayoutParam.removeRule(RelativeLayout.BELOW);
+                mainLayoutParam.setMarginStart(0);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-
-        if (sceneIdLast == Constants.sceneOverview) {
-            mainLayoutParam = (LayoutParams) card_overview.getLayoutParams();
-            mainLayoutParam.removeRule(RelativeLayout.BELOW);
-            mainLayoutParam.setMarginStart(0);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-
-            card_overview.setLayoutParams(mainLayoutParam);
-            card_overview.setVisibility(View.VISIBLE);
+                card_overview.setLayoutParams(mainLayoutParam);
+                card_overview.setVisibility(View.VISIBLE);
 //            curveMotion(card_overview, false);
-        }
-        if (sceneIdLast == Constants.sceneIngredients) {
-            mainLayoutParam = (LayoutParams) card_ingredients.getLayoutParams();
+            }
+            if (sceneIdLast == Constants.sceneIngredients) {
+                mainLayoutParam = (LayoutParams) card_ingredients.getLayoutParams();
 
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
-            mainLayoutParam.removeRule(RelativeLayout.BELOW);
-            mainLayoutParam.setMarginStart(0);
-            mainLayoutParam.addRule(RelativeLayout.END_OF, R.id.card_overviewHolder);
-            mainLayoutParam.addRule(RelativeLayout.RIGHT_OF, R.id.card_overviewHolder);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
+                mainLayoutParam.removeRule(RelativeLayout.BELOW);
+                mainLayoutParam.setMarginStart(0);
+                mainLayoutParam.addRule(RelativeLayout.END_OF, R.id.card_overviewHolder);
+                mainLayoutParam.addRule(RelativeLayout.RIGHT_OF, R.id.card_overviewHolder);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-            card_ingredients.setLayoutParams(mainLayoutParam);
-            card_ingredients.setVisibility(View.VISIBLE);
-        }
+                card_ingredients.setLayoutParams(mainLayoutParam);
+                card_ingredients.setVisibility(View.VISIBLE);
+            }
 
-        if (sceneIdLast == Constants.sceneDirections) {
-            mainLayoutParam = (LayoutParams) card_directions.getLayoutParams();
+            if (sceneIdLast == Constants.sceneDirections) {
+                mainLayoutParam = (LayoutParams) card_directions.getLayoutParams();
 
 
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
-            mainLayoutParam.removeRule(RelativeLayout.BELOW);
-            mainLayoutParam.setMarginStart(0);
-            mainLayoutParam.addRule(RelativeLayout.LEFT_OF, R.id.card_commentsHolder);
-            mainLayoutParam.addRule(RelativeLayout.START_OF, R.id.card_commentsHolder);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
+                mainLayoutParam.removeRule(RelativeLayout.BELOW);
+                mainLayoutParam.setMarginStart(0);
+                mainLayoutParam.addRule(RelativeLayout.LEFT_OF, R.id.card_commentsHolder);
+                mainLayoutParam.addRule(RelativeLayout.START_OF, R.id.card_commentsHolder);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-            card_directions.setLayoutParams(mainLayoutParam);
-            card_directions.setVisibility(View.VISIBLE);
-        }
+                card_directions.setLayoutParams(mainLayoutParam);
+                card_directions.setVisibility(View.VISIBLE);
+            }
 
-        if (sceneIdLast == Constants.sceneImages) {
-            card_images.setVisibility(View.VISIBLE);
-            mainLayoutParam = (LayoutParams) card_images.getLayoutParams();
+            if (sceneIdLast == Constants.sceneImages) {
+                card_images.setVisibility(View.VISIBLE);
+                mainLayoutParam = (LayoutParams) card_images.getLayoutParams();
 
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
-            mainLayoutParam.removeRule(RelativeLayout.BELOW);
-            mainLayoutParam.setMarginStart(0);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_END);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_START);
+                mainLayoutParam.removeRule(RelativeLayout.BELOW);
+                mainLayoutParam.setMarginStart(0);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_END);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+                mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_TOP);
 
-            card_images.setLayoutParams(mainLayoutParam);
-            card_images.setVisibility(View.VISIBLE);
+                card_images.setLayoutParams(mainLayoutParam);
+                card_images.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
+
+    private void evaluateUser() {
+        try {
+            String ownerEmail = BrewSharedPrefs.getEmailAddress();
+
+            if(!BrewSharedPrefs.getEmailAddress().isEmpty()) {
+                AuthData authData = rootRef.getAuth();
+                if (authData != null) {
+                    if (recipeDetail.getOwnerEmail().equals(BrewSharedPrefs.getEmailAddress())){
+                        isOwner = true;
+                    }
+//                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child("userLists").child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
+////                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
+//                    fbUserFeeds.addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            if (dataSnapshot.hasChildren()) {
+//                                isOwner = true;
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(FirebaseError firebaseError) {
+//
+//                        }
+//                    });
+                }
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
 }

@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import brightseer.com.brewhaha.objects.UserProfile;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
 import brightseer.com.brewhaha.repository.DBHelper_Country;
 import brightseer.com.brewhaha.repository.DBHelper_Difficulty;

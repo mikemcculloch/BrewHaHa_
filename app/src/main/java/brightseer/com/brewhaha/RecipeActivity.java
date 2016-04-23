@@ -265,7 +265,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.action_menu_options).setVisible(false);
-        menu.findItem(R.id.menu_item_share).setVisible(true);
+//        menu.findItem(R.id.menu_item_share).setVisible(true);
         return super.onPrepareOptionsMenu(menu);
     }
 

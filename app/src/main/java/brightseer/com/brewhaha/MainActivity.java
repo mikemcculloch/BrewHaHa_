@@ -1,5 +1,7 @@
 package brightseer.com.brewhaha;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -14,9 +16,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,13 +30,14 @@ import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.vending.licensing.AESObfuscator;
 import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
@@ -47,7 +52,7 @@ import java.util.Map;
 import brightseer.com.brewhaha.fragment.AdvancedSearchFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
-import brightseer.com.brewhaha.objects.UserProfile;
+import brightseer.com.brewhaha.models.UserProfile;
 
 public class MainActivity extends NewActivtyBase {
     static public MainActivity instance;
@@ -62,9 +67,10 @@ public class MainActivity extends NewActivtyBase {
     private android.support.design.widget.FloatingActionButton fab;
     private TextView drawer_displayName, drawer_useremail;
     private ImageView drawer_userImage;
-     AppBarLayout app_bar_layout;
-    private Menu menu;
+    AppBarLayout app_bar_layout;
+    private Menu _menu;
     private MenuItem navigation_item_5;
+    boolean isFragLoaded = false;
 
     private Firebase rootRef;
     private String emailAddress;
@@ -90,8 +96,9 @@ public class MainActivity extends NewActivtyBase {
             initFirebaseDb();
             initDrawer(savedInstanceState);
 
-            if (savedInstanceState == null) {
+            if (savedInstanceState == null && !BrewSharedPrefs.getEmailAddress().isEmpty() && !isFragLoaded) {
                 SetFragment(new MainFeedFragment());
+                isFragLoaded = true;
             }
 
 //            CheckForUpdates();
@@ -103,15 +110,28 @@ public class MainActivity extends NewActivtyBase {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-//        this.menu = menu;
-//        menu.findItem(R.id.action_search_main).setVisible(false);
-//        menu.findItem(R.id.action_menu_options).setVisible(false);
-//        menu.findItem(R.id.menu_item_share).setVisible(false);
+        _menu = menu;
+
+        SetSignoutButton();
+//        _menu.findItem(R.id.action_search_main).setVisible(false);
+//        _menu.findItem(R.id.action_menu_options).setVisible(false);
+//        _menu.findItem(R.id.menu_item_share).setVisible(false);
 
 //        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-//            menu.findItem(R.id.action_menu_options).setVisible(true);
+//            _menu.findItem(R.id.action_menu_options).setVisible(true);
 //        }
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void SetSignoutButton(){
+        if (_menu != null) {
+            MenuItem action_menu_options = _menu.findItem(R.id.action_menu_options);
+            if (drawer_displayName.getText().toString().isEmpty()) {
+                action_menu_options.setVisible(false);
+            } else {
+                action_menu_options.setVisible(true);
+            }
+        }
     }
 
     public static MainActivity getInstance() {
@@ -357,22 +377,51 @@ public class MainActivity extends NewActivtyBase {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mChecker.onDestroy();
-        getToken.cancel(true);
+//        mChecker.onDestroy();\
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+
+
+        SearchManager SManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        android.support.v7.widget.SearchView searchViewAction =
+                (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search_main).getActionView();
+        searchViewAction.setSearchableInfo(SManager.getSearchableInfo(getComponentName()));
+        searchViewAction.setIconifiedByDefault(false);
+        searchViewAction.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onSearchRequested() {
+        return super.onSearchRequested();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_signout:
-                signOut();
-//                setUserViews();
+                resetUi();
 
-                MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
-                if (action_menu_options != null)
-                    action_menu_options.setVisible(false);
+            case R.id.action_search_main:
+                return true;
 
-                SetFragment(new MainFeedFragment());
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -424,31 +473,22 @@ public class MainActivity extends NewActivtyBase {
             GoogleSignInAccount account = result.getSignInAccount();
 
             emailAddress = account.getEmail();
-            getToken.execute();
+            new getGoogleToken().execute();
 
         } else {
             // Signed out, show unauthenticated UI.
         }
     }
 
-    AsyncTask getToken = new AsyncTask() {
-        @Override
-        protected String doInBackground(Object[] params) {
-            String scopes = "oauth2:profile email";
-            String token = null;
-            try {
-                token = GoogleAuthUtil.getToken(getApplicationContext(), emailAddress, scopes);
-                fireBaseAuth(token);
-            } catch (IOException | GoogleAuthException e) {
-                if (BuildConfig.DEBUG) {
-                    Log.e(Constants.LOG, e.getMessage());
-                }
-            }
-            // exception handling removed for brevity
-            return token;
-        }
-
-    };
+    public void googleSignOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // ...
+                    }
+                });
+    }
 
     private void fireBaseAuth(String idToken) {
         try {
@@ -475,13 +515,12 @@ public class MainActivity extends NewActivtyBase {
 
     private void evaluateUser(final UserProfile userProfile) {
         try {
-            Firebase ref = rootRef.child(Constants.exUsers);
-            Query queryRef = ref.orderByChild("emailAddress").equalTo(Utilities.encodeEmail(userProfile.getEmailAddress()));
-            queryRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            Firebase ref = rootRef.child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.hasChildren()) {
-                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.exUsers);
+                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
                         Firebase refUserPush = refUser.push();
                         refUserPush.setValue(userProfile);
 
@@ -491,13 +530,12 @@ public class MainActivity extends NewActivtyBase {
                         Map<String, Object> keyValue = new HashMap<String, Object>();
                         keyValue.put("key", postId);
                         theChild.updateChildren(keyValue);
-
-                        Firebase refUserReadOnly = new Firebase(Constants.fireBaseRoot).child(Constants.exUsersReadOnly);
-                        UserProfile userReadOnly = new UserProfile();
-                        userReadOnly.setDisplayName(userProfile.getDisplayName());
-                        userReadOnly.setImageUrl(userProfile.getImageUrl());
-                        userReadOnly.setUid(userProfile.getUid());
-                        refUserReadOnly.push().setValue(userReadOnly);
+//                        Firebase refUserReadOnly = new Firebase(Constants.fireBaseRoot).child(Constants.exUsersReadOnly);
+//                        UserProfile userReadOnly = new UserProfile();
+//                        userReadOnly.setDisplayName(userProfile.getDisplayName());
+//                        userReadOnly.setImageUrl(userProfile.getImageUrl());
+//                        userReadOnly.setUid(userProfile.getUid());
+//                        refUserReadOnly.push().setValue(userReadOnly);
                     }
                 }
 
@@ -532,6 +570,8 @@ public class MainActivity extends NewActivtyBase {
         try {
             if (userProfile != null) {
                 if (drawer_displayName.getText().toString().isEmpty()) {
+                    BrewSharedPrefs.setEmailAddress(userProfile.getEmailAddress());
+
                     drawer_displayName.setText(userProfile.getDisplayName());
                     drawer_useremail.setText(Utilities.decodeEmail(userProfile.getEmailAddress()));
 
@@ -550,7 +590,11 @@ public class MainActivity extends NewActivtyBase {
                         drawer_userImage.setMinimumWidth(0);
                         drawer_userImage.setMinimumHeight(0);
                     }
-                }
+                    SetSignoutButton();
+                    if (!isFragLoaded){
+                    SetFragment(new MainFeedFragment());
+                        isFragLoaded = true;
+                }}
             }
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -567,6 +611,14 @@ public class MainActivity extends NewActivtyBase {
             drawer_userImage.setMinimumWidth(0);
             drawer_userImage.setMinimumHeight(0);
             rootRef.unauth();
+            googleSignOut();
+
+            SetSignoutButton();
+
+            if (isFragLoaded){
+                SetFragment(new MainFeedFragment());
+                isFragLoaded = false;}
+
             BrewSharedPrefs.clearAllPrefs();
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -601,6 +653,22 @@ public class MainActivity extends NewActivtyBase {
         return null;
     }
 
+    private class getGoogleToken extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String scopes = "oauth2:profile email";
+            String token = null;
+            try {
+                token = GoogleAuthUtil.getToken(getApplicationContext(), emailAddress, scopes);
+                fireBaseAuth(token);
+            } catch (IOException | GoogleAuthException e) {
+                if (BuildConfig.DEBUG) {
+                    Log.e(Constants.LOG, e.getMessage());
+                }
+            }
+            return token;
+        }
+    }
 //    public void StartAddUpdate(String contentPk) {
 //        try {
 //            Intent newActivityIntent = new Intent(this, AddUpdateRecipe.class);
@@ -637,8 +705,8 @@ public class MainActivity extends NewActivtyBase {
 
 //
 ////        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-////            if (menu != null) {
-////                MenuItem action_menu_options = menu.findItem(R.id.action_menu_options);
+////            if (_menu != null) {
+////                MenuItem action_menu_options = _menu.findItem(R.id.action_menu_options);
 ////                action_menu_options.setVisible(true);
 ////            }
 ////        }

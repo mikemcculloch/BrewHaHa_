@@ -91,11 +91,7 @@ public class NewActivtyBase extends AppCompatActivity {
                 .build());
     }
 
-
-
-
     public void initGoogleAuth() {
-//        String scopes = "oauth2:profile email";
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(getString(R.string.server_client_id))
@@ -117,14 +113,4 @@ public class NewActivtyBase extends AppCompatActivity {
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    public void signOut() {
-        BrewSharedPrefs.clearAllPrefs();
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // ...
-                    }
-                });
-    }
 }

@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
@@ -42,7 +43,7 @@ public class MainFeedFragment extends Fragment {
     private RecyclerView home_recycler_view;
     private View rootView;
 
-    Firebase ref;
+    Firebase rootRef;
     FirebaseRecyclerAdapter mAdapter;
 
 //    private int previousTotal = 0;
@@ -61,67 +62,69 @@ public class MainFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
-        ref = new Firebase(Constants.fireBaseRoot).child(Constants.exFeeds);
-
-//        _fContext = getActivity();
+        initFirebaseDb();
 //        initGoogleAnalytics(this.getClass().getSimpleName());
 
 //        addTestData();
         return rootView;
     }
 
+    private void initFirebaseDb() {
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child(BrewSharedPrefs.getEmailAddress());
+    }
+
     public void addTestData() {
         try {
-            ///ADD NEW FEED//////////////////
-            Firebase refFeed = new Firebase(Constants.fireBaseRoot).child(Constants.exFeeds);
-            Firebase refFeedPush = refFeed.push();
+            if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
+                ///ADD NEW FEED//////////////////
+//                Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com");
+                Firebase refFeedPush = rootRef.push();
 
-            MainFeedItem mainFeedItem = new MainFeedItem();
-            mainFeedItem.setTitle("Two recipe");
-            mainFeedItem.setAuthor("Mike Mc");
-            mainFeedItem.setUserKey("1");
-            mainFeedItem.setUserImageUrl("https://lh3.googleusercontent.com/-aawpJBwnegU/AAAAAAAAAAI/AAAAAAAAAAA/Mh3nJ_5Rm4Q/photo.jpg");
-            mainFeedItem.setImageUrl("https://lh4.googleusercontent.com/-kyaG1I42a9Q/AAAAAAAAAAI/AAAAAAAAAGk/vDTdKFir-xo/s96-c/photo.jpg");
-            mainFeedItem.setDateCreated(DateTime.now().toString());
-            mainFeedItem.setKey("");
-            refFeedPush.setValue(mainFeedItem);
+                MainFeedItem mainFeedItem = new MainFeedItem();
+                mainFeedItem.setTitle("Two recipe");
+                mainFeedItem.setAuthor("Bright Seer");
+//            mainFeedItem.setUserKey("brightseerstudios@gmail,com");
+                mainFeedItem.setUserImageUrl("https://lh3.googleusercontent.com/-aawpJBwnegU/AAAAAAAAAAI/AAAAAAAAAAA/Mh3nJ_5Rm4Q/photo.jpg");
+                mainFeedItem.setImageUrl("https://lh4.googleusercontent.com/-kyaG1I42a9Q/AAAAAAAAAAI/AAAAAAAAAGk/vDTdKFir-xo/s96-c/photo.jpg");
+                mainFeedItem.setDateCreated(DateTime.now().toString());
+                mainFeedItem.setKey("");
+                refFeedPush.setValue(mainFeedItem);
 
-            String postId = refFeedPush.getKey();
+                String postId = refFeedPush.getKey();
 
-            mainFeedItem.setKey(postId);
+                mainFeedItem.setKey(postId);
 
-            Firebase theChild = refFeed.child(postId);
+                Firebase theChild = rootRef.child(postId);
 
-            Map<String, Object> keyValue = new HashMap<String, Object>();
-            keyValue.put("key", postId);
-            theChild.updateChildren(keyValue);
-            ///////////////////////////
+                Map<String, Object> keyValue = new HashMap<String, Object>();
+                keyValue.put("key", postId);
+                theChild.updateChildren(keyValue);
+                ///////////////////////////
 
-            ///ADD NEW RecipeDetail//////////////////
-            Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail);
-            RecipeDetail recipeDetail = new RecipeDetail();
-            recipeDetail.setFeedKey(postId);
-            recipeDetail.setDateCreated(DateTime.now().toString());
-            recipeDetail.setDateModified(DateTime.now().toString());
-            recipeDetail.setAlcoholByVol("7.8");
-            recipeDetail.setBitternessIbu("3.78");
-            recipeDetail.setColorSrm("15");
-            recipeDetail.setDescription("Two is my description Sucka fo.");
-            recipeDetail.setOriginalGravity("5");
-            recipeDetail.setSrmHex("#FE3499");
-            recipeDetail.setFinalGravity("4");
-            recipeDetail.setStyle("Bland pail ale");
-            recipeDetail.setUserProfileKey("1");
-            recipeDetail.setYieldByGallon("5");
+                ///ADD NEW RecipeDetail//////////////////
+                Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(postId);
+                RecipeDetail recipeDetail = new RecipeDetail();
+                recipeDetail.setDateCreated(DateTime.now().toString());
+                recipeDetail.setDateModified(DateTime.now().toString());
+                recipeDetail.setAlcoholByVol("7.8");
+                recipeDetail.setOwnerEmail(BrewSharedPrefs.getEmailAddress());
+                recipeDetail.setBitternessIbu("3.78");
+                recipeDetail.setColorSrm("15");
+                recipeDetail.setDescription("Two is my description Sucka fo.");
+                recipeDetail.setOriginalGravity("5");
+                recipeDetail.setSrmHex("#FE3499");
+                recipeDetail.setFinalGravity("4");
+                recipeDetail.setStyle("Bland pail ale");
+                recipeDetail.setYieldByGallon("5");
 
-            refDetail.push().setValue(recipeDetail);
-            //////////////////
+                refDetail.setValue(recipeDetail);
+                //////////////////
+            }
+//            Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com").child(postId);
+//            Map<String, Object> userList = new HashMap<String, Object>();
+//            userList.put("dateCreated", DateTime.now().toString());
+//            refUserLists.setValue(userList);
 
-            ///ADD NEW RecipeDetail//////////////////
-            Firebase refGrain = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(Constants.exGrains);
-
-
-            //////////////////
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -139,65 +142,70 @@ public class MainFeedFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        try {
-//            int screenOrientation = getResources().getConfiguration().orientation;
-            home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
-            home_recycler_view.setHasFixedSize(true);
-            home_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                home_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
-            } else {
-                home_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
-            }
+        initRecyclerView();
+    }
 
-            home_recycler_view.addOnItemTouchListener(
-                    new RecyclerItemClickListener(getActivity().getBaseContext(), home_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View view, int position) {
-                            try {
-                                openDetailActivity(view, position);
-                            } catch (Exception e) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, e.getMessage());
+    private void initRecyclerView() {
+        try {
+            if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
+//            int screenOrientation = getResources().getConfiguration().orientation;
+                home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
+                home_recycler_view.setHasFixedSize(true);
+                home_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    home_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
+                } else {
+                    home_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+                }
+
+                home_recycler_view.addOnItemTouchListener(
+                        new RecyclerItemClickListener(getActivity().getBaseContext(), home_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                try {
+                                    openDetailActivity(view, position);
+                                } catch (Exception e) {
+                                    if (BuildConfig.DEBUG) {
+                                        Log.e(Constants.LOG, e.getMessage());
+                                    }
                                 }
                             }
-                        }
 
-                        @Override
-                        public void onItemLongClick(View view, int position) {
-
-
-                        }
-                    })
-            );
+                            @Override
+                            public void onItemLongClick(View view, int position) {
 
 
-            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, ref) {
-                @Override
-                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
-                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
-                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-
-                    Ion.with(mainFeedViewHolder.vimage)
-                            .placeholder(R.mipmap.ic_beercap)
-                            .centerCrop()
-                            .load(mainFeedItem.getImageUrl());
-
-                    Ion.with(mainFeedViewHolder.vuser_image_view)
-                            .placeholder(R.drawable.ic_person_black_24dp)
-                            .error(R.drawable.ic_person_black_24dp)
-                            .centerCrop()
-                            .transform(Utilities.GetRoundTransform())
-                            .load(mainFeedItem.getUserImageUrl());
-
-                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
-                }
-            };
-            home_recycler_view.setAdapter(mAdapter);
+                            }
+                        })
+                );
 
 
+                mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
+                    @Override
+                    public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
+                        mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+                        mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
+                        mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
+
+                        Ion.with(mainFeedViewHolder.vimage)
+                                .placeholder(R.mipmap.ic_beercap)
+                                .centerCrop()
+                                .load(mainFeedItem.getImageUrl());
+
+                        Ion.with(mainFeedViewHolder.vuser_image_view)
+                                .placeholder(R.drawable.ic_person_black_24dp)
+                                .error(R.drawable.ic_person_black_24dp)
+                                .centerCrop()
+                                .transform(Utilities.GetRoundTransform())
+                                .load(mainFeedItem.getUserImageUrl());
+
+                        String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
+                        mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
+                    }
+                };
+                home_recycler_view.setAdapter(mAdapter);
+
+            }
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                @Override
 //                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {

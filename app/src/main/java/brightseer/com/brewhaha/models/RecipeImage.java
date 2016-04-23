@@ -7,9 +7,6 @@ import java.io.Serializable;
  */
 public class RecipeImage implements Serializable {
     private String Key;
-    private String FeedKey;
-    private String UserProfileKey;
-
     private String ImageName;
     private String ImageUrl;
     private String Caption;
@@ -17,10 +14,8 @@ public class RecipeImage implements Serializable {
     public RecipeImage() {
     }
 
-    public RecipeImage(String key, String feedKey, String userProfileKey, String imageName, String imageUrl, String caption) {
+    public RecipeImage(String key, String userProfileKey, String imageName, String imageUrl, String caption) {
         Key = key;
-        FeedKey = feedKey;
-        UserProfileKey = userProfileKey;
         ImageName = imageName;
         ImageUrl = imageUrl;
         Caption = caption;
@@ -32,22 +27,6 @@ public class RecipeImage implements Serializable {
 
     public void setKey(String key) {
         Key = key;
-    }
-
-    public String getFeedKey() {
-        return FeedKey;
-    }
-
-    public void setFeedKey(String feedKey) {
-        FeedKey = feedKey;
-    }
-
-    public String getUserProfileKey() {
-        return UserProfileKey;
-    }
-
-    public void setUserProfileKey(String userProfileKey) {
-        UserProfileKey = userProfileKey;
     }
 
     public String getImageName() {

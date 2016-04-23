@@ -23,17 +23,17 @@
         </menu>
     </item>
 
-    <item
-        android:id="@+id/menu_item_download"
-        android:icon="@android:drawable/stat_sys_download"
-        android:title="Download"
-        android:visible="false"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/menu_item_download"-->
+        <!--android:icon="@android:drawable/stat_sys_download"-->
+        <!--android:title="Download"-->
+        <!--android:visible="false"-->
+        <!--app:showAsAction="ifRoom" />-->
 
-    <item
-        android:id="@+id/menu_item_share"
-        android:title="Share"
-        android:visible="false"
-        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
-        app:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/menu_item_share"-->
+        <!--android:title="Share"-->
+        <!--android:visible="false"-->
+        <!--app:actionProviderClass="android.support.v7.widget.ShareActionProvider"-->
+        <!--app:showAsAction="ifRoom" />-->
 </menu>

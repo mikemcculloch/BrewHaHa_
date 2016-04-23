@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.objects;
+package brightseer.com.brewhaha.models;
 
 import java.io.Serializable;
 

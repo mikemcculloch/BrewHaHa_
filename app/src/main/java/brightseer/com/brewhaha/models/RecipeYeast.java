@@ -7,8 +7,6 @@ import java.io.Serializable;
  */
 public class RecipeYeast  implements Serializable {
     private String Key;
-    private String FeedKey;
-    private String UserProfileKey;
     private String Name;
     private String Laboratory;
     private double AttenuationPercentage;
@@ -16,15 +14,12 @@ public class RecipeYeast  implements Serializable {
     public RecipeYeast() {
     }
 
-    public RecipeYeast(String key, String feedKey, String userProfileKey, String name, String laboratory, double attenuationPercentage) {
+    public RecipeYeast(String key, String name, String laboratory, double attenuationPercentage) {
         Key = key;
-        FeedKey = feedKey;
-        UserProfileKey = userProfileKey;
         Name = name;
         Laboratory = laboratory;
         AttenuationPercentage = attenuationPercentage;
     }
-
 
     public String getKey() {
         return Key;
@@ -32,22 +27,6 @@ public class RecipeYeast  implements Serializable {
 
     public void setKey(String key) {
         Key = key;
-    }
-
-    public String getFeedKey() {
-        return FeedKey;
-    }
-
-    public void setFeedKey(String feedKey) {
-        FeedKey = feedKey;
-    }
-
-    public String getUserProfileKey() {
-        return UserProfileKey;
-    }
-
-    public void setUserProfileKey(String userProfileKey) {
-        UserProfileKey = userProfileKey;
     }
 
     public String getName() {
