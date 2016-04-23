@@ -278,6 +278,7 @@ public class Constants {
 
     public static final String gacOpen = "Open";
     public static final String gacMainActivity = "MainActivity";
+    public static final String gacUserFeedsFragment = "UserFeedsFragment";
     public static final String gacRecipe = "Recipe";
     public static final String gacLogin = "Login";
     public static final String gacSignUp = "Signup";

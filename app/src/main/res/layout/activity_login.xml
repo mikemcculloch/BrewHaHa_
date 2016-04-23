@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/testColor2"
+    android:background="@color/app_blue"
     android:fitsSystemWindows="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,20 +18,47 @@
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/paralax_image_height"
-            android:fitsSystemWindows="true"
-            android:scaleType="centerCrop" />
-
-        <TextView
-            style="@style/appMediumFont"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/full_margin"
-            android:layout_marginLeft="@dimen/half_margin"
-            android:layout_marginRight="@dimen/full_margin"
-            android:layout_marginTop="@dimen/full_margin"
-            android:text="Sign in and start creating recipes." />
+            android:scaleType="fitXY" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/full_margin"
+            android:layout_marginRight="@dimen/full_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/appMediumFontWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quarter_margin"
+                android:layout_marginTop="@dimen/full_margin"
+                android:text="Share recipes with your friends." />
+
+            <TextView
+                style="@style/appMediumFontWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quarter_margin"
+                android:layout_marginTop="@dimen/full_margin"
+                android:text="Sign in and start creating recipes." />
+
+            <TextView
+                style="@style/appMediumFontWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quarter_margin"
+                android:text="Recipes are backed up in the cloud." />
+
+            <TextView
+                style="@style/appMediumFontWhite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/full_margin"
+
+                android:text="Your email and data is securely transmitted and backed up. We will not be sold or share your infomration." />
+        </LinearLayout>
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"

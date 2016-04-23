@@ -626,8 +626,6 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private void evaluateUser() {
         try {
-            String ownerEmail = BrewSharedPrefs.getEmailAddress();
-
             if(!BrewSharedPrefs.getEmailAddress().isEmpty()) {
                 AuthData authData = rootRef.getAuth();
                 if (authData != null) {

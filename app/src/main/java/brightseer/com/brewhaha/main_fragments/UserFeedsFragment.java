@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.fragment;
+package brightseer.com.brewhaha.main_fragments;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -41,8 +41,6 @@ import brightseer.com.brewhaha.models.RecipeDetail;
  * Created by Michael McCulloch on 2/25/2015.
  */
 public class UserFeedsFragment extends Fragment {
-    private String userToken = "na";
-    private RecyclerView home_recycler_view;
     private View rootView;
 
     Firebase rootRef;
@@ -142,16 +140,21 @@ public class UserFeedsFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //DO NOT DELETE ME
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initRecyclerView();
     }
 
     private void initRecyclerView() {
-        try {
+        try {;
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
 //            int screenOrientation = getResources().getConfiguration().orientation;
-                home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
+                RecyclerView home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
                 home_recycler_view.setHasFixedSize(true);
                 home_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

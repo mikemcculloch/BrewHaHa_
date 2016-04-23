@@ -39,7 +39,6 @@ import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 
 public class MainFeedFragment extends Fragment {
-    private RecyclerView home_recycler_view;
     private View rootView;
 
     Firebase rootRef;
@@ -62,10 +61,13 @@ public class MainFeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initFirebaseDb();
-//        initGoogleAnalytics(this.getClass().getSimpleName());
-
-//        addTestData();
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initRecyclerView();
     }
 
     private void initFirebaseDb() {
@@ -138,17 +140,11 @@ public class MainFeedFragment extends Fragment {
             mAdapter.cleanup();
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        initRecyclerView();
-    }
-
     private void initRecyclerView() {
         try {
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
 //            int screenOrientation = getResources().getConfiguration().orientation;
-                home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
+                RecyclerView home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
                 home_recycler_view.setHasFixedSize(true);
                 home_recycler_view.setLayoutManager(new LinearLayoutManager(getActivity()));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -178,7 +174,6 @@ public class MainFeedFragment extends Fragment {
                         })
                 );
 
-
                 mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
                     @Override
                     public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
@@ -203,7 +198,6 @@ public class MainFeedFragment extends Fragment {
                     }
                 };
                 home_recycler_view.setAdapter(mAdapter);
-
             }
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                @Override
@@ -308,11 +302,8 @@ public class MainFeedFragment extends Fragment {
             newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
             newIntent.putExtra(Constants.exRecipeImage, feedItem.getImageUrl());
             newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
-
-
 //            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
 //            newIntent.putExtra(Constants.exBitMapInfo, bi.key);
-
             BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.image)).getBitmapInfo();
             if (biMain != null)
                 newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
@@ -330,7 +321,6 @@ public class MainFeedFragment extends Fragment {
 //                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4, p5, p6);
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
                 ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
-
             } else {
                 startActivity(newIntent);
                 getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);

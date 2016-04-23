@@ -1,17 +1,19 @@
 package brightseer.com.brewhaha;
 
+import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -27,15 +29,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-import com.google.android.gms.auth.GoogleAuthException;
-import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.android.vending.licensing.AESObfuscator;
@@ -45,13 +40,9 @@ import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
 import com.koushikdutta.ion.Ion;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-import brightseer.com.brewhaha.fragment.UserFeedsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
+import brightseer.com.brewhaha.main_fragments.UserFeedsFragment;
 import brightseer.com.brewhaha.models.UserProfile;
 
 public class MainActivity extends NewActivtyBase {
@@ -148,18 +139,16 @@ public class MainActivity extends NewActivtyBase {
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-//        setAdminNav();
-
 
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (BrewSharedPrefs.getIsUserLoggedIn()) {
-//                    StartAddUpdate("");
-//                } else {
-//                    AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-//                }
+                AuthData authData = rootRef.getAuth();
+                LaunchLoginActivity(authData);
+                if (authData != null) {
+                    //LAUNCH NEW RECIPE CREATION
+                }
             }
         });
 
@@ -181,9 +170,31 @@ public class MainActivity extends NewActivtyBase {
         drawer_userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                googleSignIn();
+//                googleSignIn();
+                AuthData authData = rootRef.getAuth();
+                LaunchLoginActivity(authData);
             }
         });
+    }
+
+    private void LaunchLoginActivity(AuthData authData) {
+        try {
+
+            if (authData == null) {
+                Intent newIntent = new Intent(MainActivity.this, LoginActivity.class);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
+                    ActivityCompat.startActivityForResult(MainActivity.this, newIntent, 0, options.toBundle());
+                } else {
+                    startActivity(newIntent);
+                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+                }
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     private void initFirebaseDb() {
@@ -194,20 +205,19 @@ public class MainActivity extends NewActivtyBase {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
+                try {
+                    if (menuItem.isChecked()) menuItem.setChecked(false);
+                    else menuItem.setChecked(true);
 
-                mDrawerLayout.closeDrawers();
-                Fragment fragment = null;
-                Intent intent;
-//                int viewId = R.id.frame;
-                switch (menuItem.getItemId()) {
-                    case R.id.navigation_home:
-                        fab.setVisibility(View.VISIBLE);
-                        fragment = new MainFeedFragment();
-                        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.MainFeedFragment");
-                        break;
+                    mDrawerLayout.closeDrawers();
+                    Fragment fragment = null;
+                    switch (menuItem.getItemId()) {
+                        case R.id.navigation_home:
+                            fab.setVisibility(View.VISIBLE);
+                            fragment = new MainFeedFragment();
+                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
+                            eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.MainFeedFragment");
+                            break;
 
 //                    case R.id.navigation_item_2:
 //                        fab.setVisibility(View.GONE);
@@ -216,7 +226,7 @@ public class MainActivity extends NewActivtyBase {
 //                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.AdvancedSearchFragment");
 //                        break;
 
-                    case R.id.navigation_favorites:
+                        case R.id.navigation_favorites:
 //                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
 //                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
 //                        } else {
@@ -233,22 +243,20 @@ public class MainActivity extends NewActivtyBase {
 //                                startActivity(intent);
 //                            }
 //                        }
-                        break;
+                            break;
 
-                    case R.id.navigation_my_recipes:
-//                        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-//                            fragment = new UserFeedsFragment();
-//                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_myrecipes));
-//                        } else {
-//                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-//                        }
-                        break;
-                    case R.id.navigation_admin:
+                        case R.id.navigation_my_recipes:
+                            fab.setVisibility(View.VISIBLE);
+                            fragment = new UserFeedsFragment();
+                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
+                            eventGoogleAnalytics(Constants.gacUserFeedsFragment, "Open", "Drawer.UserFeedsFragment");
+                            break;
+                        case R.id.navigation_admin:
 //                        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
 //                            fragment = new AdminFragment();
 //                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_admin));
 //                        }
-                        break;
+                            break;
 
 //                    case R.id.navigation_item_6:
 //                        intent = new Intent(getApplicationContext(), RecipeCardsActivity.class);
@@ -262,14 +270,21 @@ public class MainActivity extends NewActivtyBase {
 //                            startActivity(intent);
 //                        }
 //                        break;
-                    default:
-                        break;
-                }
-                SetFragment(fragment);
+                        default:
+                            break;
+                    }
+                    SetFragment(fragment);
 
-                return true;
+                    return true;
+                } catch (Exception ex) {
+                    if (BuildConfig.DEBUG) {
+                        Log.e(Constants.LOG, ex.getMessage());
+                    }
+                    return false;
+                }
             }
         });
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -278,33 +293,45 @@ public class MainActivity extends NewActivtyBase {
     }
 
     private void SetFragment(Fragment fragment) {
-        if (fragment != null) {
-            if (!isChangingConfigurations()) {
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.frame, fragment);
-                fragmentTransaction.commit();
+        try {
+            if (fragment != null) {
+                if (!isChangingConfigurations()) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, fragment);
+                    fragmentTransaction.commitAllowingStateLoss();
+                }
+            } else {
+                Log.e("MainActivity", "Error in creating fragment");
             }
-        } else {
-            Log.e("MainActivity", "Error in creating fragment");
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
     private void licenseCheck() {
-        mHandler = new Handler();
+        try {
+            mHandler = new Handler();
 
-        String licenseKey = Constants.BASE64_PUBLIC_KEY;
-        if (BuildConfig.FLAVOR == Constants.flavorFull) {
-            licenseKey = Constants.BASE64_PUBLIC_KEY_FULL;
+            String licenseKey = Constants.BASE64_PUBLIC_KEY;
+            if (BuildConfig.FLAVOR == Constants.flavorFull) {
+                licenseKey = Constants.BASE64_PUBLIC_KEY_FULL;
+            }
+
+            mLicenseCheckerCallback = new MyLicenseCheckerCallback();
+            // Construct the LicenseChecker with a policy.
+            mChecker = new LicenseChecker(
+                    this, new ServerManagedPolicy(this,
+                    new AESObfuscator(SALT, getPackageName(), Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))),
+                    licenseKey);
+
+            doCheck();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
-
-        mLicenseCheckerCallback = new MyLicenseCheckerCallback();
-        // Construct the LicenseChecker with a policy.
-        mChecker = new LicenseChecker(
-                this, new ServerManagedPolicy(this,
-                new AESObfuscator(SALT, getPackageName(), Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID))),
-                licenseKey);
-
-        doCheck();
     }
 
     private class MyLicenseCheckerCallback implements LicenseCheckerCallback {
@@ -346,6 +373,7 @@ public class MainActivity extends NewActivtyBase {
             String result = String.format(getString(R.string.application_error), errorCode);
             displayResult(result);
         }
+
     }
 
     private void displayDialog(final boolean showRetry) {
@@ -380,7 +408,6 @@ public class MainActivity extends NewActivtyBase {
         super.onDestroy();
 //        mChecker.onDestroy();\
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -461,24 +488,10 @@ public class MainActivity extends NewActivtyBase {
         }
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            handleSignInResult(result);
-        }
-    }
-
-    private void handleSignInResult(GoogleSignInResult result) {
-//        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
-        if (result != null && result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount account = result.getSignInAccount();
-
-            emailAddress = account.getEmail();
-            new getGoogleToken().execute();
-
-        } else {
-            // Signed out, show unauthenticated UI.
-        }
+//        if (requestCode == RC_SIGN_IN) {
+//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+//            handleSignInResult(result);
+//        }
     }
 
     public void googleSignOut() {
@@ -492,67 +505,6 @@ public class MainActivity extends NewActivtyBase {
                             }
                         });
             }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
-
-    private void fireBaseAuth(String idToken) {
-        try {
-            rootRef.authWithOAuthToken("google", idToken, new Firebase.AuthResultHandler() {
-                @Override
-                public void onAuthenticated(AuthData authData) {
-                    UserProfile userProfile = GetUserProfile(authData);
-                    evaluateUser(userProfile);
-                    UpdateUi(userProfile);
-                    // the Google user is now authenticated with your Firebase app
-                }
-
-                @Override
-                public void onAuthenticationError(FirebaseError firebaseError) {
-                    // there was an error
-                }
-            });
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
-
-    private void evaluateUser(final UserProfile userProfile) {
-        try {
-            Firebase ref = rootRef.child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (!dataSnapshot.hasChildren()) {
-                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
-                        Firebase refUserPush = refUser.push();
-                        refUserPush.setValue(userProfile);
-
-                        String postId = refUserPush.getKey();
-//                        userProfile.setKey(postId);
-                        Firebase theChild = refUser.child(postId);
-                        Map<String, Object> keyValue = new HashMap<String, Object>();
-                        keyValue.put("key", postId);
-                        theChild.updateChildren(keyValue);
-//                        Firebase refUserReadOnly = new Firebase(Constants.fireBaseRoot).child(Constants.exUsersReadOnly);
-//                        UserProfile userReadOnly = new UserProfile();
-//                        userReadOnly.setDisplayName(userProfile.getDisplayName());
-//                        userReadOnly.setImageUrl(userProfile.getImageUrl());
-//                        userReadOnly.setUid(userProfile.getUid());
-//                        refUserReadOnly.push().setValue(userReadOnly);
-                    }
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -579,7 +531,7 @@ public class MainActivity extends NewActivtyBase {
         try {
             if (userProfile != null) {
                 if (drawer_displayName.getText().toString().isEmpty()) {
-                    BrewSharedPrefs.setEmailAddress(userProfile.getEmailAddress());
+//                    BrewSharedPrefs.setEmailAddress(userProfile.getEmailAddress());
 
                     drawer_displayName.setText(userProfile.getDisplayName());
                     drawer_useremail.setText(Utilities.decodeEmail(userProfile.getEmailAddress()));
@@ -640,48 +592,7 @@ public class MainActivity extends NewActivtyBase {
         }
     }
 
-    private UserProfile GetUserProfile(AuthData authData) {
-        try {
-            if (authData != null) {
-                String uId = String.valueOf(authData.getProviderData().get("id"));
-                String displayName = String.valueOf(authData.getProviderData().get("displayName"));
-                String emailAddress = String.valueOf(authData.getProviderData().get("email"));
-                String userProfileImage = String.valueOf(authData.getProviderData().get("profileImageURL"));
 
-
-                UserProfile userProfile = new UserProfile();
-                userProfile.setEmailAddress(Utilities.encodeEmail(emailAddress));
-                userProfile.setDisplayName(displayName);
-                userProfile.setImageUrl(userProfileImage);
-                userProfile.setUid(uId);
-                userProfile.setKey("");
-
-                return userProfile;
-            }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-        return null;
-    }
-
-    private class getGoogleToken extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            String scopes = "oauth2:profile email";
-            String token = null;
-            try {
-                token = GoogleAuthUtil.getToken(getApplicationContext(), emailAddress, scopes);
-                fireBaseAuth(token);
-            } catch (IOException | GoogleAuthException e) {
-                if (BuildConfig.DEBUG) {
-                    Log.e(Constants.LOG, e.getMessage());
-                }
-            }
-            return token;
-        }
-    }
 //    public void StartAddUpdate(String contentPk) {
 //        try {
 //            Intent newActivityIntent = new Intent(this, AddUpdateRecipe.class);
@@ -712,22 +623,5 @@ public class MainActivity extends NewActivtyBase {
 ////        } else
 ////            navigationAdmin.setVisible(false);
 //
-//    }
-
-//    private void setUserViews() {
-
-//
-////        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-////            if (_menu != null) {
-////                MenuItem action_menu_options = _menu.findItem(R.id.action_menu_options);
-////                action_menu_options.setVisible(true);
-////            }
-////        }
-//
-////            SetFragment(new MainFeedFragment());
-
-////        collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
-//            setAdminNav();
-//        }
 //    }
 }

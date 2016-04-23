@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.UserFeedsFragment;
+import brightseer.com.brewhaha.main_fragments.UserFeedsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
