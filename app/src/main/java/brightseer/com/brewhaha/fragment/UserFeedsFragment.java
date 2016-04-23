@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.main_fragments;
+package brightseer.com.brewhaha.fragment;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
@@ -38,7 +37,11 @@ import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 
-public class MainFeedFragment extends Fragment {
+/**
+ * Created by Michael McCulloch on 2/25/2015.
+ */
+public class UserFeedsFragment extends Fragment {
+    private String userToken = "na";
     private RecyclerView home_recycler_view;
     private View rootView;
 
@@ -54,7 +57,7 @@ public class MainFeedFragment extends Fragment {
 //    private boolean overRide = false;
 //    private int skipCount = 5;
 
-    public MainFeedFragment() {
+    public UserFeedsFragment() {
     }
 
     @Nullable
@@ -69,7 +72,7 @@ public class MainFeedFragment extends Fragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("everyone");
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child(BrewSharedPrefs.getEmailAddress());
     }
 
     public void addTestData() {

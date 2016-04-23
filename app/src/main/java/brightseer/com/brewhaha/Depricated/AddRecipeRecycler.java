@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.adapter;
+package brightseer.com.brewhaha.Depricated;
 
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.fragment.MyRecipeListFragment;
+import brightseer.com.brewhaha.fragment.UserFeedsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
@@ -26,7 +26,7 @@ import brightseer.com.brewhaha.objects.RecyclerObjects;
  */
 public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRecipeItemViewHolder> {
     private List<MainFeedItem> jsonObjects = new Vector<>();
-    private MyRecipeListFragment _fragment;
+    private UserFeedsFragment _fragment;
 
     int cornerRadius = 200;
 
@@ -49,7 +49,7 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
         }
     };
 
-    public AddRecipeRecycler(List<MainFeedItem> jsonObject, MyRecipeListFragment fragment) {
+    public AddRecipeRecycler(List<MainFeedItem> jsonObject, UserFeedsFragment fragment) {
         this.jsonObjects = jsonObject;
         _fragment = fragment;
     }
@@ -79,7 +79,7 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
 
     @Override
     public void onBindViewHolder(RecyclerObjects.MyRecipeItemViewHolder homeItemViewHolder, int i) {
-        _fragment.load();
+//        _fragment.load();
         MainFeedItem mainFeedItem = jsonObjects.get(i);
         if (mainFeedItem != null) {
             if (TextUtils.isEmpty(mainFeedItem.getTitle())) {

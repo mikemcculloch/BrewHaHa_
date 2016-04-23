@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import brightseer.com.brewhaha.fragment.AdvancedSearchFragment;
+import brightseer.com.brewhaha.fragment.UserFeedsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
 import brightseer.com.brewhaha.models.UserProfile;
@@ -97,7 +98,8 @@ public class MainActivity extends NewActivtyBase {
             initDrawer(savedInstanceState);
 
             if (savedInstanceState == null && !BrewSharedPrefs.getEmailAddress().isEmpty() && !isFragLoaded) {
-                SetFragment(new MainFeedFragment());
+                SetFragment(new UserFeedsFragment());
+                navigationView.setCheckedItem(R.id.navigation_item_4);
                 isFragLoaded = true;
             }
 
@@ -123,7 +125,7 @@ public class MainActivity extends NewActivtyBase {
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void SetSignoutButton(){
+    private void SetSignoutButton() {
         if (_menu != null) {
             MenuItem action_menu_options = _menu.findItem(R.id.action_menu_options);
             if (drawer_displayName.getText().toString().isEmpty()) {
@@ -171,7 +173,7 @@ public class MainActivity extends NewActivtyBase {
             }
         });
         Ion.with(image)
-                .load("http://www.brewhaha.beer/Content/images/banner.jpg");
+                .load(Constants.bannerUrl);
 
         View header = navigationView.getHeaderView(0);
         drawer_displayName = (TextView) header.findViewById(R.id.drawer_displayName);
@@ -236,7 +238,7 @@ public class MainActivity extends NewActivtyBase {
 
                     case R.id.navigation_item_4:
 //                        if (BrewSharedPrefs.getIsUserLoggedIn()) {
-//                            fragment = new MyRecipeListFragment();
+//                            fragment = new UserFeedsFragment();
 //                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_myrecipes));
 //                        } else {
 //                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
@@ -481,13 +483,21 @@ public class MainActivity extends NewActivtyBase {
     }
 
     public void googleSignOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // ...
-                    }
-                });
+        try {
+            if (mGoogleApiClient.isConnected()) {
+                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                        new ResultCallback<Status>() {
+                            @Override
+                            public void onResult(Status status) {
+                                // ...
+                            }
+                        });
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
     private void fireBaseAuth(String idToken) {
@@ -591,10 +601,12 @@ public class MainActivity extends NewActivtyBase {
                         drawer_userImage.setMinimumHeight(0);
                     }
                     SetSignoutButton();
-                    if (!isFragLoaded){
-                    SetFragment(new MainFeedFragment());
+                    if (!isFragLoaded) {
+                        navigationView.setCheckedItem(R.id.navigation_item_4);
+                        SetFragment(new UserFeedsFragment());
                         isFragLoaded = true;
-                }}
+                    }
+                }
             }
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -615,9 +627,11 @@ public class MainActivity extends NewActivtyBase {
 
             SetSignoutButton();
 
-            if (isFragLoaded){
+            if (isFragLoaded) {
                 SetFragment(new MainFeedFragment());
-                isFragLoaded = false;}
+                navigationView.setCheckedItem(R.id.navigation_item_1);
+                isFragLoaded = false;
+            }
 
             BrewSharedPrefs.clearAllPrefs();
         } catch (Exception ex) {
