@@ -13,6 +13,7 @@ public class Constants {
     public static final String SALT = "89NZv8Q7KB/hemFwt4yHDw==";
 
     public static final String bannerUrl = "https://scorching-fire-712.firebaseapp.com/images/banner.jpg";
+    public static final String loginImage = bannerUrl;
 
     public static String urlRecipePlaceHolder = "http://wcf.brewhaha.beer/images/img_recipe_placeholder.jpg";
     public static String urlBrewHahaContent = "http://www.brewhaha.beer/";

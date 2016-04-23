@@ -49,7 +49,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import brightseer.com.brewhaha.fragment.AdvancedSearchFragment;
 import brightseer.com.brewhaha.fragment.UserFeedsFragment;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
@@ -99,7 +98,7 @@ public class MainActivity extends NewActivtyBase {
 
             if (savedInstanceState == null && !BrewSharedPrefs.getEmailAddress().isEmpty() && !isFragLoaded) {
                 SetFragment(new UserFeedsFragment());
-                navigationView.setCheckedItem(R.id.navigation_item_4);
+                navigationView.setCheckedItem(R.id.navigation_my_recipes);
                 isFragLoaded = true;
             }
 
@@ -203,21 +202,21 @@ public class MainActivity extends NewActivtyBase {
                 Intent intent;
 //                int viewId = R.id.frame;
                 switch (menuItem.getItemId()) {
-                    case R.id.navigation_item_1:
+                    case R.id.navigation_home:
                         fab.setVisibility(View.VISIBLE);
                         fragment = new MainFeedFragment();
                         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
                         eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.MainFeedFragment");
                         break;
 
-                    case R.id.navigation_item_2:
-                        fab.setVisibility(View.GONE);
-                        fragment = new AdvancedSearchFragment();
-                        collapsingToolbarLayout.setTitle(getResources().getString(R.string.activty_search));
-                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.AdvancedSearchFragment");
-                        break;
+//                    case R.id.navigation_item_2:
+//                        fab.setVisibility(View.GONE);
+//                        fragment = new AdvancedSearchFragment();
+//                        collapsingToolbarLayout.setTitle(getResources().getString(R.string.activty_search));
+//                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.AdvancedSearchFragment");
+//                        break;
 
-                    case R.id.navigation_item_3:
+                    case R.id.navigation_favorites:
 //                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
 //                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
 //                        } else {
@@ -236,7 +235,7 @@ public class MainActivity extends NewActivtyBase {
 //                        }
                         break;
 
-                    case R.id.navigation_item_4:
+                    case R.id.navigation_my_recipes:
 //                        if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //                            fragment = new UserFeedsFragment();
 //                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_myrecipes));
@@ -244,7 +243,7 @@ public class MainActivity extends NewActivtyBase {
 //                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_add_recipe).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
 //                        }
                         break;
-                    case R.id.navigation_item_5:
+                    case R.id.navigation_admin:
 //                        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
 //                            fragment = new AdminFragment();
 //                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_admin));
@@ -602,7 +601,7 @@ public class MainActivity extends NewActivtyBase {
                     }
                     SetSignoutButton();
                     if (!isFragLoaded) {
-                        navigationView.setCheckedItem(R.id.navigation_item_4);
+                        navigationView.setCheckedItem(R.id.navigation_my_recipes);
                         SetFragment(new UserFeedsFragment());
                         isFragLoaded = true;
                     }
@@ -629,7 +628,7 @@ public class MainActivity extends NewActivtyBase {
 
             if (isFragLoaded) {
                 SetFragment(new MainFeedFragment());
-                navigationView.setCheckedItem(R.id.navigation_item_1);
+                navigationView.setCheckedItem(R.id.navigation_home);
                 isFragLoaded = false;
             }
 
