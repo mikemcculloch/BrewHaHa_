@@ -48,6 +48,6 @@
     <dimen name="fab_compat_margin">0dp</dimen>
     <dimen name="toolbar_elevation">0dp</dimen>
 
-    <dimen name="paralax_image_height">250dp</dimen>
+    <dimen name="paralax_image_height">200dp</dimen>
     <dimen name="paralax_image_height_large">350dp</dimen>
 </resources>

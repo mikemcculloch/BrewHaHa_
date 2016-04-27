@@ -29,6 +29,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
+import com.koushikdutta.async.Util;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 
@@ -38,6 +39,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeGrain;
 import brightseer.com.brewhaha.models.RecipeHop;
@@ -52,7 +54,7 @@ import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
 /**
  * Created by wooan on 10/24/2015.
  */
-public class RecipeCardsActivity extends BaseActivity implements View.OnClickListener {
+public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickListener {
     private Toolbar toolbar;
     private FloatingActionButton fabEdit;
     private int sceneId, sceneIdLast = 0;
@@ -64,7 +66,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     private AppCompatButton card_overview, card_ingredients, card_directions, card_images;
 
-    private String recipeTitle;
+    private String recipeTitle, authorImageUrl;
 
     private String feedKey;
     private Firebase rootRef;
@@ -73,12 +75,14 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupTransistion();
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_recipe_animated);
-            _mContext = RecipeCardsActivity.this;
+//            _mContext = RecipeCardsActivity.this;
             initExtras();
             initViews();
+//            imageTransition();
 //            initPrefs();
             initFirebaseDb();
             getRecipeDetail();
@@ -119,7 +123,7 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            setResult(adapterPosition);
+            setResult(BackPressed);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition();
             } else {
@@ -148,29 +152,25 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
             }
 
-//            nestedscrollview = (NestedScrollView) findViewById(R.id.nestedscrollview);
-
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
-
-//            recipe_header_user_image_view = (ImageView) findViewById(R.id.recipe_header_user_image_view);
-//            imageTransition(recipe_header_user_image_view, authorImageUrl, Constants.exBitMapInfo);
-
-//            recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
-//            recipe_author_text_view.setText(author);
-//            ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_username));
+            ViewCompat.setTransitionName(mPlusOneButton, getResources().getString(R.string.transition_googlePlus));
 
             recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
             recipe_title_text_view.setText(recipeTitle);
             ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
 
-//            recipe_date_posted = (TextView) findViewById(R.id.recipe_date_posted);
-//            recipe_date_posted.setText(Utilities.DisplayTimeFormater(datePosted));
-//            ViewCompat.setTransitionName(recipe_date_posted, getResources().getString(R.string.transition_userdate));
+
+            ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
+            Ion.with(author_image_view)
+                        .centerCrop()
+                        .transform(Utilities.GetRoundTransform())
+                        .load(authorImageUrl);
+//            imageTransition(author_image_view, authorImageUrl, Constants.exBitMapInfoMain);
 
             fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
-            fabEdit.setOnClickListener(this);
-
-//            bottomSheetLayout = (BottomSheetLayout) findViewById(R.id.bottomsheet);
+            if (fabEdit != null) {
+                fabEdit.setOnClickListener(this);
+            }
 
             card_overview = (AppCompatButton) findViewById(R.id.card_overview);
             card_overview.setOnClickListener(this);
@@ -188,14 +188,11 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
     private void initExtras() {
         try {
             Intent activityThatCalled = getIntent();
-
-//            recipeToken = activityThatCalled.getExtras().getString(Constants.exRecipeToken);
-//        recipeContentId = activityThatCalled.getExtras().getInt(Constants.exContentItemPk);
             recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
-            adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
+//            adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
 //            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
 //            recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
-//            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
+            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
             feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -215,8 +212,8 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 //                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                        recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
-                        recipeDetail.setKey(dataSnapshot.getKey());
+                    recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
+                    recipeDetail.setKey(dataSnapshot.getKey());
 //                    }
                     goToSceneOverView(findViewById(R.id.card_overview));
                     toggleSceneButtons = true;
@@ -430,62 +427,111 @@ public class RecipeCardsActivity extends BaseActivity implements View.OnClickLis
         }
     };
 
-    private void imageTransition(final ImageView imageview_holder, final String urlImage, String bitMapInfo) {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//    private void imageTransition(final ImageView imageview_holder, final String urlImage, String bitMapInfo) {
+//        try {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//                String bitmapKey = getIntent().getStringExtra(bitMapInfo);
+//                BitmapInfo bi = Ion.getDefault(this)
+//                        .getBitmapCache()
+//                        .get(bitmapKey);
+//
+//                if (bi == null)
+//                    return;
+//
+////                imageview_holder.setImageBitmap(bi.bitmap);
+//
+//                getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
+//                    @Override
+//                    public void onTransitionStart(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    public void onTransitionCancel(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    public void onTransitionPause(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    public void onTransitionResume(Transition transition) {
+//                    }
+//
+//                    @Override
+//                    public void onTransitionEnd(Transition transition) {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                            getWindow().getEnterTransition().removeListener(this);
+//                        }
+//
+//                        // load the full version, crossfading from the thumbnail image
+//                        Ion.with(imageview_holder)
+//                                .crossfade(true)
+//                                .transform(Utilities.GetRoundTransform())
+//                                .load(urlImage);
+//                    }
+//                });
+//            } else {
+//                Ion.with(imageview_holder)
+//                        .centerCrop()
+//                        .transform(Utilities.GetRoundTransform())
+//                        .load(urlImage);
+//            }
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
-                String bitmapKey = getIntent().getStringExtra(bitMapInfo);
-                BitmapInfo bi = Ion.getDefault(this)
-                        .getBitmapCache()
-                        .get(bitmapKey);
+    private void imageTransition() {
+        final ImageView imageview_userimage = (ImageView) findViewById(R.id.author_image_view);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                if (bi == null)
-                    return;
+            String bitmapKey = getIntent().getStringExtra(Constants.exBitMapInfoMain);
+            BitmapInfo bi = Ion.getDefault(this)
+                    .getBitmapCache()
+                    .get(bitmapKey);
+            imageview_userimage.setImageBitmap(bi.bitmap);
 
-                imageview_holder.setImageBitmap(bi.bitmap);
+            getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+                }
 
-                getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
-                    @Override
-                    public void onTransitionStart(Transition transition) {
+                @Override
+                public void onTransitionCancel(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+                }
+
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().getEnterTransition().removeListener(this);
                     }
 
-                    @Override
-                    public void onTransitionCancel(Transition transition) {
-                    }
-
-                    @Override
-                    public void onTransitionPause(Transition transition) {
-                    }
-
-                    @Override
-                    public void onTransitionResume(Transition transition) {
-                    }
-
-                    @Override
-                    public void onTransitionEnd(Transition transition) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            getWindow().getEnterTransition().removeListener(this);
-                        }
-
-                        // load the full version, crossfading from the thumbnail image
-                        Ion.with(imageview_holder)
-                                .crossfade(true)
-                                .transform(trans)
-                                .load(urlImage);
-                    }
-                });
-            } else {
-                Ion.with(imageview_holder)
-                        .centerCrop()
-                        .transform(trans)
-                        .load(urlImage);
-            }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
+                    // load the full version, crossfading from the thumbnail image
+                    Ion.with(imageview_userimage)
+                            .crossfade(true)
+                            .transform(Utilities.GetRoundTransform())
+                            .load(authorImageUrl);
+                }
+            });
+        } else {
+            Ion.with(imageview_userimage)
+                    .centerCrop()
+                    .transform(Utilities.GetRoundTransform())
+                    .load(authorImageUrl);
         }
     }
+
 
     private void openEditOption() {
         try {

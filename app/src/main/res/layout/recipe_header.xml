@@ -3,34 +3,72 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/colorPrimary"
-    android:orientation="vertical">
+    android:paddingBottom="@dimen/quarter_margin"
+    android:paddingTop="@dimen/quarter_margin"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/left_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        android:layout_marginBottom="@dimen/half_margin"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="@dimen/full_margin"
-        android:layout_marginRight="@dimen/full_margin"
-        android:layout_marginTop="@dimen/quarter_margin"
+        android:layout_gravity="start|top"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/recipe_title_text_view"
             style="@style/appMediumFontWhite"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Recipe header place holder text"
             android:layout_marginBottom="@dimen/quarter_margin"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="Recipe header place holder text asdfadf asdf a faf asfas f faf asfas f"
             android:transitionName="@string/transition_title" />
 
         <com.google.android.gms.plus.PlusOneButton xmlns:plus="http://schemas.android.com/apk/lib/com.google.android.gms.plus"
             android:id="@+id/plus_one_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:transitionName="@string/transition_googlePlus"
             plus:annotation="inline"
             plus:size="standard" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:gravity="end|top"
+        android:layout_weight="3"
+        android:layout_marginRight="@dimen/full_margin"
+        android:layout_marginEnd="@dimen/full_margin"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/author_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginLeft="@dimen/half_margin"
+            android:layout_marginRight="@dimen/half_margin"
+
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_person_black_24dp"
+            android:transitionName="@string/transition_bitmapuser" />
+
+        <TextView
+            android:id="@+id/recipe_author_text_view"
+            style="@style/appSmallFontWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarter_margin"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="Wooanaz"
+            android:transitionName="@string/transition_username" />
+    </LinearLayout>
 </LinearLayout>

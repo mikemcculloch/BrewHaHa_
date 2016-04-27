@@ -94,7 +94,7 @@ public class BaseActivity extends AppCompatActivity {
     public String contentToken;
     public String contentItemPk = "";
 
-    public static final int PLUS_ONE_REQUEST_CODE = 0;
+//    public static final int PLUS_ONE_REQUEST_CODE = 0;
 
 
     public static final int RC_SIGN_IN = 0;

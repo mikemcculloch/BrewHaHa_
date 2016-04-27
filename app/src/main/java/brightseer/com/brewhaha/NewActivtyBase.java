@@ -1,16 +1,20 @@
 package brightseer.com.brewhaha;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.ChangeBounds;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -43,6 +47,8 @@ import brightseer.com.brewhaha.models.UserProfile;
 public class NewActivtyBase extends AppCompatActivity {
     public GoogleApiClient mGoogleApiClient;
     public static final int RC_SIGN_IN = 0;
+    public static final int PLUS_ONE_REQUEST_CODE = 0;
+    public static final int BackPressed = 69;
 
     public boolean tabletSize;
     public int cornerRadius = 200;
@@ -50,33 +56,43 @@ public class NewActivtyBase extends AppCompatActivity {
     public void setupTransistion() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-
+            getWindow().requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS);
 
             //set the transition
-            Transition ts = new android.transition.Explode();
+            Transition ts = new android.transition.ChangeBounds();
             ts.setDuration(300);
+
+            getWindow().setSharedElementsUseOverlay(true);
+
             getWindow().setSharedElementEnterTransition(ts);
-            getWindow().setSharedElementExitTransition(ts);
-            getWindow().setSharedElementsUseOverlay(false);
-
-
-//            getWindow().setAllowEnterTransitionOverlap(false); --meh
-//            getWindow().setAllowReturnTransitionOverlap(false); --meh
-//            getWindow().setEnterTransition(ts);
-            //set an exit transition so it is activated when the current activity exits
-            getWindow().setExitTransition(ts);
-
-            Slide transitionEnter = new Slide();
-            transitionEnter.setSlideEdge(Gravity.TOP);
-            transitionEnter.setDuration(300);
-            Window currentW = getWindow();
-            currentW.setEnterTransition(transitionEnter);
-            currentW.setExitTransition(transitionEnter);
-
+            getWindow().setEnterTransition(ts);
             getWindow().setAllowEnterTransitionOverlap(true);
+
+            getWindow().setSharedElementExitTransition(ts);
+            getWindow().setExitTransition(ts);
             getWindow().setAllowReturnTransitionOverlap(true);
         }
     }
+
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    private Transition exitTransition() {
+//        ChangeBounds bounds = new ChangeBounds();
+//        bounds.setInterpolator(new BounceInterpolator());
+//        bounds.setDuration(2000);
+//
+//        return bounds;
+//    }
+//
+//    @TargetApi(Build.VERSION_CODES.KITKAT)
+//    private Transition reenterTransition() {
+//        ChangeBounds bounds = new ChangeBounds();
+//        bounds.setInterpolator(new OvershootInterpolator());
+//        bounds.setDuration(2000);
+//
+//        return bounds;
+//    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +102,6 @@ public class NewActivtyBase extends AppCompatActivity {
 //        myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         tabletSize = getResources().getBoolean(R.bool.isTablet);
     }
-
 
     public void eventGoogleAnalytics(String categoryId, String actionId, String labelId) {
         Tracker t = ((BrewApplication) getApplication()).getTracker(

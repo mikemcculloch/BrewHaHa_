@@ -65,6 +65,9 @@
     <style name="appSmallFont" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="appSmallFontWhite" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <style name="headerBody" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">match_parent</item>

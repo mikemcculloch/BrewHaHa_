@@ -63,6 +63,7 @@ public class MainActivity extends NewActivtyBase {
     private MenuItem navigation_item_5;
     boolean isFragLoaded = false;
 
+
     private Firebase rootRef;
     private String emailAddress;
 
@@ -76,6 +77,7 @@ public class MainActivity extends NewActivtyBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setupTransistion();
+
         super.onCreate(savedInstanceState);
         try {
             setContentView(R.layout.activity_main);
@@ -92,6 +94,11 @@ public class MainActivity extends NewActivtyBase {
                 navigationView.setCheckedItem(R.id.navigation_my_recipes);
                 isFragLoaded = true;
             }
+//            else
+//            {  SetFragment(new MainFeedFragment());
+//                navigationView.setCheckedItem(R.id.navigation_home);
+//                isFragLoaded = true;
+//            }
 
 //            CheckForUpdates();
             licenseCheck();
@@ -464,7 +471,7 @@ public class MainActivity extends NewActivtyBase {
     @Override
     protected void onRestart() {
         super.onRestart();
-        CheckAuth();
+//        CheckAuth();
     }
 
     @Override
@@ -487,6 +494,9 @@ public class MainActivity extends NewActivtyBase {
             actionBarDrawerToggle.syncState();
         }
 
+        if (resultCode == BackPressed) {
+            isFragLoaded = true;
+        }
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
 //        if (requestCode == RC_SIGN_IN) {
 //            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
@@ -578,7 +588,7 @@ public class MainActivity extends NewActivtyBase {
 
             SetSignoutButton();
 
-            if (isFragLoaded) {
+            if (!isFragLoaded) {
                 SetFragment(new MainFeedFragment());
                 navigationView.setCheckedItem(R.id.navigation_home);
                 isFragLoaded = false;
@@ -591,8 +601,6 @@ public class MainActivity extends NewActivtyBase {
             }
         }
     }
-
-
 //    public void StartAddUpdate(String contentPk) {
 //        try {
 //            Intent newActivityIntent = new Intent(this, AddUpdateRecipe.class);

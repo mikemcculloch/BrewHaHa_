@@ -102,12 +102,12 @@ public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder> {
             String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
             homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
 
-            homeItemViewHolder.vCardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _fragment.openDetailActivity(v, currentPos);
-                }
-            });
+//            homeItemViewHolder.vCardView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    _fragment.openDetailActivity(v, currentPos, );
+//                }
+//            });
         }
     }
 

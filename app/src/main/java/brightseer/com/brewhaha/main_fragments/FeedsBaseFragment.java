@@ -1,0 +1,76 @@
+package brightseer.com.brewhaha.main_fragments;
+
+import android.app.ActivityOptions;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+import android.util.Pair;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.firebase.ui.FirebaseRecyclerAdapter;
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.bitmap.BitmapInfo;
+
+import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.RecipeCardsActivity;
+import brightseer.com.brewhaha.models.MainFeedItem;
+
+/**
+ * Created by wooan on 4/27/2016.
+ */
+public class FeedsBaseFragment extends Fragment {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    public void openDetailActivity(View view, int position, FirebaseRecyclerAdapter mAdapter) {
+        try {
+            MainFeedItem feedItem = (MainFeedItem) mAdapter.getItem(position);
+
+            Intent newIntent = new Intent(getActivity(), RecipeCardsActivity.class);
+//            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, feedItem.getTitle());
+
+            newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
+            newIntent.putExtra(Constants.exPosition, position);
+            newIntent.putExtra(Constants.exUsername, feedItem.getAuthor());
+            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
+            newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
+            newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
+
+            BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
+            if (biMain != null)
+                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
+
+            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
+                Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
+                Pair p3 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
+
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+                ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
+
+            } else {
+                startActivity(newIntent);
+                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+            }
+
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
+    }
+}

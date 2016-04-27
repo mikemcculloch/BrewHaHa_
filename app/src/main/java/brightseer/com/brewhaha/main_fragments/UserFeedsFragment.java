@@ -1,36 +1,29 @@
 package brightseer.com.brewhaha.main_fragments;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeCardsActivity;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
@@ -40,11 +33,11 @@ import brightseer.com.brewhaha.models.RecipeDetail;
 /**
  * Created by Michael McCulloch on 2/25/2015.
  */
-public class UserFeedsFragment extends Fragment {
+public class UserFeedsFragment extends FeedsBaseFragment {
     private View rootView;
 
-    Firebase rootRef;
-    FirebaseRecyclerAdapter mAdapter;
+    private Firebase rootRef;
+    private FirebaseRecyclerAdapter mAdapter;
 
 //    private int previousTotal = 0;
 //    private boolean loadingBool = true;
@@ -151,7 +144,7 @@ public class UserFeedsFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        try {;
+        try {
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
 //            int screenOrientation = getResources().getConfiguration().orientation;
                 RecyclerView home_recycler_view = (RecyclerView) rootView.findViewById(R.id.home_recycler_view);
@@ -168,7 +161,7 @@ public class UserFeedsFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
                                 try {
-                                    openDetailActivity(view, position);
+                                    openDetailActivity(view, position, mAdapter);
                                 } catch (Exception e) {
                                     if (BuildConfig.DEBUG) {
                                         Log.e(Constants.LOG, e.getMessage());
@@ -183,7 +176,6 @@ public class UserFeedsFragment extends Fragment {
                             }
                         })
                 );
-
 
                 mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
                     @Override
@@ -209,7 +201,6 @@ public class UserFeedsFragment extends Fragment {
                     }
                 };
                 home_recycler_view.setAdapter(mAdapter);
-
             }
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                @Override
@@ -293,59 +284,50 @@ public class UserFeedsFragment extends Fragment {
 ////                );
 //    }
 
-    public void openDetailActivity(View view, int position) {
-        try {
-            MainFeedItem feedItem = (MainFeedItem) mAdapter.getItem(position);
-
-            Intent newIntent = new Intent();
-//            if (feedItem.getItemTypeId() == 1) {
-            newIntent = new Intent(getActivity(), RecipeCardsActivity.class);
+//    public void openDetailActivity(View view, int position) {
+//        try {
+//            MainFeedItem feedItem = (MainFeedItem) mAdapter.getItem(position);
+//
+//            Intent newIntent = new Intent(getActivity(), RecipeCardsActivity.class);
+////            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, feedItem.getTitle());
+//
+//            newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
+//            newIntent.putExtra(Constants.exPosition, position);
+//            newIntent.putExtra(Constants.exUsername, feedItem.getAuthor());
+//            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
+//            newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
+////            newIntent.putExtra(Constants.exRecipeImage, feedItem.getImageUrl());
+//            newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
+//
+//
+////            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
+////            newIntent.putExtra(Constants.exBitMapInfo, bi.key);
+//
+//            BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
+//            if (biMain != null)
+//                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
+//
+//            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+////                Pair p1 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_username));
+////                Pair p2 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_userdate));
+//                Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
+//                Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
+//                Pair p3 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
+//
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+//                ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
+//
+//            } else {
+//                startActivity(newIntent);
+//                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
 //            }
-//            if (feedItem.getItemTypeId() == 2) {
-//                newIntent = new Intent(_fContext, GridViewActivity.class);
+//
+//        } catch (Exception e) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, e.getMessage());
 //            }
-
-//            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, feedItem.getTitle());
-
-            newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
-            newIntent.putExtra(Constants.exPosition, position);
-            newIntent.putExtra(Constants.exUsername, feedItem.getAuthor());
-            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
-            newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
-            newIntent.putExtra(Constants.exRecipeImage, feedItem.getImageUrl());
-            newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
-
-
-//            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
-//            newIntent.putExtra(Constants.exBitMapInfo, bi.key);
-
-            BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.image)).getBitmapInfo();
-            if (biMain != null)
-                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
-
-            newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Pair p1 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_username));
-                Pair p2 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_userdate));
-                Pair p3 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
-                Pair p4 = Pair.create(view.findViewById(R.id.image), getResources().getString(R.string.transition_bitmapmain));
-                Pair p5 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
-                Pair p6 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
-
-//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4, p5, p6);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity());
-                ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
-
-            } else {
-                startActivity(newIntent);
-                getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-            }
-
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, e.getMessage());
-            }
-        }
-    }
+//        }
+//    }
 }

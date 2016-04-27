@@ -258,7 +258,7 @@ public class GridViewActivity extends BaseActivity {
         super.onResume();
         String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
         // Refresh the state of the +1 button each time the activity receives focus.
-        mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+//        mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
     }
 
 //    @Override
