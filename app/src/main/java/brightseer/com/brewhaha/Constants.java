@@ -222,6 +222,7 @@ public class Constants {
     public static final String exBitMapInfoMain = "BitMapInfoMain";
 
 
+    public static final String exRecipeAuthor = "RecipeAuthor";
 
     public static final String exRecipeDesctiption = "RecipeDesctiption";
     public static final String exAuthorImageUrl = "AuthorImageUrl";

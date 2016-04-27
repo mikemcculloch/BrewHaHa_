@@ -42,11 +42,13 @@ public class FeedsBaseFragment extends Fragment {
 //            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, feedItem.getTitle());
 
             newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
-            newIntent.putExtra(Constants.exPosition, position);
-            newIntent.putExtra(Constants.exUsername, feedItem.getAuthor());
-            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
+            newIntent.putExtra(Constants.exRecipeAuthor, feedItem.getAuthor());
             newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
             newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
+
+//            newIntent.putExtra(Constants.exPosition, position);
+//            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
+
 
             BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
             if (biMain != null)
@@ -58,8 +60,9 @@ public class FeedsBaseFragment extends Fragment {
                 Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
                 Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
                 Pair p3 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
+                Pair p4 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_author));
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4);
                 ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
 
             } else {

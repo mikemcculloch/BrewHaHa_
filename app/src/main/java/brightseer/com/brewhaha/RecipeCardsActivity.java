@@ -29,23 +29,14 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
-import com.koushikdutta.async.Util;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
-
-import java.util.List;
-import java.util.Vector;
 
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeDetail;
-import brightseer.com.brewhaha.models.RecipeGrain;
-import brightseer.com.brewhaha.models.RecipeHop;
-import brightseer.com.brewhaha.models.RecipeImage;
-import brightseer.com.brewhaha.models.RecipeInstruction;
-import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -59,14 +50,14 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private FloatingActionButton fabEdit;
     private int sceneId, sceneIdLast = 0;
 
-    private TextView  recipe_title_text_view;
+    private TextView recipe_author_text_view;
 
     private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
     private AppCompatButton card_overview, card_ingredients, card_directions, card_images;
 
-    private String recipeTitle, authorImageUrl;
+    private String recipeTitle, authorImageUrl, recipeAuthor;
 
     private String feedKey;
     private Firebase rootRef;
@@ -149,22 +140,26 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                         onBackPressed();
                     }
                 });
-                getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+                getSupportActionBar().setTitle(recipeTitle);
             }
 
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
             ViewCompat.setTransitionName(mPlusOneButton, getResources().getString(R.string.transition_googlePlus));
 
-            recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
+            TextView recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
             recipe_title_text_view.setText(recipeTitle);
             ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
+
+            recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
+            recipe_author_text_view.setText(recipeAuthor);
+            ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_author));
 
 
             ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
             Ion.with(author_image_view)
-                        .centerCrop()
-                        .transform(Utilities.GetRoundTransform())
-                        .load(authorImageUrl);
+                    .centerCrop()
+                    .transform(Utilities.GetRoundTransform())
+                    .load(authorImageUrl);
 //            imageTransition(author_image_view, authorImageUrl, Constants.exBitMapInfoMain);
 
             fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
@@ -189,6 +184,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         try {
             Intent activityThatCalled = getIntent();
             recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
+            recipeAuthor = activityThatCalled.getExtras().getString(Constants.exRecipeAuthor);
 //            adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
 //            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
 //            recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
@@ -672,10 +668,10 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
     private void evaluateUser() {
         try {
-            if(!BrewSharedPrefs.getEmailAddress().isEmpty()) {
+            if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
                 AuthData authData = rootRef.getAuth();
                 if (authData != null) {
-                    if (recipeDetail.getOwnerEmail().equals(BrewSharedPrefs.getEmailAddress())){
+                    if (recipeDetail.getOwnerEmail().equals(BrewSharedPrefs.getEmailAddress())) {
                         isOwner = true;
                     }
 //                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child("userLists").child(BrewSharedPrefs.getEmailAddress()).child(feedKey);

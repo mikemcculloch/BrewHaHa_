@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -31,9 +30,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.plus.PlusOneButton;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.bitmap.BitmapInfo;
 import com.viewpagerindicator.LinePageIndicator;
@@ -47,15 +44,12 @@ import brightseer.com.brewhaha.adapter.IngredientAdapter;
 import brightseer.com.brewhaha.adapter.InstructionAdapter_Legacy;
 import brightseer.com.brewhaha.adapter.SimpleViewPagerAdapter;
 import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.objects.BatchSize;
 import brightseer.com.brewhaha.objects.RecipeSummary;
 import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.objects.Ingredient;
 import brightseer.com.brewhaha.models.RecipeInstruction;
-import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
-import brightseer.com.brewhaha.repository.JsonToObject;
 
 import static android.view.ViewGroup.LayoutParams;
 
@@ -449,7 +443,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
     private void initializeTextViews() {
         recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
         recipe_author_text_view.setText(author);
-        ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_username));
+        ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_author));
 
         overview_text_view = (TextView) findViewById(R.id.overview_text_view);
         recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);

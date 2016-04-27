@@ -36,6 +36,7 @@
 
     <dimen name="image_small_circle">32dp</dimen>
     <dimen name="image_meduim_circle">48dp</dimen>
+    <dimen name="image_large_circle_user">50dp</dimen>
 
     <dimen name="spacing_xsmall">2dp</dimen>
     <dimen name="spacing_medium">8dp</dimen>

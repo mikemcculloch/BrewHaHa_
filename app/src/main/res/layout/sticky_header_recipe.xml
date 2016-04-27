@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="author"
-                    android:transitionName="@string/transition_username" />
+                    android:transitionName="@string/transition_author" />
 
                 <TextView
                     android:id="@+id/recipe_date_posted"

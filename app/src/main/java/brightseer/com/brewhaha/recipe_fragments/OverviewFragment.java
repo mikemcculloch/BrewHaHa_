@@ -279,6 +279,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mAdapter.cleanup();
+        if (mAdapter != null)
+            mAdapter.cleanup();
     }
 }
