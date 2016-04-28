@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
@@ -81,7 +80,7 @@ public class IngredientFragment extends BaseRecipeFragment {
         args.putInt("cy", centerY);
         args.putInt("color", color);
 
-        args.putString(Constants.exFeedKey, _feedKey);
+        args.putString(Constants.fbFeedKey, _feedKey);
 //        args.putSerializable(Constants.bundleRecipeGrains, (Serializable) grains);
 //        args.putSerializable(Constants.bundleRecipeHops, (Serializable) hops);
 //        args.putSerializable(Constants.bundleRecipeYeasts, (Serializable) yeasts);
@@ -114,13 +113,13 @@ public class IngredientFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exIngredients).child(feedKey);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbIngredients).child(feedKey);
     }
 
     public void addTestGrainData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refGrain = rootRef.child(Constants.exGrains);
+            Firebase refGrain = rootRef.child(Constants.fbGrains);
 
             RecipeGrain recipeGrain = new RecipeGrain();
             recipeGrain.setAmount((double) 1.4);
@@ -166,7 +165,7 @@ public class IngredientFragment extends BaseRecipeFragment {
     public void addTestHopData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refHop = rootRef.child(Constants.exHops);
+            Firebase refHop = rootRef.child(Constants.fbHops);
 
             RecipeHop recipeHop = new RecipeHop();
             recipeHop.setUnitOfMeasure("oz");
@@ -200,7 +199,7 @@ public class IngredientFragment extends BaseRecipeFragment {
     public void addTestYeastData() {
         try {
             ///ADD NEW RecipeGrain//////////////////
-            Firebase refHop = rootRef.child(Constants.exYeasts);
+            Firebase refHop = rootRef.child(Constants.fbYeasts);
 
             RecipeYeast recipeYeast = new RecipeYeast();
             recipeYeast.setAttenuationPercentage((double) 4);
@@ -223,7 +222,7 @@ public class IngredientFragment extends BaseRecipeFragment {
     }
 
     private void ReadBundle() {
-        feedKey = String.valueOf(getArguments().get(Constants.exFeedKey));
+        feedKey = String.valueOf(getArguments().get(Constants.fbFeedKey));
     }
 
     private void initGrainRecyclerView() {
@@ -240,7 +239,7 @@ public class IngredientFragment extends BaseRecipeFragment {
                 recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child(Constants.exGrains);
+            Firebase ref = rootRef.child(Constants.fbGrains);
             mAdapterGrain = new FirebaseRecyclerAdapter<RecipeGrain, RecipeGrainViewHolder>(RecipeGrain.class, R.layout.recipe_grain_row, RecipeGrainViewHolder.class, ref) {
                 @Override
                 public void populateViewHolder(RecipeGrainViewHolder recipeGrainViewHolder, RecipeGrain recipeGrain, int position) {
@@ -303,8 +302,8 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_hop_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        Firebase ref = rootRef.child(Constants.exHops);
-//        Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);
+        Firebase ref = rootRef.child(Constants.fbHops);
+//        Query queryRef = ref.orderByChild(Constants.fbFeedKey).equalTo(feedKey);
         mAdapterHop = new FirebaseRecyclerAdapter<RecipeHop, RecipeHopViewHolder>(RecipeHop.class, R.layout.recipe_hop_row, RecipeHopViewHolder.class, ref) {
             @Override
             public void populateViewHolder(RecipeHopViewHolder recipeHopViewHolder, RecipeHop recipeHop, int position) {
@@ -372,7 +371,7 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipe_yeast_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
         }
 
-        Firebase ref = rootRef.child(Constants.exYeasts);
+        Firebase ref = rootRef.child(Constants.fbYeasts);
         mAdapterYeast = new FirebaseRecyclerAdapter<RecipeYeast, RecipeYeastViewHolder>(RecipeYeast.class, R.layout.recipe_yeast_row, RecipeYeastViewHolder.class, ref) {
             @Override
             public void populateViewHolder(RecipeYeastViewHolder recipeYeastViewHolder, RecipeYeast recipeYeast, int position) {

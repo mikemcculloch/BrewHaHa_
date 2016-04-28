@@ -63,14 +63,14 @@ public class UserFeedsFragment extends FeedsBaseFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child(BrewSharedPrefs.getEmailAddress());
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress());
     }
 
     public void addTestData() {
         try {
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
                 ///ADD NEW FEED//////////////////
-//                Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com");
+//                Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("brightseerstudios@gmail,com");
                 Firebase refFeedPush = rootRef.push();
 
                 MainFeedItem mainFeedItem = new MainFeedItem();
@@ -81,6 +81,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                 mainFeedItem.setImageUrl("https://lh4.googleusercontent.com/-kyaG1I42a9Q/AAAAAAAAAAI/AAAAAAAAAGk/vDTdKFir-xo/s96-c/photo.jpg");
                 mainFeedItem.setDateCreated(DateTime.now().toString());
                 mainFeedItem.setKey("");
+                mainFeedItem.setStyle("Indian Pale Ale");
                 refFeedPush.setValue(mainFeedItem);
 
                 String postId = refFeedPush.getKey();
@@ -95,7 +96,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                 ///////////////////////////
 
                 ///ADD NEW RecipeDetail//////////////////
-                Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(postId);
+                Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.fbRecipeDetail).child(postId);
                 RecipeDetail recipeDetail = new RecipeDetail();
                 recipeDetail.setDateCreated(DateTime.now().toString());
                 recipeDetail.setDateModified(DateTime.now().toString());
@@ -113,7 +114,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                 refDetail.setValue(recipeDetail);
                 //////////////////
             }
-//            Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com").child(postId);
+//            Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("brightseerstudios@gmail,com").child(postId);
 //            Map<String, Object> userList = new HashMap<String, Object>();
 //            userList.put("dateCreated", DateTime.now().toString());
 //            refUserLists.setValue(userList);
@@ -297,7 +298,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
 //            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
 //            newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
 ////            newIntent.putExtra(Constants.exRecipeImage, feedItem.getImageUrl());
-//            newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
+//            newIntent.putExtra(Constants.fbFeedKey, feedItem.getKey());
 //
 //
 ////            BitmapInfo bi = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();

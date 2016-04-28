@@ -63,7 +63,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         args.putInt("color", color);
         args.putSerializable(Constants.bundleRecipeDetail, _recipeDetail);
         args.putString(Constants.exRecipeTitle, _recipeTitle);
-        args.putString(Constants.exFeedKey, _feedKey);
+        args.putString(Constants.fbFeedKey, _feedKey);
 
         OverviewFragment fragment = new OverviewFragment();
         fragment.setArguments(args);
@@ -90,7 +90,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private void ReadBundle() {
         recipeDetail = (RecipeDetail) getArguments().getSerializable(Constants.bundleRecipeDetail);
         recipeTitle = getArguments().getString(Constants.exRecipeTitle);
-        feedKey = String.valueOf(getArguments().get(Constants.exFeedKey));
+        feedKey = String.valueOf(getArguments().get(Constants.fbFeedKey));
     }
 
     private void initViews() {
@@ -151,7 +151,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(feedKey);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbRecipeDetail).child(feedKey);
     }
 
     private void initCommentRecyclerView() {
@@ -169,7 +169,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child(Constants.exComments).child(recipeTitle);
+            Firebase ref = rootRef.child(Constants.fbComments).child(recipeTitle);
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, ref) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
@@ -239,7 +239,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 //            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
             comment.setDateCreated(DateTime.now().toString());
 
-            Firebase postRef = rootRef.child(Constants.exComments).child(recipeTitle).push();
+            Firebase postRef = rootRef.child(Constants.fbComments).child(recipeTitle).push();
             postRef.setValue(comment);
             recipe_comment_edit_view.setText("");
 
@@ -252,7 +252,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     public void RecipeDetailListener() {
         try {
-//            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);
+//            Query queryRef = ref.orderByChild(Constants.fbFeedKey).equalTo(feedKey);
 
             rootRef.addValueEventListener(new ValueEventListener() {
                 @Override

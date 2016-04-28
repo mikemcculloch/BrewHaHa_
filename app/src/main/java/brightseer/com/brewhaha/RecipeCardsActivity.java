@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +15,7 @@ import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -50,16 +52,13 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private FloatingActionButton fabEdit;
     private int sceneId, sceneIdLast = 0;
 
-    private TextView recipe_author_text_view;
-
     private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
 
-    private AppCompatButton card_overview, card_ingredients, card_directions, card_images;
+    private AppCompatButton card_overview, card_ingredients, card_directions, card_images, card_overviewHolder, card_commentsHolder;
 
-    private String recipeTitle, authorImageUrl, recipeAuthor;
+    private String feedKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle;
 
-    private String feedKey;
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
     private boolean isOwner = false;
@@ -73,6 +72,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 //            _mContext = RecipeCardsActivity.this;
             initExtras();
             initViews();
+            buttonWidth();
 //            imageTransition();
 //            initPrefs();
             initFirebaseDb();
@@ -150,10 +150,13 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             recipe_title_text_view.setText(recipeTitle);
             ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
 
-            recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
+            TextView recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
             recipe_author_text_view.setText(recipeAuthor);
             ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_author));
 
+            TextView recipe_style_text_view = (TextView) findViewById(R.id.recipe_style_text_view);
+            recipe_style_text_view.setText(recipeStyle);
+            ViewCompat.setTransitionName(recipe_style_text_view, getResources().getString(R.string.transition_style));
 
             ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
             Ion.with(author_image_view)
@@ -175,8 +178,36 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             card_directions.setOnClickListener(this);
             card_images = (AppCompatButton) findViewById(R.id.card_images);
             card_images.setOnClickListener(this);
+
+            card_overviewHolder = (AppCompatButton) findViewById(R.id.card_overviewHolder);
+            card_commentsHolder = (AppCompatButton) findViewById(R.id.card_commentsHolder);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void buttonWidth() {
+        try {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x / 4;
+            int height = size.y;
+
+
+//            int dpConversion = (int) (width * Resources.getSystem().getDisplayMetrics().density);
+
+            card_overview.setWidth(width);
+            card_directions.setWidth(width);
+            card_images.setWidth(width);
+            card_ingredients.setWidth(width);
+            card_overviewHolder.setWidth(width);
+            card_commentsHolder.setWidth(width);
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
@@ -185,11 +216,10 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             Intent activityThatCalled = getIntent();
             recipeTitle = activityThatCalled.getExtras().getString(Constants.exRecipeTitle);
             recipeAuthor = activityThatCalled.getExtras().getString(Constants.exRecipeAuthor);
-//            adapterPosition = activityThatCalled.getExtras().getInt(Constants.exPosition);
-//            authorImageUrl = activityThatCalled.getExtras().getString(Constants.exUsername);
-//            recipeDateCreated = activityThatCalled.getExtras().getString(Constants.exUserdate);
             authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
-            feedKey = activityThatCalled.getExtras().getString(Constants.exFeedKey);
+            feedKey = activityThatCalled.getExtras().getString(Constants.fbFeedKey);
+            recipeStyle = activityThatCalled.getExtras().getString(Constants.exRecipeStyle);
+
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -198,12 +228,12 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(feedKey);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbRecipeDetail).child(feedKey);
     }
 
     private void getRecipeDetail() {
         try {
-//            Query queryRef = ref.orderByChild(Constants.exFeedKey).equalTo(feedKey);;
+//            Query queryRef = ref.orderByChild(Constants.fbFeedKey).equalTo(feedKey);;
             rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -572,7 +602,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             LayoutParams mainLayoutParam = (LayoutParams) view.getLayoutParams();
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             mainLayoutParam.addRule(RelativeLayout.ALIGN_PARENT_START);
-            mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.recycler_view_recipe_images);
+            mainLayoutParam.addRule(RelativeLayout.BELOW, R.id.card_overviewHolder);
             mainLayoutParam.setMargins(0, 0, 0, 0);
             mainLayoutParam.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
             resetLayouts();
@@ -675,7 +705,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                         isOwner = true;
                     }
 //                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child("userLists").child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
-////                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
+////                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
 //                    fbUserFeeds.addListenerForSingleValueEvent(new ValueEventListener() {
 //                        @Override
 //                        public void onDataChange(DataSnapshot dataSnapshot) {

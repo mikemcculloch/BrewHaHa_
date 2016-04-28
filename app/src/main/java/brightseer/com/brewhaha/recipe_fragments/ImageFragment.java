@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.viewpagerindicator.LinePageIndicator;
 
@@ -20,7 +19,6 @@ import java.util.Vector;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.recipe_adapters.ImagesAdapter;
 
@@ -46,7 +44,7 @@ public class ImageFragment extends BaseRecipeFragment {
         args.putInt("color", color);
 //        args.putSerializable(Constants.bundleRecipeImages, (Serializable) recipeImages);
 
-        args.putString(Constants.exFeedKey, _feedKey);
+        args.putString(Constants.fbFeedKey, _feedKey);
 
         ImageFragment fragment = new ImageFragment();
         fragment.setArguments(args);
@@ -76,11 +74,11 @@ public class ImageFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exImages).child(feedKey);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbImages).child(feedKey);
     }
 
     private void ReadBundle() {
-        feedKey = getArguments().getString(Constants.exFeedKey);
+        feedKey = getArguments().getString(Constants.fbFeedKey);
     }
 
     public void addTestImages() {

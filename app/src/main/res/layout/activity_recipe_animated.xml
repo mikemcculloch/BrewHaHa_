@@ -45,7 +45,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/card_overviewHolder"
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/card_button_height"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -58,7 +58,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/card_ingredients"
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/card_button_height"
                     android:layout_alignParentTop="true"
                     android:layout_toEndOf="@+id/card_overviewHolder"
                     android:layout_toRightOf="@+id/card_overviewHolder"
@@ -71,7 +71,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/card_directions"
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/card_button_height"
                     android:layout_alignParentTop="true"
                     android:layout_toLeftOf="@+id/card_commentsHolder"
                     android:layout_toStartOf="@+id/card_commentsHolder"
@@ -84,7 +84,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/card_images"
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/card_button_height"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
@@ -97,7 +97,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/card_commentsHolder"
                     android:layout_width="wrap_content"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/card_button_height"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
@@ -107,24 +107,11 @@
                     android:textSize="11sp"
                     android:visibility="invisible" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_recipe_images"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/card_overviewHolder"
-                    android:layout_marginTop="@dimen/quarter_margin"
-                    android:background="@color/white"
-                    android:paddingBottom="@dimen/half_margin"
-                    android:visibility="gone"
-                    android:paddingTop="@dimen/half_margin" />
-
                 <FrameLayout
                     android:id="@+id/scene_target"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/recycler_view_recipe_images" />
+                    android:layout_below="@+id/card_overviewHolder" />
             </RelativeLayout>
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>

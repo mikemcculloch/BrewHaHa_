@@ -7,18 +7,20 @@ public class MainFeedItem {
     private String ImageUrl;
     private String UserImageUrl;
     private String DateCreated;
+    private String Style;
 
     public MainFeedItem() {
 
     }
 
-    public MainFeedItem(String key, String title, String author, String imageUrl, String userImageUrl, String dateCreated) {
+    public MainFeedItem(String key, String title, String author, String imageUrl, String userImageUrl, String dateCreated, String style) {
         Key = key;
         Title = title;
         Author = author;
         ImageUrl = imageUrl;
         UserImageUrl = userImageUrl;
         DateCreated = dateCreated;
+        Style = style;
     }
 
     public String getKey() {
@@ -67,5 +69,13 @@ public class MainFeedItem {
 
     public void setDateCreated(String dateCreated) {
         DateCreated = dateCreated;
+    }
+
+    public String getStyle() {
+        return Style;
+    }
+
+    public void setStyle(String style) {
+        Style = style;
     }
 }

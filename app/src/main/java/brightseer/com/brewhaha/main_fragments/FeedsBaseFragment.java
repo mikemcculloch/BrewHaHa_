@@ -44,7 +44,7 @@ public class FeedsBaseFragment extends Fragment {
             newIntent.putExtra(Constants.exRecipeTitle, feedItem.getTitle());
             newIntent.putExtra(Constants.exRecipeAuthor, feedItem.getAuthor());
             newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
-            newIntent.putExtra(Constants.exFeedKey, feedItem.getKey());
+            newIntent.putExtra(Constants.fbFeedKey, feedItem.getKey());
 
 //            newIntent.putExtra(Constants.exPosition, position);
 //            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));

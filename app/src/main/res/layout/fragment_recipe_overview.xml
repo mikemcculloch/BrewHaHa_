@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/half_margin"
+            android:layout_marginStart="@dimen/half_margin"
             android:src="@drawable/ic_details_black_24px" />
 
         <TextView
@@ -46,25 +47,24 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:background="@color/app_blue"
-                android:orientation="horizontal"
-                android:weightSum="2">
+                android:minHeight="40dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/recipe_title_text_view"
                     style="@style/appLargeFontWhite"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
+                    android:layout_gravity="center_vertical|start"
                     android:layout_marginLeft="@dimen/half_margin"
                     android:layout_marginRight="@dimen/half_margin"
+                    android:maxLines="2"
                     android:text="Recipe Title" />
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -81,7 +81,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/quarter_margin"
-                    android:gravity="left|start"
+                    android:layout_marginEnd="@dimen/quarter_margin"
+                    android:gravity="start"
                     android:text="@string/string_placeholder" />
             </LinearLayout>
 
@@ -105,14 +106,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/app_blue"
-
                 android:orientation="horizontal"
                 android:weightSum="2">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
+                    android:layout_gravity="center_vertical|start"
                     android:layout_marginLeft="@dimen/quarter_margin"
                     android:layout_weight="1"
                     android:text="@string/string_alcohol_by_volume"
@@ -123,12 +123,11 @@
                     style="@style/appLargeFontWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
+                    android:layout_gravity="center_vertical|end"
                     android:layout_marginRight="@dimen/quarter_margin"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="end"
                     android:text="7%" />
-
             </LinearLayout>
 
 
@@ -248,15 +247,15 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|left"
+                    android:layout_gravity="center_vertical|start"
+                    android:layout_marginStart="@dimen/quarter_margin"
                     android:layout_marginLeft="@dimen/quarter_margin"
                     android:layout_weight="1"
                     android:text="@string/title_comments"
                     android:textAppearance="@style/appLargeFontWhite" />
             </LinearLayout>
-
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/comments_recycler_view"
@@ -269,11 +268,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:layout_marginTop="@dimen/full_margin"
-                android:layout_marginRight="@dimen/quarter_margin"
-                android:layout_marginLeft="@dimen/quarter_margin"
                 android:layout_marginBottom="@dimen/quarter_margin"
+                android:layout_marginLeft="@dimen/quarter_margin"
+                android:layout_marginRight="@dimen/quarter_margin"
+                android:layout_marginTop="@dimen/full_margin"
+                android:background="@color/white"
                 android:orientation="vertical">
 
                 <EditText
@@ -292,11 +291,8 @@
                 <FrameLayout
                     android:id="@+id/send_comment_button"
                     android:layout_width="wrap_content"
-                    android:layout_gravity="right"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="right"
                     android:layout_marginLeft="24dp"
                     android:layout_marginStart="24dp"
                     android:background="@drawable/circle_send">

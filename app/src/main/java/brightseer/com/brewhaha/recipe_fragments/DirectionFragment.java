@@ -59,7 +59,7 @@ public class DirectionFragment extends BaseRecipeFragment {
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
         args.putInt("color", color);
-        args.putString(Constants.exFeedKey, _feedKey);
+        args.putString(Constants.fbFeedKey, _feedKey);
 
         DirectionFragment fragment = new DirectionFragment();
         fragment.setArguments(args);
@@ -86,11 +86,11 @@ public class DirectionFragment extends BaseRecipeFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exDirections).child(feedKey);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbDirections).child(feedKey);
     }
 
     private void ReadBundle() {
-        feedKey = getArguments().getString(Constants.exFeedKey);
+        feedKey = getArguments().getString(Constants.fbFeedKey);
     }
 
     public void addTestDirections() {

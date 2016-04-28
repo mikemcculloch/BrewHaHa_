@@ -223,6 +223,7 @@ public class Constants {
 
 
     public static final String exRecipeAuthor = "RecipeAuthor";
+    public static final String exRecipeStyle = "RecipeStyle";
 
     public static final String exRecipeDesctiption = "RecipeDesctiption";
     public static final String exAuthorImageUrl = "AuthorImageUrl";
@@ -256,24 +257,21 @@ public class Constants {
 
     public static final String fireBaseRoot = "https://scorching-fire-712.firebaseio.com/";
 
-    public static final String exFeedKey = "feedKey";
-    public static final String exComments = "comments";
-    public static final String exUsers = "users";
-    public static final String exRecipeDetail = "recipedetail";
-    public static final String exFeeds = "feeds";
-    public static final String exIngredients = "ingredients";
-    public static final String exGrains = "grains";
-    public static final String exHops = "hops";
-    public static final String exYeasts = "yeasts";
-    public static final String exImages = "images";
-    public static final String exDirections = "directions";
-    public static final String exUserFeeds = "userFeeds";
+    public static final String fbFeedKey = "feedKey";
+    public static final String fbComments = "comments";
+    public static final String fbUsers = "users";
+    public static final String fbRecipeDetail = "recipedetail";
+    public static final String fbIngredients = "ingredients";
+    public static final String fbGrains = "grains";
+    public static final String fbHops = "hops";
+    public static final String fbYeasts = "yeasts";
+    public static final String fbImages = "images";
+    public static final String fbDirections = "directions";
+    public static final String fbUserFeeds = "userFeeds";
+    public static final String fbPublicFeeds = "public";
 
 
     public static final String spUid = "uId";
-
-
-
 
     public static final int ANIMATION_DELAY = 300;
 

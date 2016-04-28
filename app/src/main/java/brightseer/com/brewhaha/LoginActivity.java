@@ -151,12 +151,12 @@ public class LoginActivity extends NewActivtyBase {
 
     public void evaluateUser(final UserProfile userProfile) {
         try {
-            Firebase ref = rootRef.child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
+            Firebase ref = rootRef.child(Constants.fbUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
             ref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.hasChildren()) {
-                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.exUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
+                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.fbUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
                         Firebase refUserPush = refUser.push();
                         refUserPush.setValue(userProfile);
 

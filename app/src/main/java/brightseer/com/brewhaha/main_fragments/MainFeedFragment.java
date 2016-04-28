@@ -1,26 +1,19 @@
 package brightseer.com.brewhaha.main_fragments;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import org.joda.time.DateTime;
 
@@ -31,7 +24,6 @@ import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeCardsActivity;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
@@ -71,14 +63,14 @@ public class MainFeedFragment extends FeedsBaseFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("everyone");
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds);
     }
 
     public void addTestData() {
         try {
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
                 ///ADD NEW FEED//////////////////
-//                Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com");
+//                Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("brightseerstudios@gmail,com");
                 Firebase refFeedPush = rootRef.push();
 
                 MainFeedItem mainFeedItem = new MainFeedItem();
@@ -89,6 +81,7 @@ public class MainFeedFragment extends FeedsBaseFragment {
                 mainFeedItem.setImageUrl("http://rlv.zcache.ca/trump_make_america_great_again_18_oz_beer_stein-rd05525b7776c452d8deb1b45f76bd937_x76ia_8byvr_324.jpg");
                 mainFeedItem.setDateCreated(DateTime.now().toString());
                 mainFeedItem.setKey("");
+                mainFeedItem.setStyle("Indian Pale Ale");
                 refFeedPush.setValue(mainFeedItem);
 
                 String postId = refFeedPush.getKey();
@@ -103,7 +96,7 @@ public class MainFeedFragment extends FeedsBaseFragment {
                 ///////////////////////////
 
                 ///ADD NEW RecipeDetail//////////////////
-                Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.exRecipeDetail).child(postId);
+                Firebase refDetail = new Firebase(Constants.fireBaseRoot).child(Constants.fbRecipeDetail).child(postId);
                 RecipeDetail recipeDetail = new RecipeDetail();
                 recipeDetail.setDateCreated(DateTime.now().toString());
                 recipeDetail.setDateModified(DateTime.now().toString());
@@ -117,13 +110,13 @@ public class MainFeedFragment extends FeedsBaseFragment {
                 recipeDetail.setOriginalGravity("5");
                 recipeDetail.setSrmHex("#FE3499");
                 recipeDetail.setFinalGravity("4");
-                recipeDetail.setStyle("Bland pail ale");
+                recipeDetail.setStyle("Bland pale ale");
                 recipeDetail.setYieldByGallon("5");
 
                 refDetail.setValue(recipeDetail);
                 //////////////////
             }
-//            Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.exUserFeeds).child("brightseerstudios@gmail,com").child(postId);
+//            Firebase refUserLists = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("brightseerstudios@gmail,com").child(postId);
 //            Map<String, Object> userList = new HashMap<String, Object>();
 //            userList.put("dateCreated", DateTime.now().toString());
 //            refUserLists.setValue(userList);
