@@ -39,6 +39,7 @@
     <dimen name="image_large_circle_user">50dp</dimen>
 
     <dimen name="card_button_height">60dp</dimen>
+    <dimen name="home_recipe_image">64dp</dimen>
 
     <dimen name="spacing_xsmall">2dp</dimen>
     <dimen name="spacing_medium">8dp</dimen>

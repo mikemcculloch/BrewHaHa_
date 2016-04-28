@@ -63,7 +63,8 @@ public class MainFeedFragment extends FeedsBaseFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds);
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("everyone");
+//        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds);
     }
 
     public void addTestData() {
@@ -167,30 +168,32 @@ public class MainFeedFragment extends FeedsBaseFragment {
                         }
                     })
             );
-
-            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
-                @Override
-                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
-                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
-                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-
-                    Ion.with(mainFeedViewHolder.vimage)
-                            .placeholder(R.mipmap.ic_beercap)
-                            .centerCrop()
-                            .load(mainFeedItem.getImageUrl());
-
-                    Ion.with(mainFeedViewHolder.vuser_image_view)
-                            .placeholder(R.drawable.ic_person_black_24dp)
-                            .error(R.drawable.ic_person_black_24dp)
-                            .centerCrop()
-                            .transform(Utilities.GetRoundTransform())
-                            .load(mainFeedItem.getUserImageUrl());
-
-                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
-                }
-            };
+            mAdapter = GetFireBaseAdapter(rootRef, R.layout.row_home);
+//            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
+//                @Override
+//                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
+//                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+//                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
+//                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
+//
+//                    mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
+//
+//                    Ion.with(mainFeedViewHolder.vimage)
+//                            .placeholder(R.mipmap.ic_beercap)
+//                            .centerCrop()
+//                            .load(mainFeedItem.getImageUrl());
+//
+//                    Ion.with(mainFeedViewHolder.vuser_image_view)
+//                            .placeholder(R.drawable.ic_person_black_24dp)
+//                            .error(R.drawable.ic_person_black_24dp)
+//                            .centerCrop()
+//                            .transform(Utilities.GetRoundTransform())
+//                            .load(mainFeedItem.getUserImageUrl());
+//
+//                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
+//                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
+//                }
+//            };
             home_recycler_view.setAdapter(mAdapter);
 
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -407,38 +407,45 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
         @Override
         public void onAnimationEnd(Animator animation) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                View view = null;
-                int randomColor = Color.argb(255, (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
-                Fragment fragment = null;
-                if (sceneId == Constants.sceneOverview) {
-                    view = card_overview;
-                    fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey);
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    View view = null;
+                    int randomColor = Color.argb(255, (int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
+                    Fragment fragment = null;
+                    if (sceneId == Constants.sceneOverview) {
+                        view = card_overview;
+                        fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey);
+                    }
+
+                    if (sceneId == Constants.sceneIngredients) {
+                        view = card_ingredients;
+                        fragment = IngredientFragment.newInstance(20, 20, randomColor, feedKey);
+                    }
+
+                    if (sceneId == Constants.sceneDirections) {
+                        view = card_directions;
+                        fragment = DirectionFragment.newInstance(20, 20, randomColor, feedKey);
+                    }
+
+                    if (sceneId == Constants.sceneImages) {
+                        view = card_images;
+                        fragment = ImageFragment.newInstance(20, 20, randomColor, feedKey);
+                    }
+
+                    ViewGroup scene_target = (ViewGroup) findViewById(R.id.scene_target);
+                    if (scene_target != null) {
+                        scene_target.removeAllViews();
+                    }
+
+                    getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
+
+                    if (view != null) {
+                        view.setVisibility(View.INVISIBLE);
+                    }
+
+                    toggleSceneButtons = true;
                 }
-
-                if (sceneId == Constants.sceneIngredients) {
-                    view = card_ingredients;
-                    fragment = IngredientFragment.newInstance(20, 20, randomColor, feedKey);
-                }
-
-                if (sceneId == Constants.sceneDirections) {
-                    view = card_directions;
-                    fragment = DirectionFragment.newInstance(20, 20, randomColor, feedKey);
-                }
-
-                if (sceneId == Constants.sceneImages) {
-                    view = card_images;
-                    fragment = ImageFragment.newInstance(20, 20, randomColor, feedKey);
-                }
-
-                ViewGroup scene_target = (ViewGroup) findViewById(R.id.scene_target);
-                scene_target.removeAllViews();
-
-                getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
-
-                view.setVisibility(View.INVISIBLE);
-
-                toggleSceneButtons = true;
+            } catch (Exception e) {
             }
         }
 
