@@ -89,18 +89,12 @@ public class MainActivity extends NewActivtyBase {
             initFirebaseDb();
             initDrawer(savedInstanceState);
 
-            if (savedInstanceState == null && !BrewSharedPrefs.getEmailAddress().isEmpty() && !isFragLoaded) {
-                SetFragment(new UserFeedsFragment());
-                navigationView.setCheckedItem(R.id.navigation_my_recipes);
-                isFragLoaded = true;
-            }
-//            else
-//            {  SetFragment(new MainFeedFragment());
-//                navigationView.setCheckedItem(R.id.navigation_home);
+//            if (savedInstanceState == null && !BrewSharedPrefs.getEmailAddress().isEmpty() && !isFragLoaded) {
+//                SetFragment(new UserFeedsFragment());
+//                navigationView.setCheckedItem(R.id.navigation_my_recipes);
 //                isFragLoaded = true;
 //            }
 
-//            CheckForUpdates();
             licenseCheck();
         } catch (Exception e) {
             e.printStackTrace();
@@ -306,6 +300,15 @@ public class MainActivity extends NewActivtyBase {
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commitAllowingStateLoss();
+
+                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.UserFeedsFragment"))
+                    {
+                        BrewSharedPrefs.setLastFragment(Constants.spUserFragement);
+                    }
+                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.MainFeedFragment"))
+                    {
+                        BrewSharedPrefs.setLastFragment(Constants.spMainFragement);
+                    }
                 }
             } else {
                 Log.e("MainActivity", "Error in creating fragment");
@@ -380,7 +383,6 @@ public class MainActivity extends NewActivtyBase {
             String result = String.format(getString(R.string.application_error), errorCode);
             displayResult(result);
         }
-
     }
 
     private void displayDialog(final boolean showRetry) {
@@ -404,9 +406,7 @@ public class MainActivity extends NewActivtyBase {
     }
 
     private void doCheck() {
-//        mCheckLicenseButton.setEnabled(false);
         setProgressBarIndeterminateVisibility(true);
-//        mStatusText.setText(R.string.checking_license);
         mChecker.checkAccess(mLicenseCheckerCallback);
     }
 
@@ -420,7 +420,6 @@ public class MainActivity extends NewActivtyBase {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-
 
         SearchManager SManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         android.support.v7.widget.SearchView searchViewAction =
@@ -438,7 +437,6 @@ public class MainActivity extends NewActivtyBase {
                 return false;
             }
         });
-
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -465,6 +463,21 @@ public class MainActivity extends NewActivtyBase {
     @Override
     protected void onResume() {
         super.onResume();
+        if (BrewSharedPrefs.getLastFragment() > 0 && !isFragLoaded) {
+            Fragment fragment = null;
+            if (BrewSharedPrefs.getLastFragment() == Constants.spUserFragement) {
+                fragment = new UserFeedsFragment();
+                navigationView.setCheckedItem(R.id.navigation_my_recipes);
+            }
+
+            if (BrewSharedPrefs.getLastFragment() == Constants.spMainFragement) {
+                fragment = new MainFeedFragment();
+                navigationView.setCheckedItem(R.id.navigation_home);
+            }
+
+            SetFragment(fragment);
+            isFragLoaded = true;
+        }
         CheckAuth();
     }
 
@@ -497,11 +510,6 @@ public class MainActivity extends NewActivtyBase {
         if (resultCode == BackPressed) {
             isFragLoaded = true;
         }
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
-//        if (requestCode == RC_SIGN_IN) {
-//            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            handleSignInResult(result);
-//        }
     }
 
     public void googleSignOut() {

@@ -24,6 +24,18 @@ public class BrewSharedPrefs {
     }
 
 
+    public static void setLastFragment(int lastFragment) {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(Constants.spSetLastFragment, lastFragment);
+        editor.apply();
+    }
+
+    public static int getLastFragment() {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        return preferences.getInt(Constants.spSetLastFragment, 0);
+    }
+
 
 
 //    public static void setUid(String uId) {

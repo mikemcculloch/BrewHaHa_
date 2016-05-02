@@ -255,6 +255,9 @@ public class Constants {
 
     public static final String bundleRecipeDetail = "RecipeDetail";
 
+    public static final String spSetLastFragment = "spSetLastFragment";
+    public static final Integer spMainFragement = 1;
+    public static final Integer spUserFragement = 2;
 
     public static final String fireBaseRoot = "https://scorching-fire-712.firebaseio.com/";
 

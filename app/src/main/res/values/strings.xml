@@ -160,6 +160,9 @@
     <string name="server_client_id">1087014534539-b61q17kem52h2658v1r0a0f3jbu2bjs8.apps.googleusercontent.com</string>
     <string name="description_recipe_image">recipe image</string>
     <string name="author_image">Author image</string>
+    <string name="string_makes">Makes</string>
+    <string name="string_srm_color">SRM Color</string>
+    <string name="string_details_icon">details icon</string>
 
     //
 </resources>

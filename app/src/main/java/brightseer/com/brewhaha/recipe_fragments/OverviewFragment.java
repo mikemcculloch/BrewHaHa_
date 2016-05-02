@@ -46,7 +46,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private View rootView;
     private RecipeDetail recipeDetail = new RecipeDetail();
     private String recipeTitle, authorImageUrl;
-    private TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view;
+    private TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view,
+            yield_by_gallon_text_view;
     private ImageView circle_srm_image_view;
     private EditText recipe_comment_edit_view;
     private View send_comment_button;
@@ -108,6 +109,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
         send_comment_button = rootView.findViewById(R.id.send_comment_button);
         send_comment_button.setOnClickListener(this);
+
+        yield_by_gallon_text_view = (TextView) rootView.findViewById(R.id.yield_by_gallon_text_view);
     }
 
     private void populateViews() {
@@ -134,9 +137,12 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 circle_srm_image_view.setImageDrawable(mDrawable);
             }
 
-            recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
-            send_comment_button = rootView.findViewById(R.id.send_comment_button);
+//            recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
+//            send_comment_button = rootView.findViewById(R.id.send_comment_button);
             send_comment_button.setOnClickListener(this);
+
+            String yield = recipeDetail.getYieldByGallon() + " Gallons";
+            yield_by_gallon_text_view.setText(yield);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -163,7 +169,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             } else {
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
-
 
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, commentRef) {
                 @Override
