@@ -75,13 +75,13 @@ public class IngredientFragment extends BaseRecipeFragment {
         rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
         rootView = SetCircularReveal(rootView);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
-
+        ReadBundle();
+        initFirebaseDb();
         if (!BrewSharedPrefs.getUserKey().isEmpty()) {
             repoSelected = new DBHelper_IngredientSelected(getActivity());
         }
 
-        ReadBundle();
-        initFirebaseDb();
+
 //        GetDbHelper();
 
 //        addTestGrainData();

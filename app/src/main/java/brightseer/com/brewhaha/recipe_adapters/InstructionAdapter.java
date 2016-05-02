@@ -85,7 +85,7 @@ public class InstructionAdapter extends RecyclerView.Adapter<InstructionViewHold
             }
         };
 
-        viewHolder._direction_checkbox.setVisibility(View.GONE);
+//        viewHolder._direction_checkbox.setVisibility(View.GONE);
 
         if (((dragState & RecyclerViewDragDropManager.STATE_FLAG_IS_UPDATED) != 0)) {
             int bgResId;

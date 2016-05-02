@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -30,12 +31,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.models.IngredientSelected;
 import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.recipe_adapters.InstructionAdapter;
 import brightseer.com.brewhaha.recipe_adapters.RecipeDirectionViewHolder;
+import brightseer.com.brewhaha.repository.DBHelper_IngredientSelected;
 
 /**
  * Created by wooan on 3/21/2016.
@@ -48,8 +52,8 @@ public class DirectionFragment extends BaseRecipeFragment {
 
     private InstructionAdapter instructionAdapter;
     private FirebaseRecyclerAdapter fbInstructionAdapter;
-    private RecyclerView my_instruction_recycle_view;
     public boolean isEditMode = false;
+    DBHelper_IngredientSelected repoSelected;
 
     public DirectionFragment() {
     }
@@ -71,9 +75,13 @@ public class DirectionFragment extends BaseRecipeFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_direction, container, false);
         rootView = SetCircularReveal(rootView);
-
         ReadBundle();
         initFirebaseDb();
+
+        if (!BrewSharedPrefs.getUserKey().isEmpty()) {
+            repoSelected = new DBHelper_IngredientSelected(getActivity());
+        }
+
 
 //        addTestDirections();
         if (isEditMode) {
@@ -96,35 +104,77 @@ public class DirectionFragment extends BaseRecipeFragment {
     public void addTestDirections() {
         try {
             ///ADD NEW //////////////////
+
+            Firebase pushInst = rootRef.push();
             RecipeInstruction recipeInstruction = new RecipeInstruction();
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 1");
             recipeInstruction.setOrder(1);
-            rootRef.push().setValue(recipeInstruction);
+            pushInst.setValue(recipeInstruction);
 
+            String postId = pushInst.getKey();
+            recipeInstruction.setKey(postId);
+            Firebase theChild = rootRef.child(postId);
+            Map<String, Object> keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
+
+
+            pushInst = rootRef.push();
             recipeInstruction = new RecipeInstruction();
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 2");
             recipeInstruction.setOrder(2);
-            rootRef.push().setValue(recipeInstruction);
+            pushInst.setValue(recipeInstruction);
 
+            postId = pushInst.getKey();
+            recipeInstruction.setKey(postId);
+            theChild = rootRef.child(postId);
+            keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
+
+            pushInst = rootRef.push();
             recipeInstruction = new RecipeInstruction();
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 3");
             recipeInstruction.setOrder(3);
-            rootRef.push().setValue(recipeInstruction);
+            pushInst.setValue(recipeInstruction);
 
+            postId = pushInst.getKey();
+            recipeInstruction.setKey(postId);
+            theChild = rootRef.child(postId);
+            keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
+
+            pushInst = rootRef.push();
             recipeInstruction = new RecipeInstruction();
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 4");
             recipeInstruction.setOrder(4);
-            rootRef.push().setValue(recipeInstruction);
+            pushInst.setValue(recipeInstruction);
 
+            postId = pushInst.getKey();
+            recipeInstruction.setKey(postId);
+            theChild = rootRef.child(postId);
+            keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
+
+            pushInst = rootRef.push();
             recipeInstruction = new RecipeInstruction();
             recipeInstruction.setActive(true);
             recipeInstruction.setDescription("this started as number 5");
             recipeInstruction.setOrder(5);
-            rootRef.push().setValue(recipeInstruction);
+            pushInst.setValue(recipeInstruction);
+
+            postId = pushInst.getKey();
+            recipeInstruction.setKey(postId);
+            theChild = rootRef.child(postId);
+            keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
 
             //////////////////
         } catch (Exception ex) {
@@ -180,7 +230,7 @@ public class DirectionFragment extends BaseRecipeFragment {
         recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recylerViewLayoutManager.scrollToPosition(0);
 
-        my_instruction_recycle_view = (RecyclerView) rootView.findViewById(R.id.my_instruction_recycle_view);
+        RecyclerView my_instruction_recycle_view = (RecyclerView) rootView.findViewById(R.id.my_instruction_recycle_view);
         my_instruction_recycle_view.setLayoutManager(recylerViewLayoutManager);
 
         if (!isEditMode) {
@@ -193,16 +243,42 @@ public class DirectionFragment extends BaseRecipeFragment {
             Query queryRef = rootRef.orderByChild("order");
             fbInstructionAdapter = new FirebaseRecyclerAdapter<RecipeInstruction, RecipeDirectionViewHolder>(RecipeInstruction.class, R.layout.row_recipe_direction, RecipeDirectionViewHolder.class, queryRef) {
                 @Override
-                protected void populateViewHolder(RecipeDirectionViewHolder recipeDirectionViewHolder, RecipeInstruction recipeInstruction, int i) {
-
+                protected void populateViewHolder(RecipeDirectionViewHolder recipeDirectionViewHolder, RecipeInstruction recipeInstruction, final int i) {
                     String description = recipeInstruction.getDescription();
                     String position = String.valueOf(recipeInstruction.getOrder());
 
                     recipeDirectionViewHolder.my_instruction_text_text_view.setText(description);
                     recipeDirectionViewHolder.position.setText(position);
-//                    recipeDirectionViewHolder.direction_checkbox
+
+                    if (!BrewSharedPrefs.getUserKey().isEmpty()) {
+                        if (repoSelected.isSelected(feedKey, BrewSharedPrefs.getUserKey(), recipeInstruction.getKey())) {
+                            recipeDirectionViewHolder.direction_checkbox.setChecked(true);
+                        }
+                    }
+
+                    recipeDirectionViewHolder.direction_checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            RecipeInstruction recipeInstructionChecked = (RecipeInstruction) fbInstructionAdapter.getItem(i);
+                            if (BrewSharedPrefs.getUserKey().isEmpty())
+                                return;
+
+                            if (isChecked) {
+                                IngredientSelected newItem = new IngredientSelected();
+                                newItem.setFeedKey(feedKey);
+                                newItem.setUserKey(BrewSharedPrefs.getUserKey());
+                                newItem.setKey(recipeInstructionChecked.getKey());
+
+                                repoSelected.insertIngredientSelected(newItem);
+                            } else {
+                                repoSelected.deleteIngredientSelectedRecord(recipeInstructionChecked.getKey());
+                            }
+                        }
+                    });
+
                 }
             };
+
             my_instruction_recycle_view.setAdapter(fbInstructionAdapter);
             my_instruction_recycle_view.setItemAnimator(new DefaultItemAnimator());
         }

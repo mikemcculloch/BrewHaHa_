@@ -22,7 +22,7 @@ public class InstructionViewHolder extends AbstractDraggableSwipeableItemViewHol
     public TextView _my_instruction_text_text_view;
     public TextView _position;
     public ViewHolderListener _viewHolderListener;
-    public CheckBox _direction_checkbox;
+//    public CheckBox _direction_checkbox;
 
     public InstructionViewHolder(View itemView, int viewType) {
         super(itemView);
@@ -31,7 +31,7 @@ public class InstructionViewHolder extends AbstractDraggableSwipeableItemViewHol
         _drag_handle = itemView.findViewById(R.id.drag_handle);
         _my_instruction_text_text_view = (TextView) itemView.findViewById(R.id.my_instruction_text_text_view);
         _position = (TextView) itemView.findViewById(R.id.position);
-        _direction_checkbox = (CheckBox) itemView.findViewById(R.id.direction_checkbox);
+//        _direction_checkbox = (CheckBox) itemView.findViewById(R.id.direction_checkbox);
 
         _container.setOnClickListener(this);
     }
