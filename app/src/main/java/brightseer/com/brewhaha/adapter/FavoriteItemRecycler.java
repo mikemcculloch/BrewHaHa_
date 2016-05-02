@@ -85,12 +85,12 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolde
                     .centerCrop()
                     .load(mainFeedItem.getImageUrl());
 
-            Ion.with(homeItemViewHolder.vuser_image_view)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .error(R.drawable.ic_person_black_24dp)
-                    .centerCrop()
-                    .transform(trans)
-                    .load(mainFeedItem.getUserImageUrl());
+//            Ion.with(homeItemViewHolder.vuser_image_view)
+//                    .placeholder(R.drawable.ic_person_black_24dp)
+//                    .error(R.drawable.ic_person_black_24dp)
+//                    .centerCrop()
+//                    .transform(trans)
+//                    .load(mainFeedItem.getUserImageUrl());
 
             String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
             homeItemViewHolder.mPlusOneButton.initialize(URL, 0);

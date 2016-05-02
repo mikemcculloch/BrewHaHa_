@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:plus="http://schemas.android.com/tools"
+    android:id="@id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
@@ -10,95 +12,42 @@
     <android.support.v7.widget.CardView
         style="@style/CardViewStyle.Light"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
+        android:layout_height="match_parent"
+
         android:focusable="true"
         card_view:cardCornerRadius="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/quarter_margin"
             android:layout_marginLeft="@dimen/full_margin"
             android:layout_marginRight="@dimen/full_margin"
             android:layout_marginTop="@dimen/quarter_margin"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="@dimen/home_recipe_image"
-                android:layout_height="@dimen/home_recipe_image"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/description_recipe_image"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/quarter_margin"
+                android:layout_marginRight="@dimen/quarter_margin"
                 android:gravity="center_vertical"
-                android:scaleType="centerCrop" />
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/home_recipe_image"
+                    android:layout_height="@dimen/home_recipe_image"
+                    android:contentDescription="@string/description_recipe_image"
+
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_crop_original_black_24dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/quarter_margin"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/itemTitle"
-                    style="@style/appMediumFont"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:maxLines="2"
-                    android:ellipsize="end"
-                    android:text="Trump Dump hump bump jump lump vump womp slump " />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="8">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:layout_marginEnd="@dimen/quarter_margin"
-                        android:layout_marginRight="@dimen/quarter_margin"
-                        android:layout_weight="2"
-                        android:gravity="start"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/itemStyle"
-                            style="@style/appSmallFont"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="top"
-                            android:text="Indian Pale Ale" />
-
-                        <com.google.android.gms.plus.PlusOneButton xmlns:plus="http://schemas.android.com/apk/lib/com.google.android.gms.plus"
-                            android:id="@+id/plus_one_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="bottom"
-                            plus:annotation="inline"
-                            plus:size="standard" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom|end"
-                        android:layout_weight="6"
-                        android:gravity="end|bottom"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:id="@+id/home_row_user_image_view"
-                            android:layout_width="@dimen/image_small_circle"
-                            android:layout_height="@dimen/image_small_circle"
-                            android:background="@android:color/transparent"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_person_black_24dp" />
-                    </LinearLayout>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -106,28 +55,69 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/itemStyle"
+                        style="@style/appSmallGray"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:text="Indian Pale Ale" />
+
+                    <TextView
                         android:id="@+id/home_row_time_from_post_text_view"
-                        style="@style/appSmallFont"
+                        style="@style/appSmallGray"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="start"
+                        android:gravity="end"
                         android:text="12/12/2015" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/itemTitle"
+                    style="@style/appMediumFont"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="Trump Dump hump bump jump lump vump womp slump " />
+
+                <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.google.android.gms.plus.PlusOneButton
+                        android:id="@+id/plus_one_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        plus:annotation="inline"
+                        plus:size="standard" />
+                    <!--</LinearLayout>-->
 
                     <TextView
                         android:id="@+id/itemAuthor"
-                        style="@style/appSmallFont"
+                        style="@style/appSmallBlueBold"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:layout_weight="1"
                         android:ellipsize="end"
                         android:gravity="end"
-                        android:maxLines="2"
-                        android:text="wooanaz wooanaz wooanaz wooanaz wooanaz    android:maxLines=" />
+                        android:maxLines="1"
+                        android:text="wooanaz" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
+        <!--<ImageView-->
+        <!--android:id="@+id/home_row_user_image_view"-->
+        <!--android:layout_width="@dimen/image_small_circle"-->
+        <!--android:layout_height="@dimen/image_small_circle"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--android:src="@drawable/ic_person_black_24dp"-->
+        <!--android:visibility="gone" />-->
+
     </android.support.v7.widget.CardView>
 </LinearLayout>

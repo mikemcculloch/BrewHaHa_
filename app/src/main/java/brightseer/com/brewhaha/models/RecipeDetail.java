@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class RecipeDetail implements Serializable {
     private String Key;
     private String Description;
-    private String Style;
+    //    private String Style;
     private String OwnerEmail;
     //    private String StyleDescription;
     private String AlcoholByVol;
@@ -25,10 +25,9 @@ public class RecipeDetail implements Serializable {
     public RecipeDetail() {
     }
 
-    public RecipeDetail(String key, String description, String style, String ownerEmail, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
+    public RecipeDetail(String key, String description, String ownerEmail, String alcoholByVol, String bitternessIbu, String colorSrm, String finalGravity, String originalGravity, String yieldByGallon, String srmHex, String dateModified, String dateCreated) {
         Key = key;
         Description = description;
-        Style = style;
         OwnerEmail = ownerEmail;
         AlcoholByVol = alcoholByVol;
         BitternessIbu = bitternessIbu;
@@ -39,14 +38,6 @@ public class RecipeDetail implements Serializable {
         SrmHex = srmHex;
         DateModified = dateModified;
         DateCreated = dateCreated;
-    }
-
-    public String getOwnerEmail() {
-        return OwnerEmail;
-    }
-
-    public void setOwnerEmail(String ownerEmail) {
-        OwnerEmail = ownerEmail;
     }
 
     public String getKey() {
@@ -65,12 +56,12 @@ public class RecipeDetail implements Serializable {
         Description = description;
     }
 
-    public String getStyle() {
-        return Style;
+    public String getOwnerEmail() {
+        return OwnerEmail;
     }
 
-    public void setStyle(String style) {
-        Style = style;
+    public void setOwnerEmail(String ownerEmail) {
+        OwnerEmail = ownerEmail;
     }
 
     public String getAlcoholByVol() {

@@ -72,7 +72,7 @@ public class CommentAdapter extends ArrayAdapter<Comment> {
                     .placeholder(R.drawable.ic_person_black_24dp)
                     .error(R.drawable.ic_person_black_24dp)
                     .transform(trans)
-                    .load(comment.getImageUrl());
+                    .load(comment.getAuthorImageUrl());
 
             ViewHolder.comment_item_author = (TextView) theView.findViewById(R.id.comment_item_author);
             ViewHolder.comment_item_author.setText(comment.getAuthorName());

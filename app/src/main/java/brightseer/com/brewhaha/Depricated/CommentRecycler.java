@@ -86,7 +86,7 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
                 .error(R.drawable.ic_person_black_24dp)
                 .centerCrop()
                 .transform(trans)
-                .load(getItem.getImageUrl());
+                .load(getItem.getAuthorImageUrl());
 
         holder.comment_item_author.setText(getItem.getAuthorName());
         holder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(getItem.getDateCreated()));

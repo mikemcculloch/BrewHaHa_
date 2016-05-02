@@ -34,6 +34,8 @@
     <dimen name="key_line">72dp</dimen>
     <dimen name="key_line_minus">56dp</dimen>
 
+    <dimen name="comment_min_height">32dp</dimen>
+
     <dimen name="image_small_circle">32dp</dimen>
     <dimen name="image_meduim_circle">48dp</dimen>
     <dimen name="image_large_circle_user">50dp</dimen>

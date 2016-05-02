@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.ion.Ion;
 
 import org.joda.time.DateTime;
 
@@ -25,8 +24,6 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
-import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 
@@ -63,8 +60,8 @@ public class MainFeedFragment extends FeedsBaseFragment {
     }
 
     private void initFirebaseDb() {
-        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("everyone");
-//        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds);
+//        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child("everyone");
+        rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds);
     }
 
     public void addTestData() {
@@ -77,7 +74,6 @@ public class MainFeedFragment extends FeedsBaseFragment {
                 MainFeedItem mainFeedItem = new MainFeedItem();
                 mainFeedItem.setTitle("Make Beer Great Again");
                 mainFeedItem.setAuthor("Trump Dump");
-//            mainFeedItem.setUserKey("brightseerstudios@gmail,com");
                 mainFeedItem.setUserImageUrl("http://images.huffingtonpost.com/2016-03-07-1457372468-7442274-trump.jpg");
                 mainFeedItem.setImageUrl("http://rlv.zcache.ca/trump_make_america_great_again_18_oz_beer_stein-rd05525b7776c452d8deb1b45f76bd937_x76ia_8byvr_324.jpg");
                 mainFeedItem.setDateCreated(DateTime.now().toString());
@@ -111,7 +107,7 @@ public class MainFeedFragment extends FeedsBaseFragment {
                 recipeDetail.setOriginalGravity("5");
                 recipeDetail.setSrmHex("#FE3499");
                 recipeDetail.setFinalGravity("4");
-                recipeDetail.setStyle("Bland pale ale");
+//                recipeDetail.setStyle("Bland pale ale");
                 recipeDetail.setYieldByGallon("5");
 
                 refDetail.setValue(recipeDetail);
@@ -169,31 +165,6 @@ public class MainFeedFragment extends FeedsBaseFragment {
                     })
             );
             mAdapter = GetFireBaseAdapter(rootRef, R.layout.row_home);
-//            mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
-//                @Override
-//                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
-//                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-//                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
-//                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-//
-//                    mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
-//
-//                    Ion.with(mainFeedViewHolder.vimage)
-//                            .placeholder(R.mipmap.ic_beercap)
-//                            .centerCrop()
-//                            .load(mainFeedItem.getImageUrl());
-//
-//                    Ion.with(mainFeedViewHolder.vuser_image_view)
-//                            .placeholder(R.drawable.ic_person_black_24dp)
-//                            .error(R.drawable.ic_person_black_24dp)
-//                            .centerCrop()
-//                            .transform(Utilities.GetRoundTransform())
-//                            .load(mainFeedItem.getUserImageUrl());
-//
-//                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-//                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
-//                }
-//            };
             home_recycler_view.setAdapter(mAdapter);
 
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {

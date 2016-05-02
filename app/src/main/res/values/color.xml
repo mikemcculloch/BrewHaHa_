@@ -13,6 +13,8 @@
     <color name="app_orange">#c48526</color>
     <color name="app_yellow">#F9E29C</color>
     <color name="app_gray">#D8D8D8</color>
+    
+    <color name="grey">#666666</color>
 
 
     <color name="testColor">#F9E29C</color>

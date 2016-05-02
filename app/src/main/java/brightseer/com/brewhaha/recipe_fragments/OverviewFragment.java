@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -28,6 +29,7 @@ import com.koushikdutta.ion.Ion;
 
 import org.joda.time.DateTime;
 
+import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
@@ -43,20 +45,19 @@ import brightseer.com.brewhaha.recipe_adapters.CommentViewHolder;
 public class OverviewFragment extends BaseRecipeFragment implements View.OnClickListener {
     private View rootView;
     private RecipeDetail recipeDetail = new RecipeDetail();
-    private String recipeTitle;
+    private String recipeTitle, authorImageUrl;
     private TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view;
     private ImageView circle_srm_image_view;
-    private RecyclerView comments_recycler_view;
     private EditText recipe_comment_edit_view;
     private View send_comment_button;
-    private Firebase rootRef;
+    private Firebase rootRef, commentRef;
     FirebaseRecyclerAdapter mAdapter;
     private String feedKey;
 
     public OverviewFragment() {
     }
 
-    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle, String _feedKey) {
+    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle, String _feedKey, String _authorImageUrl) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
@@ -64,6 +65,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         args.putSerializable(Constants.bundleRecipeDetail, _recipeDetail);
         args.putString(Constants.exRecipeTitle, _recipeTitle);
         args.putString(Constants.fbFeedKey, _feedKey);
+        args.putString(Constants.exAuthorImageUrl, _authorImageUrl);
 
         OverviewFragment fragment = new OverviewFragment();
         fragment.setArguments(args);
@@ -91,25 +93,18 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         recipeDetail = (RecipeDetail) getArguments().getSerializable(Constants.bundleRecipeDetail);
         recipeTitle = getArguments().getString(Constants.exRecipeTitle);
         feedKey = String.valueOf(getArguments().get(Constants.fbFeedKey));
+        authorImageUrl = getArguments().getString(Constants.exAuthorImageUrl);
     }
 
     private void initViews() {
         recipe_title_text_view = (TextView) rootView.findViewById(R.id.recipe_title_text_view);
-
         recipe_description_text_view = (TextView) rootView.findViewById(R.id.recipe_description_text_view);
-
         original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
         final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
-
         bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
-
         srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
-
         abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
-
         circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
-
-
         recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
         send_comment_button = rootView.findViewById(R.id.send_comment_button);
         send_comment_button.setOnClickListener(this);
@@ -139,7 +134,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 circle_srm_image_view.setImageDrawable(mDrawable);
             }
 
-
             recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
             send_comment_button = rootView.findViewById(R.id.send_comment_button);
             send_comment_button.setOnClickListener(this);
@@ -152,6 +146,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     private void initFirebaseDb() {
         rootRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbRecipeDetail).child(feedKey);
+        commentRef = new Firebase(Constants.fireBaseRoot).child(Constants.fbComments).child(feedKey);
     }
 
     private void initCommentRecyclerView() {
@@ -160,7 +155,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recylerViewLayoutManager.scrollToPosition(0);
 
-            comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
+            RecyclerView comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
             comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -169,8 +164,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Firebase ref = rootRef.child(Constants.fbComments).child(recipeTitle);
-            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, ref) {
+
+            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, commentRef) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
                     Ion.with(commentViewHolder.comment_user_image)
@@ -178,7 +173,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                             .error(R.drawable.ic_person_black_24dp)
                             .centerCrop()
                             .transform(Utilities.GetRoundTransform())
-                            .load(comment.getImageUrl());
+                            .load(comment.getAuthorImageUrl());
 
                     commentViewHolder.comment_item_author.setText(comment.getAuthorName());
                     commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
@@ -225,24 +220,29 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     private void AddComment() {
         try {
-
 //            if (!BrewSharedPrefs.getIsUserLoggedIn())
 //            {
 //
 //                return;
 //            }
+            if(recipe_comment_edit_view.getText().toString().isEmpty())
+                return;
 
-            Comment comment = new Comment();
-//            comment.setAuthorName(BrewSharedPrefs.getScreenkm  jhzvV,,Name());
-            comment.setBody(recipe_comment_edit_view.getText().toString());
-            comment.setFeedKey(feedKey);
-//            comment.setImageUrl(BrewSharedPrefs.getUserProfileImageUrl());
-            comment.setDateCreated(DateTime.now().toString());
+            AuthData authData = commentRef.getAuth();
+            if (authData != null) {
+                Comment comment = new Comment();
+                comment.setBody(recipe_comment_edit_view.getText().toString());
+                comment.setFeedKey(feedKey);
+                comment.setAuthorName(String.valueOf(authData.getProviderData().get("displayName")));
+                comment.setAuthorEmail(BrewSharedPrefs.getEmailAddress());
+                comment.setAuthorImageUrl(authorImageUrl);
+                comment.setDateCreated(DateTime.now().toString());
 
-            Firebase postRef = rootRef.child(Constants.fbComments).child(recipeTitle).push();
-            postRef.setValue(comment);
-            recipe_comment_edit_view.setText("");
+                commentRef.push().setValue(comment);
+                recipe_comment_edit_view.setText("");
+            } else {
 
+            }
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());

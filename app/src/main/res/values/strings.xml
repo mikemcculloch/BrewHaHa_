@@ -135,6 +135,8 @@
     <string name="transition_author">UserName</string>
     <string name="transition_userdate">UserDate</string>
     <string name="transition_googlePlus">UserDate</string>
+    <string name="transition_dateCreated">DateCreated</string>
+    <string name="transition_layout">Layout</string>
 
 
     <string name="next_x_results">%1$d</string>
@@ -157,6 +159,7 @@
     <!--<string name="server_client_id">1087014534539-4hcnmnb0erb5tmcrel89lf3qli5ohbko.apps.googleusercontent.com</string>-->
     <string name="server_client_id">1087014534539-b61q17kem52h2658v1r0a0f3jbu2bjs8.apps.googleusercontent.com</string>
     <string name="description_recipe_image">recipe image</string>
+    <string name="author_image">Author image</string>
 
     //
 </resources>

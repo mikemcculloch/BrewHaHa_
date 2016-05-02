@@ -108,7 +108,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                 recipeDetail.setOriginalGravity("5");
                 recipeDetail.setSrmHex("#FE3499");
                 recipeDetail.setFinalGravity("4");
-                recipeDetail.setStyle("Bland pail ale");
+//                recipeDetail.setStyle("Bland pail ale");
                 recipeDetail.setYieldByGallon("5");
 
                 refDetail.setValue(recipeDetail);

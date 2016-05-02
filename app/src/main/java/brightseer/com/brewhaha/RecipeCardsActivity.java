@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -57,7 +59,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
     private AppCompatButton card_overview, card_ingredients, card_directions, card_images, card_overviewHolder, card_commentsHolder;
 
-    private String feedKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle;
+    private String feedKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle, dateCreated;
 
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
@@ -158,6 +160,14 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             recipe_style_text_view.setText(recipeStyle);
             ViewCompat.setTransitionName(recipe_style_text_view, getResources().getString(R.string.transition_style));
 
+            TextView recipe_date_created_text_view = (TextView) findViewById(R.id.recipe_date_created_text_view);
+            recipe_date_created_text_view.setText(Utilities.DisplayTimeFormater(dateCreated));
+            ViewCompat.setTransitionName(recipe_date_created_text_view, getResources().getString(R.string.transition_dateCreated));
+
+
+            CardView parent_layout = (CardView) findViewById(R.id.parent_layout);
+            ViewCompat.setTransitionName(parent_layout, getResources().getString(R.string.transition_layout));
+
             ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
             Ion.with(author_image_view)
                     .centerCrop()
@@ -219,6 +229,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             authorImageUrl = activityThatCalled.getExtras().getString(Constants.exAuthorImage);
             feedKey = activityThatCalled.getExtras().getString(Constants.fbFeedKey);
             recipeStyle = activityThatCalled.getExtras().getString(Constants.exRecipeStyle);
+            dateCreated = activityThatCalled.getExtras().getString(Constants.exDateCreated);
 
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -414,7 +425,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     Fragment fragment = null;
                     if (sceneId == Constants.sceneOverview) {
                         view = card_overview;
-                        fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey);
+                        fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey, authorImageUrl);
                     }
 
                     if (sceneId == Constants.sceneIngredients) {

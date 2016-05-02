@@ -19,7 +19,7 @@ public class MainFeedViewHolder extends RecyclerView.ViewHolder {
     public TextView vAuthor;
     public TextView itemStyle;
     public ImageView vimage;
-    public ImageView vuser_image_view;
+//    public ImageView vuser_image_view;
     public TextView vtime_from_post_text_view;
 //    public LinearLayout home_parent_linear_layout;
     public PlusOneButton mPlusOneButton;
@@ -32,7 +32,7 @@ public class MainFeedViewHolder extends RecyclerView.ViewHolder {
         vimage = (ImageView) v.findViewById(R.id.image);
         itemStyle = (TextView) v.findViewById(R.id.itemStyle);
 
-        vuser_image_view = (ImageView) v.findViewById(R.id.home_row_user_image_view);
+//        vuser_image_view = (ImageView) v.findViewById(R.id.home_row_user_image_view);
         vtime_from_post_text_view = (TextView) v.findViewById(R.id.home_row_time_from_post_text_view);
 //        home_parent_linear_layout = (LinearLayout) v.findViewById(R.id.home_parent_linear_layout);
         mPlusOneButton = (PlusOneButton) v.findViewById(R.id.plus_one_button);

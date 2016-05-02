@@ -6,26 +6,25 @@ import java.io.Serializable;
  * Created by mccul_000 on 10/26/2014.
  */
 public class Comment implements Serializable {
-
     private String FeedKey;
     private String AuthorName;
-    private String ImageUrl;
+    private String AuthorImageUrl;
     private String Body;
     private String DateCreated;
-    private String UserToken;
     private String Key;
+    private String AuthorEmail;
 
     public Comment() {
     }
 
-    public Comment(String feedKey, String authorName, String imageUrl, String body, String dateCreated, String userToken, String key) {
+    public Comment(String feedKey, String authorName, String imageUrl, String body, String dateCreated, String key, String authorEmail) {
         FeedKey = feedKey;
         AuthorName = authorName;
-        ImageUrl = imageUrl;
+        AuthorImageUrl = imageUrl;
         Body = body;
         DateCreated = dateCreated;
-        UserToken = userToken;
         Key = key;
+        AuthorEmail = authorEmail;
     }
 
     public String getFeedKey() {
@@ -44,12 +43,12 @@ public class Comment implements Serializable {
         AuthorName = authorName;
     }
 
-    public String getImageUrl() {
-        return ImageUrl;
+    public String getAuthorImageUrl() {
+        return AuthorImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+    public void setAuthorImageUrl(String authorImageUrl) {
+        AuthorImageUrl = authorImageUrl;
     }
 
     public String getBody() {
@@ -68,19 +67,19 @@ public class Comment implements Serializable {
         DateCreated = dateCreated;
     }
 
-    public String getUserToken() {
-        return UserToken;
-    }
-
-    public void setUserToken(String userToken) {
-        UserToken = userToken;
-    }
-
     public String getKey() {
         return Key;
     }
 
     public void setKey(String key) {
         Key = key;
+    }
+
+    public String getAuthorEmail() {
+        return AuthorEmail;
+    }
+
+    public void setAuthorEmail(String authorEmail) {
+        AuthorEmail = authorEmail;
     }
 }

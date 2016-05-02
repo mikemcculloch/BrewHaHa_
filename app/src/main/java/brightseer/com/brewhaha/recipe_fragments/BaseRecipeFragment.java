@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+
+import brightseer.com.brewhaha.BrewSharedPrefs;
+
 /**
  * Created by wooan on 3/21/2016.
  */
@@ -35,9 +40,9 @@ public class BaseRecipeFragment extends Fragment {
         return view;
     }
 
-
-
     public boolean supportsViewElevation() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
+
+
 }

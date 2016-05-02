@@ -12,12 +12,10 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
@@ -49,26 +47,27 @@ public class FeedsBaseFragment extends Fragment {
             newIntent.putExtra(Constants.exAuthorImage, feedItem.getUserImageUrl());
             newIntent.putExtra(Constants.fbFeedKey, feedItem.getKey());
             newIntent.putExtra(Constants.exRecipeStyle, feedItem.getStyle());
-
+            newIntent.putExtra(Constants.exDateCreated, feedItem.getDateCreated());
 //            newIntent.putExtra(Constants.exPosition, position);
 //            newIntent.putExtra(Constants.exUserdate, String.valueOf(feedItem.getDateCreated()));
 
-            BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
-            if (biMain != null)
-                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
+//            BitmapInfo biMain = Ion.with((ImageView) view.findViewById(R.id.home_row_user_image_view)).getBitmapInfo();
+//            if (biMain != null)
+//                newIntent.putExtra(Constants.exBitMapInfoMain, biMain.key);
 
             newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
-                Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
+//                Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
                 Pair p3 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
                 Pair p4 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_author));
                 Pair p5 = Pair.create(view.findViewById(R.id.itemStyle), getResources().getString(R.string.transition_style));
+                Pair p6 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_dateCreated));
+                Pair p7 = Pair.create(view.findViewById(R.id.parent_layout), getResources().getString(R.string.transition_layout));
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p2, p3, p4, p5);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p3, p4, p5, p6, p7);
                 ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
-
             } else {
                 startActivity(newIntent);
                 getActivity().overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
@@ -97,12 +96,12 @@ public class FeedsBaseFragment extends Fragment {
                             .centerCrop()
                             .load(mainFeedItem.getImageUrl());
 
-                    Ion.with(mainFeedViewHolder.vuser_image_view)
-                            .placeholder(R.drawable.ic_person_black_24dp)
-                            .error(R.drawable.ic_person_black_24dp)
-                            .centerCrop()
-                            .transform(Utilities.GetRoundTransform())
-                            .load(mainFeedItem.getUserImageUrl());
+//                    Ion.with(mainFeedViewHolder.vuser_image_view)
+//                            .placeholder(R.drawable.ic_person_black_24dp)
+//                            .error(R.drawable.ic_person_black_24dp)
+//                            .centerCrop()
+//                            .transform(Utilities.GetRoundTransform())
+//                            .load(mainFeedItem.getUserImageUrl());
 
                     String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
                     mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
