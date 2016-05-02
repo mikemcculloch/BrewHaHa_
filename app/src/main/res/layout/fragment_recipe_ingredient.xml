@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/half_margin"
                 android:layout_marginRight="@dimen/half_margin"
-                android:animateLayoutChanges="true" />
+                android:minHeight="25dp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -106,7 +106,7 @@
                 android:layout_marginLeft="@dimen/half_margin"
                 android:layout_marginRight="@dimen/half_margin"
 
-                android:animateLayoutChanges="true" />
+                android:minHeight="25dp" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -116,6 +116,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/half_margin"
         android:layout_marginLeft="@dimen/half_margin"
+
         android:layout_marginRight="@dimen/half_margin">
 
         <LinearLayout
@@ -144,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/half_margin"
                 android:layout_marginRight="@dimen/half_margin"
-                android:animateLayoutChanges="true" />
+                android:minHeight="25dp" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

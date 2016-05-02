@@ -54,7 +54,7 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
     public RecyclerObjects.GrainMyRecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.recipe_grain_row, viewGroup, false);
+                inflate(R.layout.row_recipe_grain, viewGroup, false);
         return new RecyclerObjects.GrainMyRecipeViewHolder(itemView);
     }
 
@@ -89,7 +89,7 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
 //        CheckBox ingredient_checkbox = (CheckBox) theView.findViewById(R.id.ingredient_checkbox);
 //        if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //            for (IngredientSelected appDataItem : _appDataList) {
-//                if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getRecipeContentId()) {
+//                if (appDataItem.getKey() == item.getKey() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getRecipeContentId()) {
 //                    ingredient_checkbox.setChecked(true);
 //                }
 //            }
@@ -103,20 +103,20 @@ public class GrainRecycler extends RecyclerView.Adapter<RecyclerObjects.GrainMyR
         return recipeGrains.size();
     }
 
-    private String lookupUnitOfMeasure(int itemPk) {
-        UnitOfMeasure unit = ((IngredientFragment) this._fragment).GetUnitOfMeasure(itemPk, 1);
-        return unit.getDescription();
-    }
-
-    private String lookupGrainUse(int itemPk) {
-        GrainUse unit = ((IngredientFragment) this._fragment).GetGrainUse(itemPk);
-        return unit.getDescription();
-    }
-
-    private String lookupCountry(int itemPk) {
-        Country unit = ((IngredientFragment) this._fragment).GetCountry(itemPk);
-        return unit.getAbbreviation();
-    }
+//    private String lookupUnitOfMeasure(int itemPk) {
+//        UnitOfMeasure unit = ((IngredientFragment) this._fragment).GetUnitOfMeasure(itemPk, 1);
+//        return unit.getDescription();
+//    }
+//
+//    private String lookupGrainUse(int itemPk) {
+//        GrainUse unit = ((IngredientFragment) this._fragment).GetGrainUse(itemPk);
+//        return unit.getDescription();
+//    }
+//
+//    private String lookupCountry(int itemPk) {
+//        Country unit = ((IngredientFragment) this._fragment).GetCountry(itemPk);
+//        return unit.getAbbreviation();
+//    }
 
     public void addItemsToAdapter(List<RecipeGrain> modelsToAdd) {
         recipeGrains.addAll(modelsToAdd);

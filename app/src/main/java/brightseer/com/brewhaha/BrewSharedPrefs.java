@@ -37,6 +37,18 @@ public class BrewSharedPrefs {
     }
 
 
+    public static void setUserKey(String userKey) {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constants.spUserKey, userKey);
+        editor.apply();
+    }
+
+    public static String getUserKey() {
+        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);
+        return preferences.getString(Constants.spUserKey, "");
+    }
+
 
 //    public static void setUid(String uId) {
 //        SharedPreferences preferences = MainActivity.instance.getSharedPreferences(MainActivity.getInstance().getString(R.string.shared_prefs_name), Context.MODE_PRIVATE);

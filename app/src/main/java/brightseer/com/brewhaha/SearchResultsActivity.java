@@ -192,7 +192,7 @@ public class SearchResultsActivity extends BaseActivity {
 //        if (mainFeedItemList != null) {
 //            if (mainFeedItemList.size() > 0) {
 //                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
-//                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
+//                url = Constants.wcfGetHomeContentFromSearch + String.valueOf(mainFeedItem.getFeedKey()) + "/" + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvValue) + "/" + String.valueOf(ibuValue) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
 //            }
 //        }
 //        JsonObject json = new JsonObject();
@@ -259,7 +259,7 @@ public class SearchResultsActivity extends BaseActivity {
 //            eventGoogleAnalytics(Constants.gacRecipe, Constants.gacOpen, mainFeedItem.getTitle());
 //
 //            newIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
-//            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//            newIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getFeedKey()));
 //            newIntent.putExtra(Constants.exPosition, position);
 //
 //            newIntent.putExtra(Constants.exUsername, mainFeedItem.getAuthor());

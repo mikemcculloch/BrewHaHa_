@@ -10,10 +10,8 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.objects.Laboratory;
 import brightseer.com.brewhaha.models.RecipeYeast;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
-import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
 
 /**
  * Created by Michael McCulloch on 3/2/2015.
@@ -46,7 +44,7 @@ public class YeastRecycler extends RecyclerView.Adapter<RecyclerObjects.YeastMyR
     public RecyclerObjects.YeastMyRecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.recipe_yeast_row, viewGroup, false);
+                inflate(R.layout.row_recipe_yeast, viewGroup, false);
         return new RecyclerObjects.YeastMyRecipeViewHolder(itemView);
     }
 
@@ -62,10 +60,10 @@ public class YeastRecycler extends RecyclerView.Adapter<RecyclerObjects.YeastMyR
         return recipeYeasts.size();
     }
 
-    private String lookupLab(int itemPk) {
-        Laboratory unit = ((IngredientFragment) this._fragment).GetLaboratory(itemPk);
-        return unit.getName();
-    }
+//    private String lookupLab(int itemPk) {
+//        Laboratory unit = ((IngredientFragment) this._fragment).GetLaboratory(itemPk);
+//        return unit.getName();
+//    }
 
     public void addItemsToAdapter(List<RecipeYeast> modelsToAdd) {
         recipeYeasts.addAll(modelsToAdd);

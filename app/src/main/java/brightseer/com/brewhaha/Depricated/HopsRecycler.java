@@ -10,12 +10,8 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.objects.HopsForm;
-import brightseer.com.brewhaha.objects.HopsUse;
 import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.objects.RecyclerObjects;
-import brightseer.com.brewhaha.objects.UnitOfMeasure;
-import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
 
 /**
  * Created by Michael McCulloch on 3/2/2015.
@@ -49,7 +45,7 @@ public class HopsRecycler extends RecyclerView.Adapter<RecyclerObjects.HopMyReci
     public RecyclerObjects.HopMyRecipeViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.recipe_hop_row, viewGroup, false);
+                inflate(R.layout.row_recipe_hop, viewGroup, false);
         return new RecyclerObjects.HopMyRecipeViewHolder(itemView);
     }
 
@@ -72,20 +68,20 @@ public class HopsRecycler extends RecyclerView.Adapter<RecyclerObjects.HopMyReci
         return recipeHops.size();
     }
 
-    private String lookupUnitOfMeasure(int itemId, int type) {
-        UnitOfMeasure unit = ((IngredientFragment) this._fragment).GetUnitOfMeasure(itemId, type);
-        return unit.getDescription();
-    }
-
-    private String lookupHopUse(int itemId) {
-        HopsUse unit = ((IngredientFragment) this._fragment).GetHopUse(itemId);
-        return unit.getDescription();
-    }
-
-    private String lookupHopForm(int itemId) {
-        HopsForm unit = ((IngredientFragment) this._fragment).GetHopForm(itemId);
-        return unit.getDescription();
-    }
+//    private String lookupUnitOfMeasure(int itemId, int type) {
+//        UnitOfMeasure unit = ((IngredientFragment) this._fragment).GetUnitOfMeasure(itemId, type);
+//        return unit.getDescription();
+//    }
+//
+//    private String lookupHopUse(int itemId) {
+//        HopsUse unit = ((IngredientFragment) this._fragment).GetHopUse(itemId);
+//        return unit.getDescription();
+//    }
+//
+//    private String lookupHopForm(int itemId) {
+//        HopsForm unit = ((IngredientFragment) this._fragment).GetHopForm(itemId);
+//        return unit.getDescription();
+//    }
 
     public void addItemsToAdapter(List<RecipeHop> modelsToAdd) {
         recipeHops.addAll(modelsToAdd);

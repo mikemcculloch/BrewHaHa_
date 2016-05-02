@@ -151,7 +151,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
     }
 
 //    private void load() {
-//        String contentUrl = Constants.wcfGetContentById + responseContentItemPk.toString() + "/" + BrewSharedPrefs.getUserToken();
+//        String contentUrl = Constants.wcfGetContentById + responseContentItemPk.toString() + "/" + BrewSharedPrefs.getUserKey();
 //        Ion.with(_mContext)
 //                .load(contentUrl)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -170,7 +170,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 //                                             setShareIntent();
 //
 //                                             toggleStar = recipeContent.isFavorite();
-//                                             contentItemPk = recipeContent.getContentItemPk();
+//                                             contentItemPk = recipeContent.getFeedKey();
 //                                             comment_count = recipeContent.getCommentCount();
 //                                             int imageCount = recipeContent.getImagesMList().size();
 //
@@ -346,7 +346,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 //                    @Override
 //                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                        _Comment = commentAdapter.getItem(position);
-//                        if (_Comment.getUserToken().trim().equals(BrewSharedPrefs.getUserToken().trim())) {
+//                        if (_Comment.getUserKey().trim().equals(BrewSharedPrefs.getUserKey().trim())) {
 //                            ClearCommentInput();
 //                            registerForContextMenu(view);
 //                            openContextMenu(view);
@@ -597,7 +597,7 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 //                            fab.setImageResource(R.drawable.ic_star_white_24dp);
 //                            toggleStar = true;
 //                        }
-//                        String url = Constants.wcfAddUpdateFavorite + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//                        String url = Constants.wcfAddUpdateFavorite + contentItemPk + "/" + BrewSharedPrefs.getUserKey();
 //                        Ion.with(_mContext)
 //                                .load(url)
 //                                .asString();
@@ -658,10 +658,10 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                 JsonObject json = new JsonObject();
                 json.addProperty("body", recipe_comment_add_edit_text_view.getText().toString().trim());
 
-//                String test = BrewSharedPrefs.getUserToken();
+//                String test = BrewSharedPrefs.getUserKey();
 
 //                Ion.with(_mContext)
-//                        .load(Constants.wcfAddUpdateComment + commentEditPk + "/" + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + String.valueOf(comments.size() + 1))
+//                        .load(Constants.wcfAddUpdateComment + commentEditPk + "/" + responseContentItemPk + "/" + BrewSharedPrefs.getUserKey() + "/" + String.valueOf(comments.size() + 1))
 //                        .setHeader("Cache-Control", "No-Cache")
 //                        .setJsonObjectBody(json)
 //                        .asJsonArray()

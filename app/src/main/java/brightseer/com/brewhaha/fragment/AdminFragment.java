@@ -87,7 +87,7 @@ public class AdminFragment extends BaseFragment {
 //        if (loading != null && !loading.isDone() && !loading.isCancelled())
 //            return;
 //
-//        String url = Constants.wcfGetAllPendingApproval + BrewSharedPrefs.getUserToken();
+//        String url = Constants.wcfGetAllPendingApproval + BrewSharedPrefs.getUserKey();
 //        loading = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -130,7 +130,7 @@ public class AdminFragment extends BaseFragment {
 
     private void ApproveRecipe() {
 //        String token = String.valueOf(itemApproveMe.getToken());
-//        String url = Constants.wcfApproveRequest + BrewSharedPrefs.getUserToken() + "/" + token;
+//        String url = Constants.wcfApproveRequest + BrewSharedPrefs.getUserKey() + "/" + token;
 //        Ion.with(_fContext)
 //                .load(url)
 //                .asString()
@@ -154,8 +154,8 @@ public class AdminFragment extends BaseFragment {
         recyclerViewAdmin = (RecyclerView) rootView.findViewById(R.id.admin_recycle_view);
         int screenOrientation = getResources().getConfiguration().orientation;
 
-//        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-//            userToken = BrewSharedPrefs.getUserToken();
+//        if (!TextUtils.isEmpty(BrewSharedPrefs.getUserKey())) {
+//            userToken = BrewSharedPrefs.getUserKey();
 //        }
 
         recyclerViewAdmin.setHasFixedSize(true);
@@ -233,7 +233,7 @@ public class AdminFragment extends BaseFragment {
 //            }
 //
 //            assert recipeIntent != null;
-//            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//            recipeIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getFeedKey()));
 //            recipeIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //            recipeIntent.putExtra(Constants.exRecipePreview, true);
 //

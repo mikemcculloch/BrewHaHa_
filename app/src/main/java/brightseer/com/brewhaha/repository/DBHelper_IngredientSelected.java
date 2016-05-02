@@ -12,10 +12,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
-import java.util.List;
 
+import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
-import brightseer.com.brewhaha.objects.IngredientSelected;
+import brightseer.com.brewhaha.models.IngredientSelected;
 
 public class DBHelper_IngredientSelected extends OrmLiteSqliteOpenHelper {
     private final String TAG = this.getClass().getName();
@@ -61,18 +61,22 @@ public class DBHelper_IngredientSelected extends OrmLiteSqliteOpenHelper {
     }
 
     ///INSERT
-    public void insertIngredientSelectedList(List<IngredientSelected> ingredientSelectedList) {
-        try {
-            OrmLiteSqliteOpenHelper dbHelper = DBHelper_IngredientSelected.getInstance(_context);
-            Dao<IngredientSelected, Integer> daoIngredientSelected = dbHelper.getDao(IngredientSelected.class);
-            for (IngredientSelected item : ingredientSelectedList) {
-                daoIngredientSelected.create(item);
-            }
-            dbHelper.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void insertIngredientSelectedList(List<IngredientSelected> ingredientSelectedList) {
+//        try {
+//            OrmLiteSqliteOpenHelper dbHelper = DBHelper_IngredientSelected.getInstance(_context);
+//            Dao<IngredientSelected, Integer> daoIngredientSelected = dbHelper.getDao(IngredientSelected.class);
+//            for (IngredientSelected item : ingredientSelectedList) {
+//                daoIngredientSelected.create(item);
+//            }
+//            dbHelper.close();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
     public void insertIngredientSelected(IngredientSelected ingredientSelected) {
         try {
@@ -84,22 +88,52 @@ public class DBHelper_IngredientSelected extends OrmLiteSqliteOpenHelper {
             dbHelper.close();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 
-    public List<IngredientSelected> getIngredientSelectedByContentItemPk(int contentItemPk, String userToken) {
+//    public List<IngredientSelected> getIngredientSelectedByContentItemPk(int contentItemPk, String userToken) {
+//        try {
+//            QueryBuilder<IngredientSelected, Integer> queryBuilder = getIngredientSelectedDataDao().queryBuilder();
+//            queryBuilder.where().eq(Constants.ingredientSelected_FeedKey, contentItemPk);
+//            queryBuilder.where().eq(Constants.ingredientSelected_UserKey, userToken);
+//            return queryBuilder.query();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return null;
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//            return null;
+//        }
+//    }
+
+    public Boolean isSelected(String FeedKey, String UserKey, String Key) {
         try {
             QueryBuilder<IngredientSelected, Integer> queryBuilder = getIngredientSelectedDataDao().queryBuilder();
-            queryBuilder.where().eq(Constants.ingredientSelected_ContentItemPk, contentItemPk);
-            queryBuilder.where().eq(Constants.ingredientSelected_UserToken, userToken);
-            return queryBuilder.query();
+            queryBuilder.where().eq(Constants.ingredientSelected_FeedKey, FeedKey);
+            queryBuilder.where().eq(Constants.ingredientSelected_UserKey, UserKey);
+            queryBuilder.where().eq(Constants.ingredientSelected_Key, Key);
+
+            return !queryBuilder.query().isEmpty();
+
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return false;
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            return false;
         }
     }
 
-    public Dao<IngredientSelected, Integer> getIngredientSelectedDataDao() {
+
+    private Dao<IngredientSelected, Integer> getIngredientSelectedDataDao() {
         try {
             if (ingredientSelected == null) {
                 ingredientSelected = getDao(IngredientSelected.class);
@@ -109,22 +143,25 @@ public class DBHelper_IngredientSelected extends OrmLiteSqliteOpenHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception ex) {
-            ex.printStackTrace();
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
         return null;
     }
 
-    public void deleteIngredientSelectedRecord(int ingredientId, int type) {
+    public void deleteIngredientSelectedRecord(String key) {
         try {
             Dao<IngredientSelected, Integer> dao = getIngredientSelectedDataDao();
             DeleteBuilder<IngredientSelected, Integer> deleteBuilder = dao.deleteBuilder();
-            deleteBuilder.where().eq(Constants.ingredientSelected_IngredientId, ingredientId)
-                    .and().eq(Constants.ingredientSelected_Type, type);
+            deleteBuilder.where().eq(Constants.ingredientSelected_Key, key);
             deleteBuilder.delete();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 

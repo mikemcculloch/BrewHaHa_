@@ -77,7 +77,7 @@ public class AddUpdateRecipe extends BaseActivity {
 //    private void PrepareContent() {
 //        if (TextUtils.isEmpty(contentPk)) {
 //            Ion.with(_mContext)
-//                    .load(Constants.wcfAddDefaultRecipe + BrewSharedPrefs.getUserToken())
+//                    .load(Constants.wcfAddDefaultRecipe + BrewSharedPrefs.getUserKey())
 //                    .asJsonObject()
 //                    .setCallback(new FutureCallback<JsonObject>() {
 //                        @Override

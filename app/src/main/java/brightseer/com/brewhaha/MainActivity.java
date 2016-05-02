@@ -253,7 +253,7 @@ public class MainActivity extends NewActivtyBase {
                             eventGoogleAnalytics(Constants.gacUserFeedsFragment, "Open", "Drawer.UserFeedsFragment");
                             break;
                         case R.id.navigation_admin:
-//                        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
+//                        if (BrewSharedPrefs.getUserKey().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
 //                            fragment = new AdminFragment();
 //                            collapsingToolbarLayout.setTitle(getResources().getString(R.string.fragment_admin));
 //                        }
@@ -634,7 +634,7 @@ public class MainActivity extends NewActivtyBase {
 //        Menu menuNav = navigationView.getMenu();
 //        MenuItem navigationAdmin = menuNav.findItem(R.id.navigation_item_5);
 //
-////        if (BrewSharedPrefs.getUserToken().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
+////        if (BrewSharedPrefs.getUserKey().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
 ////            navigationAdmin.setVisible(true);
 ////        } else
 ////            navigationAdmin.setVisible(false);

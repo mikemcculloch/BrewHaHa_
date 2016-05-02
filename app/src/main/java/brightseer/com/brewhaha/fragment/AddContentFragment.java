@@ -99,7 +99,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
     }
 
 //    public void loadContent() {
-//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserKey();
 //        ionLoadRecipe = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -219,7 +219,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
         }
 
 //        LoadDialog(_fContext, false, true);
-//        String url = Constants.wcfUpdateRecipeContent + contentToken + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedBatchSizePk + "/" + selectedStylePk + "/" + abvProgress + "/" + ogProgress + "/" + fgProgress + "/" + srmProgress + "/" + ibuProgress;
+//        String url = Constants.wcfUpdateRecipeContent + contentToken + "/" + BrewSharedPrefs.getUserKey() + "/" + selectedBatchSizePk + "/" + selectedStylePk + "/" + abvProgress + "/" + ogProgress + "/" + fgProgress + "/" + srmProgress + "/" + ibuProgress;
 //        ionUpdateRecipe = Ion.with(_fContext)
 //                .load(url)
 //                .setJsonObjectBody(json)
@@ -695,7 +695,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
 
 //    public void publishRecipe() {
 //        LoadDialog(_fContext, false, false);
-//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        String url = Constants.wcfGetContentById + contentItemPk + "/" + BrewSharedPrefs.getUserKey();
 //        ionLoadRecipe = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -764,7 +764,7 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
 //    }
 
 //    private void RequestApproval() {
-//        String url = Constants.wcfRequestApproval + BrewSharedPrefs.getUserToken() + "/" + contentToken;
+//        String url = Constants.wcfRequestApproval + BrewSharedPrefs.getUserKey() + "/" + contentToken;
 //        Ion.with(_fContext)
 //                .load(url)
 //                .asString()

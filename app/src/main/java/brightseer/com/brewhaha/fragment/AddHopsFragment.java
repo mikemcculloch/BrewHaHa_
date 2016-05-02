@@ -614,7 +614,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
 //            }
 //        }
 //
-//        String url = Constants.wcfAddUpdateIngredientHopV2 + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + ingredientHopPk + "/" + selectedHopsUsePk + "/" + selectedHopFormPk + "/" + selectedMeasurement + "/" + selectedHopPk + "/" + selectedTimeUnit + "/" + acidProgress + "/" + my_hop_time_edit_text.getText().toString() + "/" + my_hop_amount_edit_text.getText().toString().trim() + "/" + addInstruction;
+//        String url = Constants.wcfAddUpdateIngredientHopV2 + contentItemPk + "/" + BrewSharedPrefs.getUserKey() + "/" + ingredientHopPk + "/" + selectedHopsUsePk + "/" + selectedHopFormPk + "/" + selectedMeasurement + "/" + selectedHopPk + "/" + selectedTimeUnit + "/" + acidProgress + "/" + my_hop_time_edit_text.getText().toString() + "/" + my_hop_amount_edit_text.getText().toString().trim() + "/" + addInstruction;
 //        json = new JsonObject();
 //        json.addProperty("name", my_hops_name_edit_text.getText().toString().trim());
 //

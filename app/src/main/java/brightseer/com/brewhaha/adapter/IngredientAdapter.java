@@ -17,14 +17,13 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Vector;
 
-import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeActivity;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.objects.Ingredient;
-import brightseer.com.brewhaha.objects.IngredientSelected;
+import brightseer.com.brewhaha.models.IngredientSelected;
 import brightseer.com.brewhaha.repository.DBHelper_IngredientSelected;
 
 public class IngredientAdapter extends ArrayAdapter<Ingredient> implements CompoundButton.OnCheckedChangeListener {
@@ -43,7 +42,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
         _TitlesArray = titlesArray;
         _ContentPk = contentPk;
         repoSelected = new DBHelper_IngredientSelected(_context);
-//        _appDataList = repoSelected.getIngredientSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
+//        _appDataList = repoSelected.getIngredientSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserKey());
     }
 
     @Override
@@ -68,7 +67,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
             CheckBox ingredient_checkbox = (CheckBox) theView.findViewById(R.id.ingredient_checkbox);
 //            if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //                for (IngredientSelected appDataItem : _appDataList) {
-//                    if (appDataItem.getIngredientId() == item.getIngredientId() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getContentItemPk()) {
+//                    if (appDataItem.getKey() == item.getKey() && appDataItem.getType() == Utilities.getIngredientTypeId(item.getType()) && _ContentPk == appDataItem.getFeedKey()) {
 //                        ingredient_checkbox.setChecked(true);
 //                    }
 //                }
@@ -105,14 +104,14 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
                 int typeInt = Utilities.getIngredientTypeId(item.getType());
                 if (isChecked) {
                     IngredientSelected newItem = new IngredientSelected();
-//                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
-                    newItem.setContentItemPk(item.getContentItemPk());
-                    newItem.setIngredientId(item.getIngredientId());
-                    newItem.setType(typeInt);
+//                    newItem.setUserKey(BrewSharedPrefs.getUserKey());
+//                    newItem.setFeedKey(item.getContentItemPk());
+//                    newItem.setKey(item.getIngredientId());
+//                    newItem.setType(typeInt);
 
-                    repoSelected.insertIngredientSelected(newItem);
+//                    repoSelected.insertIngredientSelected(newItem);
                 } else {
-                    repoSelected.deleteIngredientSelectedRecord(item.getIngredientId(), typeInt);
+//                    repoSelected.deleteIngredientSelectedRecord(item.getIngredientId(), typeInt);
                 }
             }
         } catch (Exception e) {

@@ -89,7 +89,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
         Intent i = getIntent();
         position = i.getIntExtra("position", 0);
         String contentPk = i.getStringExtra(Constants.exContentItemPk);
-//        String userToken = BrewSharedPrefs.getUserToken();
+//        String userToken = BrewSharedPrefs.getUserKey();
 
 //        Ion.with(getApplicationContext())
 //                .load(Constants.wcfGetContentById + contentPk + "/" + userToken)
@@ -102,7 +102,7 @@ public class FullScreenViewActivity extends BaseActivity implements View.OnClick
 //                                RecipeContent recipeContent = JsonToObject.JsonToRecipeContent(result);
 //                                NextContentItemId = recipeContent.getNextContentItemId();
 //                                recipeTitle = recipeContent.getTitle();
-//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
+//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getFeedKey());
 //                                recipeImageList = recipeContent.getImagesMList();
 //                                imageUrlList = new ArrayList<String>();
 //                                for (RecipeImage item : recipeImageList) {

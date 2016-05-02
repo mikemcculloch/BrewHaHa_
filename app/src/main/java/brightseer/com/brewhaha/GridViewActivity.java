@@ -61,7 +61,7 @@ public class GridViewActivity extends BaseActivity {
         initGridLayout();
 
         _mContext = this;
-//        userToken = BrewSharedPrefs.getUserToken();
+//        userToken = BrewSharedPrefs.getUserKey();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.standard_toolbar);
         setSupportActionBar(toolbar);
@@ -92,7 +92,7 @@ public class GridViewActivity extends BaseActivity {
     }
 
 //    private void load() {
-//        String url = Constants.wcfGetContentById + responseContentItemPk + "/" + BrewSharedPrefs.getUserToken();
+//        String url = Constants.wcfGetContentById + responseContentItemPk + "/" + BrewSharedPrefs.getUserKey();
 //        loadingObj = Ion.with(getApplicationContext())
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -106,7 +106,7 @@ public class GridViewActivity extends BaseActivity {
 //
 //                                BrewSharedPrefs.setCurrentToken(recipeContent.getToken());
 //                                BrewSharedPrefs.setCurrentContentTitle(recipeContent.getTitle());
-//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getContentItemPk());
+//                                BrewSharedPrefs.setLastContentItemPk(recipeContent.getFeedKey());
 //                                BrewSharedPrefs.setNextContentItemId(recipeContent.getNextContentItemId());
 //
 //                                setShareIntent();
@@ -149,8 +149,8 @@ public class GridViewActivity extends BaseActivity {
         try {
             int screenOrientation = getResources().getConfiguration().orientation;
 
-//            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-//                userToken = BrewSharedPrefs.getUserToken();
+//            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserKey())) {
+//                userToken = BrewSharedPrefs.getUserKey();
 //            }
 
             grid = (RecyclerView) findViewById(R.id.grid);

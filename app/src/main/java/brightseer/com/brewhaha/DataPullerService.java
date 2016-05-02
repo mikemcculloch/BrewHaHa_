@@ -248,7 +248,7 @@ public class DataPullerService extends IntentService {
 //    private void UpdateUserProfile() {
 //        if (BrewSharedPrefs.getIsUserLoggedIn()) {
 //            Ion.with(getApplicationContext())
-//                    .load(Constants.wcfGetUserProfile + BrewSharedPrefs.getUserToken())
+//                    .load(Constants.wcfGetUserProfile + BrewSharedPrefs.getUserKey())
 //                    .asJsonObject()
 //                    .setCallback(new FutureCallback<JsonObject>() {
 //                        @Override

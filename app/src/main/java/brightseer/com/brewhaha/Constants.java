@@ -5,7 +5,7 @@ package brightseer.com.brewhaha;
  */
 public class Constants {
 
-    public static int DATABASE_VERSION = 27;
+    public static int DATABASE_VERSION = 28;
     public static final String LOG = "brightseer.com.brewhaha";
 
     public static final String IV = "c2ee4e98f99579ed";
@@ -92,6 +92,14 @@ public class Constants {
     public static String UpdateInstructions = recipeServices + "UpdateInstructions"; //POST
 
 
+    public static String DATABASE_NAME_IngredientSelected = "brewhaha.db.IngredientSelected";
+    public static final String table_IngredientSelected = "IngredientSelected";
+    public static final String ingredientSelected_UserKey = "UserKey";
+    public static final String ingredientSelected_FeedKey = "FeedKey";
+    public static final String ingredientSelected_Key = "Key";
+
+
+
     public static String DATABASE_NAME = "brewhaha.db";
     public static final String table_HomeItem = "MainFeedItem";
     public static final String field_ContentItemPk = "ContentItemPk";
@@ -121,12 +129,12 @@ public class Constants {
     public static final String instructionSelected_ContentItemPk = "ContentItemPk";
     public static final String InstructionSelected_InstructionsId = "InstructionsId";
 
-    public static String DATABASE_NAME_IngredientSelected = "brewhaha.db.IngredientSelected";
-    public static final String table_IngredientSelected = "IngredientSelected";
-    public static final String ingredientSelected_UserToken = "UserToken";
-    public static final String ingredientSelected_ContentItemPk = "ContentItemPk";
-    public static final String ingredientSelected_IngredientId = "IngredientId";
-    public static final String ingredientSelected_Type = "Type";
+
+
+
+
+
+
 
     public static String DATABASE_NAME_Grain = "brewhaha.db.grain";
     public static final String grain_TableName = "Grain";
@@ -276,6 +284,7 @@ public class Constants {
 
 
     public static final String spUid = "uId";
+    public static final String spUserKey = "UserKey";
 
     public static final int ANIMATION_DELAY = 300;
 

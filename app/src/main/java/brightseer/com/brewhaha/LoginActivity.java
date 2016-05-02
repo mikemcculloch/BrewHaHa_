@@ -115,6 +115,7 @@ public class LoginActivity extends NewActivtyBase {
                     evaluateUser(userProfile);
                     BrewSharedPrefs.setEmailAddress(userProfile.getEmailAddress());
 
+
                     onBackPressed();
 //                    UpdateUi(userProfile);
                     // the Google user is now authenticated with your Firebase app
@@ -165,6 +166,11 @@ public class LoginActivity extends NewActivtyBase {
                         Map<String, Object> keyValue = new HashMap<String, Object>();
                         keyValue.put("key", postId);
                         theChild.updateChildren(keyValue);
+                    }
+
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        UserProfile userProfile = postSnapshot.getValue(UserProfile.class);
+                        BrewSharedPrefs.setUserKey(userProfile.getKey());
                     }
                 }
 

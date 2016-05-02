@@ -36,7 +36,7 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
         _context = context;
         _ContentPk = contentPk;
         repoSelected = new DBHelper_InstructionSelected(_context);
-//        _appDataList = repoSelected.getInstructionSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserToken());
+//        _appDataList = repoSelected.getInstructionSelectedByContentItemPk(_ContentPk, BrewSharedPrefs.getUserKey());
     }
 
     static class ViewHolder {
@@ -85,7 +85,7 @@ public class InstructionAdapter_Legacy extends ArrayAdapter<RecipeInstruction> i
 
 //                if (isChecked) {
 //                    InstructionSelected newItem = new InstructionSelected();
-//                    newItem.setUserToken(BrewSharedPrefs.getUserToken());
+//                    newItem.setUserKey(BrewSharedPrefs.getUserKey());
 //                    newItem.setRecipeContentId(recipeInstructionItem.getRecipeContentId());
 //                    newItem.setInstructionsId(recipeInstructionItem.getInstructionId());
 //                    repoSelected.insertInstructionSelected(newItem);

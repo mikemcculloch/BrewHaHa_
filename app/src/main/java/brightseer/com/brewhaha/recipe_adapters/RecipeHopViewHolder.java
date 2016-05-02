@@ -2,7 +2,9 @@ package brightseer.com.brewhaha.recipe_adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
+
 import brightseer.com.brewhaha.R;
 
 /**
@@ -16,6 +18,7 @@ public class RecipeHopViewHolder extends RecyclerView.ViewHolder {
     public TextView my_hop_time_text_view;
     public TextView my_hop_form_text_view;
     public TextView row_hop_alpha_text_view;
+    public CheckBox hop_checkbox;
 
 
     public RecipeHopViewHolder(View itemView) {
@@ -27,5 +30,6 @@ public class RecipeHopViewHolder extends RecyclerView.ViewHolder {
         my_hop_time_text_view = (TextView) itemView.findViewById(R.id.my_hop_time_text_view);
         my_hop_form_text_view = (TextView) itemView.findViewById(R.id.my_hop_form_text_view);
         row_hop_alpha_text_view = (TextView) itemView.findViewById(R.id.row_hop_alpha_text_view);
+        hop_checkbox = (CheckBox) itemView.findViewById(R.id.hop_checkbox);
     }
 }

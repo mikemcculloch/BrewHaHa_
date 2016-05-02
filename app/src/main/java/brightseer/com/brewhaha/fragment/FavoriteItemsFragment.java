@@ -80,8 +80,8 @@ public class FavoriteItemsFragment extends BaseFragment {
 //            if (bundle != null) {
 //                listType = bundle.getInt("listType");
 //            }
-//            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserToken())) {
-//                userToken = BrewSharedPrefs.getUserToken();
+//            if (!TextUtils.isEmpty(BrewSharedPrefs.getUserKey())) {
+//                userToken = BrewSharedPrefs.getUserKey();
 //            }
 //            list_view_main = (RecyclerView) view.findViewById(R.id.home_recycler_view);
 //            list_view_main.setHasFixedSize(false);
@@ -122,7 +122,7 @@ public class FavoriteItemsFragment extends BaseFragment {
 //                                }
 //
 //                                getNameScreenIntent.putExtra(Constants.exRecipeTitle, mainFeedItem.getTitle());
-//                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getContentItemPk()));
+//                                getNameScreenIntent.putExtra(Constants.exContentItemPk, String.valueOf(mainFeedItem.getFeedKey()));
 //                                getNameScreenIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 //
 //                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -161,7 +161,7 @@ public class FavoriteItemsFragment extends BaseFragment {
 //        if (mainFeedItemList != null) {
 //            if (mainFeedItemList.size() > 0) {
 //                MainFeedItem mainFeedItem = mainFeedItemList.get(mainFeedItemList.size() - 1);
-//                url = Constants.wcfGetHomeContentListByLastId + String.valueOf(mainFeedItem.getContentItemPk()) + "/" + userToken + "/" + listType + "/true";
+//                url = Constants.wcfGetHomeContentListByLastId + String.valueOf(mainFeedItem.getFeedKey()) + "/" + userToken + "/" + listType + "/true";
 //            }
 //        }
 //        loading = Ion.with(_fContext)

@@ -296,7 +296,7 @@ public class AddInstructionsFragment extends BaseFragment {
     }
 
 //    public void addUpdateInstruction() {
-//        String url = Constants.wcfAddUpdateInstruction + selectedInstructionPk + "/" + contentItemPk + "/" + BrewSharedPrefs.getUserToken() + "/" + selectedPosition;
+//        String url = Constants.wcfAddUpdateInstruction + selectedInstructionPk + "/" + contentItemPk + "/" + BrewSharedPrefs.getUserKey() + "/" + selectedPosition;
 //        json = new JsonObject();
 //        json.addProperty("description", my_instruction_name_edit_text.getText().toString().trim());
 //        ionUpdateInstructions = Ion.with(_fContext)
