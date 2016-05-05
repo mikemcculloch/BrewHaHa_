@@ -739,4 +739,14 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
+
+    public void ChildShowLoginDialog() {
+        try {
+            showLoginBottomSheetDialog(RecipeCardsActivity.this, findViewById(R.id.bottom_sheet));
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
 }

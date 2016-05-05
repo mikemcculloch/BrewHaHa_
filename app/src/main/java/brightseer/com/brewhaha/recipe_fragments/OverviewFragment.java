@@ -7,10 +7,14 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
@@ -33,6 +38,7 @@ import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.RecipeCardsActivity;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.Comment;
@@ -101,14 +107,83 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         recipe_title_text_view = (TextView) rootView.findViewById(R.id.recipe_title_text_view);
         recipe_description_text_view = (TextView) rootView.findViewById(R.id.recipe_description_text_view);
         original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
+
+        final ImageView send_drawable = (ImageView) rootView.findViewById(R.id.send_drawable);
+        send_comment_button = rootView.findViewById(R.id.send_comment_button);
+        send_comment_button.setOnClickListener(this);
+
         final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
         bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
         srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
         abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
         circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
         recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
-        send_comment_button = rootView.findViewById(R.id.send_comment_button);
-        send_comment_button.setOnClickListener(this);
+
+        recipe_comment_edit_view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp, getActivity().getTheme()));
+                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive, getActivity().getTheme()));
+                } else {
+                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp));
+                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive));
+                }
+
+                String viewText = String.valueOf(recipe_comment_edit_view.getText());
+                if (!viewText.isEmpty() ) {
+                    ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
+
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp, getActivity().getTheme()));
+                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send, getActivity().getTheme()));
+                    } else {
+                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp));
+                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send));
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        recipe_comment_edit_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+//                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp, getActivity().getTheme()));
+//                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive, getActivity().getTheme()));
+//                } else {
+//                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp));
+//                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive));
+//                }
+//
+//                String viewText = String.valueOf(recipe_comment_edit_view.getText());
+//                if (hasFocus && !viewText.isEmpty() ) {
+//                    ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
+//
+//                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp, getActivity().getTheme()));
+//                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send, getActivity().getTheme()));
+//                    } else {
+//                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp));
+//                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send));
+//                    }
+//                }
+            }
+        });
+
+
+
 
         yield_by_gallon_text_view = (TextView) rootView.findViewById(R.id.yield_by_gallon_text_view);
     }
@@ -172,7 +247,9 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, commentRef) {
+            Query queryRef =  commentRef.orderByChild("DateCreated");
+
+            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
                     Ion.with(commentViewHolder.comment_user_image)
@@ -227,9 +304,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     private void AddComment() {
         try {
-            if (BrewSharedPrefs.getUserKey().isEmpty())
-            {
-//                showBottomSheetDialog();
+            if (BrewSharedPrefs.getUserKey().isEmpty()) {
+                ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
                 return;
             }
             if (recipe_comment_edit_view.getText().toString().isEmpty())

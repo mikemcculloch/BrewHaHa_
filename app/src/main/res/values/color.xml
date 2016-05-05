@@ -16,6 +16,7 @@
     
     <color name="grey">#666666</color>
 
+    <color name="send_green">#0F9D58</color>
 
     <color name="testColor">#F9E29C</color>
     <color name="defaultBackground">#8FB299</color>
