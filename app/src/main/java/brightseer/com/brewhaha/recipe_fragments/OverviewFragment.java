@@ -157,11 +157,13 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     private void initCommentRecyclerView() {
         try {
+            RecyclerView comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
+            comments_recycler_view.setHasFixedSize(false);
+
             LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
             recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recylerViewLayoutManager.scrollToPosition(0);
-
-            RecyclerView comments_recycler_view = (RecyclerView) rootView.findViewById(R.id.comments_recycler_view);
+            recylerViewLayoutManager.setAutoMeasureEnabled(true);
             comments_recycler_view.setLayoutManager(recylerViewLayoutManager);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -185,8 +187,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                     commentViewHolder.comment_text_view.setText(comment.getBody());
                 }
             };
-            comments_recycler_view.setAdapter(mAdapter);
 
+            comments_recycler_view.setAdapter(mAdapter);
             comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
             comments_recycler_view.addOnItemTouchListener(
                     new RecyclerItemClickListener(getContext(), comments_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
@@ -225,12 +227,12 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     private void AddComment() {
         try {
-//            if (!BrewSharedPrefs.getIsUserLoggedIn())
-//            {
-//
-//                return;
-//            }
-            if(recipe_comment_edit_view.getText().toString().isEmpty())
+            if (BrewSharedPrefs.getUserKey().isEmpty())
+            {
+//                showBottomSheetDialog();
+                return;
+            }
+            if (recipe_comment_edit_view.getText().toString().isEmpty())
                 return;
 
             AuthData authData = commentRef.getAuth();

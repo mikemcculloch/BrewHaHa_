@@ -1,19 +1,16 @@
 package brightseer.com.brewhaha;
 
-import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -138,7 +135,6 @@ public class MainActivity extends NewActivtyBase {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(getResources().getString(R.string.app_name));
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
-
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         fab = (android.support.design.widget.FloatingActionButton) findViewById(R.id.fab);
@@ -146,9 +142,10 @@ public class MainActivity extends NewActivtyBase {
             @Override
             public void onClick(View v) {
                 AuthData authData = rootRef.getAuth();
-                LaunchLoginActivity(authData);
                 if (authData != null) {
                     //LAUNCH NEW RECIPE CREATION
+                } else {
+                    showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
                 }
             }
         });
@@ -172,31 +169,32 @@ public class MainActivity extends NewActivtyBase {
             @Override
             public void onClick(View v) {
 //                googleSignIn();
-                AuthData authData = rootRef.getAuth();
-                LaunchLoginActivity(authData);
+//                AuthData authData = rootRef.getAuth();
+//                LaunchLoginActivity(authData);
+                showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
             }
         });
     }
 
-    private void LaunchLoginActivity(AuthData authData) {
-        try {
-
-            if (authData == null) {
-                Intent newIntent = new Intent(MainActivity.this, LoginActivity.class);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
-                    ActivityCompat.startActivityForResult(MainActivity.this, newIntent, 0, options.toBundle());
-                } else {
-                    startActivity(newIntent);
-                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-                }
-            }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
+//    private void LaunchLoginActivity(AuthData authData) {
+//        try {
+//
+//            if (authData == null) {
+//                Intent newIntent = new Intent(MainActivity.this, LoginActivity.class);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
+//                    ActivityCompat.startActivityForResult(MainActivity.this, newIntent, 0, options.toBundle());
+//                } else {
+//                    startActivity(newIntent);
+//                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
+//                }
+//            }
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
     private void initFirebaseDb() {
         rootRef = new Firebase(Constants.fireBaseRoot);
@@ -301,12 +299,10 @@ public class MainActivity extends NewActivtyBase {
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commitAllowingStateLoss();
 
-                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.UserFeedsFragment"))
-                    {
+                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.UserFeedsFragment")) {
                         BrewSharedPrefs.setLastFragment(Constants.spUserFragement);
                     }
-                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.MainFeedFragment"))
-                    {
+                    if (fragment.getClass().getName().equals("brightseer.com.brewhaha.main_fragments.MainFeedFragment")) {
                         BrewSharedPrefs.setLastFragment(Constants.spMainFragement);
                     }
                 }
@@ -603,6 +599,17 @@ public class MainActivity extends NewActivtyBase {
             }
 
             BrewSharedPrefs.clearAllPrefs();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+
+    public void ChildShowLoginDialog() {
+        try {
+            showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());

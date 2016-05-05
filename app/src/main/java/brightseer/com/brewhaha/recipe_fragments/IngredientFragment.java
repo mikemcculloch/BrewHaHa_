@@ -128,8 +128,8 @@ public class IngredientFragment extends BaseRecipeFragment {
             recipeGrain.setAmount(5);
             recipeGrain.setColor(15);
             recipeGrain.setKey("");
-            recipeGrain.setCountry("USA geg from list");
-            recipeGrain.setGrainUse("Pellet - get from list");
+            recipeGrain.setCountry("USA");
+            recipeGrain.setGrainUse("Pellet");
             recipeGrain.setHexColor("#F34452");
             recipeGrain.setName("Lamma Mama Pellet 2");
             recipeGrain.setUnitOfMeasure("Lb");
@@ -279,11 +279,16 @@ public class IngredientFragment extends BaseRecipeFragment {
 
     private void initGrainRecyclerView() {
         try {
+            final RecyclerView recipe_grain_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_grain_recycler_view);
+            recipe_grain_recycler_view.setHasFixedSize(false);
+
+
             LinearLayoutManager recylerViewLayoutManager = new LinearLayoutManager(getActivity());
             recylerViewLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             recylerViewLayoutManager.scrollToPosition(0);
+            recylerViewLayoutManager.setAutoMeasureEnabled(true);
 
-            final RecyclerView recipe_grain_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_grain_recycler_view);
+
             recipe_grain_recycler_view.setLayoutManager(recylerViewLayoutManager);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 recipe_grain_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
@@ -297,6 +302,10 @@ public class IngredientFragment extends BaseRecipeFragment {
                 public void populateViewHolder(RecipeGrainViewHolder recipeGrainViewHolder, RecipeGrain recipeGrain, final int position) {
 
                     recipeGrainViewHolder.my_grain_amount_text_view.setText(String.valueOf(recipeGrain.getAmount()));
+
+                    recipeGrainViewHolder.row_grain_country_text_view.setText(recipeGrain.getCountry());
+
+                    recipeGrainViewHolder.row_grain_use_text_view.setText(recipeGrain.getGrainUse());
 
                     String decription = recipeGrain.getName() + ",";
                     recipeGrainViewHolder.my_grain_description_text_view.setText(decription);
@@ -367,11 +376,13 @@ public class IngredientFragment extends BaseRecipeFragment {
 
     private void initHopRecyclerView() {
         RecyclerView recipe_hop_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_hop_recycler_view);
-        recipe_hop_recycler_view.setHasFixedSize(true);
+        recipe_hop_recycler_view.setHasFixedSize(false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
+        layoutManager.setAutoMeasureEnabled(true);
+
 
         recipe_hop_recycler_view.setLayoutManager(layoutManager);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -464,11 +475,13 @@ public class IngredientFragment extends BaseRecipeFragment {
 
     private void initYeastRecyclerView() {
         RecyclerView recipe_yeast_recycler_view = (RecyclerView) rootView.findViewById(R.id.recipe_yeast_recycler_view);
-        recipe_yeast_recycler_view.setHasFixedSize(true);
+        recipe_yeast_recycler_view.setHasFixedSize(false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
+        layoutManager.setAutoMeasureEnabled(true);
+
         recipe_yeast_recycler_view.setLayoutManager(layoutManager);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             recipe_yeast_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getActivity().getTheme()), true));
@@ -514,6 +527,8 @@ public class IngredientFragment extends BaseRecipeFragment {
             }
         };
         recipe_yeast_recycler_view.setAdapter(mAdapterYeast);
+
+        recipe_yeast_recycler_view.setHasFixedSize(false);
 
         recipe_yeast_recycler_view.setItemAnimator(new DefaultItemAnimator());
         recipe_yeast_recycler_view.addOnItemTouchListener(

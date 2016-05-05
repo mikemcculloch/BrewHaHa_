@@ -71,18 +71,16 @@ public class LoginActivity extends NewActivtyBase {
         }
 
         ImageView image = (ImageView) findViewById(R.id.image);
-        Ion.with(image)
-                .load(Constants.loginImage);
+        Ion.with(image).load(Constants.loginImage);
 
-        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_WIDE);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                googleSignIn();
-            }
-        });
-//        signInButton.setScopes(gso.getScopeArray());
+//        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
+//        signInButton.setSize(SignInButton.SIZE_WIDE);
+//        signInButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                googleSignIn();
+//            }
+//        });
     }
 
     @Override

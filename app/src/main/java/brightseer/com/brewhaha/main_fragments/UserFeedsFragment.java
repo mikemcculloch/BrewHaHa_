@@ -1,5 +1,6 @@
 package brightseer.com.brewhaha.main_fragments;
 
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +14,6 @@ import android.view.ViewGroup;
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.ion.Ion;
 
 import org.joda.time.DateTime;
 
@@ -23,10 +23,9 @@ import java.util.Map;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.MainActivity;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
-import brightseer.com.brewhaha.helper.Utilities;
-import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 
@@ -56,6 +55,7 @@ public class UserFeedsFragment extends FeedsBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home, container, false);
         initFirebaseDb();
+        initLoginPrompt();
 //        initGoogleAnalytics(this.getClass().getSimpleName());
 
 //        addTestData();
@@ -179,32 +179,8 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                 );
 
                 mAdapter = GetFireBaseAdapter(rootRef, R.layout.row_home);
-//                mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, R.layout.row_home, MainFeedViewHolder.class, rootRef) {
-//                    @Override
-//                    public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
-//                        mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-//                        mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
-//                        mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-//
-//                        mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
-//
-//                        Ion.with(mainFeedViewHolder.vimage)
-//                                .placeholder(R.mipmap.ic_beercap)
-//                                .centerCrop()
-//                                .load(mainFeedItem.getImageUrl());
-//
-//                        Ion.with(mainFeedViewHolder.vuser_image_view)
-//                                .placeholder(R.drawable.ic_person_black_24dp)
-//                                .error(R.drawable.ic_person_black_24dp)
-//                                .centerCrop()
-//                                .transform(Utilities.GetRoundTransform())
-//                                .load(mainFeedItem.getUserImageUrl());
-//
-//                        String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-//                        mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
-//                    }
-//                };
                 home_recycler_view.setAdapter(mAdapter);
+
             }
 //            home_recycler_view.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //                @Override
@@ -228,6 +204,16 @@ public class UserFeedsFragment extends FeedsBaseFragment {
 //                    }
 //                }
 //            });
+        } catch (Exception e) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, e.getMessage());
+            }
+        }
+    }
+
+    private void initLoginPrompt() {
+        try {
+            ((MainActivity)getActivity()).ChildShowLoginDialog();
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());

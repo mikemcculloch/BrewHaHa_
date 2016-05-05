@@ -2,8 +2,17 @@ package brightseer.com.brewhaha.recipe_fragments;
 
 import android.animation.Animator;
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.DecelerateInterpolator;
@@ -12,6 +21,9 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import brightseer.com.brewhaha.BrewSharedPrefs;
+import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 
 /**
  * Created by wooan on 3/21/2016.
@@ -43,6 +55,4 @@ public class BaseRecipeFragment extends Fragment {
     public boolean supportsViewElevation() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
-
-
 }

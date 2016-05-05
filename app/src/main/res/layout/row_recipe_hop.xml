@@ -80,8 +80,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="35dp"
+                android:layout_marginLeft="@dimen/ingredient_indent"
+                android:layout_marginStart="@dimen/ingredient_indent"
                 android:layout_marginRight="@dimen/quarter_margin"
+                android:layout_marginEnd="@dimen/quarter_margin"
                 android:gravity="center_vertical"
                 android:text="30.00 min" />
 

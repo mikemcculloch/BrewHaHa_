@@ -3,11 +3,15 @@ package brightseer.com.brewhaha;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -22,7 +26,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -64,6 +67,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
     private boolean isOwner = false;
+    private View bottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +79,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             initExtras();
             initViews();
             buttonWidth();
-//            imageTransition();
-//            initPrefs();
+//            initBottomSheet(bottomSheet);
             initFirebaseDb();
             getRecipeDetail();
 
@@ -173,7 +176,14 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     .centerCrop()
                     .transform(Utilities.GetRoundTransform())
                     .load(authorImageUrl);
-//            imageTransition(author_image_view, authorImageUrl, Constants.exBitMapInfoMain);
+
+            author_image_view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    showLoginBottomSheetDialog(RecipeCardsActivity.this, bottomSheet);
+                }
+            });
 
             fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
             if (fabEdit != null) {
@@ -191,6 +201,9 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
             card_overviewHolder = (AppCompatButton) findViewById(R.id.card_overviewHolder);
             card_commentsHolder = (AppCompatButton) findViewById(R.id.card_commentsHolder);
+
+
+            bottomSheet = findViewById(R.id.bottom_sheet);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -315,9 +328,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    /**
-     * Toggles button location on click between top-left and bottom-right
-     */
     private void moveButton(View view) {
         try {
             toggleSceneButtons = false;
@@ -448,11 +458,11 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                         scene_target.removeAllViews();
                     }
 
-                    getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
-
                     if (view != null) {
                         view.setVisibility(View.INVISIBLE);
                     }
+
+                    getSupportFragmentManager().beginTransaction().add(R.id.scene_target, fragment).commit();
 
                     toggleSceneButtons = true;
                 }
@@ -575,7 +585,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     .load(authorImageUrl);
         }
     }
-
 
     private void openEditOption() {
         try {
@@ -722,21 +731,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     if (recipeDetail.getOwnerEmail().equals(BrewSharedPrefs.getEmailAddress())) {
                         isOwner = true;
                     }
-//                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child("userLists").child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
-////                    Firebase fbUserFeeds = new Firebase(Constants.fireBaseRoot).child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
-//                    fbUserFeeds.addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            if (dataSnapshot.hasChildren()) {
-//                                isOwner = true;
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(FirebaseError firebaseError) {
-//
-//                        }
-//                    });
                 }
             }
         } catch (Exception ex) {
@@ -745,5 +739,4 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
-
 }
