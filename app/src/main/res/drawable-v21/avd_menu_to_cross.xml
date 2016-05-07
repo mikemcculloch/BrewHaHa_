@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_menu_white_24dp">
+
+    <target
+        android:name="menu"
+        android:animation="@animator/menu_to_cross" />
+
+
+    <target
+        android:name="groupMenuCross"
+        android:animation="@animator/rotate_menu_to_cross" />
+
+</animated-vector>

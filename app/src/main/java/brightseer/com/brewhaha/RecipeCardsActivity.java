@@ -3,15 +3,14 @@ package brightseer.com.brewhaha;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -54,7 +53,7 @@ import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
  */
 public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickListener {
     private Toolbar toolbar;
-    private FloatingActionButton fabEdit;
+    private FloatingActionButton fabMenu;
     private int sceneId, sceneIdLast = 0;
 
     private boolean toggleSceneButtons = false, curveDir = true;
@@ -67,7 +66,12 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
     private boolean isOwner = false;
-    private View bottomSheet;
+
+    private BottomSheetBehavior menuSheetBehavior;
+
+    private AnimatedVectorDrawable menuToCross;
+    private AnimatedVectorDrawable crossToMenu;
+    private boolean tick = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             initExtras();
             initViews();
             buttonWidth();
+            initBottomSheet();
 //            initBottomSheet(bottomSheet);
             initFirebaseDb();
             getRecipeDetail();
@@ -107,10 +112,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                 if (toggleSceneButtons) {
                     goToSceneComments(v);
                 }
-                break;
-
-            case R.id.fabEdit:
-                openEditOption();
                 break;
         }
     }
@@ -177,18 +178,30 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     .transform(Utilities.GetRoundTransform())
                     .load(authorImageUrl);
 
+
             author_image_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    showLoginBottomSheetDialog(RecipeCardsActivity.this, bottomSheet);
+//
+                    showLoginBottomSheetDialog(RecipeCardsActivity.this, findViewById(R.id.dialog_bottom_sheet));
                 }
             });
 
-            fabEdit = (FloatingActionButton) findViewById(R.id.fabEdit);
-            if (fabEdit != null) {
-                fabEdit.setOnClickListener(this);
+            fabMenu = (FloatingActionButton) findViewById(R.id.fabMenu);
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                menuToCross = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_menu_to_cross);
+                crossToMenu = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_cross_to_menu);
+                fabMenu.setImageDrawable(menuToCross);
+            } else {
+                fabMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_white_24dp));
             }
+
+            fabMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    animatedVector();
+                }
+            });
 
             card_overview = (AppCompatButton) findViewById(R.id.card_overview);
             card_overview.setOnClickListener(this);
@@ -203,9 +216,54 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             card_commentsHolder = (AppCompatButton) findViewById(R.id.card_commentsHolder);
 
 
-            bottomSheet = findViewById(R.id.bottom_sheet);
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    private void animatedVector() {
+        try {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                AnimatedVectorDrawable drawable = tick ? menuToCross : crossToMenu;
+                if (tick) {
+                    menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                } else {
+                    menuSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }
+
+                fabMenu.setImageDrawable(drawable);
+                drawable.start();
+                tick = !tick;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void initBottomSheet() {
+        try {
+            View menu_bottom_sheet = findViewById(R.id.menu_bottom_sheet);
+            menuSheetBehavior = BottomSheetBehavior.from(menu_bottom_sheet);
+
+            menuSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                    if (newState == 4 && tick) {
+                        animatedVector();
+                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+
+                }
+            });
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 

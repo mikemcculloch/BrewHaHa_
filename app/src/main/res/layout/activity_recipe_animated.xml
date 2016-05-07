@@ -116,23 +116,33 @@
         </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabEdit"
-        style="@style/FabEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/full_margin"
-        android:visibility="gone"
-        app:fabSize="normal"
-        app:layout_anchor="@id/nestedscrollview"
-        app:layout_anchorGravity="bottom|right|end" />
 
 
     <include
-        android:id="@+id/bottom_sheet"
+        android:id="@+id/menu_bottom_sheet"
+        layout="@layout/sheet_recipe_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabMenu"
+        style="@style/FabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/full_margin"
+        app:fabSize="normal"
+        app:layout_anchor="@id/menu_bottom_sheet"
+        app:layout_anchorGravity="end" />
+
+    <include
+        android:id="@+id/dialog_bottom_sheet"
         layout="@layout/sheet_login_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:layout_behavior="@string/bottom_sheet_behavior" />
+
+
 </android.support.design.widget.CoordinatorLayout>

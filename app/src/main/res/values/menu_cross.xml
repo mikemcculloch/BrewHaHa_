@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- geometry -->
+    <integer name="viewport_width">24</integer>
+    <integer name="viewport_height">24</integer>
+    <integer name="viewport_center_x">12</integer>
+    <integer name="viewport_center_y">12</integer>
+    <string name="path_menu">M 3.0,18.0 h 18.0 v -2.0 L 3.0,16.0 v 2.0 L 3.0,18.0 M 3.0,13.0 h 18.0 v -2.0 l 0.0,0.0 l 0.0,0.0 L 3.0,11.0 v 2.0 L 3.0,13.0 M 3.0,6.0 v 2.0 h 18.0 L 21.0,6.0 L 3.0,6.0</string>
+    <string name="path_cross">M 0.0,0.0 h 0.0 v 0.0 L 0.0,0.0 v 0.0 L 0.0,0.0 M 3.0,4.0 h 0.0 v 0.0 l 9.0,16.0 l 9.0,-16.0 L 3.0,4.0 v 0.0 L 3.0,4.0 M 6.38,6.0 v 0.0 h 11.25 L 12.0,16.0 L 6.38,6.0</string>
+    <integer name="stroke_width">2</integer>
+
+    <!-- names -->
+    <string name="menu">menu</string>
+    <string name="cross">cross</string>
+    <string name="groupMenuCross">groupMenuCross</string>
+
+    <!-- drawing -->
+    <color name="stroke_color">#999</color>
+
+    <!-- timing -->
+    <integer name="duration">450</integer>
+
+</resources>
