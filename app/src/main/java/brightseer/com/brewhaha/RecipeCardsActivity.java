@@ -98,7 +98,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         switch (v.getId()) {
             case R.id.card_overview:
                 if (toggleSceneButtons)
-                    goToSceneOverView(v);
+                    goToSceneOverView(v, true);
                 break;
             case R.id.card_ingredients:
                 if (toggleSceneButtons)
@@ -315,15 +315,12 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
     private void getRecipeDetail() {
         try {
-//            Query queryRef = ref.orderByChild(Constants.fbFeedKey).equalTo(feedKey);;
             rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
                     recipeDetail.setKey(dataSnapshot.getKey());
-//                    }
-                    goToSceneOverView(findViewById(R.id.card_overview));
+                    goToSceneOverView(findViewById(R.id.card_overview), false);
                     toggleSceneButtons = true;
                     evaluateUser();
                 }
@@ -342,10 +339,10 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    public void goToSceneOverView(View view) {
+    public void goToSceneOverView(View view, boolean toggleSheet) {
         try {
             sceneId = Constants.sceneOverview;
-            moveButton(view);
+            moveButton(view, toggleSheet);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -356,7 +353,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     public void goToSceneIngredients(View view) {
         try {
             sceneId = Constants.sceneIngredients;
-            moveButton(view);
+            moveButton(view, true);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -367,7 +364,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     public void goToSceneDirections(View view) {
         try {
             sceneId = Constants.sceneDirections;
-            moveButton(view);
+            moveButton(view, true);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -378,7 +375,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     public void goToSceneComments(View view) {
         try {
             sceneId = Constants.sceneImages;
-            moveButton(view);
+            moveButton(view, true);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -386,8 +383,11 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    private void moveButton(View view) {
+    private void moveButton(View view, boolean toggleSheet) {
         try {
+            if (toggleSheet && tick) {
+                animatedVector();
+            }
             toggleSceneButtons = false;
             setLayoutParam(view);
             curveMotion(view, true);
