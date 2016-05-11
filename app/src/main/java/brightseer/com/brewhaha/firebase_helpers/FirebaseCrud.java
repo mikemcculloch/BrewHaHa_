@@ -2,10 +2,7 @@ package brightseer.com.brewhaha.firebase_helpers;
 
 import android.util.Log;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import org.joda.time.DateTime;
 
@@ -26,75 +23,24 @@ import brightseer.com.brewhaha.models.RecipeYeast;
 /**
  * Created by wooan on 5/10/2016.
  */
-public class firebase_crud {
-    Firebase rootRef;
+public class FirebaseCrud {
+    private Firebase rootRef;
 
-    public firebase_crud() {
+    public FirebaseCrud() {
         rootRef = new Firebase(Constants.fireBaseRoot);
     }
 
-    public boolean CloneRecipe(String feedKey) {
-        try {
-            MainFeedItem mainFeedItem = GetMainFeedItem(feedKey);
-            if (mainFeedItem != null) {
-                String newTitle = "Clone: " + mainFeedItem.getTitle();
-                mainFeedItem.setTitle(newTitle);
-                mainFeedItem.setKey("");
-                String nFeedKey = AddUserFeed(mainFeedItem);
-
-                RecipeDetail recipeDetail = GetRecipeDetail(feedKey);
-                if (recipeDetail != null) {
-                    recipeDetail.setOwnerEmail(BrewSharedPrefs.getEmailAddress());
-                    AddRecipeDetail(recipeDetail, nFeedKey);
-                }
-
-
-                AddCloneRecipe(feedKey, nFeedKey);
-                return true;
-            }
-            return false;
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-            throw ex;
-        }
-    }
-
-    private MainFeedItem GetMainFeedItem(String feedKey) {
-        try {
-
-            Firebase refFeed = rootRef.child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds).child(feedKey);
-            refFeed.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    MainFeedItem mainFeedItem = dataSnapshot.getValue(MainFeedItem.class);
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-            return null;
-        }
-    }
-
-    private String AddUserFeed(MainFeedItem mainFeedItem) {
+    public String AddUserFeed(MainFeedItem mainFeedItem) {
         try {
             String feedKey = "";
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
-                Firebase refFeedPush = rootRef.child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress()).push();
+                Firebase ref = rootRef.child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress());
+                Firebase refFeedPush = ref.push();
                 refFeedPush.setValue(mainFeedItem);
                 feedKey = refFeedPush.getKey();
                 mainFeedItem.setKey(feedKey);
 
-                Firebase theChild = rootRef.child(feedKey);
+                Firebase theChild = ref.child(feedKey);
 
                 Map<String, Object> keyValue = new HashMap<String, Object>();
                 keyValue.put("key", feedKey);
@@ -109,33 +55,7 @@ public class firebase_crud {
         }
     }
 
-    private RecipeDetail GetRecipeDetail(String feedKey) {
-        try {
-
-            Firebase refRecipeDetail = rootRef.child(Constants.fbUserFeeds).child(Constants.fbRecipeDetail).child(feedKey);
-
-            refRecipeDetail.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    RecipeDetail recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                }
-            });
-
-
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-            return null;
-        }
-    }
-
-    private void AddRecipeDetail(RecipeDetail recipeDetail, String feedKey) {
+    public void AddRecipeDetail(RecipeDetail recipeDetail, String feedKey) {
         try {
             if (!BrewSharedPrefs.getEmailAddress().isEmpty()) {
                 Firebase refDetail = rootRef.child(Constants.fbRecipeDetail).child(feedKey);
@@ -148,7 +68,7 @@ public class firebase_crud {
         }
     }
 
-    private void AddCloneRecipe(String feedKey, String nFeedKey) {
+    public void AddCloneRecipe(String feedKey, String nFeedKey) {
         try {//could also be sharedWith
             Firebase refClone = rootRef.child(Constants.fbClonedList).child(feedKey).child(BrewSharedPrefs.getEmailAddress());
 
@@ -228,6 +148,8 @@ public class firebase_crud {
 
     public void AddRecipeInstruction(RecipeInstruction recipeInstruction, String feedKey) {
         try {
+
+
             Firebase refInstructions = rootRef.child(Constants.fbDirections).child(feedKey);
             Firebase pushInst = refInstructions.push();
 
@@ -235,7 +157,7 @@ public class firebase_crud {
 
             String postId = pushInst.getKey();
             recipeInstruction.setKey(postId);
-            Firebase theChild = rootRef.child(postId);
+            Firebase theChild = refInstructions.child(postId);
             Map<String, Object> keyValue = new HashMap<String, Object>();
             keyValue.put("key", postId);
             theChild.updateChildren(keyValue);

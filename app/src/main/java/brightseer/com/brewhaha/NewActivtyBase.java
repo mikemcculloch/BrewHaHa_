@@ -260,7 +260,6 @@ public class NewActivtyBase extends AppCompatActivity {
     }
 
     public void showLoginBottomSheetDialog(Activity activity, View bottomSheet) {
-
         final Firebase rootRef = new Firebase(Constants.fireBaseRoot);
         AuthData authData = rootRef.getAuth();
         if (authData != null) {

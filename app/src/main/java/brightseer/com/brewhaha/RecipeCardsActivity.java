@@ -43,6 +43,7 @@ import com.koushikdutta.ion.bitmap.BitmapInfo;
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.firebase_helpers.CloneRecipe;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
@@ -276,7 +277,17 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                         @Override
                         public void onItemClick(View view, int position) {
                             try {
+                                if (BrewSharedPrefs.getUserKey().isEmpty()) {
+                                    ChildShowLoginDialog();
+                                    return;
+                                }
+
                                 RecipeMenuItem recipeMenuItem = sheetMenuAdapter.getItemAt(position);
+                                if(recipeMenuItem.getmId() == Constants.menuClone)
+                                {
+                                    CloneRecipe cloneRecipe = new CloneRecipe();
+                                    cloneRecipe.Clone(feedKey);
+                                }
 
                                 menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                             } catch (Exception e) {
