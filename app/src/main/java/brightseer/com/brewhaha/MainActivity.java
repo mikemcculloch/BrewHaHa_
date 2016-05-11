@@ -62,7 +62,7 @@ public class MainActivity extends NewActivtyBase {
 
 
     private Firebase rootRef;
-    private String emailAddress;
+//    private String emailAddress;
 
     private static final byte[] SALT = new byte[]{
             -117, 47, -21, 24, -30,
@@ -145,7 +145,7 @@ public class MainActivity extends NewActivtyBase {
                 if (authData != null) {
                     //LAUNCH NEW RECIPE CREATION
                 } else {
-                    showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
+                    showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.dialog_bottom_sheet));
                 }
             }
         });
@@ -171,30 +171,10 @@ public class MainActivity extends NewActivtyBase {
 //                googleSignIn();
 //                AuthData authData = rootRef.getAuth();
 //                LaunchLoginActivity(authData);
-                showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
+                showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.dialog_bottom_sheet));
             }
         });
     }
-
-//    private void LaunchLoginActivity(AuthData authData) {
-//        try {
-//
-//            if (authData == null) {
-//                Intent newIntent = new Intent(MainActivity.this, LoginActivity.class);
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
-//                    ActivityCompat.startActivityForResult(MainActivity.this, newIntent, 0, options.toBundle());
-//                } else {
-//                    startActivity(newIntent);
-//                    overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-//                }
-//            }
-//        } catch (Exception ex) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, ex.getMessage());
-//            }
-//        }
-//    }
 
     private void initFirebaseDb() {
         rootRef = new Firebase(Constants.fireBaseRoot);
@@ -606,45 +586,13 @@ public class MainActivity extends NewActivtyBase {
         }
     }
 
-
     public void ChildShowLoginDialog() {
         try {
-            showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.bottom_sheet));
+            showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.dialog_bottom_sheet));
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
             }
         }
     }
-//    public void StartAddUpdate(String contentPk) {
-//        try {
-//            Intent newActivityIntent = new Intent(this, AddUpdateRecipe.class);
-//            newActivityIntent.putExtra(Constants.spContentToken, contentToken);
-//            newActivityIntent.putExtra(Constants.exContentItemPk, contentPk);
-//            newActivityIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(this);
-//                ActivityCompat.startActivity(this, newActivityIntent, options.toBundle());
-//            } else {
-//                startActivity(newActivityIntent);
-////                overridePendingTransition(R.anim.slide_in_from_right, R.anim.slide_out_to_left);
-//            }
-//        } catch (Exception e) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, e.getMessage());
-//            }
-//        }
-//    }
-
-//    private void setAdminNav() {
-//        Menu menuNav = navigationView.getMenu();
-//        MenuItem navigationAdmin = menuNav.findItem(R.id.navigation_item_5);
-//
-////        if (BrewSharedPrefs.getUserKey().toUpperCase().equals("018430E8-0421-4D1D-9B42-871D8703A4BB")) {
-////            navigationAdmin.setVisible(true);
-////        } else
-////            navigationAdmin.setVisible(false);
-//
-//    }
 }

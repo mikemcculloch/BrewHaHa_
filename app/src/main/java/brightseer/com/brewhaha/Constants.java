@@ -253,6 +253,8 @@ public class Constants {
     //    public static final int sceneComments = 4;
     public static final int sceneImages = 4;
 
+    public static final int menuClone = 1;
+
     public static final String bundleRecipeGrains = "recipeGrains";
     public static final String bundleRecipeHops = "recipeHops";
     public static final String bundleRecipeYeasts = "recipeYeasts";
@@ -281,6 +283,7 @@ public class Constants {
     public static final String fbDirections = "directions";
     public static final String fbUserFeeds = "userFeeds";
     public static final String fbPublicFeeds = "public";
+    public static final String fbClonedList = "clonedList";
 
 
     public static final String spUid = "uId";
