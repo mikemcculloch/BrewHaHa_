@@ -233,6 +233,8 @@ public class Constants {
     public static final String exRecipeAuthor = "RecipeAuthor";
     public static final String exRecipeStyle = "RecipeStyle";
     public static final String exDateCreated = "DateCreated";
+    public static final String exCloneKey = "CloneKey";
+    public static final String exSharedKey = "SharedKey";
 
     public static final String exRecipeDesctiption = "RecipeDesctiption";
     public static final String exAuthorImageUrl = "AuthorImageUrl";

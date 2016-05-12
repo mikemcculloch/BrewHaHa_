@@ -163,10 +163,10 @@ public class FirebaseCrud {
 
     public void AddCloneRecipe(String feedKey, String nFeedKey) {
         try {//could also be sharedWith
-            Firebase refClone = rootRef.child(Constants.fbClonedList).child(feedKey).child(BrewSharedPrefs.getEmailAddress());
+            Firebase refClone = rootRef.child(Constants.fbClonedList).child(feedKey).child(nFeedKey).child(BrewSharedPrefs.getEmailAddress());
 
             Map<String, Object> clonedList = new HashMap<String, Object>();
-            clonedList.put("cloneFeedKey", nFeedKey);
+//            clonedList.put("cloneFeedKey", nFeedKey);
             clonedList.put("dateCreated", DateTime.now().toString());
             refClone.setValue(clonedList);
         } catch (Exception ex) {
@@ -197,7 +197,7 @@ public class FirebaseCrud {
             Firebase refComments = rootRef.child(Constants.fbComments).child(feedKey);
             refComments.removeValue();
 
-            Firebase refCloneList = rootRef.child(Constants.fbClonedList).child(parentKey).child(BrewSharedPrefs.getEmailAddress());
+            Firebase refCloneList = rootRef.child(Constants.fbClonedList).child(parentKey).child(feedKey).child(BrewSharedPrefs.getEmailAddress());
             refCloneList.removeValue();
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {

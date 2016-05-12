@@ -65,20 +65,14 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private Toolbar toolbar;
     private FloatingActionButton fabMenu;
     private int sceneId, sceneIdLast = 0;
-
     private boolean toggleSceneButtons = false, curveDir = true;
     private PlusOneButton mPlusOneButton;
-
     private AppCompatButton card_overview, card_ingredients, card_directions, card_images, card_overviewHolder, card_commentsHolder;
-
-    private String feedKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle, dateCreated;
-
+    private String feedKey, cloneKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle, dateCreated;
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
     private boolean isOwner = false;
-
     private BottomSheetBehavior menuSheetBehavior;
-
     private AnimatedVectorDrawable menuToCross;
     private AnimatedVectorDrawable crossToMenu;
     private boolean tick = false;
@@ -329,52 +323,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    private void menuCloneClick() {
-        try {
-            String feedName = Constants.fbPublicFeeds;
-            if (isOwner)
-                feedName = BrewSharedPrefs.getEmailAddress();
-
-            CloneRecipe cloneRecipe = new CloneRecipe();
-            cloneRecipe.Clone(feedKey, feedName, findViewById(R.id.coordinatorlayout));
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
-
-    private void menuDeleteClick() {
-        try {
-            DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    FirebaseCrud firebaseCrud = new FirebaseCrud();
-                    firebaseCrud.DeleteRecipe(feedKey, "");
-
-                    finish();
-                }
-            };
-
-            Utilities.DeletePrompt(RecipeCardsActivity.this, positiveClick);
-
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
-
-    private void menuEditClick() {
-        try {
-
-
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
-
     private void buttonWidth() {
         try {
             Display display = getWindowManager().getDefaultDisplay();
@@ -409,7 +357,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             feedKey = activityThatCalled.getExtras().getString(Constants.fbFeedKey);
             recipeStyle = activityThatCalled.getExtras().getString(Constants.exRecipeStyle);
             dateCreated = activityThatCalled.getExtras().getString(Constants.exDateCreated);
-
+            cloneKey= activityThatCalled.getExtras().getString(Constants.exCloneKey);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -804,6 +752,52 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                 Log.e(Constants.LOG, ex.getMessage());
             }
             return null;
+        }
+    }
+
+    private void menuCloneClick() {
+        try {
+            String feedName = Constants.fbPublicFeeds;
+            if (isOwner)
+                feedName = BrewSharedPrefs.getEmailAddress();
+
+            CloneRecipe cloneRecipe = new CloneRecipe();
+            cloneRecipe.Clone(feedKey, feedName, findViewById(R.id.coordinatorlayout));
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    private void menuDeleteClick() {
+        try {
+            DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    FirebaseCrud firebaseCrud = new FirebaseCrud();
+                    firebaseCrud.DeleteRecipe(feedKey, cloneKey);
+
+                    finish();
+                }
+            };
+
+            Utilities.DeletePrompt(RecipeCardsActivity.this, positiveClick);
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    private void menuEditClick() {
+        try {
+
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
         }
     }
 }
