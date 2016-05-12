@@ -447,61 +447,45 @@ public class BaseActivity extends AppCompatActivity {
             dialog.dismiss();
         }
     };
+//    @Override
+//    public void onTrimMemory(int level) {
+//        super.onTrimMemory(level);
+//        Ion.getDefault(_mContext).dump();
+//        Ion.getDefault(_mContext).configure().getResponseCache().clear();
+//        if (loading != null) {
+//            loading.cancel();
+//        }
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (loading != null) {
+//            loading.cancel();
+//        }
+//
+//        if (dialogProgress != null)
+//            dialogProgress.dismiss();
+//    }
 
-    public void AlertLoginPrompt(Context mContext, String title, String body, String loginText, String negativeText) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-        alertDialogBuilder.setTitle(title);
-        alertDialogBuilder
-                .setMessage(body)
-                .setCancelable(false)
-                .setPositiveButton(loginText, loginClick)
-//                .setNeutralButton(signUpText, signUpClick)
-                .setNegativeButton(negativeText, negativeClick);
-
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    @Override
-    public void onTrimMemory(int level) {
-        super.onTrimMemory(level);
-        Ion.getDefault(_mContext).dump();
-        Ion.getDefault(_mContext).configure().getResponseCache().clear();
-        if (loading != null) {
-            loading.cancel();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (loading != null) {
-            loading.cancel();
-        }
-
-        if (dialogProgress != null)
-            dialogProgress.dismiss();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (loading != null) {
-            loading.cancel();
-        }
-        Ion.getDefault(_mContext).dump();
-        Ion.getDefault(_mContext).configure().getResponseCache().clear();
-
-//        long teset = Runtime.getRuntime().totalMemory();
-        trans = null;
-
-        try {
-//            trimCache(getApplicationContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        if (loading != null) {
+//            loading.cancel();
+//        }
+//        Ion.getDefault(_mContext).dump();
+//        Ion.getDefault(_mContext).configure().getResponseCache().clear();
+//
+////        long teset = Runtime.getRuntime().totalMemory();
+//        trans = null;
+//
+//        try {
+////            trimCache(getApplicationContext());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void trimCache(Context context) {
         try {

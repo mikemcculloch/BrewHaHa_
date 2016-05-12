@@ -267,18 +267,6 @@ public class NewActivtyBase extends AppCompatActivity {
         }
 
         loginBehavior = BottomSheetBehavior.from(bottomSheet);
-        loginBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                // React to state change
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                // React to dragging events
-            }
-        });
-
 
         if (loginBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             loginBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

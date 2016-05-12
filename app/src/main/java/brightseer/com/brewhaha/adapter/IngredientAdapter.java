@@ -101,7 +101,7 @@ public class IngredientAdapter extends ArrayAdapter<Ingredient> implements Compo
             if (buttonView.isShown()) {
                 int position = Integer.parseInt(buttonView.getTag().toString());
                 Ingredient item = getItem(position);
-                int typeInt = Utilities.getIngredientTypeId(item.getType());
+//                int typeInt = Utilities.getIngredientTypeId(item.getType());
                 if (isChecked) {
                     IngredientSelected newItem = new IngredientSelected();
 //                    newItem.setUserKey(BrewSharedPrefs.getUserKey());

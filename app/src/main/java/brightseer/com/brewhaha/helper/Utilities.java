@@ -2,6 +2,7 @@ package brightseer.com.brewhaha.helper;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -13,6 +14,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -133,22 +135,6 @@ public class Utilities {
         }
     }
 
-    public static int getIngredientTypeId(String type) {
-        int itemTypeId = 0;
-        switch (type) {
-            case "Grain":
-                itemTypeId = 1;
-                break;
-            case "Hops":
-                itemTypeId = 2;
-                break;
-            case "Yeast":
-                itemTypeId = 3;
-                break;
-        }
-        return itemTypeId;
-    }
-
     public static boolean hitTest(View v, int x, int y) {
         final int tx = (int) (ViewCompat.getTranslationX(v) + 0.5f);
         final int ty = (int) (ViewCompat.getTranslationY(v) + 0.5f);
@@ -181,25 +167,22 @@ public class Utilities {
             }
         };
 
-        return  trans;
+        return trans;
     }
 
-    public static Drawable SetDrawableColor(String hexColor, Context context, Activity activity){
-        try
-        {
+    public static Drawable SetDrawableColor(String hexColor, Context context, Activity activity) {
+        try {
             int newColor = Color.parseColor(hexColor);
             Drawable mDrawable;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mDrawable =  context.getResources().getDrawable(R.drawable.circle_srm, activity.getTheme());
-            }
-            else{
+                mDrawable = context.getResources().getDrawable(R.drawable.circle_srm, activity.getTheme());
+            } else {
                 mDrawable = context.getResources().getDrawable(R.drawable.circle_srm);
             }
 
             mDrawable.setColorFilter(new PorterDuffColorFilter(newColor, PorterDuff.Mode.MULTIPLY));
-            return  mDrawable;
-        }
-        catch (Exception ex){
+            return mDrawable;
+        } catch (Exception ex) {
             return null;
         }
     }
@@ -216,7 +199,7 @@ public class Utilities {
         try {
             Snackbar snackbar = Snackbar
                     .make(view, message, Snackbar.LENGTH_LONG)
-                    .setAction("Undo",  mOnClickListener);
+                    .setAction("Undo", mOnClickListener);
             snackbar.setActionTextColor(Color.RED);
             View snackbarView = snackbar.getView();
             snackbarView.setBackgroundColor(Color.DKGRAY);
@@ -230,6 +213,28 @@ public class Utilities {
             }
         }
     }
+
+    public static void DeletePrompt(Context context, DialogInterface.OnClickListener positiveClick) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(R.string.delete_message)
+                    .setTitle(R.string.delete_title);
+
+            builder.setPositiveButton(R.string.delete_yes, positiveClick);
+            builder.setNegativeButton(R.string.delete_no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    return;
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
 
 //
 //    public class BackgroundTask extends AsyncTask<Void, Void, Void> {

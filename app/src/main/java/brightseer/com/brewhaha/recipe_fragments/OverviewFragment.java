@@ -7,14 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -136,7 +134,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 }
 
                 String viewText = String.valueOf(recipe_comment_edit_view.getText());
-                if (!viewText.isEmpty() ) {
+                if (!viewText.isEmpty()) {
                     ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
 
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -181,8 +179,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 //                }
             }
         });
-
-
 
 
         yield_by_gallon_text_view = (TextView) rootView.findViewById(R.id.yield_by_gallon_text_view);
@@ -247,7 +243,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Query queryRef =  commentRef.orderByChild("DateCreated");
+            Query queryRef = commentRef.orderByChild("DateCreated");
 
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
                 @Override
@@ -340,11 +336,12 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             rootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-//                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     recipeDetail = dataSnapshot.getValue(RecipeDetail.class);
-                    recipeDetail.setKey(dataSnapshot.getKey());
-//                    }
-                    populateViews();
+                    if (recipeDetail != null) {
+                        recipeDetail.setKey(dataSnapshot.getKey());
+                        populateViews();
+                    }
+
                 }
 
                 @Override

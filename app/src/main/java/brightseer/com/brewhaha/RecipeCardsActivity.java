@@ -3,6 +3,7 @@ package brightseer.com.brewhaha;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -12,7 +13,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -20,7 +20,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -38,8 +37,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 
 import java.util.List;
 import java.util.Vector;
@@ -94,7 +93,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             initExtras();
             initViews();
             buttonWidth();
-            initBottomSheet();
+
             initFirebaseDb();
             getRecipeDetail();
 
@@ -273,6 +272,11 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             RecyclerView recipe_menu_recycler_view = (RecyclerView) menu_bottom_sheet.findViewById(R.id.recipe_menu_recycler_view);
             recipe_menu_recycler_view.setHasFixedSize(true);
             recipe_menu_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getTheme()), true));
+            } else {
+                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+            }
 
             recipe_menu_recycler_view.addOnItemTouchListener(
                     new RecyclerItemClickListener(getBaseContext(), recipe_menu_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
@@ -286,19 +290,20 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                                 }
 
                                 RecipeMenuItem recipeMenuItem = sheetMenuAdapter.getItemAt(position);
-                                if (recipeMenuItem.getmId() == Constants.menuClone) {
 
-                                    String feedName = Constants.fbPublicFeeds;
-                                    if (isOwner)
-                                        feedName = BrewSharedPrefs.getEmailAddress();
-//
-                                    CloneRecipe cloneRecipe = new CloneRecipe();
-                                    cloneRecipe.Clone(feedKey, feedName, findViewById(R.id.coordinatorlayout));
+                                switch (recipeMenuItem.getmId()) {
+                                    case Constants.menuClone:
+                                        menuCloneClick();
+                                        break;
+                                    case Constants.menuDelete:
+                                        menuDeleteClick();
+                                        break;
+                                    case Constants.menuEdit:
+                                        menuEditClick();
+                                        break;
                                 }
 
                                 menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-
-
                             } catch (Exception e) {
                                 if (BuildConfig.DEBUG) {
                                     Log.e(Constants.LOG, e.getMessage());
@@ -324,7 +329,51 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
+    private void menuCloneClick() {
+        try {
+            String feedName = Constants.fbPublicFeeds;
+            if (isOwner)
+                feedName = BrewSharedPrefs.getEmailAddress();
 
+            CloneRecipe cloneRecipe = new CloneRecipe();
+            cloneRecipe.Clone(feedKey, feedName, findViewById(R.id.coordinatorlayout));
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    private void menuDeleteClick() {
+        try {
+            DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    FirebaseCrud firebaseCrud = new FirebaseCrud();
+                    firebaseCrud.DeleteRecipe(feedKey, "");
+
+                    finish();
+                }
+            };
+
+            Utilities.DeletePrompt(RecipeCardsActivity.this, positiveClick);
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    private void menuEditClick() {
+        try {
+
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
 
     private void buttonWidth() {
         try {
@@ -382,6 +431,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     goToSceneOverView(findViewById(R.id.card_overview), false);
                     toggleSceneButtons = true;
                     evaluateUser();
+                    initBottomSheet();
                 }
 
                 @Override
@@ -742,8 +792,12 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private List<RecipeMenuItem> GetRecipeMenuItems() {
         try {
             List<RecipeMenuItem> recipeMenuItems = new Vector<>();
-            recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_content_copy_black_24dp, "Clone Recipe", Constants.menuClone));
+            recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_content_copy_black_24dp, "Clone", Constants.menuClone));
 
+            if (isOwner) {
+                recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_delete_forever_black_24dp, "Delete", Constants.menuDelete));
+                recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_mode_edit_black_24dp, "Edit", Constants.menuEdit));
+            }
             return recipeMenuItems;
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {

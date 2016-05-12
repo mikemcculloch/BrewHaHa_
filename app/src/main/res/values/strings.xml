@@ -164,5 +164,9 @@
     <string name="string_srm_color">SRM Color</string>
     <string name="string_details_icon">details icon</string>
 
+    <string name="delete_message">Are you sure?</string>
+    <string name="delete_title">Delete can not be undone.</string>
+    <string name="delete_yes">Yes</string>
+    <string name="delete_no">No</string>
     //
 </resources>

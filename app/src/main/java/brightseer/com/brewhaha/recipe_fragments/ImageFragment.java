@@ -69,7 +69,6 @@ public class ImageFragment extends BaseRecipeFragment {
 //        addTestImages();
 
         GetImages();
-//        initViewPager();
         return rootView;
     }
 
