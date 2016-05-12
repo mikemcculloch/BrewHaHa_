@@ -217,11 +217,11 @@ public class Utilities {
             Snackbar snackbar = Snackbar
                     .make(view, message, Snackbar.LENGTH_LONG)
                     .setAction("Undo",  mOnClickListener);
-            snackbar.setActionTextColor(Color.WHITE);
+            snackbar.setActionTextColor(Color.RED);
             View snackbarView = snackbar.getView();
             snackbarView.setBackgroundColor(Color.DKGRAY);
             TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
-            textView.setTextColor(Color.YELLOW);
+            textView.setTextColor(Color.WHITE);
             snackbar.show();
 
         } catch (Exception ex) {
