@@ -68,22 +68,6 @@ public class FirebaseCrud {
         }
     }
 
-    public void AddCloneRecipe(String feedKey, String nFeedKey) {
-        try {//could also be sharedWith
-            Firebase refClone = rootRef.child(Constants.fbClonedList).child(feedKey).child(BrewSharedPrefs.getEmailAddress());
-
-            Map<String, Object> clonedList = new HashMap<String, Object>();
-            clonedList.put("cloneFeedKey", nFeedKey);
-            clonedList.put("dateCreated", DateTime.now().toString());
-            refClone.setValue(clonedList);
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-            throw ex;
-        }
-    }
-
     public void AddRecipeGrain(RecipeGrain recipeGrain, String feedKey) {
         try {
             ///ADD NEW RecipeGrain//////////////////
@@ -148,8 +132,6 @@ public class FirebaseCrud {
 
     public void AddRecipeInstruction(RecipeInstruction recipeInstruction, String feedKey) {
         try {
-
-
             Firebase refInstructions = rootRef.child(Constants.fbDirections).child(feedKey);
             Firebase pushInst = refInstructions.push();
 
@@ -176,6 +158,52 @@ public class FirebaseCrud {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
             }
+        }
+    }
+
+    public void AddCloneRecipe(String feedKey, String nFeedKey) {
+        try {//could also be sharedWith
+            Firebase refClone = rootRef.child(Constants.fbClonedList).child(feedKey).child(BrewSharedPrefs.getEmailAddress());
+
+            Map<String, Object> clonedList = new HashMap<String, Object>();
+            clonedList.put("cloneFeedKey", nFeedKey);
+            clonedList.put("dateCreated", DateTime.now().toString());
+            refClone.setValue(clonedList);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteRecipe(String feedKey, String parentKey) {
+        try {
+            Firebase refUserFeed = rootRef.child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
+            refUserFeed.removeValue();
+
+            Firebase refInstruction = rootRef.child(Constants.fbDirections).child(feedKey);
+            refInstruction.removeValue();
+
+            Firebase refDetail = rootRef.child(Constants.fbRecipeDetail).child(feedKey);
+            refDetail.removeValue();
+
+            Firebase refIngredients = rootRef.child(Constants.fbIngredients).child(feedKey);
+            refIngredients.removeValue();
+
+            Firebase refImages = rootRef.child(Constants.fbImages).child(feedKey);
+            refImages.removeValue();
+
+            Firebase refComments = rootRef.child(Constants.fbComments).child(feedKey);
+            refComments.removeValue();
+
+            Firebase refCloneList = rootRef.child(Constants.fbClonedList).child(parentKey).child(BrewSharedPrefs.getEmailAddress());
+            refCloneList.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
         }
     }
 }

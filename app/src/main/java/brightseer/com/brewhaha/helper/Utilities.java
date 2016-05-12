@@ -11,12 +11,14 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.koushikdutta.ion.bitmap.Transform;
@@ -208,6 +210,25 @@ public class Utilities {
 
     public static String decodeEmail(String userEmail) {
         return userEmail.replace(",", ".");
+    }
+
+    public static void RunSnackBar(View view, String message, View.OnClickListener mOnClickListener) {
+        try {
+            Snackbar snackbar = Snackbar
+                    .make(view, message, Snackbar.LENGTH_LONG)
+                    .setAction("Undo",  mOnClickListener);
+            snackbar.setActionTextColor(Color.WHITE);
+            View snackbarView = snackbar.getView();
+            snackbarView.setBackgroundColor(Color.DKGRAY);
+            TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+            textView.setTextColor(Color.YELLOW);
+            snackbar.show();
+
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
     }
 
 //

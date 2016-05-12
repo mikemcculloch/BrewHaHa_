@@ -1,6 +1,7 @@
 package brightseer.com.brewhaha.firebase_helpers;
 
 import android.util.Log;
+import android.view.View;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -10,6 +11,7 @@ import com.firebase.client.ValueEventListener;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeGrain;
@@ -29,9 +31,9 @@ public class CloneRecipe {
         rootRef = new Firebase(Constants.fireBaseRoot);
     }
 
-    public void Clone(String feedKey) {
+    public void Clone(String feedKey, String feedName,  View parentView) {
         try {
-            CloneMainFeedItem(feedKey);
+            CloneMainFeedItem(feedKey, feedName, parentView);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -40,9 +42,9 @@ public class CloneRecipe {
         }
     }
 
-    private void CloneMainFeedItem(final String feedKey) {
+    private void CloneMainFeedItem(final String feedKey, String feedName, final View parentView) {
         try {
-            Firebase refFeed = rootRef.child(Constants.fbUserFeeds).child(Constants.fbPublicFeeds).child(feedKey);
+            Firebase refFeed = rootRef.child(Constants.fbUserFeeds).child(feedName).child(feedKey);
             refFeed.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -51,6 +53,7 @@ public class CloneRecipe {
                         String newTitle = "Clone: " + mainFeedItem.getTitle();
                         mainFeedItem.setTitle(newTitle);
                         mainFeedItem.setKey("");
+                        mainFeedItem.setCloneKey(feedKey);
 
                         FirebaseCrud firebaseCrud = new FirebaseCrud();
                         nFeedKey = firebaseCrud.AddUserFeed(mainFeedItem);
@@ -61,6 +64,15 @@ public class CloneRecipe {
                         CloneRecipeYeast(feedKey);
                         CloneRecipeInstruction(feedKey);
                         CloneRecipeImage(feedKey);
+
+                        View.OnClickListener undoListner = new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                FirebaseCrud firebaseCrud = new FirebaseCrud();
+                                firebaseCrud.DeleteRecipe(nFeedKey, feedKey);
+                            }
+                        };
+                        Utilities.RunSnackBar(parentView, "A copy has been added to your recipes.", undoListner);
                     }
                 }
 
@@ -248,4 +260,5 @@ public class CloneRecipe {
             }
         }
     }
+
 }

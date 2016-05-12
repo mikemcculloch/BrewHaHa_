@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
@@ -44,6 +45,7 @@ import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.firebase_helpers.CloneRecipe;
+import brightseer.com.brewhaha.firebase_helpers.FirebaseCrud;
 import brightseer.com.brewhaha.helper.AnimatorPath;
 import brightseer.com.brewhaha.helper.PathEvaluator;
 import brightseer.com.brewhaha.helper.PathPoint;
@@ -277,19 +279,26 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                         @Override
                         public void onItemClick(View view, int position) {
                             try {
-                                if (BrewSharedPrefs.getUserKey().isEmpty()) {
+                                AuthData authData = rootRef.getAuth();
+                                if (authData == null) {
                                     ChildShowLoginDialog();
                                     return;
                                 }
 
                                 RecipeMenuItem recipeMenuItem = sheetMenuAdapter.getItemAt(position);
-                                if(recipeMenuItem.getmId() == Constants.menuClone)
-                                {
+                                if (recipeMenuItem.getmId() == Constants.menuClone) {
+
+                                    String feedName = Constants.fbPublicFeeds;
+                                    if (isOwner)
+                                        feedName = BrewSharedPrefs.getEmailAddress();
+//
                                     CloneRecipe cloneRecipe = new CloneRecipe();
-                                    cloneRecipe.Clone(feedKey);
+                                    cloneRecipe.Clone(feedKey, feedName, findViewById(R.id.coordinatorlayout));
                                 }
 
                                 menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+
                             } catch (Exception e) {
                                 if (BuildConfig.DEBUG) {
                                     Log.e(Constants.LOG, e.getMessage());
@@ -314,6 +323,8 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
+
+
 
     private void buttonWidth() {
         try {
@@ -378,8 +389,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
                 }
             });
-
-
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -587,132 +596,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     };
 
-//    private void imageTransition(final ImageView imageview_holder, final String urlImage, String bitMapInfo) {
-//        try {
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//                String bitmapKey = getIntent().getStringExtra(bitMapInfo);
-//                BitmapInfo bi = Ion.getDefault(this)
-//                        .getBitmapCache()
-//                        .get(bitmapKey);
-//
-//                if (bi == null)
-//                    return;
-//
-////                imageview_holder.setImageBitmap(bi.bitmap);
-//
-//                getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
-//                    @Override
-//                    public void onTransitionStart(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    public void onTransitionCancel(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    public void onTransitionPause(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    public void onTransitionResume(Transition transition) {
-//                    }
-//
-//                    @Override
-//                    public void onTransitionEnd(Transition transition) {
-//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                            getWindow().getEnterTransition().removeListener(this);
-//                        }
-//
-//                        // load the full version, crossfading from the thumbnail image
-//                        Ion.with(imageview_holder)
-//                                .crossfade(true)
-//                                .transform(Utilities.GetRoundTransform())
-//                                .load(urlImage);
-//                    }
-//                });
-//            } else {
-//                Ion.with(imageview_holder)
-//                        .centerCrop()
-//                        .transform(Utilities.GetRoundTransform())
-//                        .load(urlImage);
-//            }
-//        } catch (Exception ex) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, ex.getMessage());
-//            }
-//        }
-//    }
-
-    private void imageTransition() {
-        final ImageView imageview_userimage = (ImageView) findViewById(R.id.author_image_view);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            String bitmapKey = getIntent().getStringExtra(Constants.exBitMapInfoMain);
-            BitmapInfo bi = Ion.getDefault(this)
-                    .getBitmapCache()
-                    .get(bitmapKey);
-            imageview_userimage.setImageBitmap(bi.bitmap);
-
-            getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionCancel(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionPause(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionResume(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionEnd(Transition transition) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().getEnterTransition().removeListener(this);
-                    }
-
-                    // load the full version, crossfading from the thumbnail image
-                    Ion.with(imageview_userimage)
-                            .crossfade(true)
-                            .transform(Utilities.GetRoundTransform())
-                            .load(authorImageUrl);
-                }
-            });
-        } else {
-            Ion.with(imageview_userimage)
-                    .centerCrop()
-                    .transform(Utilities.GetRoundTransform())
-                    .load(authorImageUrl);
-        }
-    }
-
-    private void openEditOption() {
-        try {
-//            MenuSheetView menuSheetView =
-//                    new MenuSheetView(RecipeCardsActivity.this, MenuSheetView.MenuType.LIST, "Create...", new MenuSheetView.OnMenuItemClickListener() {
-//                        @Override
-//                        public boolean onMenuItemClick(MenuItem item) {
-//                            Toast.makeText(RecipeCardsActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-//                            if (bottomSheetLayout.isSheetShowing()) {
-//                                bottomSheetLayout.dismissSheet();
-//                            }
-//                            return true;
-//                        }
-//                    });
-//            menuSheetView.inflateMenu(R.menu.menu_bottom_sheet);
-//            bottomSheetLayout.showWithSheetView(menuSheetView);
-        } catch (Exception ex) {
-        }
-
-
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -856,7 +739,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    public List<RecipeMenuItem> GetRecipeMenuItems() {
+    private List<RecipeMenuItem> GetRecipeMenuItems() {
         try {
             List<RecipeMenuItem> recipeMenuItems = new Vector<>();
             recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_content_copy_black_24dp, "Clone Recipe", Constants.menuClone));

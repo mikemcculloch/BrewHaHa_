@@ -8,12 +8,14 @@ public class MainFeedItem {
     private String UserImageUrl;
     private String DateCreated;
     private String Style;
+    private String CloneKey;
+    private String SharedKey;
 
     public MainFeedItem() {
 
     }
 
-    public MainFeedItem(String key, String title, String author, String imageUrl, String userImageUrl, String dateCreated, String style) {
+    public MainFeedItem(String key, String title, String author, String imageUrl, String userImageUrl, String dateCreated, String style, String cloneKey, String sharedKey) {
         Key = key;
         Title = title;
         Author = author;
@@ -21,6 +23,8 @@ public class MainFeedItem {
         UserImageUrl = userImageUrl;
         DateCreated = dateCreated;
         Style = style;
+        CloneKey = cloneKey;
+        SharedKey = sharedKey;
     }
 
     public String getKey() {
@@ -77,5 +81,21 @@ public class MainFeedItem {
 
     public void setStyle(String style) {
         Style = style;
+    }
+
+    public String getCloneKey() {
+        return CloneKey;
+    }
+
+    public void setCloneKey(String cloneKey) {
+        CloneKey = cloneKey;
+    }
+
+    public String getSharedKey() {
+        return SharedKey;
+    }
+
+    public void setSharedKey(String sharedKey) {
+        SharedKey = sharedKey;
     }
 }
