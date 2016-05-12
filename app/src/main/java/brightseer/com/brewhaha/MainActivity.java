@@ -35,7 +35,8 @@ import com.google.android.vending.licensing.LicenseChecker;
 import com.google.android.vending.licensing.LicenseCheckerCallback;
 import com.google.android.vending.licensing.Policy;
 import com.google.android.vending.licensing.ServerManagedPolicy;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
+
 
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_fragments.MainFeedFragment;
@@ -158,8 +159,12 @@ public class MainActivity extends NewActivtyBase {
                 //Fatal error with out this click event
             }
         });
-        Ion.with(image)
+
+        Picasso.with(MainActivity.this)
                 .load(Constants.bannerUrl);
+
+//        Ion.with(image)
+//                .load(Constants.bannerUrl);
 
         View header = navigationView.getHeaderView(0);
         drawer_displayName = (TextView) header.findViewById(R.id.drawer_displayName);
@@ -534,9 +539,14 @@ public class MainActivity extends NewActivtyBase {
                     if (!personPhoto.isEmpty()) {
                         int dpConversion = (int) (65 * Resources.getSystem().getDisplayMetrics().density);
                         cornerRadius = 100;
-                        Ion.with(drawer_userImage)
+//                        Ion.with(drawer_userImage)
+//                                .transform(Utilities.GetRoundTransform())
+//                                .load(personPhoto);
+                        Picasso.with(MainActivity.this)
+                                .load(personPhoto)
                                 .transform(Utilities.GetRoundTransform())
-                                .load(personPhoto);
+                                .into(drawer_userImage);
+
 
                         drawer_userImage.setMinimumWidth(dpConversion);
                         drawer_userImage.setMinimumHeight(dpConversion);

@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
 
 import java.util.List;
@@ -30,24 +28,6 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
 
     int cornerRadius = 200;
 
-    Transform trans = new Transform() {
-        boolean isOval = false;
-
-        @Override
-        public Bitmap transform(Bitmap bitmap) {
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
-            Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
-            if (!bitmap.equals(scaled)) bitmap.recycle();
-            if (!scaled.equals(transformed)) bitmap.recycle();
-
-            return transformed;
-        }
-
-        @Override
-        public String key() {
-            return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
-        }
-    };
 
     public AddRecipeRecycler(List<MainFeedItem> jsonObject, UserFeedsFragment fragment) {
         this.jsonObjects = jsonObject;
@@ -104,18 +84,6 @@ public class AddRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.MyRe
 
             homeItemViewHolder.my_recipe_published_text_view.setText(published);
 
-            Ion.with(homeItemViewHolder.vimage)
-                    .placeholder(R.mipmap.ic_beercap)
-
-                    .centerCrop()
-                    .load(mainFeedItem.getImageUrl());
-
-            Ion.with(homeItemViewHolder.vuser_image_view)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .error(R.drawable.ic_person_black_24dp)
-                    .centerCrop()
-                    .transform(trans)
-                    .load(mainFeedItem.getUserImageUrl());
         }
     }
 

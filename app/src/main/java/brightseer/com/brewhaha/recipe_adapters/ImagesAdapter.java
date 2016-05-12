@@ -8,12 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.TouchImageView;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeImage;
 
 /**
@@ -58,9 +59,13 @@ public class ImagesAdapter extends PagerAdapter {
 
         RecipeImage recipeImage = _recepeImages.get(position);
 
-        Ion.with(imgDisplay)
-                .placeholder(R.mipmap.ic_beercap)
-                .load(recipeImage.getImageUrl());
+        Picasso.with(_activity)
+                .load(recipeImage.getImageUrl())
+                .into(imgDisplay);
+
+//        Ion.with(imgDisplay)
+//                .placeholder(R.mipmap.ic_beercap)
+//                .load(recipeImage.getImageUrl());
 
         _activity.registerForContextMenu(imgDisplay);
         (container).addView(viewLayout);

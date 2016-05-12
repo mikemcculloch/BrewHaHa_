@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Vector;
@@ -55,9 +55,13 @@ public class RecipeImageRecycler extends RecyclerView.Adapter<RecyclerObjects.Re
     @Override
     public void onBindViewHolder(RecyclerObjects.RecipeImageViewHolder viewHolder, int position) {
         RecipeImage displayRecipeImage = recipeImageList.get(position);
-        Ion.with(viewHolder.recipeImage)
-                .placeholder(R.drawable.ic_crop_original_black_24dp)
-                .load(displayRecipeImage.getImageUrl());
+//        Ion.with(viewHolder.recipeImage)
+//                .placeholder(R.drawable.ic_crop_original_black_24dp)
+//                .load(displayRecipeImage.getImageUrl());
+
+//        Picasso.with(_activity)
+//                .load(displayRecipeImage.getImageUrl())
+//                .into(viewHolder.recipeImage);
     }
 
     @Override

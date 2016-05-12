@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import brightseer.com.brewhaha.adapter.AddUpdateRecipeTabAdapter;
 import brightseer.com.brewhaha.fragment.AddInstructionsFragment;

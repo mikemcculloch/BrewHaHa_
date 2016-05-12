@@ -17,9 +17,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
 import java.util.ArrayList;
 
 import brightseer.com.brewhaha.BrewSharedPrefs;
@@ -342,33 +339,33 @@ public class AdvancedSearchFragment extends BaseFragment implements View.OnClick
 
     public void getSearchResultsCount() {
         try {
-            String searchText = search_advanced_text_edit_text.getText().toString().trim();
-            JsonObject json = new JsonObject();
-            json.addProperty("searchText", searchText);
-            String url = Constants.wcfGetSearchResultsCount + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvProgress) + "/" + String.valueOf(ibuProgress) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
-            Ion.with(getActivity().getApplicationContext())
-                    .load(url)
-                    .setHeader("Cache-Control", "No-Cache")
-                    .setJsonObjectBody(json)
-                    .asString()
-                    .setCallback(new FutureCallback<String>() {
-
-                        @Override
-                        public void onCompleted(Exception e, String result) {
-                            try {
-                                int searchResults = 0;
-                                if (result != null) {
-                                    searchResults = Integer.parseInt(result);
-//                                int searchResults = JsonToObject.GetSearchResultsCount(result);
-                                }
-                                search_expected_results_text_view.setText(getResources().getText(R.string.text_expected_results) + String.valueOf(searchResults));
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
+//            String searchText = search_advanced_text_edit_text.getText().toString().trim();
+//            JsonObject json = new JsonObject();
+//            json.addProperty("searchText", searchText);
+//            String url = Constants.wcfGetSearchResultsCount + String.valueOf(selectedType) + "/" + String.valueOf(selectedStyle) + "/" + String.valueOf(abvProgress) + "/" + String.valueOf(ibuProgress) + "/" + String.valueOf(grainPk) + "/" + String.valueOf(hopsPk) + "/" + String.valueOf(yeastPk);
+//            Ion.with(getActivity().getApplicationContext())
+//                    .load(url)
+//                    .setHeader("Cache-Control", "No-Cache")
+//                    .setJsonObjectBody(json)
+//                    .asString()
+//                    .setCallback(new FutureCallback<String>() {
+//
+//                        @Override
+//                        public void onCompleted(Exception e, String result) {
+//                            try {
+//                                int searchResults = 0;
+//                                if (result != null) {
+//                                    searchResults = Integer.parseInt(result);
+////                                int searchResults = JsonToObject.GetSearchResultsCount(result);
+//                                }
+//                                search_expected_results_text_view.setText(getResources().getText(R.string.text_expected_results) + String.valueOf(searchResults));
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                    });
 
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {

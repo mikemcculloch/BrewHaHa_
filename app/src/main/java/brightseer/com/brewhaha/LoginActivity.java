@@ -19,8 +19,6 @@ import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.SignInButton;
-import com.koushikdutta.ion.Ion;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -71,7 +69,7 @@ public class LoginActivity extends NewActivtyBase {
         }
 
         ImageView image = (ImageView) findViewById(R.id.image);
-        Ion.with(image).load(Constants.loginImage);
+//        Ion.with(image).load(Constants.loginImage);
 
 //        SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
 //        signInButton.setSize(SignInButton.SIZE_WIDE);

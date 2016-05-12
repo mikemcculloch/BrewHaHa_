@@ -31,8 +31,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.plus.PlusOneButton;
 import com.google.gson.JsonObject;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.BitmapInfo;
 import com.viewpagerindicator.LinePageIndicator;
 
 import java.util.ArrayList;
@@ -782,15 +780,15 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
 //        final ImageView imageview_holder = imageView;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            String bitmapKey = getIntent().getStringExtra(bitMapInfo);
+  /*          String bitmapKey = getIntent().getStringExtra(bitMapInfo);
             BitmapInfo bi = Ion.getDefault(this)
                     .getBitmapCache()
-                    .get(bitmapKey);
+                    .get(bitmapKey);*/
+//
+//            if (bi == null)
+//                return;
 
-            if (bi == null)
-                return;
-
-            imageview_holder.setImageBitmap(bi.bitmap);
+//            imageview_holder.setImageBitmap(bi.bitmap);
 
             getWindow().getEnterTransition().addListener(new Transition.TransitionListener() {
                 @Override
@@ -816,17 +814,17 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
                     }
 
                     // load the full version, crossfading from the thumbnail image
-                    Ion.with(imageview_holder)
-                            .crossfade(true)
-                            .transform(trans)
-                            .load(urlImage);
+//                    Ion.with(imageview_holder)
+//                            .crossfade(true)
+//                            .transform(trans)
+//                            .load(urlImage);
                 }
             });
         } else {
-            Ion.with(imageview_holder)
-                    .centerCrop()
-                    .transform(trans)
-                    .load(urlImage);
+//            Ion.with(imageview_holder)
+//                    .centerCrop()
+//                    .transform(trans)
+//                    .load(urlImage);
         }
     }
 }

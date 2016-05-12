@@ -19,8 +19,8 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.plus.PlusOneButton;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+//import com.koushikdutta.async.future.FutureCallback;
+//import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.List;

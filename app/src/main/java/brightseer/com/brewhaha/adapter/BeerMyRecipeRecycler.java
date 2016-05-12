@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.koushikdutta.ion.Ion;
-
 import java.util.List;
 import java.util.Vector;
 
@@ -52,10 +50,10 @@ public class BeerMyRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.I
         RecipeImage item = jsonObjects.get(i);
 
 
-        Ion.with(itemViewHolder.my_beer_image_view)
-                .placeholder(R.mipmap.ic_beercap)
-                .centerCrop()
-                .load(item.getImageUrl());
+//        Ion.with(itemViewHolder.my_beer_image_view)
+//                .placeholder(R.mipmap.ic_beercap)
+//                .centerCrop()
+//                .load(item.getImageUrl());
 
         //                .placeholder(R.mipmap.ic_beercap)
 //        itemViewHolder.my_beer_image_view.setScaleType(ImageView.ScaleType.CENTER_CROP);

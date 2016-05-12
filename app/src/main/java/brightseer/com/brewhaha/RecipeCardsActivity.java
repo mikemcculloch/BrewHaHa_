@@ -38,7 +38,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Vector;
@@ -176,10 +176,15 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             ViewCompat.setTransitionName(parent_layout, getResources().getString(R.string.transition_layout));
 
             ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
-            Ion.with(author_image_view)
-                    .centerCrop()
+//            Ion.with(author_image_view)
+//                    .centerCrop()
+//                    .transform(Utilities.GetRoundTransform())
+//                    .load(authorImageUrl);
+
+            Picasso.with(RecipeCardsActivity.this)
+                    .load(authorImageUrl)
                     .transform(Utilities.GetRoundTransform())
-                    .load(authorImageUrl);
+                    .into(author_image_view);
 
 
             author_image_view.setOnClickListener(new View.OnClickListener() {
@@ -357,7 +362,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             feedKey = activityThatCalled.getExtras().getString(Constants.fbFeedKey);
             recipeStyle = activityThatCalled.getExtras().getString(Constants.exRecipeStyle);
             dateCreated = activityThatCalled.getExtras().getString(Constants.exDateCreated);
-            cloneKey= activityThatCalled.getExtras().getString(Constants.exCloneKey);
+            cloneKey = activityThatCalled.getExtras().getString(Constants.exCloneKey);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());

@@ -28,7 +28,7 @@ import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
@@ -208,8 +208,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 circle_srm_image_view.setImageDrawable(mDrawable);
             }
 
-//            recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
-//            send_comment_button = rootView.findViewById(R.id.send_comment_button);
             send_comment_button.setOnClickListener(this);
 
             String yield = recipeDetail.getYieldByGallon() + " Gallons";
@@ -248,12 +246,19 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
-                    Ion.with(commentViewHolder.comment_user_image)
-                            .placeholder(R.drawable.ic_person_black_24dp)
-                            .error(R.drawable.ic_person_black_24dp)
+//                    Ion.with(commentViewHolder.comment_user_image)
+//                            .placeholder(R.drawable.ic_person_black_24dp)
+//                            .error(R.drawable.ic_person_black_24dp)
+//                            .centerCrop()
+//                            .transform(Utilities.GetRoundTransform())
+//                            .load(comment.getAuthorImageUrl());
+//
+
+                    Picasso.with(getActivity())
+                            .load(comment.getAuthorImageUrl())
                             .centerCrop()
                             .transform(Utilities.GetRoundTransform())
-                            .load(comment.getAuthorImageUrl());
+                            .into(commentViewHolder.comment_user_image);
 
                     commentViewHolder.comment_item_author.setText(comment.getAuthorName());
                     commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));

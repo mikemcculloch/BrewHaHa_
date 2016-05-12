@@ -25,9 +25,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +59,6 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
     private android.support.design.widget.FloatingActionButton yeast_fab;
     private AlertDialog addYeastDialog;
     private JsonObject json = new JsonObject();
-    public Future<JsonArray> ionLoadYeast, ionLabSpinner, ionUpdateYeast;
-    public Future<String> ionDeleteYeast;
 
     DBHelper_Laboratory repoLaboratory;
     private String mHeader = "";
@@ -94,45 +89,28 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (ionLoadYeast != null) {
-            ionLoadYeast.cancel();
-        }
-        if (ionLabSpinner != null) {
-            ionLabSpinner.cancel();
-        }
-        if (ionUpdateYeast != null) {
-            ionUpdateYeast.cancel();
-        }
-        if (ionDeleteYeast != null) {
-            ionDeleteYeast.cancel();
-        }
-    }
-
     public void load() {
-        String url = Constants.wcfGetRecipeYeast + contentToken;
-        ionLoadYeast = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
-
-                                         adapter.addItemsToAdapter(ingredient);
-                                         addFabListener();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-                );
+//        String url = Constants.wcfGetRecipeYeast + contentToken;
+//        ionLoadYeast = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+//
+//                                         adapter.addItemsToAdapter(ingredient);
+//                                         addFabListener();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                );
     }
 
     public void initViews() {
@@ -381,45 +359,45 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void addUpdateYeast() {
-        String url = Constants.wcfAddUpdateIngredientYeast + ingredientYeastPk + "/" + contentItemPk + "/" + selectedLabPk + "/" + selectedYeastPk + "/0";
-
-        json = new JsonObject();
-        json.addProperty("name", my_yeast_name_edit_text.getText().toString().trim());
-
-        ionUpdateYeast = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         addYeastDialog.dismiss();
-                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
-
-
-                                         RecipeYeast item = ingredient.get(0);
-                                         int pos = 0;
-
-//                                         if (ingredientYeastPk != 0) {
-//                                             pos = adapter.getPostionByPk(item.getIngredientYeastId());
-//                                             adapter.remove(pos);
-//                                         } else {
-//                                             pos = adapter.getItemCount();
+//        String url = Constants.wcfAddUpdateIngredientYeast + ingredientYeastPk + "/" + contentItemPk + "/" + selectedLabPk + "/" + selectedYeastPk + "/0";
+//
+//        json = new JsonObject();
+//        json.addProperty("name", my_yeast_name_edit_text.getText().toString().trim());
+//
+//        ionUpdateYeast = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         addYeastDialog.dismiss();
+//                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+//
+//
+//                                         RecipeYeast item = ingredient.get(0);
+//                                         int pos = 0;
+//
+////                                         if (ingredientYeastPk != 0) {
+////                                             pos = adapter.getPostionByPk(item.getIngredientYeastId());
+////                                             adapter.remove(pos);
+////                                         } else {
+////                                             pos = adapter.getItemCount();
+////                                         }
+//
+//                                         adapter.add(item, pos);
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
 //                                         }
-
-                                         adapter.add(item, pos);
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                         addYeastDialog.dismiss();
-                                     }
-                                 }
-                             }
-
-                );
+//                                         addYeastDialog.dismiss();
+//                                     }
+//                                 }
+//                             }
+//
+//                );
 
     }
 
@@ -458,44 +436,44 @@ public class AddYeastFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void DeleteItem() {
-        String url = Constants.wcfRemoveIngredientYeast + ingredientYeastPk + "/" + contentItemPk + "/false";
-        ionDeleteYeast = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        adapter.remove(listPosition);
-                        resetDialogValues();
-                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                });
+//        String url = Constants.wcfRemoveIngredientYeast + ingredientYeastPk + "/" + contentItemPk + "/false";
+//        ionDeleteYeast = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        adapter.remove(listPosition);
+//                        resetDialogValues();
+//                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                });
     }
 
     public void makeCopyYeast() {
-        String url = Constants.wcfCopyYeast + ingredientYeastPk + "/" + contentToken;
-        ionUpdateYeast = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
-                                         RecipeYeast item = ingredient.get(0);
-                                         adapter.add(item);
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-                );
+//        String url = Constants.wcfCopyYeast + ingredientYeastPk + "/" + contentToken;
+//        ionUpdateYeast = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeYeast> ingredient = JsonToObject.JsonToIngredientYeastList(result);
+//                                         RecipeYeast item = ingredient.get(0);
+//                                         adapter.add(item);
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                );
 
     }
 }

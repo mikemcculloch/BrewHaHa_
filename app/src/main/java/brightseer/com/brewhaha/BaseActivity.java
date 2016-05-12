@@ -47,12 +47,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
-import com.koushikdutta.ion.future.ImageViewFuture;
 import com.makeramen.RoundedDrawable;
+import com.squareup.picasso.Transformation;
 
 import java.io.File;
 import java.util.List;
@@ -86,9 +82,6 @@ public class BaseActivity extends AppCompatActivity {
     public final int CAMERA_CAPTURE = 1;
     public final int RESULT_LOAD_IMAGE = 1;
     public int cornerRadius = 200;
-    public Future<JsonArray> loading;
-    public Future<JsonObject> loadingObj;
-    public ImageViewFuture imageFuture;
     public boolean tabletSize;
     private ShareActionProvider mShareActionProvider;
     public String contentToken;
@@ -104,7 +97,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public int adapterPosition;
 
-    Transform trans = new Transform() {
+    Transformation trans = new Transformation() {
         boolean isOval = false;
 
         @Override

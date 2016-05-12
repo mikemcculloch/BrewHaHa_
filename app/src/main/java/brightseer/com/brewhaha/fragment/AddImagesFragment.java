@@ -30,9 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+
 
 import java.io.File;
 import java.util.List;
@@ -62,8 +60,8 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
     private int menuType = 1, deletePosition = 0, selectedImagePk = 0;
     private ProgressBar uploadProgressBar;
     private AlertDialog progessDialog;
-    public Future<JsonArray> ionLoadImages, ionImageUpload;
-    public Future<String> ionDeleteImage;
+//    public Future<JsonArray> ionLoadImages, ionImageUpload;
+//    public Future<String> ionDeleteImage;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,20 +80,6 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
         initViews();
         load();
         return rootView;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (ionLoadImages != null) {
-            ionLoadImages.cancel();
-        }
-        if (ionImageUpload != null) {
-            ionImageUpload.cancel();
-        }
-        if (ionDeleteImage != null) {
-            ionDeleteImage.cancel();
-        }
     }
 
     @Override
@@ -155,32 +139,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void load() {
-        String url = Constants.wcfGetRecipeImages + contentToken;
-        ionLoadImages = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeImage> recipeImages = JsonToObject.JsonToImageList(result);
-                                         for (RecipeImage item : recipeImages) {
-                                             recipeImageList.add(item);
-                                             adapter.add(item, recipeImageList.size() - 1);
-                                         }
-                                         addFabListener();
-//                                         dialogProgress.dismiss();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-//                                         dialogProgress.dismiss();
-                                     }
-                                 }
-                             }
 
-                );
     }
 
     public void addFabListener() {
@@ -355,32 +314,32 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
             File imgFile = new File(imagePath);
             progessDialog.show();
             String url = Constants.wcfUploadContentImages + contentToken;
-            ionImageUpload = Ion.with(_fContext)
-                    .load(url)
-                    .uploadProgressBar(uploadProgressBar)
-                    .setTimeout(60 * 60 * 1000)
-                    .setMultipartFile("uploading", "image/jpeg", imgFile)
-                    .asJsonArray()
-                    .setCallback(new FutureCallback<JsonArray>() {
-                        @Override
-                        public void onCompleted(Exception e, JsonArray result) {
-                            try {
-                                if (result != null) {
-                                    List<RecipeImage> recipeImages = JsonToObject.JsonToImageList(result);
-                                    for (RecipeImage item : recipeImages) {
-                                        recipeImageList.add(item);
-                                        adapter.add(item, recipeImageList.size() - 1);
-                                    }
-                                    progessDialog.dismiss();
-                                    EnableDisableFab();
-                                }
-                            } catch (Exception ex) {
-                                if (BuildConfig.DEBUG) {
-                                    Log.e(Constants.LOG, ex.getMessage());
-                                }
-                            }
-                        }
-                    });
+//            ionImageUpload = Ion.with(_fContext)
+//                    .load(url)
+//                    .uploadProgressBar(uploadProgressBar)
+//                    .setTimeout(60 * 60 * 1000)
+//                    .setMultipartFile("uploading", "image/jpeg", imgFile)
+//                    .asJsonArray()
+//                    .setCallback(new FutureCallback<JsonArray>() {
+//                        @Override
+//                        public void onCompleted(Exception e, JsonArray result) {
+//                            try {
+//                                if (result != null) {
+//                                    List<RecipeImage> recipeImages = JsonToObject.JsonToImageList(result);
+//                                    for (RecipeImage item : recipeImages) {
+//                                        recipeImageList.add(item);
+//                                        adapter.add(item, recipeImageList.size() - 1);
+//                                    }
+//                                    progessDialog.dismiss();
+//                                    EnableDisableFab();
+//                                }
+//                            } catch (Exception ex) {
+//                                if (BuildConfig.DEBUG) {
+//                                    Log.e(Constants.LOG, ex.getMessage());
+//                                }
+//                            }
+//                        }
+//                    });
         } catch (Exception e) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, e.getMessage());
@@ -415,9 +374,9 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
                 builder.dismiss();
             }
         });
-        Ion.with(displayImageView)
-                .placeholder(R.mipmap.ic_beercap)
-                .load(recipeImage.getImageUrl());
+//        Ion.with(displayImageView)
+//                .placeholder(R.mipmap.ic_beercap)
+//                .load(recipeImage.getImageUrl());
 
 
         builder.addContentView(displayImageView, new RelativeLayout.LayoutParams(
@@ -429,21 +388,21 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
     private void DeleteImage() {
 //        LoadDialog(_fContext, false, true);
         String url = Constants.wcfRemoveContentImage + contentToken + "/" + selectedImagePk;
-        ionDeleteImage = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        adapter.remove(deletePosition);
-                        recipeImageList.remove(deletePosition);
-//                        dialogProgress.dismiss();
-                        resetDialogValues();
-                        EnableDisableFab();
-
-                    }
-                });
+//        ionDeleteImage = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        adapter.remove(deletePosition);
+//                        recipeImageList.remove(deletePosition);
+////                        dialogProgress.dismiss();
+//                        resetDialogValues();
+//                        EnableDisableFab();
+//
+//                    }
+//                });
     }
 
     private void resetDialogValues() {

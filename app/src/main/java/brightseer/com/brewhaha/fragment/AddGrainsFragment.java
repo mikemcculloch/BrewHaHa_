@@ -29,10 +29,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -77,8 +73,8 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     private TextView my_recipe_color_value_text_view;
     private LinearLayout srm_color_linear_layout;
     private android.support.design.widget.FloatingActionButton grain_fab;
-    public Future<JsonArray> ionLoadGrains, ionLoadGrainMeasurements, ionLoadGrainUse, ionLoadCountry, ionLoadSrmColors, ionUpdateGrain;
-    public Future<String> ionDeleteGrain;
+//    public Future<JsonArray> ionLoadGrains, ionLoadGrainMeasurements, ionLoadGrainUse, ionLoadCountry, ionLoadSrmColors, ionUpdateGrain;
+//    public Future<String> ionDeleteGrain;
     private String mHeader = "";
 
     public void onCreate(Bundle savedInstanceState) {
@@ -110,59 +106,59 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
 
     public void load() {
         String url = Constants.wcfGetRecipeGrain + contentToken;
-        ionLoadGrains = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
-                                         adapter.addItemsToAdapter(recipeGrain);
-//                                         for (RecipeGrain item : recipeGrain) {
-////                                             ingredientGrainList.add(item);
-//                                             adapter.add(item, ingredientGrainList.size() - 1);
+//        ionLoadGrains = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
+//                                         adapter.addItemsToAdapter(recipeGrain);
+////                                         for (RecipeGrain item : recipeGrain) {
+//////                                             ingredientGrainList.add(item);
+////                                             adapter.add(item, ingredientGrainList.size() - 1);
+////                                         }
+//
+////                                         dialogProgress.dismiss();
+//                                         addFabListener();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
 //                                         }
-
-//                                         dialogProgress.dismiss();
-                                         addFabListener();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-//                                         dialogProgress.dismiss();
-                                     }
-                                 }
-                             }
-
-                );
+////                                         dialogProgress.dismiss();
+//                                     }
+//                                 }
+//                             }
+//
+//                );
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        if (ionLoadGrains != null) {
-            ionLoadGrains.cancel();
-        }
-        if (ionLoadGrainMeasurements != null) {
-            ionLoadGrainMeasurements.cancel();
-        }
-        if (ionLoadGrainUse != null) {
-            ionLoadGrainUse.cancel();
-        }
-        if (ionLoadCountry != null) {
-            ionLoadCountry.cancel();
-        }
-        if (ionLoadSrmColors != null) {
-            ionLoadSrmColors.cancel();
-        }
-        if (ionUpdateGrain != null) {
-            ionUpdateGrain.cancel();
-        }
-        if (ionDeleteGrain != null) {
-            ionDeleteGrain.cancel();
-        }
+//        if (ionLoadGrains != null) {
+//            ionLoadGrains.cancel();
+//        }
+//        if (ionLoadGrainMeasurements != null) {
+//            ionLoadGrainMeasurements.cancel();
+//        }
+//        if (ionLoadGrainUse != null) {
+//            ionLoadGrainUse.cancel();
+//        }
+//        if (ionLoadCountry != null) {
+//            ionLoadCountry.cancel();
+//        }
+//        if (ionLoadSrmColors != null) {
+//            ionLoadSrmColors.cancel();
+//        }
+//        if (ionUpdateGrain != null) {
+//            ionUpdateGrain.cancel();
+//        }
+//        if (ionDeleteGrain != null) {
+//            ionDeleteGrain.cancel();
+//        }
     }
 
     @Override
@@ -496,37 +492,37 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
         json.addProperty("amount", my_grain_amount_edit_text.getText().toString().trim());
         json.addProperty("grainName", my_grain_name_edit_text.getText().toString().trim());
 
-        ionUpdateGrain = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         addDialog.dismiss();
-                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
-                                         RecipeGrain item = recipeGrain.get(0);
-                                         int pos = 0;
-
-//                                         if (ingredientGrainPk != 0) {
-//                                             pos = adapter.getPostionByPk(item.getIngredientGrainId());
-//                                             adapter.remove(pos);
-//                                         } else {
-//                                             pos = adapter.getItemCount();
+//        ionUpdateGrain = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         addDialog.dismiss();
+//                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
+//                                         RecipeGrain item = recipeGrain.get(0);
+//                                         int pos = 0;
+//
+////                                         if (ingredientGrainPk != 0) {
+////                                             pos = adapter.getPostionByPk(item.getIngredientGrainId());
+////                                             adapter.remove(pos);
+////                                         } else {
+////                                             pos = adapter.getItemCount();
+////                                         }
+//
+//                                         adapter.add(item, pos);
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
 //                                         }
-
-                                         adapter.add(item, pos);
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
+//                                     }
+//                                 }
+//                             }
+//
+//                );
 
     }
 
@@ -677,19 +673,19 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
 
     private void DeleteItem() {
         String url = Constants.wcfRemoveIngredientGrain + contentItemPk + "/" + ingredientGrainPk + "/false";
-        ionDeleteGrain = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        adapter.remove(listPosition);
-                        resetDialogValues();
-                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                });
+//        ionDeleteGrain = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        adapter.remove(listPosition);
+//                        resetDialogValues();
+//                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                });
     }
 
     public void addFabListener() {
@@ -714,27 +710,27 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
 
     public void makeCopyGrain() {
         String url = Constants.wcfCopyGrain + ingredientGrainPk + "/" + contentToken;
-        ionUpdateGrain = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
-                                         for (RecipeGrain item : recipeGrain) {
-                                             adapter.add(item);
-                                         }
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-                );
+//        ionUpdateGrain = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeGrain> recipeGrain = JsonToObject.JsonToRecipeGrainList(result);
+//                                         for (RecipeGrain item : recipeGrain) {
+//                                             adapter.add(item);
+//                                         }
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//                );
 
     }
 }

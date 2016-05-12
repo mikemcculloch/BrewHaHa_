@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.koushikdutta.ion.Ion;
-
 import java.util.ArrayList;
 
 import brightseer.com.brewhaha.R;
@@ -47,9 +45,6 @@ public class SimpleViewPagerAdapter extends PagerAdapter {
         imgDisplay = (ImageView) viewLayout.findViewById(R.id.simple_image_view);
         imgDisplay.setContentDescription(String.valueOf(position));
 
-        Ion.with(imgDisplay)
-                .placeholder(R.mipmap.ic_beercap)
-                .load(_imagePaths.get(position));
 
         (container).addView(viewLayout);
 

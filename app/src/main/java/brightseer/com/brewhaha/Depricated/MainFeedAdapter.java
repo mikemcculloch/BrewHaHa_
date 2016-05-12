@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
 
 import java.util.List;
@@ -30,25 +28,6 @@ public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder> {
     private List<MainFeedItem> mainFeedItems = new Vector<>();
     private MainFeedFragment _fragment;
 
-    Transform trans = new Transform() {
-        boolean isOval = false;
-        int cornerRadius = 100;
-
-        @Override
-        public Bitmap transform(Bitmap bitmap) {
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
-            Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
-            if (!bitmap.equals(scaled)) bitmap.recycle();
-            if (!scaled.equals(transformed)) bitmap.recycle();
-
-            return transformed;
-        }
-
-        @Override
-        public String key() {
-            return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
-        }
-    };
 
     public MainFeedAdapter(List<MainFeedItem> jsonObject, MainFeedFragment fragment) {
         this.mainFeedItems = jsonObject;
@@ -86,11 +65,6 @@ public class MainFeedAdapter extends RecyclerView.Adapter<MainFeedViewHolder> {
             homeItemViewHolder.vTitle.setText(mainFeedItem.getTitle());
             homeItemViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
             homeItemViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-
-            Ion.with(homeItemViewHolder.vimage)
-                    .placeholder(R.mipmap.ic_beercap)
-                    .centerCrop()
-                    .load(mainFeedItem.getImageUrl());
 
 //            Ion.with(homeItemViewHolder.vuser_image_view)
 //                    .placeholder(R.drawable.ic_person_black_24dp)

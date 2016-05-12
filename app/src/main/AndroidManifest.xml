@@ -54,7 +54,6 @@
                 android:name="android.app.default_searchable"
                 android:value=".SearchResultsActivity" />
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/string_login"

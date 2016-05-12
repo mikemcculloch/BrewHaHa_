@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.koushikdutta.ion.Ion;
+//import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 
@@ -50,9 +50,9 @@ public class FullScreenImageAdapter extends PagerAdapter {
         imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay);
         imgDisplay.setContentDescription(String.valueOf(position));
         imgDisplay.setLongClickable(true);
-        Ion.with(imgDisplay)
-                .placeholder(R.mipmap.ic_beercap)
-                .load(_imagePaths.get(position));
+//        Ion.with(imgDisplay)
+//                .placeholder(R.mipmap.ic_beercap)
+//                .load(_imagePaths.get(position));
 
         _activity.registerForContextMenu(imgDisplay);
         (container).addView(viewLayout);

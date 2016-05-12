@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
 
 import java.util.List;
@@ -23,24 +21,6 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
     List<Comment> comments = new Vector<>();
     int cornerRadius = 200;
 
-    Transform trans = new Transform() {
-        boolean isOval = false;
-
-        @Override
-        public Bitmap transform(Bitmap bitmap) {
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
-            Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
-            if (!bitmap.equals(scaled)) bitmap.recycle();
-            if (!scaled.equals(transformed)) bitmap.recycle();
-
-            return transformed;
-        }
-
-        @Override
-        public String key() {
-            return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
-        }
-    };
 
     public CommentRecycler(List<Comment> _comments) {
         this.comments = _comments;
@@ -80,13 +60,6 @@ public class CommentRecycler extends RecyclerView.Adapter<RecyclerObjects.Commen
     public void onBindViewHolder(RecyclerObjects.CommentItemViewHolder holder, int position) {
 
         Comment getItem = comments.get(position);
-
-        Ion.with(holder.comment_user_image)
-                .placeholder(R.drawable.ic_person_black_24dp)
-                .error(R.drawable.ic_person_black_24dp)
-                .centerCrop()
-                .transform(trans)
-                .load(getItem.getAuthorImageUrl());
 
         holder.comment_item_author.setText(getItem.getAuthorName());
         holder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(getItem.getDateCreated()));

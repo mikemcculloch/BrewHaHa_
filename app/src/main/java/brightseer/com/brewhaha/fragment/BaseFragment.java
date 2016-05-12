@@ -21,8 +21,6 @@ import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.ion.Ion;
 
 import java.util.List;
 import java.util.Vector;
@@ -42,8 +40,7 @@ public class BaseFragment extends Fragment {
     public String contentItemPk = "";
     protected ContextMenu contextMenu;
     public Context _fContext;
-    public Future<JsonArray> loading;
-    public Future<JsonObject> loadingObj;
+
     public Dialog dialogProgress;
     public boolean tabletSize;
     public String contentToken = "";
@@ -79,16 +76,6 @@ public class BaseFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (loading != null) {
-            loading.cancel();
-        }
-        if (loadingObj != null) {
-            loadingObj.cancel();
-        }
-    }
 
     public void LoadDialog(Context mContext, boolean dimBackground, boolean cancelable) {
         dialogProgress = new Dialog(mContext);
@@ -133,13 +120,6 @@ public class BaseFragment extends Fragment {
         }
     };
 
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        Ion.getDefault(_fContext).dump();
-        Ion.getDefault(_fContext).configure().getResponseCache().clear();
-    }
 
     public void initGoogleAnalytics(String path) {
         Tracker t = ((BrewApplication) getActivity().getApplication()).getTracker(

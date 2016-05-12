@@ -15,7 +15,8 @@ import android.view.ViewGroup;
 
 import com.firebase.client.Firebase;
 import com.firebase.ui.FirebaseRecyclerAdapter;
-import com.koushikdutta.ion.Ion;
+import com.squareup.picasso.Picasso;
+
 
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
@@ -92,10 +93,11 @@ public class FeedsBaseFragment extends Fragment {
 
                     mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
 
-                    Ion.with(mainFeedViewHolder.vimage)
-                            .placeholder(R.mipmap.ic_beercap)
+                    Picasso.with(getContext())
+                            .load(mainFeedItem.getImageUrl())
+                            .resize(50, 50)
                             .centerCrop()
-                            .load(mainFeedItem.getImageUrl());
+                            .into(mainFeedViewHolder.vimage);
 
 //                    Ion.with(mainFeedViewHolder.vuser_image_view)
 //                            .placeholder(R.drawable.ic_person_black_24dp)

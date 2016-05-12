@@ -26,9 +26,7 @@ import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimat
 import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
+
 
 import java.util.List;
 import java.util.Vector;
@@ -52,8 +50,8 @@ public class AddInstructionsFragment extends BaseFragment {
     private android.support.v7.widget.AppCompatButton my_instruction_submit_button;
     private EditText my_instruction_name_edit_text;
     private int selectedInstructionPk = 0, selectedPosition = 0;
-    public Future<JsonArray> ionLoadInstruction, ionUpdateInstructions, ionCopyInstruction;
-    public Future<String> ionDeleteInstruction, ionOrderUpdate;
+//    public Future<JsonArray> ionLoadInstruction, ionUpdateInstructions, ionCopyInstruction;
+//    public Future<String> ionDeleteInstruction, ionOrderUpdate;
     private RecyclerView recyclerView;
     private String mHeader = "";
     private RecipeInstruction selectedRecipeInstruction;
@@ -158,31 +156,31 @@ public class AddInstructionsFragment extends BaseFragment {
     }
 
     public void loadInstructions() {
-        String url = Constants.wcfGetInstructions + contentToken;
-        ionLoadInstruction = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         instructionDraggableRecyclerAdapter.clear();
-                                         List<RecipeInstruction> recipeInstruction = JsonToObject.JsonToInstructionList(result);
-
-                                         instructionDraggableRecyclerAdapter.addItemsToAdapter(recipeInstruction);
-
-                                         addFabListener();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-//                                         dialogProgress.dismiss();
-                                     }
-                                 }
-                             }
-
-                );
+//        String url = Constants.wcfGetInstructions + contentToken;
+//        ionLoadInstruction = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         instructionDraggableRecyclerAdapter.clear();
+//                                         List<RecipeInstruction> recipeInstruction = JsonToObject.JsonToInstructionList(result);
+//
+//                                         instructionDraggableRecyclerAdapter.addItemsToAdapter(recipeInstruction);
+//
+//                                         addFabListener();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+////                                         dialogProgress.dismiss();
+//                                     }
+//                                 }
+//                             }
+//
+//                );
     }
 
     @Override
@@ -346,21 +344,21 @@ public class AddInstructionsFragment extends BaseFragment {
     }
 
     private void DeleteItem() {
-        String url = Constants.wcfRemoveInstruction + selectedInstructionPk + "/" + contentItemPk + "/false";
-        ionDeleteInstruction = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        instructionDraggableRecyclerAdapter.remove(selectedPosition - 1);
-                        resetDialogValues();
-                        instructionDraggableRecyclerAdapter.RefreshOrder(true);
-                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                });
+//        String url = Constants.wcfRemoveInstruction + selectedInstructionPk + "/" + contentItemPk + "/false";
+//        ionDeleteInstruction = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        instructionDraggableRecyclerAdapter.remove(selectedPosition - 1);
+//                        resetDialogValues();
+//                        instructionDraggableRecyclerAdapter.RefreshOrder(true);
+//                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                });
 
     }
 
@@ -370,44 +368,44 @@ public class AddInstructionsFragment extends BaseFragment {
         json = new JsonObject();
         json.add("recipeInstructions", element);
 
-        String url = Constants.UpdateInstructions;
-        ionOrderUpdate = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .setJsonObjectBody(json)
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-//                        String test = s;
-                    }
-                });
+//        String url = Constants.UpdateInstructions;
+//        ionOrderUpdate = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .setJsonObjectBody(json)
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+////                        String test = s;
+//                    }
+//                });
     }
 
     public void makeCopyInstruction() {
-        String url = Constants.wcfCopyInstruction + selectedInstructionPk + "/" + contentToken;
-        ionCopyInstruction = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
-                                         RecipeInstruction item = recipeInstructions.get(0);
-                                         instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
-                                         instructionDraggableRecyclerAdapter.RefreshOrder(true);
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
+//        String url = Constants.wcfCopyInstruction + selectedInstructionPk + "/" + contentToken;
+//        ionCopyInstruction = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeInstruction> recipeInstructions = JsonToObject.JsonToInstructionList(result);
+//                                         RecipeInstruction item = recipeInstructions.get(0);
+//                                         instructionDraggableRecyclerAdapter.add(item, item.getOrder() - 1);
+//                                         instructionDraggableRecyclerAdapter.RefreshOrder(true);
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
 
     }
 }

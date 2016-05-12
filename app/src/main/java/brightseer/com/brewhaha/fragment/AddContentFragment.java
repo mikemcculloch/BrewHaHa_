@@ -28,10 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -71,8 +67,8 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
     private LinearLayout my_recipe_seekbar_layout;
     private ImageView my_recipe_expand_coll_imageview;
     private RelativeLayout my_grain_relative_layout;
-    public Future<JsonObject> ionLoadRecipe;
-    public Future<String> ionUpdateRecipe;
+//    public Future<JsonObject> ionLoadRecipe;
+//    public Future<String> ionUpdateRecipe;
     public boolean activeRecipe = false, submittedRecipe = false;
 
     @Override //1
@@ -181,15 +177,15 @@ public class AddContentFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onStop() {
         super.onStop();
-        if (ionLoadRecipe != null) {
-            if (!ionLoadRecipe.isDone()) {
-                ionLoadRecipe.cancel();
-            }
-        }
-        if (ionUpdateRecipe != null) {
-            if (!ionUpdateRecipe.isDone())
-                ionUpdateRecipe.cancel();
-        }
+//        if (ionLoadRecipe != null) {
+//            if (!ionLoadRecipe.isDone()) {
+//                ionLoadRecipe.cancel();
+//            }
+//        }
+//        if (ionUpdateRecipe != null) {
+//            if (!ionUpdateRecipe.isDone())
+//                ionUpdateRecipe.cancel();
+//        }
     }
 
     public void SubmitChanges() {

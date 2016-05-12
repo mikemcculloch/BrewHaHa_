@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
 
 import java.util.List;
@@ -27,25 +25,25 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
     private GridViewActivity _activity;
     private boolean _addRecipe;
 
-    Transform trans = new Transform() {
-        boolean isOval = false;
-        int cornerRadius = 100;
-
-        @Override
-        public Bitmap transform(Bitmap bitmap) {
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
-            Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
-            if (!bitmap.equals(scaled)) bitmap.recycle();
-            if (!scaled.equals(transformed)) bitmap.recycle();
-
-            return transformed;
-        }
-
-        @Override
-        public String key() {
-            return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
-        }
-    };
+//    Transform trans = new Transform() {
+//        boolean isOval = false;
+//        int cornerRadius = 100;
+//
+//        @Override
+//        public Bitmap transform(Bitmap bitmap) {
+//            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, cornerRadius, cornerRadius, false);
+//            Bitmap transformed = RoundedDrawable.fromBitmap(scaled).setScaleType(ImageView.ScaleType.CENTER_CROP).setCornerRadius(cornerRadius).setOval(isOval).toBitmap();
+//            if (!bitmap.equals(scaled)) bitmap.recycle();
+//            if (!scaled.equals(transformed)) bitmap.recycle();
+//
+//            return transformed;
+//        }
+//
+//        @Override
+//        public String key() {
+//            return "rounded_radius_" + cornerRadius + "_oval_" + isOval;
+//        }
+//    };
 
     public GridImagesRecycler(List<RecipeImage> jsonObject, GridViewActivity activity) {
         this.jsonObjects = jsonObject;
@@ -93,10 +91,10 @@ public class GridImagesRecycler extends RecyclerView.Adapter<RecyclerObjects.Gri
 //            int dpConversion = (int) (112 * Resources.getSystem().getDisplayMetrics().density);
 //            homeItemViewHolder.vimage.setMinimumWidth(dpConversion);
 //            homeItemViewHolder.vimage.setMinimumHeight(dpConversion);
-            Ion.with(homeItemViewHolder.vimage)
-                    .placeholder(R.drawable.ic_crop_original_black_24dp)
-                    .centerCrop()
-                    .load(homeItem.getImageUrl());
+//            Ion.with(homeItemViewHolder.vimage)
+//                    .placeholder(R.drawable.ic_crop_original_black_24dp)
+//                    .centerCrop()
+//                    .load(homeItem.getImageUrl());
 
 //            homeItemViewHolder.vimage.setMinimumWidth(dpConversion);
 //            homeItemViewHolder.vimage.setMinimumHeight(dpConversion);

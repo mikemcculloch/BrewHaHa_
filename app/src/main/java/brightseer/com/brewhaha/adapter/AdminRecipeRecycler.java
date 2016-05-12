@@ -8,9 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.koushikdutta.ion.Ion;
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
+import com.squareup.picasso.Transformation;
 
 import java.util.List;
 import java.util.Vector;
@@ -30,7 +29,7 @@ public class AdminRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.Ad
 
     int cornerRadius = 200;
 
-    Transform trans = new Transform() {
+    Transformation trans = new Transformation () {
         boolean isOval = false;
 
         @Override
@@ -104,18 +103,18 @@ public class AdminRecipeRecycler extends RecyclerView.Adapter<RecyclerObjects.Ad
 //            }
 
             homeItemViewHolder.my_recipe_published_text_view.setText(published);
-
-            Ion.with(homeItemViewHolder.vimage)
-                    .placeholder(R.mipmap.ic_beercap)
-                    .centerCrop()
-                    .load(mainFeedItem.getImageUrl());
-
-            Ion.with(homeItemViewHolder.vuser_image_view)
-                    .placeholder(R.drawable.ic_person_black_24dp)
-                    .error(R.drawable.ic_person_black_24dp)
-                    .centerCrop()
-                    .transform(trans)
-                    .load(mainFeedItem.getUserImageUrl());
+//
+//            Ion.with(homeItemViewHolder.vimage)
+//                    .placeholder(R.mipmap.ic_beercap)
+//                    .centerCrop()
+//                    .load(mainFeedItem.getImageUrl());
+//
+//            Ion.with(homeItemViewHolder.vuser_image_view)
+//                    .placeholder(R.drawable.ic_person_black_24dp)
+//                    .error(R.drawable.ic_person_black_24dp)
+//                    .centerCrop()
+//                    .transform(trans)
+//                    .load(mainFeedItem.getUserImageUrl());
         }
     }
 

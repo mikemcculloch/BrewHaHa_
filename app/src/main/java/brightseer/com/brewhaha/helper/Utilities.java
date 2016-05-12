@@ -23,8 +23,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.koushikdutta.ion.bitmap.Transform;
 import com.makeramen.RoundedDrawable;
+import com.squareup.picasso.Transformation;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -146,8 +146,8 @@ public class Utilities {
         return (x >= left) && (x <= right) && (y >= top) && (y <= bottom);
     }
 
-    public static Transform GetRoundTransform() {
-        Transform trans = new Transform() {
+    public static Transformation GetRoundTransform() {
+        Transformation trans = new Transformation() {
             boolean isOval = false;
             int cornerRadius = 100;
 

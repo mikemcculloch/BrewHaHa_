@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.JsonArray;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
-
 import java.util.List;
 import java.util.Vector;
 

@@ -30,9 +30,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.koushikdutta.async.future.Future;
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,8 +72,8 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
     private EditText my_hops_name_edit_text, my_hop_amount_edit_text, my_hop_time_edit_text;
     private android.support.v7.widget.AppCompatButton my_hop_submit_button;
     private android.support.design.widget.FloatingActionButton hop_fab;
-    public Future<JsonArray> ionLoadHops, ionLoadMeasurements, ionGetHopUse, ionLoadHopForm, ionUpdateHop;
-    public Future<String> ionDeleteHop;
+//    public Future<JsonArray> ionLoadHops, ionLoadMeasurements, ionGetHopUse, ionLoadHopForm, ionUpdateHop;
+//    public Future<String> ionDeleteHop;
     public SeekBar my_hop_alpha_acid_seekbar;
     private float acidProgress = 0;
     private TextView alph_acid_text_view;
@@ -113,24 +110,24 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onStop() {
         super.onStop();
-        if (ionLoadHops != null) {
-            ionLoadHops.cancel();
-        }
-        if (ionLoadMeasurements != null) {
-            ionLoadMeasurements.cancel();
-        }
-        if (ionGetHopUse != null) {
-            ionGetHopUse.cancel();
-        }
-        if (ionLoadHopForm != null) {
-            ionLoadHopForm.cancel();
-        }
-        if (ionUpdateHop != null) {
-            ionUpdateHop.cancel();
-        }
-        if (ionDeleteHop != null) {
-            ionDeleteHop.cancel();
-        }
+//        if (ionLoadHops != null) {
+//            ionLoadHops.cancel();
+//        }
+//        if (ionLoadMeasurements != null) {
+//            ionLoadMeasurements.cancel();
+//        }
+//        if (ionGetHopUse != null) {
+//            ionGetHopUse.cancel();
+//        }
+//        if (ionLoadHopForm != null) {
+//            ionLoadHopForm.cancel();
+//        }
+//        if (ionUpdateHop != null) {
+//            ionUpdateHop.cancel();
+//        }
+//        if (ionDeleteHop != null) {
+//            ionDeleteHop.cancel();
+//        }
     }
 
     @Override
@@ -140,26 +137,26 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
 
     public void load() {
         String url = Constants.wcfGetRecipeHops + contentToken;
-        ionLoadHops = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
-                                         adapter.addItemsToAdapter(ingredient);
-                                         addFabListener();
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
+//        ionLoadHops = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+//                                         adapter.addItemsToAdapter(ingredient);
+//                                         addFabListener();
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
     }
 
     public void initViews() {
@@ -701,20 +698,20 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
 
     private void DeleteItem() {
 
-        String url = Constants.wcfRemoveIngredientHop + contentItemPk + "/" + ingredientHopPk + "/false";
-        ionDeleteHop = Ion.with(_fContext.getApplicationContext())
-                .load(url)
-                .addHeader("Content-Type", "application/json")
-                .asString()
-                .setCallback(new FutureCallback<String>() {
-                    @Override
-                    public void onCompleted(Exception e, String s) {
-                        adapter.remove(listPosition);
-                        resetDialogValues();
-                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
-                                .show();
-                    }
-                });
+//        String url = Constants.wcfRemoveIngredientHop + contentItemPk + "/" + ingredientHopPk + "/false";
+//        ionDeleteHop = Ion.with(_fContext.getApplicationContext())
+//                .load(url)
+//                .addHeader("Content-Type", "application/json")
+//                .asString()
+//                .setCallback(new FutureCallback<String>() {
+//                    @Override
+//                    public void onCompleted(Exception e, String s) {
+//                        adapter.remove(listPosition);
+//                        resetDialogValues();
+//                        Snackbar.make(rootView.findViewById(R.id.coordinatorLayout), mHeader + " Deleted", Snackbar.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                });
 
     }
 
@@ -737,29 +734,29 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void makeCopyHop() {
-        String url = Constants.wcfCopyHop + ingredientHopPk + "/" + contentToken;
-        ionUpdateHop = Ion.with(_fContext)
-                .load(url)
-                .setHeader("Cache-Control", "No-Cache")
-                .setJsonObjectBody(json)
-                .asJsonArray()
-                .setCallback(new FutureCallback<JsonArray>() {
-                                 @Override
-                                 public void onCompleted(Exception e, JsonArray result) {
-                                     try {
-                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
-                                         for (RecipeHop item : ingredient) {
-                                             adapter.add(item);
-                                         }
-                                     } catch (Exception ex) {
-                                         if (BuildConfig.DEBUG) {
-                                             Log.e(Constants.LOG, ex.getMessage());
-                                         }
-                                     }
-                                 }
-                             }
-
-                );
+//        String url = Constants.wcfCopyHop + ingredientHopPk + "/" + contentToken;
+//        ionUpdateHop = Ion.with(_fContext)
+//                .load(url)
+//                .setHeader("Cache-Control", "No-Cache")
+//                .setJsonObjectBody(json)
+//                .asJsonArray()
+//                .setCallback(new FutureCallback<JsonArray>() {
+//                                 @Override
+//                                 public void onCompleted(Exception e, JsonArray result) {
+//                                     try {
+//                                         List<RecipeHop> ingredient = JsonToObject.JsonToIngredientHopList(result);
+//                                         for (RecipeHop item : ingredient) {
+//                                             adapter.add(item);
+//                                         }
+//                                     } catch (Exception ex) {
+//                                         if (BuildConfig.DEBUG) {
+//                                             Log.e(Constants.LOG, ex.getMessage());
+//                                         }
+//                                     }
+//                                 }
+//                             }
+//
+//                );
 
     }
 }
