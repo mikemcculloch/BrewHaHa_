@@ -12,6 +12,7 @@ import java.util.Map;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeGrain;
@@ -177,6 +178,17 @@ public class FirebaseCrud {
         }
     }
 
+    public void AddComment(Comment comment, String feedKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbComments).child(feedKey);
+            ref.push().setValue(comment);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
     public void DeleteRecipe(String feedKey, String parentKey) {
         try {
             Firebase refUserFeed = rootRef.child(Constants.fbUserFeeds).child(BrewSharedPrefs.getEmailAddress()).child(feedKey);
@@ -206,4 +218,77 @@ public class FirebaseCrud {
             throw ex;
         }
     }
+
+    public void DeleteInstruction(String feedKey, String directionKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbDirections).child(feedKey).child(directionKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteComment(String feedKey, String commentKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbComments).child(feedKey).child(commentKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteImage(String feedKey, String imageKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbImages).child(feedKey).child(imageKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteGrain(String feedKey, String grainKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbIngredients).child(feedKey).child(Constants.fbGrains).child(grainKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteHop(String feedKey, String hopKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbIngredients).child(feedKey).child(Constants.fbHops).child(hopKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
+    public void DeleteYeast(String feedKey, String yeastKey) {
+        try {
+            Firebase ref = rootRef.child(Constants.fbIngredients).child(feedKey).child(Constants.fbYeasts).child(yeastKey);
+            ref.removeValue();
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+            throw ex;
+        }
+    }
+
 }

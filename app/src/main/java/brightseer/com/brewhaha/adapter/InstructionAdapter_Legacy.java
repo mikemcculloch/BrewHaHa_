@@ -14,11 +14,10 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Vector;
 
-import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeActivity;
+import brightseer.com.brewhaha.Depricated.RecipeActivity;
 import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.objects.InstructionSelected;
 import brightseer.com.brewhaha.repository.DBHelper_InstructionSelected;

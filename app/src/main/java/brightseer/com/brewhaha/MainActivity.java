@@ -161,7 +161,8 @@ public class MainActivity extends NewActivtyBase {
         });
 
         Picasso.with(MainActivity.this)
-                .load(Constants.bannerUrl);
+                .load(Constants.bannerUrl)
+        .into(image);
 
 //        Ion.with(image)
 //                .load(Constants.bannerUrl);
@@ -210,24 +211,24 @@ public class MainActivity extends NewActivtyBase {
 //                        eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.AdvancedSearchFragment");
 //                        break;
 
-                        case R.id.navigation_favorites:
-//                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
-//                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
-//                        } else {
-//                            eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.Favorites");
-//
-//                            intent = new Intent(getApplicationContext(), FavoriteTabActivity.class);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//
-//                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
-//                                ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
-////                                finishAfterTransition();
-//                            } else {
-//                                startActivity(intent);
-//                            }
-//                        }
-                            break;
+//                        case R.id.navigation_favorites:
+////                        if (!BrewSharedPrefs.getIsUserLoggedIn()) {
+////                            AlertLoginPrompt(_mContext, "", getText(R.string.text_login_to_view_favorite).toString(), getText(R.string.text_sign_in).toString(), getText(R.string.text_close).toString());
+////                        } else {
+////                            eventGoogleAnalytics(Constants.gacMainActivity, "Open", "Drawer.Favorites");
+////
+////                            intent = new Intent(getApplicationContext(), FavoriteTabActivity.class);
+////                            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+////                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+////
+////                                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this);
+////                                ActivityCompat.startActivity(MainActivity.this, intent, options.toBundle());
+//////                                finishAfterTransition();
+////                            } else {
+////                                startActivity(intent);
+////                            }
+////                        }
+//                            break;
 
                         case R.id.navigation_my_recipes:
                             fab.setVisibility(View.VISIBLE);

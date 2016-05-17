@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha.recipe_adapters;
+package brightseer.com.brewhaha.Depricated;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

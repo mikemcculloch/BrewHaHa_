@@ -106,8 +106,8 @@ public class FeedsBaseFragment extends Fragment {
 //                            .transform(Utilities.GetRoundTransform())
 //                            .load(mainFeedItem.getUserImageUrl());
 
-                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
+//                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
+//                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
                 }
             };
             return mAdapter;

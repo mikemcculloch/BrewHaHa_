@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal">
 
@@ -18,8 +18,8 @@
             style="@style/appMediumFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_gravity="center_vertical"
+            android:gravity="center"
             android:padding="@dimen/quarter_margin"
             android:text="1" />
 
@@ -36,6 +36,8 @@
             style="@style/appSmallFont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="this is my example text and should not be viewed by anyone execpt my stupid cat. Luckly hes licking his balls at the moment and does not see this." />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="This Started as number 1" />
     </LinearLayout>
 </LinearLayout>

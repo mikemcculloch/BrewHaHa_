@@ -11,18 +11,20 @@ public class Comment implements Serializable {
     private String AuthorImageUrl;
     private String Body;
     private String DateCreated;
+    private Long DateCreatedInverse;
     private String Key;
     private String AuthorEmail;
 
     public Comment() {
     }
 
-    public Comment(String feedKey, String authorName, String imageUrl, String body, String dateCreated, String key, String authorEmail) {
+    public Comment(String feedKey, String authorName, String authorImageUrl, String body, String dateCreated, Long dateCreatedInverse, String key, String authorEmail) {
         FeedKey = feedKey;
         AuthorName = authorName;
-        AuthorImageUrl = imageUrl;
+        AuthorImageUrl = authorImageUrl;
         Body = body;
         DateCreated = dateCreated;
+        DateCreatedInverse = dateCreatedInverse;
         Key = key;
         AuthorEmail = authorEmail;
     }
@@ -81,5 +83,13 @@ public class Comment implements Serializable {
 
     public void setAuthorEmail(String authorEmail) {
         AuthorEmail = authorEmail;
+    }
+
+    public Long getDateCreatedInverse() {
+        return DateCreatedInverse;
+    }
+
+    public void setDateCreatedInverse(Long dateCreatedInverse) {
+        DateCreatedInverse = dateCreatedInverse;
     }
 }

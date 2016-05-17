@@ -32,11 +32,14 @@ import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
+import java.util.Date;
+
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeCardsActivity;
+import brightseer.com.brewhaha.firebase_helpers.FirebaseCrud;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.Comment;
@@ -241,22 +244,14 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 comments_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             }
 
-            Query queryRef = commentRef.orderByChild("DateCreated");
+            Query queryRef = commentRef.orderByChild("dateCreatedInverse");
 
             mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
                 @Override
                 public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
-//                    Ion.with(commentViewHolder.comment_user_image)
-//                            .placeholder(R.drawable.ic_person_black_24dp)
-//                            .error(R.drawable.ic_person_black_24dp)
-//                            .centerCrop()
-//                            .transform(Utilities.GetRoundTransform())
-//                            .load(comment.getAuthorImageUrl());
-//
-
                     Picasso.with(getActivity())
                             .load(comment.getAuthorImageUrl())
-                            .centerCrop()
+                            .fit().centerCrop()
                             .transform(Utilities.GetRoundTransform())
                             .into(commentViewHolder.comment_user_image);
 
@@ -314,15 +309,20 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
             AuthData authData = commentRef.getAuth();
             if (authData != null) {
+                long inverse = Long.MAX_VALUE - DateTime.now().getMillis();
+
                 Comment comment = new Comment();
                 comment.setBody(recipe_comment_edit_view.getText().toString());
                 comment.setFeedKey(feedKey);
                 comment.setAuthorName(String.valueOf(authData.getProviderData().get("displayName")));
                 comment.setAuthorEmail(BrewSharedPrefs.getEmailAddress());
-                comment.setAuthorImageUrl(authorImageUrl);
+                comment.setAuthorImageUrl(String.valueOf(authData.getProviderData().get("profileImageURL")));
                 comment.setDateCreated(DateTime.now().toString());
+                comment.setDateCreatedInverse(inverse);
 
-                commentRef.push().setValue(comment);
+                FirebaseCrud firebaseCrud = new FirebaseCrud();
+                firebaseCrud.AddComment(comment, feedKey);
+
                 recipe_comment_edit_view.setText("");
             } else {
 
@@ -336,8 +336,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     public void RecipeDetailListener() {
         try {
-//            Query queryRef = ref.orderByChild(Constants.fbFeedKey).equalTo(feedKey);
-
             rootRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -346,7 +344,6 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                         recipeDetail.setKey(dataSnapshot.getKey());
                         populateViews();
                     }
-
                 }
 
                 @Override

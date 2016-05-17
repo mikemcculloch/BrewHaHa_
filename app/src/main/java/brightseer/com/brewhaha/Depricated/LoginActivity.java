@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,6 +24,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import brightseer.com.brewhaha.BrewSharedPrefs;
+import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.NewActivtyBase;
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.UserProfile;
 

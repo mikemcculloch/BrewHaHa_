@@ -1,10 +1,12 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
+
+import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
 import brightseer.com.brewhaha.repository.DBHelper_Country;
 import brightseer.com.brewhaha.repository.DBHelper_Difficulty;

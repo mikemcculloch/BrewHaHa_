@@ -1,6 +1,8 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.content.SearchRecentSuggestionsProvider;
+
+import brightseer.com.brewhaha.BuildConfig;
 
 public class MySuggestionProvider extends SearchRecentSuggestionsProvider {
     public final static String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider";

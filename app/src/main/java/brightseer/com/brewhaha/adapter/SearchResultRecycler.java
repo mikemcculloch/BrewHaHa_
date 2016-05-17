@@ -1,20 +1,16 @@
 package brightseer.com.brewhaha.adapter;
 
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
-import com.makeramen.RoundedDrawable;
 
 import java.util.List;
 import java.util.Vector;
 
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.SearchResultsActivity;
+import brightseer.com.brewhaha.Depricated.SearchResultsActivity;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.main_adapters.MainFeedViewHolder;
 import brightseer.com.brewhaha.models.MainFeedItem;
@@ -66,8 +62,8 @@ public class SearchResultRecycler extends RecyclerView.Adapter<MainFeedViewHolde
 //                    .transform(trans)
 //                    .load(mainFeedItem.getUserImageUrl());
 
-            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-            homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
+//            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
+//            homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
 
 //            homeItemViewHolder.vCardView.setOnClickListener(new View.OnClickListener() {
 //                @Override

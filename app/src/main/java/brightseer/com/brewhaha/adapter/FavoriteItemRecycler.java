@@ -90,8 +90,8 @@ public class FavoriteItemRecycler extends RecyclerView.Adapter<MainFeedViewHolde
 //                    .transform(trans)
 //                    .load(mainFeedItem.getUserImageUrl());
 
-            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-            homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
+//            String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
+//            homeItemViewHolder.mPlusOneButton.initialize(URL, 0);
         }
         _fragment.load();
     }

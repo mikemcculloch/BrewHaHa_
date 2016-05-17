@@ -3,7 +3,7 @@
     <string name="app_name">BrewHaHa</string>
     <string name="string_login">Login</string>
     <string name="action_settings">Settings</string>
-    <!--<string name="authority">brightseer.com.brewhaha.MySuggestionProvider</string>-->
+    <!--<string name="authority">brightseer.com.brewhaha.Depricated.MySuggestionProvider</string>-->
 
     <string name="activty_search">Search</string>
     <string name="activity_favorites">Favorites</string>
@@ -168,5 +168,6 @@
     <string name="delete_title">Delete can not be undone.</string>
     <string name="delete_yes">Yes</string>
     <string name="delete_no">No</string>
+    <string name="string_public">Public</string>
     //
 </resources>

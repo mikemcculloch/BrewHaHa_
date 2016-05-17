@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.view.View;
@@ -23,12 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.FullScreenImageAdapter;
 import brightseer.com.brewhaha.helper.TouchImageView;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeImage;
-import brightseer.com.brewhaha.objects.RecipeContent;
-import brightseer.com.brewhaha.repository.JsonToObject;
 
 public class FullScreenViewActivity extends BaseActivity implements View.OnClickListener {
     private FullScreenImageAdapter adapter;

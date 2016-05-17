@@ -136,7 +136,7 @@ public class AddHopsFragment extends BaseFragment implements View.OnClickListene
     }
 
     public void load() {
-        String url = Constants.wcfGetRecipeHops + contentToken;
+//        String url = Constants.wcfGetRecipeHops + contentToken;
 //        ionLoadHops = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")

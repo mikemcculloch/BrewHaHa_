@@ -1,10 +1,6 @@
 package brightseer.com.brewhaha.fragment;
 
-import android.app.ActivityOptions;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +12,11 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import java.util.ArrayList;
 
-import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.SearchResultsActivity;
 import brightseer.com.brewhaha.objects.Grain;
 import brightseer.com.brewhaha.objects.Hops;
 import brightseer.com.brewhaha.objects.RecipeType;

@@ -313,7 +313,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
         try {
             File imgFile = new File(imagePath);
             progessDialog.show();
-            String url = Constants.wcfUploadContentImages + contentToken;
+//            String url = Constants.wcfUploadContentImages + contentToken;
 //            ionImageUpload = Ion.with(_fContext)
 //                    .load(url)
 //                    .uploadProgressBar(uploadProgressBar)
@@ -387,7 +387,7 @@ public class AddImagesFragment extends BaseFragment implements View.OnClickListe
 
     private void DeleteImage() {
 //        LoadDialog(_fContext, false, true);
-        String url = Constants.wcfRemoveContentImage + contentToken + "/" + selectedImagePk;
+//        String url = Constants.wcfRemoveContentImage + contentToken + "/" + selectedImagePk;
 //        ionDeleteImage = Ion.with(_fContext.getApplicationContext())
 //                .load(url)
 //                .addHeader("Content-Type", "application/json")

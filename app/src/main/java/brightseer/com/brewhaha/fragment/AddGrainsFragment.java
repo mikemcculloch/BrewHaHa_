@@ -105,7 +105,7 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void load() {
-        String url = Constants.wcfGetRecipeGrain + contentToken;
+//        String url = Constants.wcfGetRecipeGrain + contentToken;
 //        ionLoadGrains = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")
@@ -487,10 +487,10 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void addUpdateGrain() {
-        String url = Constants.wcfAddUpdateIngredientGrain + contentItemPk + "/" + ingredientGrainPk + "/" + selectedGrainPk + "/" + selectedGrainUsePk + "/" + selectedCountyPk + "/" + selectedUnitOfMeasurePk + "/" + selectedSrm;
-        json = new JsonObject();
-        json.addProperty("amount", my_grain_amount_edit_text.getText().toString().trim());
-        json.addProperty("grainName", my_grain_name_edit_text.getText().toString().trim());
+//        String url = Constants.wcfAddUpdateIngredientGrain + contentItemPk + "/" + ingredientGrainPk + "/" + selectedGrainPk + "/" + selectedGrainUsePk + "/" + selectedCountyPk + "/" + selectedUnitOfMeasurePk + "/" + selectedSrm;
+//        json = new JsonObject();
+//        json.addProperty("amount", my_grain_amount_edit_text.getText().toString().trim());
+//        json.addProperty("grainName", my_grain_name_edit_text.getText().toString().trim());
 
 //        ionUpdateGrain = Ion.with(_fContext)
 //                .load(url)
@@ -672,7 +672,7 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void DeleteItem() {
-        String url = Constants.wcfRemoveIngredientGrain + contentItemPk + "/" + ingredientGrainPk + "/false";
+//        String url = Constants.wcfRemoveIngredientGrain + contentItemPk + "/" + ingredientGrainPk + "/false";
 //        ionDeleteGrain = Ion.with(_fContext.getApplicationContext())
 //                .load(url)
 //                .addHeader("Content-Type", "application/json")
@@ -709,7 +709,7 @@ public class AddGrainsFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void makeCopyGrain() {
-        String url = Constants.wcfCopyGrain + ingredientGrainPk + "/" + contentToken;
+//        String url = Constants.wcfCopyGrain + ingredientGrainPk + "/" + contentToken;
 //        ionUpdateGrain = Ion.with(_fContext)
 //                .load(url)
 //                .setHeader("Cache-Control", "No-Cache")

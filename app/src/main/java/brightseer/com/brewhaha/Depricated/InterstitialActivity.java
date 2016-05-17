@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+
+import brightseer.com.brewhaha.R;
 
 /**
  * Created by wooan_000 on 1/11/2015.

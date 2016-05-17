@@ -5,7 +5,7 @@
             android:id="@+id/navigation_home"
             android:checked="true"
             android:icon="@drawable/ic_home_black_24dp"
-            android:title="@string/string_home" />
+            android:title="@string/string_public" />
         <item
             android:id="@+id/navigation_my_recipes"
             android:icon="@drawable/ic_note_add_black_24dp"
@@ -14,10 +14,10 @@
             <!--android:id="@+id/navigation_item_2"-->
             <!--android:icon="@drawable/ic_search_black_24dp"-->
             <!--android:title="@string/string_search" />-->
-        <item
-            android:id="@+id/navigation_favorites"
-            android:icon="@drawable/ic_bookmark_border_black_24dp"
-            android:title="@string/string_favorites" />
+        <!--<item-->
+            <!--android:id="@+id/navigation_favorites"-->
+            <!--android:icon="@drawable/ic_bookmark_border_black_24dp"-->
+            <!--android:title="@string/string_favorites" />-->
 
         <item
             android:id="@+id/navigation_admin"

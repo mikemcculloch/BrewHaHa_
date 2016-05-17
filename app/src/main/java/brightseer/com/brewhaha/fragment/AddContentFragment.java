@@ -5,12 +5,10 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,21 +28,15 @@ import android.widget.Toast;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import brightseer.com.brewhaha.AddUpdateRecipe;
-import brightseer.com.brewhaha.BrewSharedPrefs;
-import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Depricated.AddUpdateRecipe;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
-import brightseer.com.brewhaha.RecipeActivity;
+import brightseer.com.brewhaha.Depricated.RecipeActivity;
 import brightseer.com.brewhaha.objects.BatchSize;
-import brightseer.com.brewhaha.objects.Ingredient;
-import brightseer.com.brewhaha.objects.RecipeContent;
 import brightseer.com.brewhaha.objects.Style;
 import brightseer.com.brewhaha.repository.DBHelper_BatchSize;
 import brightseer.com.brewhaha.repository.DBHelper_Style;
-import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
  * Created by Michael McCulloch on 2/26/2015.

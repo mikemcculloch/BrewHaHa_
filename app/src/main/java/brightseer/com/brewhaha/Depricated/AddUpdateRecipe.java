@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,17 +7,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonObject;
-
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.AddUpdateRecipeTabAdapter;
 import brightseer.com.brewhaha.fragment.AddInstructionsFragment;
-import brightseer.com.brewhaha.objects.KeyValuepair;
-import brightseer.com.brewhaha.repository.JsonToObject;
 
 /**
  * Created by Michael McCulloch on 2/26/2015.

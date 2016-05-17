@@ -13,83 +13,83 @@ public class Constants {
     public static final String SALT = "89NZv8Q7KB/hemFwt4yHDw==";
 
     public static final String bannerUrl = "https://scorching-fire-712.firebaseapp.com/images/banner.jpg";
-    public static final String loginImage = bannerUrl;
-
-    public static String urlRecipePlaceHolder = "http://wcf.brewhaha.beer/images/img_recipe_placeholder.jpg";
-    public static String urlBrewHahaContent = "http://www.brewhaha.beer/";
-
-    public static String rest_url_base = "http://beerservices.brewhaha.beer/brewhaha.svc/";
-    public static String fileuploaderServices = "http://beerservices.brewhaha.beer/Fileuploader.svc/";
-
-    public static String recipeServices = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
-
-
-    public static String wcfGetHomeContentListByLastId = rest_url_base + "GetHomeContentListByLastId/";
-    public static String wcfGetBatchSizeList = rest_url_base + "GetBatchSizeList"; //No Params
-    public static String wcfGetContentById = rest_url_base + "GetContentById/";
-
-    public static String wcfGetAllGrain = rest_url_base + "GetAllGrains";//No Params
-    public static String wcfGetAllHops = rest_url_base + "GetAllHops";//No Params
-    public static String wcfGetAllYeast = rest_url_base + "GetAllYeast";//No Params
-
-    public static String wcfGetDifficultyMList = rest_url_base + "GetDifficultyMList"; //No Params
-    public static String wcfGetRecipeTypeMList = rest_url_base + "GetRecipeTypeMList"; //No Params
-    public static String wcfGetStyleMList = rest_url_base + "GetStyleMList"; //No Params
-    public static String wcfAddUpdateFavorite = rest_url_base + "AddUpdateFavorite/";
-    public static String wcfGetHomeContentFromSearch = rest_url_base + "GetHomeContentFromSearch/";
-    public static String wcfGetSearchResultsCount = rest_url_base + "GetSearchResultsCount/";
-    //    public static String wcfUploadImage = fileuploaderServices + "Upload/";
-    public static String wcfGetUserProfile = rest_url_base + "GetUserProfile/";
-    public static String wcfAddUpdateComment = rest_url_base + "AddUpdateComment/";
-    public static String wcfGetRefreshDate = rest_url_base + "GetRefreshDate"; //No Params
-    public static String wcfGetCommentSetByLastId = rest_url_base + "GetCommentSetByLastId/";
-    public static String wcfRemoveComment = rest_url_base + "RemoveComment/";
-    public static String wcfGetUserContentByLastId = rest_url_base + "GetUserContentByLastId/";
-    public static String wcfAddDefaultRecipe = rest_url_base + "AddDefaultRecipe/";
-    public static String wcfRemoveRecipe = rest_url_base + "RemoveRecipe/";
-    public static String wcfUpdateRecipeContent = rest_url_base + "UpdateRecipeContent/";
-    public static String wcfGetRecipeGrain = rest_url_base + "GetRecipeGrain/";
-    public static String wcfGetUnitOfMeasure = rest_url_base + "GetUnitOfMeasure";
-    public static String wcfGetGrainUse = rest_url_base + "GetGrainUse";
-    public static String wcfGetCounties = rest_url_base + "GetCounties";
-    public static String wcfAddUpdateIngredientGrain = rest_url_base + "AddUpdateIngredientGrain/"; ///{contentItemPk}/{ingredientGrainPk}/{grainPk}/{grainUsePk}/{countryPk}/{grainTypePk}/{unitOfMeasurePk}/{amount}/{grainName}/{color}
-    public static String wcfRemoveIngredientGrain = rest_url_base + "RemoveIngredientGrain/"; ///{contentItemPk}/{ingredientGrainPk}/{active}
-    public static String wcfGetColorKeys = rest_url_base + "GetColorKeys";
-
-    public static String wcfGetRecipeYeast = rest_url_base + "GetRecipeYeast/";
-    public static String wcfGetRecipeHops = rest_url_base + "GetRecipeHops/";
-    public static String wcfGetInstructions = rest_url_base + "GetInstructions/";
-    public static String wcfGetHopsUse = rest_url_base + "GetHopsUse";
-    public static String wcfGetHopsForm = rest_url_base + "GetHopsForm";
-    public static String wcfGetLaboratories = rest_url_base + "GetLaboratories";
-    public static String wcfAddUpdateIngredientHopV2 = rest_url_base + "AddUpdateIngredientHopV2/";
-    public static String wcfRemoveIngredientHop = rest_url_base + "RemoveIngredientHop/"; //RemoveIngredientHop/{contentItemPk}/{ingredientHopsPk}/{active}
-    public static String wcfAddUpdateIngredientYeast = rest_url_base + "AddUpdateIngredientYeast/";    //AddUpdateIngredientYeast/{ingredientYeastPk}/{contentItemPk}/{laboratoryPk}/{yeastPk}/{attenuationPercentage}
-    public static String wcfRemoveIngredientYeast = rest_url_base + "RemoveIngredientYeast/"; //RemoveIngredientYeast/{ingredientYeastPk}/{contentItemPk}/{active}
-    public static String wcfAddUpdateInstruction = rest_url_base + "AddUpdateInstruction/"; //AddUpdateInstruction/{instructionPk}/{contentItemPk}/{userProfilePk}/{order}
-    public static String wcfRemoveInstruction = rest_url_base + "RemoveInstruction/"; //RemoveInstruction/{instructionPk}/{contentItemPk}/{active}
-
-    public static String wcfGetRecipeImages = rest_url_base + "GetRecipeImages/";
-    public static String wcfUploadContentImages = fileuploaderServices + "UploadContentImages/";
-    public static String wcfRemoveContentImage = rest_url_base + "RemoveContentImage/"; //{contentToken}/{imagePk}
-
-    public static String wcfGetAllPendingApproval = rest_url_base + "GetAllPendingApproval/"; //GetAllPendingApproval/{userToken}
-    public static String wcfRequestApproval = rest_url_base + "RequestApproval/"; //RequestApproval/{userToken}/{recipeToken}
-    public static String wcfApproveRequest = rest_url_base + "ApproveRequest/"; //ApproveRequest/{adminToken}/{recipeToken}
-
-    public static String wcfCopyGrain = rest_url_base + "CopyGrain/";
-    public static String wcfCopyHop = rest_url_base + "CopyHop/";
-    public static String wcfCopyYeast = rest_url_base + "CopyYeast/";
-    public static String wcfCopyInstruction = rest_url_base + "CopyInstruction/";
-
-//    public static String wcfInstructionOrderUpdate = rest_url_base + "InstructionOrderUpdate/";
-
-    public static String wcfPlusValidation = rest_url_base + "PlusValidation"; //(string googlePlusId, string fullName, string emailAddress, string userImageUrl, string plusProfile)
-
-
-    public static String GetRecipeItemUrl = recipeServices + "GetRecipeByGuid/";
-    public static String GetMainFeed = recipeServices + "GetMainFeed/";
-    public static String UpdateInstructions = recipeServices + "UpdateInstructions"; //POST
+//    public static final String loginImage = bannerUrl;
+//
+//    public static String urlRecipePlaceHolder = "http://wcf.brewhaha.beer/images/img_recipe_placeholder.jpg";
+//    public static String urlBrewHahaContent = "http://www.brewhaha.beer/";
+//
+//    public static String rest_url_base = "http://beerservices.brewhaha.beer/brewhaha.svc/";
+//    public static String fileuploaderServices = "http://beerservices.brewhaha.beer/Fileuploader.svc/";
+//
+//    public static String recipeServices = "http://beerservices.brewhaha.beer/RecipeServices.svc/";
+//
+//
+//    public static String wcfGetHomeContentListByLastId = rest_url_base + "GetHomeContentListByLastId/";
+//    public static String wcfGetBatchSizeList = rest_url_base + "GetBatchSizeList"; //No Params
+//    public static String wcfGetContentById = rest_url_base + "GetContentById/";
+//
+//    public static String wcfGetAllGrain = rest_url_base + "GetAllGrains";//No Params
+//    public static String wcfGetAllHops = rest_url_base + "GetAllHops";//No Params
+//    public static String wcfGetAllYeast = rest_url_base + "GetAllYeast";//No Params
+//
+//    public static String wcfGetDifficultyMList = rest_url_base + "GetDifficultyMList"; //No Params
+//    public static String wcfGetRecipeTypeMList = rest_url_base + "GetRecipeTypeMList"; //No Params
+//    public static String wcfGetStyleMList = rest_url_base + "GetStyleMList"; //No Params
+//    public static String wcfAddUpdateFavorite = rest_url_base + "AddUpdateFavorite/";
+//    public static String wcfGetHomeContentFromSearch = rest_url_base + "GetHomeContentFromSearch/";
+//    public static String wcfGetSearchResultsCount = rest_url_base + "GetSearchResultsCount/";
+//    //    public static String wcfUploadImage = fileuploaderServices + "Upload/";
+//    public static String wcfGetUserProfile = rest_url_base + "GetUserProfile/";
+//    public static String wcfAddUpdateComment = rest_url_base + "AddUpdateComment/";
+//    public static String wcfGetRefreshDate = rest_url_base + "GetRefreshDate"; //No Params
+//    public static String wcfGetCommentSetByLastId = rest_url_base + "GetCommentSetByLastId/";
+//    public static String wcfRemoveComment = rest_url_base + "RemoveComment/";
+//    public static String wcfGetUserContentByLastId = rest_url_base + "GetUserContentByLastId/";
+//    public static String wcfAddDefaultRecipe = rest_url_base + "AddDefaultRecipe/";
+//    public static String wcfRemoveRecipe = rest_url_base + "RemoveRecipe/";
+//    public static String wcfUpdateRecipeContent = rest_url_base + "UpdateRecipeContent/";
+//    public static String wcfGetRecipeGrain = rest_url_base + "GetRecipeGrain/";
+//    public static String wcfGetUnitOfMeasure = rest_url_base + "GetUnitOfMeasure";
+//    public static String wcfGetGrainUse = rest_url_base + "GetGrainUse";
+//    public static String wcfGetCounties = rest_url_base + "GetCounties";
+//    public static String wcfAddUpdateIngredientGrain = rest_url_base + "AddUpdateIngredientGrain/"; ///{contentItemPk}/{ingredientGrainPk}/{grainPk}/{grainUsePk}/{countryPk}/{grainTypePk}/{unitOfMeasurePk}/{amount}/{grainName}/{color}
+//    public static String wcfRemoveIngredientGrain = rest_url_base + "RemoveIngredientGrain/"; ///{contentItemPk}/{ingredientGrainPk}/{active}
+//    public static String wcfGetColorKeys = rest_url_base + "GetColorKeys";
+//
+//    public static String wcfGetRecipeYeast = rest_url_base + "GetRecipeYeast/";
+//    public static String wcfGetRecipeHops = rest_url_base + "GetRecipeHops/";
+//    public static String wcfGetInstructions = rest_url_base + "GetInstructions/";
+//    public static String wcfGetHopsUse = rest_url_base + "GetHopsUse";
+//    public static String wcfGetHopsForm = rest_url_base + "GetHopsForm";
+//    public static String wcfGetLaboratories = rest_url_base + "GetLaboratories";
+//    public static String wcfAddUpdateIngredientHopV2 = rest_url_base + "AddUpdateIngredientHopV2/";
+//    public static String wcfRemoveIngredientHop = rest_url_base + "RemoveIngredientHop/"; //RemoveIngredientHop/{contentItemPk}/{ingredientHopsPk}/{active}
+//    public static String wcfAddUpdateIngredientYeast = rest_url_base + "AddUpdateIngredientYeast/";    //AddUpdateIngredientYeast/{ingredientYeastPk}/{contentItemPk}/{laboratoryPk}/{yeastPk}/{attenuationPercentage}
+//    public static String wcfRemoveIngredientYeast = rest_url_base + "RemoveIngredientYeast/"; //RemoveIngredientYeast/{ingredientYeastPk}/{contentItemPk}/{active}
+//    public static String wcfAddUpdateInstruction = rest_url_base + "AddUpdateInstruction/"; //AddUpdateInstruction/{instructionPk}/{contentItemPk}/{userProfilePk}/{order}
+//    public static String wcfRemoveInstruction = rest_url_base + "RemoveInstruction/"; //RemoveInstruction/{instructionPk}/{contentItemPk}/{active}
+//
+//    public static String wcfGetRecipeImages = rest_url_base + "GetRecipeImages/";
+//    public static String wcfUploadContentImages = fileuploaderServices + "UploadContentImages/";
+//    public static String wcfRemoveContentImage = rest_url_base + "RemoveContentImage/"; //{contentToken}/{imagePk}
+//
+//    public static String wcfGetAllPendingApproval = rest_url_base + "GetAllPendingApproval/"; //GetAllPendingApproval/{userToken}
+//    public static String wcfRequestApproval = rest_url_base + "RequestApproval/"; //RequestApproval/{userToken}/{recipeToken}
+//    public static String wcfApproveRequest = rest_url_base + "ApproveRequest/"; //ApproveRequest/{adminToken}/{recipeToken}
+//
+//    public static String wcfCopyGrain = rest_url_base + "CopyGrain/";
+//    public static String wcfCopyHop = rest_url_base + "CopyHop/";
+//    public static String wcfCopyYeast = rest_url_base + "CopyYeast/";
+//    public static String wcfCopyInstruction = rest_url_base + "CopyInstruction/";
+//
+////    public static String wcfInstructionOrderUpdate = rest_url_base + "InstructionOrderUpdate/";
+//
+//    public static String wcfPlusValidation = rest_url_base + "PlusValidation"; //(string googlePlusId, string fullName, string emailAddress, string userImageUrl, string plusProfile)
+//
+//
+//    public static String GetRecipeItemUrl = recipeServices + "GetRecipeByGuid/";
+//    public static String GetMainFeed = recipeServices + "GetMainFeed/";
+//    public static String UpdateInstructions = recipeServices + "UpdateInstructions"; //POST
 
 
     public static String DATABASE_NAME_IngredientSelected = "brewhaha.db.IngredientSelected";

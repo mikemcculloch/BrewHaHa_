@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.fragment.FavoriteItemsFragment;
 
 /**

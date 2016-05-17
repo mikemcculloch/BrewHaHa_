@@ -71,7 +71,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private String feedKey, cloneKey, recipeTitle, authorImageUrl, recipeAuthor, recipeStyle, dateCreated;
     private Firebase rootRef;
     private RecipeDetail recipeDetail;
-    private boolean isOwner = false;
+    private boolean isOwner = false, isEditEnabled = false;
     private BottomSheetBehavior menuSheetBehavior;
     private AnimatedVectorDrawable menuToCross;
     private AnimatedVectorDrawable crossToMenu;
@@ -604,9 +604,9 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         super.onResume();
         try {
             if (recipeTitle != null) {
-                String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
+//                String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
                 // Refresh the state of the +1 button each time the activity receives focus.
-                mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+//                mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
             }
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
@@ -742,6 +742,10 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
+    public boolean GetIsEditEnabled(){
+        return isEditEnabled;
+    }
+
     private List<RecipeMenuItem> GetRecipeMenuItems() {
         try {
             List<RecipeMenuItem> recipeMenuItems = new Vector<>();
@@ -797,8 +801,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
     private void menuEditClick() {
         try {
-
-
+            isEditEnabled = true;
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());

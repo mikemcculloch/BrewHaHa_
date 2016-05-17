@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.app.SearchManager;
 import android.content.Intent;
@@ -19,6 +19,9 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDec
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.SearchResultRecycler;
 import brightseer.com.brewhaha.models.MainFeedItem;
 

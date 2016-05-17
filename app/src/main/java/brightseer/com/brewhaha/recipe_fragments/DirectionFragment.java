@@ -35,6 +35,7 @@ import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.RecipeCardsActivity;
 import brightseer.com.brewhaha.models.IngredientSelected;
 import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.recipe_adapters.InstructionAdapter;
@@ -52,7 +53,7 @@ public class DirectionFragment extends BaseRecipeFragment {
 
     private InstructionAdapter instructionAdapter;
     private FirebaseRecyclerAdapter fbInstructionAdapter;
-    public boolean isEditMode = false;
+    private boolean isEditMode;
     DBHelper_IngredientSelected repoSelected;
 
     public DirectionFragment() {
@@ -77,11 +78,11 @@ public class DirectionFragment extends BaseRecipeFragment {
         rootView = SetCircularReveal(rootView);
         ReadBundle();
         initFirebaseDb();
+        isEditMode = ((RecipeCardsActivity) getActivity()).GetIsEditEnabled();
 
         if (!BrewSharedPrefs.getUserKey().isEmpty()) {
             repoSelected = new DBHelper_IngredientSelected(getActivity());
         }
-
 
 //        addTestDirections();
         if (isEditMode) {
@@ -350,7 +351,7 @@ public class DirectionFragment extends BaseRecipeFragment {
     public void UpdateOrder(List<RecipeInstruction> newOrderList) {
         try {
             for (RecipeInstruction item : newOrderList) {
-                Firebase ref = rootRef.child(feedKey).child(item.getKey());
+                Firebase ref = rootRef.child(item.getKey());
                 Map<String, Object> newOrder = new HashMap<String, Object>();
                 newOrder.put("order", item.getOrder());
                 ref.updateChildren(newOrder);

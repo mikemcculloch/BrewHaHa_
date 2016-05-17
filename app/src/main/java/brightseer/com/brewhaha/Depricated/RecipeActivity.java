@@ -1,4 +1,4 @@
-package brightseer.com.brewhaha;
+package brightseer.com.brewhaha.Depricated;
 
 import android.content.Intent;
 import android.os.Build;
@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.BuildConfig;
+import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.adapter.CommentAdapter;
 import brightseer.com.brewhaha.adapter.IngredientAdapter;
 import brightseer.com.brewhaha.adapter.InstructionAdapter_Legacy;
@@ -744,15 +747,15 @@ public class RecipeActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (recipeTitle != null) {
-            String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
-            // Refresh the state of the +1 button each time the activity receives focus.
-//            mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
-        }
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (recipeTitle != null) {
+//            String URL = Constants.urlBrewHahaContent + recipeTitle.replace(" ", "-");
+//            // Refresh the state of the +1 button each time the activity receives focus.
+////            mPlusOneButton.initialize(URL, PLUS_ONE_REQUEST_CODE);
+//        }
+//    }
 
 //    @Override
 //    public void onConnected(Bundle bundle) {

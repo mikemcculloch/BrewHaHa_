@@ -11,25 +11,25 @@
     <screenName name="brightseer.com.brewhaha.MainActivity">
         BrewApplication MainActivityScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.FavoriteTabActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.FavoriteTabActivity">
         BrewApplication FavoriteTabScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.FullScreenViewActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.FullScreenViewActivity">
         BrewApplication FullScreenViewScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.GridViewActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.GridViewActivity">
         BrewApplication GridViewScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.InterstitialActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.InterstitialActivity">
         BrewApplication InterstitialScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.LoginActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.LoginActivity">
         BrewApplication LoginScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.RecipeActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.RecipeActivity">
         BrewApplication RecipeActivityScreen
     </screenName>
-    <screenName name=" brightseer.com.brewhaha.SearchResultsActivity">
+    <screenName name=" brightseer.com.brewhaha.Depricated.SearchResultsActivity">
         BrewApplication SearchResultsActivityScreen
     </screenName>
     <screenName name=" brightseer.com.brewhaha.SettingsMain">

@@ -274,41 +274,45 @@
                     android:textAppearance="@style/appLargeFontWhite" />
             </LinearLayout>
 
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/quarter_margin"
                 android:layout_marginLeft="@dimen/half_margin"
                 android:layout_marginRight="@dimen/half_margin"
                 android:layout_marginTop="@dimen/quarter_margin"
-                android:layout_marginBottom="@dimen/quarter_margin"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/recipe_comment_edit_view"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_weight="1"
-                    android:autoLink="all"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:gravity="start"
-                    android:hint="@string/text_post_a_comment"
-                    android:inputType="text|textMultiLine"
-                    android:maxLength="200"
-                    android:maxLines="10"
-                    android:singleLine="false" />
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/recipe_comment_edit_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+
+                        android:autoLink="all"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="start"
+                        android:hint="@string/text_post_a_comment"
+                        android:inputType="text|textMultiLine"
+                        android:maxLength="200"
+                        android:maxLines="10"
+                        android:singleLine="false" />
+                </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="end|center_vertical"
                     android:layout_weight="4"
-                    android:gravity="end|center_vertical"
                     android:animateLayoutChanges="true"
+                    android:gravity="end|center_vertical"
                     android:orientation="vertical">
 
                     <FrameLayout
@@ -332,7 +336,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/half_margin"
-                android:layout_marginTop="@dimen/half_margin"/>
+                android:layout_marginTop="@dimen/half_margin" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
