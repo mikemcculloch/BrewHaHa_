@@ -113,7 +113,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                 break;
             case R.id.card_images:
                 if (toggleSceneButtons) {
-                    goToSceneComments(v);
+                    goToSceneImages(v);
                 }
                 break;
         }
@@ -432,7 +432,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    public void goToSceneComments(View view) {
+    public void goToSceneImages(View view) {
         try {
             sceneId = Constants.sceneImages;
             moveButton(view, true);
@@ -802,6 +802,19 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private void menuEditClick() {
         try {
             isEditEnabled = true;
+
+            if (sceneId == Constants.sceneOverview) {
+               goToSceneOverView(findViewById(R.id.card_overview), true);
+            }
+            if (sceneId == Constants.sceneIngredients) {
+                goToSceneIngredients(findViewById(R.id.card_ingredients));
+            }
+            if (sceneId == Constants.sceneDirections) {
+                goToSceneDirections(findViewById(R.id.card_directions));
+            }
+            if (sceneId == Constants.sceneImages) {
+                goToSceneImages(findViewById(R.id.card_images));
+            }
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
