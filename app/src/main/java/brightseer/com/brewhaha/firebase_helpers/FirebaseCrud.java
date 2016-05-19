@@ -12,6 +12,7 @@ import java.util.Map;
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.Comment;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
@@ -20,6 +21,7 @@ import brightseer.com.brewhaha.models.RecipeHop;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.models.RecipeYeast;
+import brightseer.com.brewhaha.models.UserProfile;
 
 /**
  * Created by wooan on 5/10/2016.
@@ -188,6 +190,25 @@ public class FirebaseCrud {
             }
         }
     }
+
+    public void AddUser(UserProfile userProfile) {
+        try {
+            Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.fbUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
+            Firebase refUserPush = refUser.push();
+            refUserPush.setValue(userProfile);
+
+            String postId = refUserPush.getKey();
+            Firebase theChild = refUser.child(postId);
+            Map<String, Object> keyValue = new HashMap<String, Object>();
+            keyValue.put("key", postId);
+            theChild.updateChildren(keyValue);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
 
     public void DeleteRecipe(String feedKey, String parentKey) {
         try {

@@ -32,10 +32,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import brightseer.com.brewhaha.firebase_helpers.FirebaseCrud;
 import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.UserProfile;
 
@@ -47,7 +50,7 @@ public class NewActivtyBase extends AppCompatActivity {
     public static final int RC_SIGN_IN = 0;
     public static final int PLUS_ONE_REQUEST_CODE = 0;
     public static final int BackPressed = 69;
-
+    public boolean isFragLoaded = false;
     private String emailAddress;
 
     public boolean tabletSize;
@@ -164,7 +167,9 @@ public class NewActivtyBase extends AppCompatActivity {
                         mLoginDialog.dismiss();
                     }
 
+
                     recreate();
+                    isFragLoaded = true;
                 }
 
                 @Override
@@ -204,15 +209,8 @@ public class NewActivtyBase extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (!dataSnapshot.hasChildren()) {
-                        Firebase refUser = new Firebase(Constants.fireBaseRoot).child(Constants.fbUsers).child(Utilities.encodeEmail(userProfile.getEmailAddress()));
-                        Firebase refUserPush = refUser.push();
-                        refUserPush.setValue(userProfile);
-
-                        String postId = refUserPush.getKey();
-                        Firebase theChild = refUser.child(postId);
-                        Map<String, Object> keyValue = new HashMap<String, Object>();
-                        keyValue.put("key", postId);
-                        theChild.updateChildren(keyValue);
+                        FirebaseCrud firebaseCrud = new FirebaseCrud();
+                        firebaseCrud.AddUser(userProfile);
                     }
 
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
@@ -241,11 +239,11 @@ public class NewActivtyBase extends AppCompatActivity {
                 String emailAddress = String.valueOf(authData.getProviderData().get("email"));
                 String userProfileImage = String.valueOf(authData.getProviderData().get("profileImageURL"));
 
-
                 UserProfile userProfile = new UserProfile();
                 userProfile.setEmailAddress(Utilities.encodeEmail(emailAddress));
                 userProfile.setDisplayName(displayName);
                 userProfile.setImageUrl(userProfileImage);
+                userProfile.setDateCreated(DateTime.now().toString());
                 userProfile.setUid(uId);
                 userProfile.setKey("");
 

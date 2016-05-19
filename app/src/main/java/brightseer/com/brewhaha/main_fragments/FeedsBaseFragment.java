@@ -60,15 +60,15 @@ public class FeedsBaseFragment extends Fragment {
             newIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
+//                Pair p1 = Pair.create(view.findViewById(R.id.itemTitle), getResources().getString(R.string.transition_title));
 //                Pair p2 = Pair.create(view.findViewById(R.id.home_row_user_image_view), getResources().getString(R.string.transition_bitmapuser));
                 Pair p3 = Pair.create(view.findViewById(R.id.plus_one_button), getResources().getString(R.string.transition_googlePlus));
                 Pair p4 = Pair.create(view.findViewById(R.id.itemAuthor), getResources().getString(R.string.transition_author));
                 Pair p5 = Pair.create(view.findViewById(R.id.itemStyle), getResources().getString(R.string.transition_style));
                 Pair p6 = Pair.create(view.findViewById(R.id.home_row_time_from_post_text_view), getResources().getString(R.string.transition_dateCreated));
-                Pair p7 = Pair.create(view.findViewById(R.id.parent_layout), getResources().getString(R.string.transition_layout));
+//                Pair p7 = Pair.create(view.findViewById(R.id.parent_layout), getResources().getString(R.string.transition_layout));
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p1, p3, p4, p5, p6, p7);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), p3, p4, p5, p6);
                 ActivityCompat.startActivityForResult(getActivity(), newIntent, 0, options.toBundle());
             } else {
                 startActivity(newIntent);

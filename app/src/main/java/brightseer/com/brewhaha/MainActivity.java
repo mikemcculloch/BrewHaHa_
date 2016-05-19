@@ -59,7 +59,7 @@ public class MainActivity extends NewActivtyBase {
     AppBarLayout app_bar_layout;
     private Menu _menu;
     private MenuItem navigation_item_5;
-    boolean isFragLoaded = false;
+
 
 
     private Firebase rootRef;
@@ -146,7 +146,7 @@ public class MainActivity extends NewActivtyBase {
                 if (authData != null) {
                     //LAUNCH NEW RECIPE CREATION
                 } else {
-                    showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.dialog_bottom_sheet));
+                    ChildShowLoginDialog();
                 }
             }
         });
@@ -177,7 +177,7 @@ public class MainActivity extends NewActivtyBase {
 //                googleSignIn();
 //                AuthData authData = rootRef.getAuth();
 //                LaunchLoginActivity(authData);
-                showLoginBottomSheetDialog(MainActivity.this, findViewById(R.id.dialog_bottom_sheet));
+                ChildShowLoginDialog();
             }
         });
     }
@@ -259,7 +259,7 @@ public class MainActivity extends NewActivtyBase {
                             break;
                     }
                     SetFragment(fragment);
-
+                    isFragLoaded = true;
                     return true;
                 } catch (Exception ex) {
                     if (BuildConfig.DEBUG) {
@@ -557,11 +557,11 @@ public class MainActivity extends NewActivtyBase {
                         drawer_userImage.setMinimumHeight(0);
                     }
                     SetSignoutButton();
-                    if (!isFragLoaded) {
-                        navigationView.setCheckedItem(R.id.navigation_my_recipes);
-                        SetFragment(new UserFeedsFragment());
-                        isFragLoaded = true;
-                    }
+//                    if (!isFragLoaded) {
+//                        navigationView.setCheckedItem(R.id.navigation_my_recipes);
+//                        SetFragment(new UserFeedsFragment());
+//                        isFragLoaded = true;
+//                    }
                 }
             }
         } catch (Exception ex) {
