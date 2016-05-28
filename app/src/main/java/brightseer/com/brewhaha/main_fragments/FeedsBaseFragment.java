@@ -82,40 +82,30 @@ public class FeedsBaseFragment extends Fragment {
         }
     }
 
-    public FirebaseRecyclerAdapter GetFireBaseAdapter(Firebase rootRef, int layoutId) {
-        try {
-            FirebaseRecyclerAdapter mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, layoutId, MainFeedViewHolder.class, rootRef) {
-                @Override
-                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
-                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
-                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
-                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
-
-                    mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
-
-                    Picasso.with(getContext())
-                            .load(mainFeedItem.getImageUrl())
-                            .resize(50, 50)
-                            .centerCrop()
-                            .into(mainFeedViewHolder.vimage);
-
-//                    Ion.with(mainFeedViewHolder.vuser_image_view)
-//                            .placeholder(R.drawable.ic_person_black_24dp)
-//                            .error(R.drawable.ic_person_black_24dp)
+//    public FirebaseRecyclerAdapter GetFireBaseAdapter(Firebase rootRef, int layoutId) {
+//        try {
+//            FirebaseRecyclerAdapter mAdapter = new FirebaseRecyclerAdapter<MainFeedItem, MainFeedViewHolder>(MainFeedItem.class, layoutId, MainFeedViewHolder.class, rootRef) {
+//                @Override
+//                public void populateViewHolder(MainFeedViewHolder mainFeedViewHolder, MainFeedItem mainFeedItem, int position) {
+//                    mainFeedViewHolder.vAuthor.setText(mainFeedItem.getAuthor());
+//                    mainFeedViewHolder.vTitle.setText(mainFeedItem.getTitle());
+//                    mainFeedViewHolder.vtime_from_post_text_view.setText(Utilities.DisplayTimeFormater(mainFeedItem.getDateCreated()));
+//
+//                    mainFeedViewHolder.itemStyle.setText(mainFeedItem.getStyle());
+//
+//                    Picasso.with(getContext())
+//                            .load(mainFeedItem.getImageUrl())
+//                            .resize(50, 50)
 //                            .centerCrop()
-//                            .transform(Utilities.GetRoundTransform())
-//                            .load(mainFeedItem.getUserImageUrl());
-
-//                    String URL = Constants.urlBrewHahaContent + mainFeedItem.getTitle().replace(" ", "-");
-//                    mainFeedViewHolder.mPlusOneButton.initialize(URL, 0);
-                }
-            };
-            return mAdapter;
-        } catch (Exception e) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, e.getMessage());
-            }
-            return null;
-        }
-    }
+//                            .into(mainFeedViewHolder.vimage);
+//                }
+//            };
+//            return mAdapter;
+//        } catch (Exception e) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, e.getMessage());
+//            }
+//            return null;
+//        }
+//    }
 }

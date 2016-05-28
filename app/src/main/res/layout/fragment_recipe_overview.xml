@@ -68,6 +68,20 @@
                     android:text="Recipe Title" />
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/recipe_style_text_view"
+                style="@style/appMediumFont"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="@dimen/half_margin"
+                android:layout_marginRight="@dimen/half_margin"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                android:text="Recipe Style In" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#C0C0C0" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +89,7 @@
                 android:layout_marginLeft="@dimen/half_margin"
                 android:layout_marginRight="@dimen/half_margin"
                 android:layout_marginTop="@dimen/quarter_margin"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/recipe_description_text_view"
@@ -150,6 +164,7 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
+
                     <TextView
                         style="@style/appMediumFont"
                         android:layout_width="wrap_content"
@@ -158,25 +173,25 @@
 
                     <TextView
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/string_final_gravity" />
 
                     <TextView
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/string_bitterness_ibu" />
 
                     <TextView
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/string_srm_color" />
 
                     <TextView
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/string_makes" />
                 </LinearLayout>
@@ -191,26 +206,29 @@
                     <TextView
                         android:id="@+id/original_gravity_text_view"
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0" />
 
                     <TextView
                         android:id="@+id/final_gravity_text_view"
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0" />
 
                     <TextView
                         android:id="@+id/bitterness_text_view"
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0" />
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical|end"
                         android:gravity="center_vertical|end"
@@ -232,11 +250,11 @@
                             android:text="0" />
                     </LinearLayout>
 
-
                     <TextView
                         android:id="@+id/yield_by_gallon_text_view"
                         style="@style/appMediumFont"
-                        android:layout_width="wrap_content"
+                        android:gravity="end"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="0 Gallons" />
                 </LinearLayout>
@@ -247,7 +265,6 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginLeft="@dimen/half_margin"
         android:layout_marginRight="@dimen/half_margin"
         card_view:cardCornerRadius="4dp">
@@ -272,63 +289,6 @@
                     android:layout_weight="1"
                     android:text="@string/title_comments"
                     android:textAppearance="@style/appLargeFontWhite" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/quarter_margin"
-                android:layout_marginLeft="@dimen/half_margin"
-                android:layout_marginRight="@dimen/half_margin"
-                android:layout_marginTop="@dimen/quarter_margin"
-                android:background="@color/white"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
-
-                    <EditText
-                        android:id="@+id/recipe_comment_edit_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-
-                        android:autoLink="all"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:gravity="start"
-                        android:hint="@string/text_post_a_comment"
-                        android:inputType="text|textMultiLine"
-                        android:maxLength="200"
-                        android:maxLines="10"
-                        android:singleLine="false" />
-                </android.support.design.widget.TextInputLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_weight="4"
-                    android:animateLayoutChanges="true"
-                    android:gravity="end|center_vertical"
-                    android:orientation="vertical">
-
-                    <FrameLayout
-                        android:id="@+id/send_comment_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/circle_send_inactive">
-
-                        <ImageView
-                            android:id="@+id/send_drawable"
-                            android:layout_width="17dp"
-                            android:layout_height="17dp"
-                            android:layout_gravity="center_vertical|center_horizontal"
-                            android:src="@drawable/ic_send_white_24dp" />
-                    </FrameLayout>
-                </LinearLayout>
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

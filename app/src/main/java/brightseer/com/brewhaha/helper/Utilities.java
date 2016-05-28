@@ -1,5 +1,7 @@
 package brightseer.com.brewhaha.helper;
 
+import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,12 +15,15 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -235,7 +240,27 @@ public class Utilities {
         }
     }
 
+    public static View SetCircularReveal(View view, final Fragment fragment){
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+                                       int oldRight, int oldBottom) {
+                v.removeOnLayoutChangeListener(this);
+                int cx = fragment.getArguments().getInt("cx");
+                int cy = fragment.getArguments().getInt("cy");
 
+                // get the hypothenuse so the radius is from one corner to the other
+                int radius = (int) Math.hypot(right, bottom);
+
+                Animator reveal = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, radius);
+                reveal.setInterpolator(new DecelerateInterpolator(2f));
+                reveal.setDuration(500);
+                reveal.start();
+            }
+        });
+        return view;
+    }
 //
 //    public class BackgroundTask extends AsyncTask<Void, Void, Void> {
 //        public ProgressDialog dialog;

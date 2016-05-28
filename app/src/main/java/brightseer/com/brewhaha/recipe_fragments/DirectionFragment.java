@@ -36,6 +36,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeCardsActivity;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.IngredientSelected;
 import brightseer.com.brewhaha.models.RecipeInstruction;
 import brightseer.com.brewhaha.recipe_adapters.InstructionAdapter;
@@ -75,7 +76,7 @@ public class DirectionFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_direction, container, false);
-        rootView = SetCircularReveal(rootView);
+        rootView = Utilities.SetCircularReveal(rootView, DirectionFragment.this);
         ReadBundle();
         initFirebaseDb();
         isEditMode = ((RecipeCardsActivity) getActivity()).GetIsEditEnabled();

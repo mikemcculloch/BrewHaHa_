@@ -73,7 +73,7 @@ public class IngredientFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
-        rootView = SetCircularReveal(rootView);
+        rootView = Utilities.SetCircularReveal(rootView, this);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
         ReadBundle();
         initFirebaseDb();
@@ -465,9 +465,9 @@ public class IngredientFragment extends BaseRecipeFragment {
                     public void onItemLongClick(View view, int position) {
 //                        ingredientHopId = ingredientList.get(position).getIngredientHopsId();
 //                        listPosition = position;
-//                        registerForContextMenu(view);
-//                        getActivity().openContextMenu(view);
-//                        view.setLongClickable(false);
+//                        registerForContextMenu(rootView);
+//                        getActivity().openContextMenu(rootView);
+//                        rootView.setLongClickable(false);
                     }
                 })
         );

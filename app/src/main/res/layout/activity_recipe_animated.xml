@@ -1,8 +1,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/coordinatorlayout"
     android:fitsSystemWindows="true">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,9 +14,14 @@
             android:id="@+id/includeLayout"
             layout="@layout/toolbar" />
 
+
         <include
             android:id="@+id/recipeheader"
-            layout="@layout/recipe_header" />
+            layout="@layout/recipe_header_small" />
+
+        <!--<include-->
+        <!--android:id="@+id/recipeheader"-->
+        <!--layout="@layout/recipe_header" />-->
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/nestedscrollview"
@@ -143,5 +148,13 @@
         android:layout_gravity="bottom"
         app:layout_behavior="@string/bottom_sheet_behavior" />
 
+
+    <include
+        android:id="@+id/comment_bottom_sheet"
+        layout="@layout/sheet_recipe_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:layout_behavior="@string/bottom_sheet_behavior" />
 
 </android.support.design.widget.CoordinatorLayout>

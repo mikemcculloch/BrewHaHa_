@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.AnimatedVectorDrawable;
@@ -14,11 +15,13 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
@@ -37,7 +40,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.google.android.gms.plus.PlusOneButton;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -53,6 +55,7 @@ import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeMenuItem;
 import brightseer.com.brewhaha.recipe_adapters.SheetMenuAdapter;
+import brightseer.com.brewhaha.dialog.CommentDialogFragment;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -75,7 +78,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private BottomSheetBehavior menuSheetBehavior;
     private AnimatedVectorDrawable menuToCross;
     private AnimatedVectorDrawable crossToMenu;
-    private boolean tick = false;
+    private boolean tick = false, mIsLargeLayout;
     private SheetMenuAdapter sheetMenuAdapter;
 
     @Override
@@ -154,46 +157,32 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
             mPlusOneButton = (PlusOneButton) findViewById(R.id.plus_one_button);
             ViewCompat.setTransitionName(mPlusOneButton, getResources().getString(R.string.transition_googlePlus));
-
-            TextView recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
-            recipe_title_text_view.setText(recipeTitle);
-            ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
-
+//
+//            TextView recipe_title_text_view = (TextView) findViewById(R.id.recipe_title_text_view);
+//            recipe_title_text_view.setText(recipeTitle);
+//            ViewCompat.setTransitionName(recipe_title_text_view, getResources().getString(R.string.transition_title));
+//
             TextView recipe_author_text_view = (TextView) findViewById(R.id.recipe_author_text_view);
             recipe_author_text_view.setText(recipeAuthor);
             ViewCompat.setTransitionName(recipe_author_text_view, getResources().getString(R.string.transition_author));
 
-            TextView recipe_style_text_view = (TextView) findViewById(R.id.recipe_style_text_view);
-            recipe_style_text_view.setText(recipeStyle);
-            ViewCompat.setTransitionName(recipe_style_text_view, getResources().getString(R.string.transition_style));
+//            TextView recipe_style_text_view = (TextView) findViewById(R.id.recipe_style_text_view);
+//            recipe_style_text_view.setText(recipeStyle);
+//            ViewCompat.setTransitionName(recipe_style_text_view, getResources().getString(R.string.transition_style));
 
-            TextView recipe_date_created_text_view = (TextView) findViewById(R.id.recipe_date_created_text_view);
-            recipe_date_created_text_view.setText(Utilities.DisplayTimeFormater(dateCreated));
-            ViewCompat.setTransitionName(recipe_date_created_text_view, getResources().getString(R.string.transition_dateCreated));
+//            TextView recipe_date_created_text_view = (TextView) findViewById(R.id.recipe_date_created_text_view);
+//            recipe_date_created_text_view.setText(Utilities.DisplayTimeFormater(dateCreated));
+//            ViewCompat.setTransitionName(recipe_date_created_text_view, getResources().getString(R.string.transition_dateCreated));
 
 
-            CardView parent_layout = (CardView) findViewById(R.id.parent_layout);
-            ViewCompat.setTransitionName(parent_layout, getResources().getString(R.string.transition_layout));
+//            CardView parent_layout = (CardView) findViewById(R.id.parent_layout);
+//            ViewCompat.setTransitionName(parent_layout, getResources().getString(R.string.transition_layout));
 
             ImageView author_image_view = (ImageView) findViewById(R.id.author_image_view);
-//            Ion.with(author_image_view)
-//                    .centerCrop()
-//                    .transform(Utilities.GetRoundTransform())
-//                    .load(authorImageUrl);
-
             Picasso.with(RecipeCardsActivity.this)
                     .load(authorImageUrl)
                     .transform(Utilities.GetRoundTransform())
                     .into(author_image_view);
-
-
-            author_image_view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//
-                    showLoginBottomSheetDialog(RecipeCardsActivity.this, findViewById(R.id.dialog_bottom_sheet));
-                }
-            });
 
             fabMenu = (FloatingActionButton) findViewById(R.id.fabMenu);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -222,8 +211,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
 
             card_overviewHolder = (AppCompatButton) findViewById(R.id.card_overviewHolder);
             card_commentsHolder = (AppCompatButton) findViewById(R.id.card_commentsHolder);
-
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -269,19 +256,32 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             });
 
             RecyclerView recipe_menu_recycler_view = (RecyclerView) menu_bottom_sheet.findViewById(R.id.recipe_menu_recycler_view);
-            recipe_menu_recycler_view.setHasFixedSize(true);
-            recipe_menu_recycler_view.setLayoutManager(new LinearLayoutManager(this));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getTheme()), true));
-            } else {
-                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+
+            int screenOrientation = getResources().getConfiguration().orientation;
+            int gridColumns = 2;
+            if (screenOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                gridColumns = 4;
             }
+
+            StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(gridColumns, LinearLayoutManager.VERTICAL);
+
+            recipe_menu_recycler_view.setHasFixedSize(true);
+//            recipe_menu_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+            recipe_menu_recycler_view.setLayoutManager(layoutManager);
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider, getTheme()), true));
+//            } else {
+//                recipe_menu_recycler_view.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+//            }
 
             recipe_menu_recycler_view.addOnItemTouchListener(
                     new RecyclerItemClickListener(getBaseContext(), recipe_menu_recycler_view, new RecyclerItemClickListener.OnItemClickListener() {
                         @Override
                         public void onItemClick(View view, int position) {
                             try {
+                                menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
                                 AuthData authData = rootRef.getAuth();
                                 if (authData == null) {
                                     ChildShowLoginDialog();
@@ -289,7 +289,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                                 }
 
                                 RecipeMenuItem recipeMenuItem = sheetMenuAdapter.getItemAt(position);
-
                                 switch (recipeMenuItem.getmId()) {
                                     case Constants.menuClone:
                                         menuCloneClick();
@@ -300,9 +299,16 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                                     case Constants.menuEdit:
                                         menuEditClick();
                                         break;
+                                    case Constants.menuComment:
+
+                                        Point point = getCenterPointOfView(view);
+
+
+                                        menuCommentClick(point);
+                                        break;
                                 }
 
-                                menuSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
                             } catch (Exception e) {
                                 if (BuildConfig.DEBUG) {
                                     Log.e(Constants.LOG, e.getMessage());
@@ -327,6 +333,40 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
+
+    private Point getCenterPointOfView(View view) {
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        int x = location[0] + view.getWidth() / 2;
+        int y = location[1] + view.getHeight() / 2;
+        return new Point(x, y);
+    }
+
+//    private void initCommentSheet() {
+//        try {
+//            View menu_bottom_sheet = findViewById(R.id.comment_bottom_sheet);
+//            BottomSheetBehavior commentSheet = BottomSheetBehavior.from(menu_bottom_sheet);
+//
+//            commentSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//                @Override
+//                public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//
+//                }
+//
+//                @Override
+//                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//
+//                }
+//            });
+//
+//
+//
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
     private void buttonWidth() {
         try {
@@ -363,6 +403,8 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             recipeStyle = activityThatCalled.getExtras().getString(Constants.exRecipeStyle);
             dateCreated = activityThatCalled.getExtras().getString(Constants.exDateCreated);
             cloneKey = activityThatCalled.getExtras().getString(Constants.exCloneKey);
+
+            mIsLargeLayout = getResources().getBoolean(R.bool.large_layout);
         } catch (Exception ex) {
             if (BuildConfig.DEBUG) {
                 Log.e(Constants.LOG, ex.getMessage());
@@ -553,7 +595,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                     Fragment fragment = null;
                     if (sceneId == Constants.sceneOverview) {
                         view = card_overview;
-                        fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey, authorImageUrl);
+                        fragment = OverviewFragment.newInstance(20, 20, randomColor, recipeDetail, recipeTitle, feedKey, authorImageUrl, recipeStyle);
                     }
 
                     if (sceneId == Constants.sceneIngredients) {
@@ -742,7 +784,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
-    public boolean GetIsEditEnabled(){
+    public boolean GetIsEditEnabled() {
         return isEditEnabled;
     }
 
@@ -750,6 +792,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         try {
             List<RecipeMenuItem> recipeMenuItems = new Vector<>();
             recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_content_copy_black_24dp, "Clone", Constants.menuClone));
+            recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_chat_bubble_outline_black_24dp, "Comment", Constants.menuComment));
 
             if (isOwner) {
                 recipeMenuItems.add(new RecipeMenuItem(R.drawable.ic_delete_forever_black_24dp, "Delete", Constants.menuDelete));
@@ -804,7 +847,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             isEditEnabled = true;
 
             if (sceneId == Constants.sceneOverview) {
-               goToSceneOverView(findViewById(R.id.card_overview), true);
+                goToSceneOverView(findViewById(R.id.card_overview), true);
             }
             if (sceneId == Constants.sceneIngredients) {
                 goToSceneIngredients(findViewById(R.id.card_ingredients));
@@ -821,4 +864,38 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
+
+    private void menuCommentClick(Point point) {
+        try {
+            showDialog(point);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+    public void showDialog(Point point) {
+        try {
+            AuthData authData = rootRef.getAuth();
+            if (authData != null) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                CommentDialogFragment commentDialogFragment = CommentDialogFragment.newInstance(point.x, point.y, String.valueOf(authData.getProviderData().get("displayName")), String.valueOf(authData.getProviderData().get("profileImageURL")), feedKey);
+
+                if (mIsLargeLayout) {
+                    commentDialogFragment.show(fragmentManager, "dialog");
+                } else {
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                    transaction.add(android.R.id.content, commentDialogFragment)
+                            .addToBackStack(null).commit();
+                }
+            }
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
 }

@@ -60,7 +60,7 @@
     <!--getResources().getString(-->
 
     <string name="button_load_more">Load More Comments</string>
-    <string name="text_post_a_comment">Post a New Comment</string>
+    <string name="text_post_a_comment">Write a Comment</string>
     <string name="text_view_name_title">Name or Title</string>
     <string name="text_button_search">Search</string>
     <string name="text_view_results">View Results</string>
@@ -169,5 +169,7 @@
     <string name="delete_yes">Yes</string>
     <string name="delete_no">No</string>
     <string name="string_public">Public</string>
+    <string name="you_are_commenting_as">You are commenting as </string>
+    <string name="string_add">Add</string>
     //
 </resources>

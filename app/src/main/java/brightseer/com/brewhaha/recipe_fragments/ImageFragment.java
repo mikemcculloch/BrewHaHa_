@@ -19,6 +19,7 @@ import java.util.Vector;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeImage;
 import brightseer.com.brewhaha.recipe_adapters.ImagesAdapter;
 
@@ -60,7 +61,7 @@ public class ImageFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_images, container, false);
-        rootView = SetCircularReveal(rootView);
+        rootView = Utilities.SetCircularReveal(rootView, this);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
 

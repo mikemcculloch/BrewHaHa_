@@ -32,13 +32,12 @@ import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
-
 import brightseer.com.brewhaha.BrewSharedPrefs;
 import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.R;
 import brightseer.com.brewhaha.RecipeCardsActivity;
+import brightseer.com.brewhaha.firebase_helpers.FirebaseAdapters;
 import brightseer.com.brewhaha.firebase_helpers.FirebaseCrud;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.helper.Utilities;
@@ -52,12 +51,12 @@ import brightseer.com.brewhaha.recipe_adapters.CommentViewHolder;
 public class OverviewFragment extends BaseRecipeFragment implements View.OnClickListener {
     private View rootView;
     private RecipeDetail recipeDetail = new RecipeDetail();
-    private String recipeTitle, authorImageUrl;
+    private String recipeTitle, authorImageUrl, recipeStyle;
     private TextView recipe_title_text_view, recipe_description_text_view, original_gravity_text_view, final_gravity_text_view, bitterness_text_view, srm_color_text_view, abv_text_view,
-            yield_by_gallon_text_view;
+            yield_by_gallon_text_view, recipe_style_text_view;
     private ImageView circle_srm_image_view;
-    private EditText recipe_comment_edit_view;
-    private View send_comment_button;
+//    private EditText recipe_comment_edit_view;
+//    private View send_comment_button;
     private Firebase rootRef, commentRef;
     FirebaseRecyclerAdapter mAdapter;
     private String feedKey;
@@ -65,7 +64,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     public OverviewFragment() {
     }
 
-    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle, String _feedKey, String _authorImageUrl) {
+    public static OverviewFragment newInstance(int centerX, int centerY, int color, RecipeDetail _recipeDetail, String _recipeTitle, String _feedKey, String _authorImageUrl, String _recipeStyle) {
         Bundle args = new Bundle();
         args.putInt("cx", centerX);
         args.putInt("cy", centerY);
@@ -74,6 +73,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         args.putString(Constants.exRecipeTitle, _recipeTitle);
         args.putString(Constants.fbFeedKey, _feedKey);
         args.putString(Constants.exAuthorImageUrl, _authorImageUrl);
+        args.putString(Constants.exRecipeStyle, _recipeStyle);
 
         OverviewFragment fragment = new OverviewFragment();
         fragment.setArguments(args);
@@ -84,7 +84,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_overview, container, false);
-        rootView = SetCircularReveal(rootView);
+        rootView = Utilities.SetCircularReveal(rootView, this);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
         ReadBundle();
@@ -102,6 +102,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         recipeTitle = getArguments().getString(Constants.exRecipeTitle);
         feedKey = String.valueOf(getArguments().get(Constants.fbFeedKey));
         authorImageUrl = getArguments().getString(Constants.exAuthorImageUrl);
+        recipeStyle = getArguments().getString(Constants.exRecipeStyle);
     }
 
     private void initViews() {
@@ -109,57 +110,60 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
         recipe_description_text_view = (TextView) rootView.findViewById(R.id.recipe_description_text_view);
         original_gravity_text_view = (TextView) rootView.findViewById(R.id.original_gravity_text_view);
 
-        final ImageView send_drawable = (ImageView) rootView.findViewById(R.id.send_drawable);
-        send_comment_button = rootView.findViewById(R.id.send_comment_button);
-        send_comment_button.setOnClickListener(this);
+//        final ImageView send_drawable = (ImageView) rootView.findViewById(R.id.send_drawable);
+//        send_comment_button = rootView.findViewById(R.id.send_comment_button);
+//        send_comment_button.setOnClickListener(this);
 
         final_gravity_text_view = (TextView) rootView.findViewById(R.id.final_gravity_text_view);
         bitterness_text_view = (TextView) rootView.findViewById(R.id.bitterness_text_view);
         srm_color_text_view = (TextView) rootView.findViewById(R.id.srm_color_text_view);
         abv_text_view = (TextView) rootView.findViewById(R.id.abv_text_view);
         circle_srm_image_view = (ImageView) rootView.findViewById(R.id.circle_srm_image_view);
-        recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
+//        recipe_comment_edit_view = (EditText) rootView.findViewById(R.id.recipe_comment_edit_view);
 
-        recipe_comment_edit_view.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp, getActivity().getTheme()));
-                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive, getActivity().getTheme()));
-                } else {
-                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp));
-                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive));
-                }
-
-                String viewText = String.valueOf(recipe_comment_edit_view.getText());
-                if (!viewText.isEmpty()) {
-                    ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
-
-                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp, getActivity().getTheme()));
-                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send, getActivity().getTheme()));
-                    } else {
-                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp));
-                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send));
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        recipe_style_text_view = (TextView) rootView.findViewById(R.id.recipe_style_text_view);
 
 
-        recipe_comment_edit_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+//        recipe_comment_edit_view.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp, getActivity().getTheme()));
+//                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive, getActivity().getTheme()));
+//                } else {
+//                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp));
+//                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive));
+//                }
+//
+//                String viewText = String.valueOf(recipe_comment_edit_view.getText());
+//                if (!viewText.isEmpty()) {
+//                    ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
+//
+//                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp, getActivity().getTheme()));
+//                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send, getActivity().getTheme()));
+//                    } else {
+//                        send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_black_24dp));
+//                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//
+//            }
+//        });
+
+
+//        recipe_comment_edit_view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
 //                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //                    send_drawable.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_send_white_24dp, getActivity().getTheme()));
 //                    send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send_inactive, getActivity().getTheme()));
@@ -180,8 +184,8 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 //                        send_comment_button.setBackground(getContext().getResources().getDrawable(R.drawable.circle_send));
 //                    }
 //                }
-            }
-        });
+//            }
+//        });
 
 
         yield_by_gallon_text_view = (TextView) rootView.findViewById(R.id.yield_by_gallon_text_view);
@@ -190,6 +194,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     private void populateViews() {
         try {
             recipe_title_text_view.setText(recipeTitle);
+            recipe_style_text_view.setText(recipeStyle);
             recipe_description_text_view.setText(recipeDetail.getDescription());
             original_gravity_text_view.setText(recipeDetail.getOriginalGravity());
             final_gravity_text_view.setText(recipeDetail.getFinalGravity());
@@ -211,7 +216,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
                 circle_srm_image_view.setImageDrawable(mDrawable);
             }
 
-            send_comment_button.setOnClickListener(this);
+//            send_comment_button.setOnClickListener(this);
 
             String yield = recipeDetail.getYieldByGallon() + " Gallons";
             yield_by_gallon_text_view.setText(yield);
@@ -245,21 +250,21 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
             }
 
             Query queryRef = commentRef.orderByChild("dateCreatedInverse");
-
-            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
-                @Override
-                public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
-                    Picasso.with(getActivity())
-                            .load(comment.getAuthorImageUrl())
-                            .fit().centerCrop()
-                            .transform(Utilities.GetRoundTransform())
-                            .into(commentViewHolder.comment_user_image);
-
-                    commentViewHolder.comment_item_author.setText(comment.getAuthorName());
-                    commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
-                    commentViewHolder.comment_text_view.setText(comment.getBody());
-                }
-            };
+            mAdapter = FirebaseAdapters.CommentFeedAdapter(queryRef, R.layout.row_comment, getContext());
+//            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
+//                @Override
+//                public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
+//                    Picasso.with(getActivity())
+//                            .load(comment.getAuthorImageUrl())
+//                            .fit().centerCrop()
+//                            .transform(Utilities.GetRoundTransform())
+//                            .into(commentViewHolder.comment_user_image);
+//
+//                    commentViewHolder.comment_item_author.setText(comment.getAuthorName());
+//                    commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
+//                    commentViewHolder.comment_text_view.setText(comment.getBody());
+//                }
+//            };
 
             comments_recycler_view.setAdapter(mAdapter);
             comments_recycler_view.setItemAnimator(new DefaultItemAnimator());
@@ -290,49 +295,49 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.send_comment_button:
-                AddComment();
-                break;
-
-        }
+//        switch (v.getId()) {
+//            case R.id.send_comment_button:
+//                AddComment();
+//                break;
+//
+//        }
     }
 
-    private void AddComment() {
-        try {
-            if (BrewSharedPrefs.getUserKey().isEmpty()) {
-                ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
-                return;
-            }
-            if (recipe_comment_edit_view.getText().toString().isEmpty())
-                return;
-
-            AuthData authData = commentRef.getAuth();
-            if (authData != null) {
-                long inverse = Long.MAX_VALUE - DateTime.now().getMillis();
-
-                Comment comment = new Comment();
-                comment.setBody(recipe_comment_edit_view.getText().toString());
-                comment.setFeedKey(feedKey);
-                comment.setAuthorName(String.valueOf(authData.getProviderData().get("displayName")));
-                comment.setAuthorEmail(BrewSharedPrefs.getEmailAddress());
-                comment.setAuthorImageUrl(String.valueOf(authData.getProviderData().get("profileImageURL")));
-                comment.setDateCreated(DateTime.now().toString());
-                comment.setDateCreatedInverse(inverse);
-
-                FirebaseCrud firebaseCrud = new FirebaseCrud();
-                firebaseCrud.AddComment(comment, feedKey);
-
-                recipe_comment_edit_view.setText("");
-            } else {
-
-            }
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
-        }
-    }
+//    private void AddComment() {
+//        try {
+//            if (BrewSharedPrefs.getUserKey().isEmpty()) {
+//                ((RecipeCardsActivity) getActivity()).ChildShowLoginDialog();
+//                return;
+//            }
+//            if (recipe_comment_edit_view.getText().toString().isEmpty())
+//                return;
+//
+//            AuthData authData = commentRef.getAuth();
+//            if (authData != null) {
+//                long inverse = Long.MAX_VALUE - DateTime.now().getMillis();
+//
+//                Comment comment = new Comment();
+//                comment.setBody(recipe_comment_edit_view.getText().toString());
+//                comment.setFeedKey(feedKey);
+//                comment.setAuthorName(String.valueOf(authData.getProviderData().get("displayName")));
+//                comment.setAuthorEmail(BrewSharedPrefs.getEmailAddress());
+//                comment.setAuthorImageUrl(String.valueOf(authData.getProviderData().get("profileImageURL")));
+//                comment.setDateCreated(DateTime.now().toString());
+//                comment.setDateCreatedInverse(inverse);
+//
+//                FirebaseCrud firebaseCrud = new FirebaseCrud();
+//                firebaseCrud.AddComment(comment, feedKey);
+//
+//                recipe_comment_edit_view.setText("");
+//            } else {
+//
+//            }
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
     public void RecipeDetailListener() {
         try {

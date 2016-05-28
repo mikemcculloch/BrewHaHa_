@@ -25,6 +25,7 @@ import brightseer.com.brewhaha.BuildConfig;
 import brightseer.com.brewhaha.Constants;
 import brightseer.com.brewhaha.MainActivity;
 import brightseer.com.brewhaha.R;
+import brightseer.com.brewhaha.firebase_helpers.FirebaseAdapters;
 import brightseer.com.brewhaha.helper.RecyclerItemClickListener;
 import brightseer.com.brewhaha.models.MainFeedItem;
 import brightseer.com.brewhaha.models.RecipeDetail;
@@ -178,7 +179,8 @@ public class UserFeedsFragment extends FeedsBaseFragment {
                         })
                 );
 
-                mAdapter = GetFireBaseAdapter(rootRef, R.layout.row_home);
+                mAdapter = FirebaseAdapters.MainFeedAdapter(rootRef, R.layout.row_home, getContext());
+//                mAdapter = GetFireBaseAdapter(rootRef, R.layout.row_home);
                 home_recycler_view.setAdapter(mAdapter);
 
             }

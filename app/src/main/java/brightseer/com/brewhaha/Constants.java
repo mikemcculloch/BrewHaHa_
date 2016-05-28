@@ -258,6 +258,7 @@ public class Constants {
     public static final int menuClone = 1;
     public static final int menuDelete = 2;
     public static final int menuEdit = 3;
+    public static final int menuComment = 4;
 
     public static final String bundleRecipeGrains = "recipeGrains";
     public static final String bundleRecipeHops = "recipeHops";
