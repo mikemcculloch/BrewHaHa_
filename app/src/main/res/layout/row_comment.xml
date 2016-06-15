@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/quarter_margin"
         android:layout_marginLeft="@dimen/half_margin"
-        android:layout_marginRight="@dimen/half_margin"
+        android:layout_marginRight="@dimen/full_margin"
         android:layout_marginTop="@dimen/quarter_margin"
         android:orientation="horizontal">
 
@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/comment_text_view"
-                style="@style/appMediumFont"
+                style="@style/appSmallFont"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/comment_min_height"

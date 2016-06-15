@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -24,7 +25,9 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -240,7 +243,7 @@ public class Utilities {
         }
     }
 
-    public static View SetCircularReveal(View view, final Fragment fragment){
+    public static View SetCircularReveal(View view, final Fragment fragment, final int duration){
         view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -255,12 +258,53 @@ public class Utilities {
 
                 Animator reveal = ViewAnimationUtils.createCircularReveal(v, cx, cy, 0, radius);
                 reveal.setInterpolator(new DecelerateInterpolator(2f));
-                reveal.setDuration(500);
+                reveal.setDuration(duration);
                 reveal.start();
             }
         });
         return view;
     }
+
+    public static Point GetCenterPointOfView(View view) {
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        int x = location[0] + view.getWidth() / 2;
+        int y = location[1] + view.getHeight() / 2;
+        return new Point(x, y);
+    }
+
+    public static void GetStatusBarHeight(Activity activity, View rootView) {
+        try {
+            int statusBarHeight = 0;
+            Rect displayRect = new Rect();
+            activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(displayRect);
+            statusBarHeight = displayRect.top;
+            if (statusBarHeight <= 0) {
+                int resourceId = activity.getResources().getIdentifier("status_bar_height", "dimen", "android");
+                if (resourceId > 0) {
+                    statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
+                }
+            }
+
+
+            LinearLayout parent_layout = (LinearLayout) rootView.findViewById(R.id.parent_layout);
+
+            FrameLayout.LayoutParams mainLayoutParam;
+            mainLayoutParam = (FrameLayout.LayoutParams) parent_layout.getLayoutParams();
+
+            int topMargin = mainLayoutParam.topMargin;
+            mainLayoutParam.setMargins(0, topMargin + statusBarHeight, 0, 0);
+        } catch (Exception ex) {
+            if (BuildConfig.DEBUG) {
+                Log.e(Constants.LOG, ex.getMessage());
+            }
+        }
+    }
+
+
+
+
+
 //
 //    public class BackgroundTask extends AsyncTask<Void, Void, Void> {
 //        public ProgressDialog dialog;

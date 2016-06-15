@@ -187,6 +187,7 @@ public class MainActivity extends NewActivtyBase {
     }
 
     private void initDrawer(Bundle savedInstanceState) {
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -445,8 +446,8 @@ public class MainActivity extends NewActivtyBase {
     @Override
     protected void onResume() {
         super.onResume();
+        Fragment fragment = null;
         if (BrewSharedPrefs.getLastFragment() > 0 && !isFragLoaded) {
-            Fragment fragment = null;
             if (BrewSharedPrefs.getLastFragment() == Constants.spUserFragement) {
                 fragment = new UserFeedsFragment();
                 navigationView.setCheckedItem(R.id.navigation_my_recipes);
@@ -460,6 +461,13 @@ public class MainActivity extends NewActivtyBase {
             SetFragment(fragment);
             isFragLoaded = true;
         }
+//        else {
+//            fragment = new MainFeedFragment();
+//            navigationView.setCheckedItem(R.id.navigation_home);
+//        }
+//        isFragLoaded = true;
+//        SetFragment(fragment);
+
         CheckAuth();
     }
 

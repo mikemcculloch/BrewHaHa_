@@ -76,7 +76,7 @@ public class DirectionFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_direction, container, false);
-        rootView = Utilities.SetCircularReveal(rootView, DirectionFragment.this);
+        rootView = Utilities.SetCircularReveal(rootView, DirectionFragment.this, 500);
         ReadBundle();
         initFirebaseDb();
         isEditMode = ((RecipeCardsActivity) getActivity()).GetIsEditEnabled();

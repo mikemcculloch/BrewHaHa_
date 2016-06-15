@@ -61,7 +61,7 @@ public class ImageFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_images, container, false);
-        rootView = Utilities.SetCircularReveal(rootView, this);
+        rootView = Utilities.SetCircularReveal(rootView, this, 500);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
 

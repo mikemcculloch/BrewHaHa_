@@ -73,7 +73,7 @@ public class IngredientFragment extends BaseRecipeFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_ingredient, container, false);
-        rootView = Utilities.SetCircularReveal(rootView, this);
+        rootView = Utilities.SetCircularReveal(rootView, this, 500);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
         ReadBundle();
         initFirebaseDb();

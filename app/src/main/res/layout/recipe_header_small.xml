@@ -67,12 +67,12 @@
                 <com.google.android.gms.plus.PlusOneButton
                     android:id="@+id/plus_one_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/quarter_margin"
+                    android:gravity="end|center_vertical"
                     android:transitionName="@string/transition_googlePlus"
                     plus:annotation="inline"
-                    plus:size="standard" />
-
+                    plus:size="small" />
             </LinearLayout>
         </LinearLayout>
 

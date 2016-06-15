@@ -1,7 +1,8 @@
 package brightseer.com.brewhaha.dialog;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.Rect;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,9 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -73,10 +72,11 @@ public class CommentDialogFragment extends DialogFragment implements TextView.On
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.sheet_recipe_comment, container, false);
-        rootView = Utilities.SetCircularReveal(rootView, this);
+        rootView = inflater.inflate(R.layout.fragment_dialog_comment, container, false);
+        rootView = Utilities.SetCircularReveal(rootView, this, 700);
         ReadBundle();
-        getStatusBarHeight();
+        Utilities.GetStatusBarHeight(getActivity(), rootView);
+
         initViews();
         initCommentRecyclerView();
         return rootView;
@@ -121,7 +121,7 @@ public class CommentDialogFragment extends DialogFragment implements TextView.On
                 .into(comment_author_image_view);
 
         TextView comment_header = (TextView) rootView.findViewById(R.id.comment_header);
-        String headerText = getResources().getString(R.string.you_are_commenting_as) + " " + userName;
+        String headerText = getResources().getString(R.string.you_are_commenting_as) + " '" + userName + "'";
         comment_header.setText(headerText);
 
         AppCompatButton send_comment_appcompat_button = (AppCompatButton) rootView.findViewById(R.id.send_comment_appcompat_button);
@@ -129,6 +129,10 @@ public class CommentDialogFragment extends DialogFragment implements TextView.On
             @Override
             public void onClick(View v) {
                 String commentText = String.valueOf(comment_edit_view.getText());
+                if (commentText.isEmpty()) {
+                    comment_edit_view.setError("Required");
+                    return;
+                }
                 AddComment(commentText);
                 DismissDialog();
             }
@@ -197,10 +201,6 @@ public class CommentDialogFragment extends DialogFragment implements TextView.On
 
     private void AddComment(String commentText) {
         try {
-
-            if (commentText.isEmpty())
-                return;
-
             long inverse = Long.MAX_VALUE - DateTime.now().getMillis();
 
             Comment comment = new Comment();
@@ -221,23 +221,53 @@ public class CommentDialogFragment extends DialogFragment implements TextView.On
         }
     }
 
-    public void getStatusBarHeight() {
-        try {
-            Rect displayRect = new Rect();
-            getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(displayRect);
+//    public void getStatusBarHeight() {
+//        try {
+//            int statusBarHeight = 0;
+//            Rect displayRect = new Rect();
+//            getActivity().getWindow().getDecorView().getWindowVisibleDisplayFrame(displayRect);
+//            statusBarHeight = displayRect.top;
+//            if (statusBarHeight <= 0) {
+//                int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+//                if (resourceId > 0) {
+//                    statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+//                }
+//            }
+//
+//
+//            LinearLayout parent_layout = (LinearLayout) rootView.findViewById(R.id.parent_layout);
+//
+//            FrameLayout.LayoutParams mainLayoutParam;
+//            mainLayoutParam = (FrameLayout.LayoutParams) parent_layout.getLayoutParams();
+//
+//            int topMargin = mainLayoutParam.topMargin;
+//            mainLayoutParam.setMargins(0, topMargin + statusBarHeight, 0, 0);
+//        } catch (Exception ex) {
+//            if (BuildConfig.DEBUG) {
+//                Log.e(Constants.LOG, ex.getMessage());
+//            }
+//        }
+//    }
 
-            LinearLayout parent_layout = (LinearLayout) rootView.findViewById(R.id.parent_layout);
+    Runnable runnableGetHeight = new Runnable() {
+        @Override
+        public void run() {
+            Utilities.GetStatusBarHeight(getActivity(), rootView);
+        }
+    };
 
-            FrameLayout.LayoutParams mainLayoutParam;
-            mainLayoutParam = (FrameLayout.LayoutParams) parent_layout.getLayoutParams();
-
-            int topMargin = mainLayoutParam.topMargin;
-            mainLayoutParam.setMargins(0, topMargin + displayRect.top, 0, 0);
-        } catch (Exception ex) {
-            if (BuildConfig.DEBUG) {
-                Log.e(Constants.LOG, ex.getMessage());
-            }
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if (activity instanceof DialogInterface.OnDismissListener) {
+            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
         }
     }
+
+
+
+
+
 }
 

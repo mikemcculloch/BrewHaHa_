@@ -84,7 +84,7 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_recipe_overview, container, false);
-        rootView = Utilities.SetCircularReveal(rootView, this);
+        rootView = Utilities.SetCircularReveal(rootView, this, 500);
 //        rootView.setBackgroundColor(getArguments().getInt("color"));
 
         ReadBundle();
@@ -251,20 +251,10 @@ public class OverviewFragment extends BaseRecipeFragment implements View.OnClick
 
             Query queryRef = commentRef.orderByChild("dateCreatedInverse");
             mAdapter = FirebaseAdapters.CommentFeedAdapter(queryRef, R.layout.row_comment, getContext());
-//            mAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>(Comment.class, R.layout.row_comment, CommentViewHolder.class, queryRef) {
-//                @Override
-//                public void populateViewHolder(CommentViewHolder commentViewHolder, Comment comment, int position) {
-//                    Picasso.with(getActivity())
-//                            .load(comment.getAuthorImageUrl())
-//                            .fit().centerCrop()
-//                            .transform(Utilities.GetRoundTransform())
-//                            .into(commentViewHolder.comment_user_image);
-//
-//                    commentViewHolder.comment_item_author.setText(comment.getAuthorName());
-//                    commentViewHolder.comment_item_timestamp.setText(Utilities.DisplayTimeFormater(comment.getDateCreated()));
-//                    commentViewHolder.comment_text_view.setText(comment.getBody());
-//                }
-//            };
+
+            if(mAdapter.getItemCount()  <= 0){
+//                .setVisibility(View.GONE);
+            }
 
             comments_recycler_view.setAdapter(mAdapter);
             comments_recycler_view.setItemAnimator(new DefaultItemAnimator());

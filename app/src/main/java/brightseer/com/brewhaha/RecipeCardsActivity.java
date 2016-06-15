@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Vector;
 
+import brightseer.com.brewhaha.dialog.CommentDialogFragment;
 import brightseer.com.brewhaha.firebase_helpers.CloneRecipe;
 import brightseer.com.brewhaha.firebase_helpers.FirebaseCrud;
 import brightseer.com.brewhaha.helper.AnimatorPath;
@@ -55,7 +56,6 @@ import brightseer.com.brewhaha.helper.Utilities;
 import brightseer.com.brewhaha.models.RecipeDetail;
 import brightseer.com.brewhaha.models.RecipeMenuItem;
 import brightseer.com.brewhaha.recipe_adapters.SheetMenuAdapter;
-import brightseer.com.brewhaha.dialog.CommentDialogFragment;
 import brightseer.com.brewhaha.recipe_fragments.DirectionFragment;
 import brightseer.com.brewhaha.recipe_fragments.ImageFragment;
 import brightseer.com.brewhaha.recipe_fragments.IngredientFragment;
@@ -64,7 +64,7 @@ import brightseer.com.brewhaha.recipe_fragments.OverviewFragment;
 /**
  * Created by wooan on 10/24/2015.
  */
-public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickListener {
+public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickListener, CommentDialogFragment.CommentDialogListener {
     private Toolbar toolbar;
     private FloatingActionButton fabMenu;
     private int sceneId, sceneIdLast = 0;
@@ -80,6 +80,7 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     private AnimatedVectorDrawable crossToMenu;
     private boolean tick = false, mIsLargeLayout;
     private SheetMenuAdapter sheetMenuAdapter;
+    private CommentDialogFragment commentDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,11 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
     public void onBackPressed() {
         super.onBackPressed();
         try {
+            if (commentDialogFragment != null && commentDialogFragment.getDialog() != null && commentDialogFragment.getDialog().isShowing()) {
+                commentDialogFragment.dismiss();
+                return;
+            }
+
             setResult(BackPressed);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 finishAfterTransition();
@@ -300,15 +306,10 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
                                         menuEditClick();
                                         break;
                                     case Constants.menuComment:
-
-                                        Point point = getCenterPointOfView(view);
-
-
+                                        Point point = Utilities.GetCenterPointOfView(view);
                                         menuCommentClick(point);
                                         break;
                                 }
-
-
                             } catch (Exception e) {
                                 if (BuildConfig.DEBUG) {
                                     Log.e(Constants.LOG, e.getMessage());
@@ -333,40 +334,6 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
             }
         }
     }
-
-    private Point getCenterPointOfView(View view) {
-        int[] location = new int[2];
-        view.getLocationInWindow(location);
-        int x = location[0] + view.getWidth() / 2;
-        int y = location[1] + view.getHeight() / 2;
-        return new Point(x, y);
-    }
-
-//    private void initCommentSheet() {
-//        try {
-//            View menu_bottom_sheet = findViewById(R.id.comment_bottom_sheet);
-//            BottomSheetBehavior commentSheet = BottomSheetBehavior.from(menu_bottom_sheet);
-//
-//            commentSheet.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-//                @Override
-//                public void onStateChanged(@NonNull View bottomSheet, int newState) {
-//
-//                }
-//
-//                @Override
-//                public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-//
-//                }
-//            });
-//
-//
-//
-//        } catch (Exception ex) {
-//            if (BuildConfig.DEBUG) {
-//                Log.e(Constants.LOG, ex.getMessage());
-//            }
-//        }
-//    }
 
     private void buttonWidth() {
         try {
@@ -875,20 +842,36 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
+    boolean isDialogOpen = false;
+
     public void showDialog(Point point) {
         try {
             AuthData authData = rootRef.getAuth();
             if (authData != null) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                CommentDialogFragment commentDialogFragment = CommentDialogFragment.newInstance(point.x, point.y, String.valueOf(authData.getProviderData().get("displayName")), String.valueOf(authData.getProviderData().get("profileImageURL")), feedKey);
+                commentDialogFragment = CommentDialogFragment.newInstance(point.x, point.y, String.valueOf(authData.getProviderData().get("displayName")), String.valueOf(authData.getProviderData().get("profileImageURL")), feedKey);
 
                 if (mIsLargeLayout) {
+                    isDialogOpen = true;
                     commentDialogFragment.show(fragmentManager, "dialog");
                 } else {
+                    isDialogOpen = true;
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     transaction.add(android.R.id.content, commentDialogFragment)
                             .addToBackStack(null).commit();
+
+//                    commentDialogFragment.onDismiss(new DialogInterface() {
+//                        @Override
+//                        public void cancel() {
+//
+//                        }
+//
+//                        @Override
+//                        public void dismiss() {
+//
+//                        }
+//                    });
                 }
             }
         } catch (Exception ex) {
@@ -898,4 +881,11 @@ public class RecipeCardsActivity extends NewActivtyBase implements View.OnClickL
         }
     }
 
+    @Override
+    public void onFinishEditDialog(String inputText) {
+        if (commentDialogFragment != null && commentDialogFragment.getDialog() != null && commentDialogFragment.getDialog().isShowing()) {
+            commentDialogFragment.dismiss();
+            return;
+        }
+    }
 }
